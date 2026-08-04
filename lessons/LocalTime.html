@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUỔI 3: JAVA DATETIME API</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+                overflow: hidden;
+
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            height: 80vh;
+            overflow: scroll;
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .nav-list {
+            list-style: none;
+            position: sticky;
+            top: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        h5 {
+            color: var(--dark);
+            margin: 15px 0 8px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.4;
+            border: 2px solid #444;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+.sidebar ul{
+    padding: 0;
+}
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+
+        .btn-run {
+            background: var(--success);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 1400px) {
+            body{
+                padding: 0;
+            }
+              footer {
+          
+            padding: 8px 20px;
+          
+        }
+
+        }
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+            }
+        }
+
+        .method-detail {
+            background: #f8f9fa;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .method-detail h5 {
+            color: var(--success);
+            margin-top: 0;
+        }
+
+        .tree-structure {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+        }
+
+        .tree-item {
+            margin-left: 20px;
+            padding: 2px 0;
+        }
+
+        .tree-item::before {
+            content: "├── ";
+            color: #666;
+        }
+
+        .tree-item:last-child::before {
+            content: "└── ";
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .timezone-demo {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .pattern-table {
+            font-size: 0.9rem;
+        }
+
+        .pattern-table code {
+            background: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calendar-alt"></i> BUỔI 22: JAVA DATETIME API (LOCALTIME)</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#intro" class="nav-link active"><i class="fas fa-home"></i> Giới
+                            thiệu tổng quan</a></li>
+                    <li class="nav-item"><a href="#localdate-intro" class="nav-link"><i class="fas fa-calendar"></i> LocalDate</a></li>
+                    <li class="nav-item"><a href="#localtime" class="nav-link"><i class="fas fa-clock"></i> LocalTime</a></li>
+                    <li class="nav-item"><a href="#localdatetime" class="nav-link"><i class="fas fa-calendar-day"></i> LocalDateTime</a></li>
+                    <li class="nav-item"><a href="#zoneddatetime" class="nav-link"><i class="fas fa-globe"></i> ZonedDateTime</a></li>
+                    <li class="nav-item"><a href="#instant" class="nav-link"><i class="fas fa-history"></i> Instant</a></li>
+                    <li class="nav-item"><a href="#period-duration" class="nav-link"><i class="fas fa-hourglass-half"></i> Period & Duration</a></li>
+                    <li class="nav-item"><a href="#formatter" class="nav-link"><i class="fas fa-format"></i> DateTimeFormatter</a></li>
+                    <li class="nav-item"><a href="#exercises" class="nav-link"><i class="fas fa-dumbbell"></i> Bài tập thực hành</a></li>
+                </ul>
+            </nav>
+
+           
+        </div>
+
+        <footer>
+            <p>Giáo trình Java - Buổi 21: Java DateTime API (LOCALTIME) &copy; GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click
+                    this.classList.add('active');
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+
+        // Hàm copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Thử nghiệm LocalTime
+        function testLocalTime() {
+            const timeStr = document.getElementById('localtimeInput').value;
+            const operation = document.getElementById('localtimeOperation').value;
+            const result = document.getElementById('localtimeResult');
+            const output = document.getElementById('localtimeResultContent');
+
+            result.classList.add('active');
+
+            try {
+                let outputText = '=== KẾT QUẢ LOCALTIME ===\n\n';
+                
+                switch (operation) {
+                    case 'parse':
+                        const timeParts = timeStr.split(':');
+                        outputText += `Parse từ chuỗi: "${timeStr}"\n`;
+                        if (timeParts.length >= 2) {
+                            const hour = parseInt(timeParts[0]);
+                            const minute = parseInt(timeParts[1]);
+                            const second = timeParts.length >= 3 ? parseInt(timeParts[2]) : 0;
+                            outputText += `Giờ: ${hour}, Phút: ${minute}, Giây: ${second}\n`;
+                            outputText += `Kết quả: ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}\n`;
+                        }
+                        break;
+                        
+                    case 'getHour':
+                        const hour = parseInt(timeStr.split(':')[0]);
+                        outputText += `getHour() từ "${timeStr}"\n`;
+                        outputText += `Kết quả: ${hour}\n`;
+                        break;
+                        
+                    case 'getMinute':
+                        const minute = parseInt(timeStr.split(':')[1]);
+                        outputText += `getMinute() từ "${timeStr}"\n`;
+                        outputText += `Kết quả: ${minute}\n`;
+                        break;
+                        
+                    case 'getSecond':
+                        const parts = timeStr.split(':');
+                        const second = parts.length >= 3 ? parseInt(parts[2]) : 0;
+                        outputText += `getSecond() từ "${timeStr}"\n`;
+                        outputText += `Kết quả: ${second}\n`;
+                        break;
+                        
+                    case 'constants':
+                        outputText += '=== CÁC HẰNG SỐ LOCALTIME ===\n\n';
+                        outputText += 'MIN: 00:00 (Thời gian nhỏ nhất)\n';
+                        outputText += 'MAX: 23:59:59.999999999 (Thời gian lớn nhất)\n';
+                        outputText += 'MIDNIGHT: 00:00 (Nửa đêm)\n';
+                        outputText += 'NOON: 12:00 (Buổi trưa)\n';
+                        break;
+                }
+                
+                output.textContent = outputText;
+            } catch (error) {
+                output.textContent = `Lỗi: Định dạng thời gian không hợp lệ. Vui lòng nhập theo định dạng HH:mm hoặc HH:mm:ss`;
+            }
+        }
+
+        // Thử nghiệm LocalDateTime
+        function testLocalDateTime() {
+            const dateStr = document.getElementById('localdatetimeDate').value;
+            const timeStr = document.getElementById('localdatetimeTime').value;
+            const operation = document.getElementById('localdatetimeOperation').value;
+            const result = document.getElementById('localdatetimeResult');
+            const output = document.getElementById('localdatetimeResultContent');
+
+            result.classList.add('active');
+
+            try {
+                const dateParts = dateStr.split('-');
+                const timeParts = timeStr.split(':');
+                
+                if (dateParts.length !== 3 || timeParts.length < 2) {
+                    throw new Error('Định dạng không hợp lệ');
+                }
+                
+                const year = parseInt(dateParts[0]);
+                const month = parseInt(dateParts[1]);
+                const day = parseInt(dateParts[2]);
+                const hour = parseInt(timeParts[0]);
+                const minute = parseInt(timeParts[1]);
+                
+                let outputText = '=== KẾT QUẢ LOCALDATETIME ===\n\n';
+                
+                switch (operation) {
+                    case 'create':
+                        outputText += `Tạo LocalDateTime từ:\n`;
+                        outputText += `- Ngày: ${dateStr}\n`;
+                        outputText += `- Giờ: ${timeStr}\n`;
+                        outputText += `Kết quả: ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00\n`;
+                        break;
+                        
+                    case 'toLocalDate':
+                        outputText += `Chuyển thành LocalDate từ:\n`;
+                        outputText += `- LocalDateTime: ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}\n`;
+                        outputText += `Kết quả (toLocalDate()): ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}\n`;
+                        break;
+                        
+                    case 'toLocalTime':
+                        outputText += `Chuyển thành LocalTime từ:\n`;
+                        outputText += `- LocalDateTime: ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}\n`;
+                        outputText += `Kết quả (toLocalTime()): ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00\n`;
+                        break;
+                        
+                    case 'startOfDay':
+                        outputText += `Bắt đầu ngày từ:\n`;
+                        outputText += `- LocalDate: ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}\n`;
+                        outputText += `Kết quả (atStartOfDay()): ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T00:00:00\n`;
+                        break;
+                }
+                
+                output.textContent = outputText;
+            } catch (error) {
+                output.textContent = `Lỗi: Định dạng không hợp lệ. Vui lòng nhập:\n- Ngày: yyyy-MM-dd\n- Giờ: HH:mm`;
+            }
+        }
+
+        // Thử nghiệm chuyển đổi múi giờ
+        function testTimezoneConversion() {
+            const fromZone = document.getElementById('timezoneFrom').value;
+            const toZone = document.getElementById('timezoneTo').value;
+            const timeStr = document.getElementById('timezoneTime').value;
+            const dateStr = document.getElementById('timezoneDate').value;
+            const result = document.getElementById('timezoneResult');
+            const output = document.getElementById('timezoneResultContent');
+
+            result.classList.add('active');
+
+            try {
+                const dateParts = dateStr.split('-');
+                const timeParts = timeStr.split(':');
+                
+                if (dateParts.length !== 3 || timeParts.length < 2) {
+                    throw new Error('Định dạng không hợp lệ');
+                }
+                
+                const year = parseInt(dateParts[0]);
+                const month = parseInt(dateParts[1]);
+                const day = parseInt(dateParts[2]);
+                const hour = parseInt(timeParts[0]);
+                const minute = parseInt(timeParts[1]);
+                
+                // Tính offset đơn giản (cho demo)
+                const zoneOffsets = {
+                    'Asia/Ho_Chi_Minh': 7,  // UTC+7
+                    'America/New_York': -5, // UTC-5
+                    'Europe/London': 0,     // UTC+0
+                    'Asia/Tokyo': 9         // UTC+9
+                };
+                
+                const fromOffset = zoneOffsets[fromZone] || 0;
+                const toOffset = zoneOffsets[toZone] || 0;
+                
+                // Tính chuyển đổi đơn giản
+                let targetHour = hour + (toOffset - fromOffset);
+                let targetDay = day;
+                let targetMonth = month;
+                let targetYear = year;
+                
+                // Xử lý tràn ngày
+                if (targetHour >= 24) {
+                    targetHour -= 24;
+                    targetDay++;
+                    // Xử lý tràn tháng (đơn giản)
+                    const daysInMonth = new Date(year, month, 0).getDate();
+                    if (targetDay > daysInMonth) {
+                        targetDay = 1;
+                        targetMonth++;
+                        if (targetMonth > 12) {
+                            targetMonth = 1;
+                            targetYear++;
+                        }
+                    }
+                } else if (targetHour < 0) {
+                    targetHour += 24;
+                    targetDay--;
+                    if (targetDay < 1) {
+                        targetMonth--;
+                        if (targetMonth < 1) {
+                            targetMonth = 12;
+                            targetYear--;
+                        }
+                        targetDay = new Date(targetYear, targetMonth, 0).getDate();
+                    }
+                }
+                
+                let outputText = '=== CHUYỂN ĐỔI MÚI GIỜ ===\n\n';
+                outputText += `Thời gian gốc:\n`;
+                outputText += `- Múi giờ: ${fromZone} (UTC${fromOffset >= 0 ? '+' : ''}${fromOffset})\n`;
+                outputText += `- Thời gian: ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}\n\n`;
+                
+                outputText += `Chuyển sang:\n`;
+                outputText += `- Múi giờ: ${toZone} (UTC${toOffset >= 0 ? '+' : ''}${toOffset})\n`;
+                outputText += `- Thời gian: ${targetYear}-${targetMonth.toString().padStart(2, '0')}-${targetDay.toString().padStart(2, '0')} ${targetHour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}\n\n`;
+                
+                outputText += `Phân tích:\n`;
+                outputText += `- Độ lệch: ${toOffset - fromOffset} giờ\n`;
+                outputText += `- Phương thức: withZoneSameInstant()\n`;
+                outputText += `- Kết quả: Giữ nguyên thời điểm trên timeline\n`;
+                
+                output.textContent = outputText;
+            } catch (error) {
+                output.textContent = `Lỗi: Định dạng không hợp lệ. Vui lòng kiểm tra lại dữ liệu nhập.`;
+            }
+        }
+
+        // Thử nghiệm Instant
+        function testInstant() {
+            const epochSeconds = parseInt(document.getElementById('epochSeconds').value);
+            const nanoAdjustment = parseInt(document.getElementById('nanoAdjustment').value);
+            const result = document.getElementById('instantResult');
+            const output = document.getElementById('instantResultContent');
+
+            result.classList.add('active');
+
+            try {
+                // Tính ngày từ epoch seconds
+                const milliseconds = epochSeconds * 1000;
+                const date = new Date(milliseconds);
+                
+                let outputText = '=== KẾT QUẢ INSTANT ===\n\n';
+                outputText += `Tham số:\n`;
+                outputText += `- Số giây từ epoch: ${epochSeconds}\n`;
+                outputText += `- Nano adjustment: ${nanoAdjustment}\n\n`;
+                
+                outputText += `Kết quả:\n`;
+                outputText += `- Instant.ofEpochSecond(${epochSeconds}L, ${nanoAdjustment}L)\n`;
+                outputText += `- Tương ứng với ngày: ${date.toISOString()}\n`;
+                outputText += `- Định dạng ISO: ${date.getUTCFullYear()}-${(date.getUTCMonth() + 1).toString().padStart(2, '0')}-${date.getUTCDate().toString().padStart(2, '0')}T${date.getUTCHours().toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')}:${date.getUTCSeconds().toString().padStart(2, '0')}.${nanoAdjustment.toString().padStart(9, '0')}Z\n\n`;
+                
+                outputText += `Phân tích:\n`;
+                outputText += `- Epoch: 1970-01-01T00:00:00Z\n`;
+                outputText += `- Instant đại diện cho thời điểm cụ thể trên timeline\n`;
+                outputText += `- Luôn ở múi giờ UTC\n`;
+                
+                output.textContent = outputText;
+            } catch (error) {
+                output.textContent = `Lỗi: Dữ liệu nhập không hợp lệ. Vui lòng kiểm tra lại.`;
+            }
+        }
+
+        // Thử nghiệm Period và Duration
+        function testPeriodDuration() {
+            const periodStartStr = document.getElementById('periodStart').value;
+            const periodEndStr = document.getElementById('periodEnd').value;
+            const durationStartStr = document.getElementById('durationStart').value;
+            const durationEndStr = document.getElementById('durationEnd').value;
+            const result = document.getElementById('periodDurationResult');
+            const output = document.getElementById('periodDurationResultContent');
+
+            result.classList.add('active');
+
+            try {
+                // Parse dates for period
+                const periodStartParts = periodStartStr.split('-');
+                const periodEndParts = periodEndStr.split('-');
+                
+                if (periodStartParts.length !== 3 || periodEndParts.length !== 3) {
+                    throw new Error('Định dạng ngày không hợp lệ');
+                }
+                
+                const startDate = new Date(periodStartParts[0], periodStartParts[1] - 1, periodStartParts[2]);
+                const endDate = new Date(periodEndParts[0], periodEndParts[1] - 1, periodEndParts[2]);
+                
+                // Parse times for duration
+                const durationStartParts = durationStartStr.split(':');
+                const durationEndParts = durationEndStr.split(':');
+                
+                if (durationStartParts.length < 2 || durationEndParts.length < 2) {
+                    throw new Error('Định dạng thời gian không hợp lệ');
+                }
+                
+                const startTime = new Date(1970, 0, 1, durationStartParts[0], durationStartParts[1]);
+                const endTime = new Date(1970, 0, 1, durationEndParts[0], durationEndParts[1]);
+                
+                // Tính period
+                const diffTime = endDate - startDate;
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                const years = Math.floor(diffDays / 365);
+                const months = Math.floor((diffDays % 365) / 30);
+                const days = diffDays % 30;
+                
+                // Tính duration
+                const durationMs = endTime - startTime;
+                const durationHours = Math.floor(durationMs / (1000 * 60 * 60));
+                const durationMinutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
+                
+                let outputText = '=== KẾT QUẢ PERIOD VÀ DURATION ===\n\n';
+                
+                outputText += '=== PERIOD (Khoảng ngày) ===\n';
+                outputText += `Period.between(${periodStartStr}, ${periodEndStr})\n`;
+                outputText += `- Ngày bắt đầu: ${periodStartStr}\n`;
+                outputText += `- Ngày kết thúc: ${periodEndStr}\n`;
+                outputText += `- Kết quả: ${years} năm, ${months} tháng, ${days} ngày\n`;
+                outputText += `- Tổng số ngày: ${diffDays} ngày\n\n`;
+                
+                outputText += '=== DURATION (Khoảng thời gian) ===\n';
+                outputText += `Duration.between(${durationStartStr}, ${durationEndStr})\n`;
+                outputText += `- Bắt đầu: ${durationStartStr}\n`;
+                outputText += `- Kết thúc: ${durationEndStr}\n`;
+                outputText += `- Kết quả: ${durationHours} giờ ${durationMinutes} phút\n`;
+                outputText += `- Định dạng ISO: PT${durationHours}H${durationMinutes}M\n`;
+                
+                output.textContent = outputText;
+            } catch (error) {
+                output.textContent = `Lỗi: Định dạng không hợp lệ. Vui lòng kiểm tra:\n- Ngày: yyyy-MM-dd\n- Giờ: HH:mm`;
+            }
+        }
+
+        // Thử nghiệm DateTimeFormatter
+        function testDateTimeFormatter() {
+            const pattern = document.getElementById('formatterPattern').value;
+            const dateStr = document.getElementById('formatterDate').value;
+            const timeStr = document.getElementById('formatterTime').value;
+            const operation = document.getElementById('formatterOperation').value;
+            const result = document.getElementById('formatterResult');
+            const output = document.getElementById('formatterResultContent');
+
+            result.classList.add('active');
+
+            try {
+                const dateParts = dateStr.split('-');
+                const timeParts = timeStr.split(':');
+                
+                if (dateParts.length !== 3 || timeParts.length < 2) {
+                    throw new Error('Định dạng không hợp lệ');
+                }
+                
+                const year = parseInt(dateParts[0]);
+                const month = parseInt(dateParts[1]);
+                const day = parseInt(dateParts[2]);
+                const hour = parseInt(timeParts[0]);
+                const minute = parseInt(timeParts[1]);
+                
+                let outputText = '=== KẾT QUẢ DATETIMEFORMATTER ===\n\n';
+                outputText += `Pattern: "${pattern}"\n\n`;
+                
+                switch (operation) {
+                    case 'format':
+                        const dateTime = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00`;
+                        outputText += `Định dạng từ:\n`;
+                        outputText += `- LocalDateTime: ${dateTime}\n`;
+                        outputText += `- Formatter: DateTimeFormatter.ofPattern("${pattern}")\n`;
+                        outputText += `Kết quả: ${formatWithPattern(dateTime, pattern)}\n`;
+                        break;
+                        
+                    case 'parseDate':
+                        outputText += `Parse ngày từ chuỗi:\n`;
+                        outputText += `- Chuỗi: "25/12/2024"\n`;
+                        outputText += `- Formatter: DateTimeFormatter.ofPattern("dd/MM/yyyy")\n`;
+                        outputText += `Kết quả: 2024-12-25\n`;
+                        break;
+                        
+                    case 'parseDateTime':
+                        const inputDateTime = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year} ${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                        outputText += `Parse ngày giờ từ chuỗi:\n`;
+                        outputText += `- Chuỗi: "${inputDateTime}"\n`;
+                        outputText += `- Formatter: DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")\n`;
+                        outputText += `Kết quả: ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:00\n`;
+                        break;
+                }
+                
+                output.textContent = outputText;
+            } catch (error) {
+                output.textContent = `Lỗi: Định dạng không hợp lệ. Vui lòng kiểm tra:\n- Pattern định dạng\n- Ngày: yyyy-MM-dd\n- Giờ: HH:mm`;
+            }
+        }
+
+        // Hàm hỗ trợ định dạng với pattern
+        function formatWithPattern(dateTimeStr, pattern) {
+            try {
+                const [datePart, timePart] = dateTimeStr.split(' ');
+                const [year, month, day] = datePart.split('-');
+                const [hour, minute, second] = timePart.split(':');
+                
+                let result = pattern;
+                
+                // Thay thế các pattern
+                result = result.replace(/yyyy/g, year);
+                result = result.replace(/MM/g, month.padStart(2, '0'));
+                result = result.replace(/dd/g, day.padStart(2, '0'));
+                result = result.replace(/HH/g, hour.padStart(2, '0'));
+                result = result.replace(/mm/g, minute.padStart(2, '0'));
+                result = result.replace(/ss/g, (second || '00').padStart(2, '0'));
+                
+                // Xử lý 12h format
+                const hour12 = parseInt(hour) % 12 || 12;
+                result = result.replace(/hh/g, hour12.toString().padStart(2, '0'));
+                
+                // Xử lý AM/PM
+                const ampm = parseInt(hour) >= 12 ? 'PM' : 'AM';
+                result = result.replace(/a/g, ampm);
+                
+                return result;
+            } catch (error) {
+                return `Lỗi định dạng với pattern: ${pattern}`;
+            }
+        }
+
+        // Chạy bài tập
+        function runExercises() {
+            const exercise = document.getElementById('exerciseChoice').value;
+            const result = document.getElementById('exercisesResult');
+            const output = document.getElementById('exercisesResultContent');
+
+            result.classList.add('active');
+
+            let outputText = '=== KẾT QUẢ BÀI TẬP ===\n\n';
+            const now = new Date();
+            
+            switch (exercise) {
+                case 'timezone':
+                    outputText += '=== BÀI 1: CHUYỂN ĐỔI MÚI GIỜ ===\n\n';
+                    outputText += 'Giả sử thời điểm: 2024-12-25 14:30\n\n';
+                    
+                    outputText += 'Việt Nam (Asia/Ho_Chi_Minh - UTC+7):\n';
+                    outputText += '- 2024-12-25T14:30+07:00\n\n';
+                    
+                    outputText += 'New York (America/New_York - UTC-5):\n';
+                    outputText += '- 2024-12-25T02:30-05:00 (cùng thời điểm)\n';
+                    outputText += '- Chênh lệch: -12 giờ\n\n';
+                    
+                    outputText += 'London (Europe/London - UTC+0):\n';
+                    outputText += '- 2024-12-25T07:30+00:00 (cùng thời điểm)\n';
+                    outputText += '- Chênh lệch: -7 giờ\n\n';
+                    
+                    outputText += 'Phương thức: withZoneSameInstant()\n';
+                    outputText += 'Giữ nguyên thời điểm trên timeline\n';
+                    break;
+                    
+                case 'workingHours':
+                    outputText += '=== BÀI 2: TÍNH THỜI GIAN LÀM VIỆC ===\n\n';
+                    outputText += 'Lịch làm việc:\n';
+                    outputText += '- Bắt đầu: 09:00\n';
+                    outputText += '- Nghỉ trưa: 12:00 - 13:00\n';
+                    outputText += '- Kết thúc: 17:30\n\n';
+                    
+                    outputText += 'Tính toán:\n';
+                    outputText += '- Buổi sáng: 09:00 - 12:00 = 3 giờ\n';
+                    outputText += '- Buổi chiều: 13:00 - 17:30 = 4 giờ 30 phút\n';
+                    outputText += '- Tổng: 7 giờ 30 phút\n\n';
+                    
+                    outputText += 'Kết quả Duration:\n';
+                    outputText += '- PT7H30M (ISO format)\n';
+                    outputText += '- 7.5 giờ (tính theo giờ)\n';
+                    break;
+                    
+                case 'formatting':
+                    outputText += '=== BÀI 3: ĐỊNH DẠNG NGÀY GIỜ ===\n\n';
+                    const sampleDate = '2024-12-25T14:30:45';
+                    outputText += `Ngày giờ mẫu: ${sampleDate}\n\n`;
+                    
+                    outputText += 'Các định dạng:\n';
+                    outputText += '1. "dd/MM/yyyy HH:mm:ss" → 25/12/2024 14:30:45\n';
+                    outputText += '2. "yyyy-MM-dd" → 2024-12-25\n';
+                    outputText += '3. "EEEE, d MMMM yyyy" (English) → Wednesday, 25 December 2024\n';
+                    outputText += '4. "hh:mm a" → 02:30 PM\n';
+                    outputText += '5. "yyyy年MM月dd日 HH時mm分" → 2024年12月25日 14時30分\n\n';
+                    
+                    outputText += 'Lưu ý:\n';
+                    outputText += '- DateTimeFormatter là immutable và thread-safe\n';
+                    outputText += '- Có thể tái sử dụng formatter\n';
+                    outputText += '- Hỗ trợ nhiều locale khác nhau\n';
+                    break;
+            }
+            
+            output.textContent = outputText;
+        }
+    </script>
+</body>
+
+</html>

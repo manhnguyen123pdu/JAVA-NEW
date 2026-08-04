@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polymorphism</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            min-height: 85vh;
+        }
+
+        .sidebar {
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+            overflow-y: auto;
+            max-height: 85vh;
+        }
+
+        .nav-list {
+            list-style: none;
+            position: sticky;
+            top: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 85vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.4;
+            border: 2px solid #444;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #666;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .method {
+            color: #dcdcaa;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 992px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+                max-height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .code-block {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .syntax {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-family: 'Consolas', monospace;
+            border-left: 4px solid var(--info);
+        }
+
+        .diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 2px solid #ddd;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-shapes"></i> POLYMORPHISM</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#phan1" class="nav-link active"><i class="fas fa-question-circle"></i> Phần 1: Đa hình là gì?</a></li>
+                    <li class="nav-item"><a href="#phan2" class="nav-link"><i class="fas fa-list-alt"></i> Phần 2: Ý nghĩa đa hình</a></li>
+                    <li class="nav-item"><a href="#phan3" class="nav-link"><i class="fas fa-search"></i> Phần 3: instanceof</a></li>
+                    <!-- <li class="nav-item"><a href="#phan4" class="nav-link"><i class="fas fa-plug"></i> Phần 4: Interface</a></li> -->
+                    <!-- <li class="nav-item"><a href="#phan5" class="nav-link"><i class="fas fa-cogs"></i> Phần 5: Kết hợp Abstract & Interface</a></li> -->
+                    <!-- <li class="nav-item"><a href="#phan6" class="nav-link"><i class="fas fa-project-diagram"></i> Phần 6: Đa hình với Interface</a></li> -->
+                    <!-- <li class="nav-item"><a href="#phan7" class="nav-link"><i class="fas fa-dumbbell"></i> Phần 7: Bài tập thực hành</a></li> -->
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN 1: ĐA HÌNH LÀ GÌ -->
+                <section id="phan1" class="section active">
+                    <h2><i class="fas fa-question-circle"></i> PHẦN 1: TÍNH ĐA HÌNH LÀ GÌ?</h2>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Định nghĩa</h4>
+                        <p>Đa hình (Polymorphism) là việc triệu gọi đến các phương thức được ghi đè từ đối tượng cha trong các đối tượng con.</p>
+                        <p><strong>Cùng là một phương thức</strong> được định nghĩa trong đối tượng cha, nhưng các lớp con có thể ghi đè lại hành vi đó theo cách riêng của mình.</p>
+                    </div>
+                    
+                    <h3>1.1. Ví dụ minh họa</h3>
+                    
+                    <div class="diagram">
+                        <h4>Đối tượng: Tứ Giác</h4>
+                        <p>Hành vi chung: Tính chu vi (phương thức trừu tượng)</p>
+                        <div class="code-block" style="margin: 10px 0;">
+                            <span class="comment">// Định nghĩa hành vi trừu tượng: Tính chu vi</span><br>
+                            <span class="keyword">protected void</span> tinhChuVi();
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-table">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div>
+                                <h4>Hình Vuông</h4>
+                                <div class="code-block">
+                                    <span class="keyword">@Override</span><br>
+                                    <span class="keyword">public void</span> tinhChuVi() {<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;chuVi = doDaiCanh * 4;<br>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <h4>Hình Chữ Nhật</h4>
+                                <div class="code-block">
+                                    <span class="keyword">@Override</span><br>
+                                    <span class="keyword">public void</span> tinhChuVi() {<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;chuVi = (chieuDai + chieuRong) * 2;<br>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Nhận xét</h4>
+                        <p><strong>Cùng là một hành vi tinhChuVi()</strong> nhưng:</p>
+                        <ul>
+                            <li>Hình Vuông tính chu vi theo công thức riêng: <code>cạnh × 4</code></li>
+                            <li>Hình Chữ Nhật tính chu vi theo công thức riêng: <code>(dài + rộng) × 2</code></li>
+                        </ul>
+                        <p><strong>→ Đây chính là ĐA HÌNH</strong></p>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>TuGiac.java - Ví dụ đầy đủ</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Lớp cha trừu tượng</span><br>
+                        <span class="keyword">public class</span> <span class="class-name">TuGiac</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected double</span> chuVi;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phương thức </span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tinhChuVi(){};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> inThongTin() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chu vi: "</span> + chuVi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Lớp con HinhVuong</span><br>
+                        <span class="keyword">public class</span> <span class="class-name">HinhVuong</span> <span class="keyword">extends</span> TuGiac {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> doDaiCanh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> HinhVuong(<span class="keyword">double</span> canh) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.doDaiCanh = canh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tinhChuVi() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chuVi = doDaiCanh * 4;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chu vi hình vuông: "</span> + chuVi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Lớp con HinhChuNhat</span><br>
+                        <span class="keyword">public class</span> <span class="class-name">HinhChuNhat</span> <span class="keyword">extends</span> TuGiac {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> chieuDai, chieuRong;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> HinhChuNhat(<span class="keyword">double</span> dai, <span class="keyword">double</span> rong) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.chieuDai = dai;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.chieuRong = rong;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tinhChuVi() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chuVi = (chieuDai + chieuRong) * 2;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chu vi hình chữ nhật: "</span> + chuVi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm: Tính đa hình</h4>
+                        
+                        <div class="input-group">
+                            <label for="shapeType">Chọn hình:</label>
+                            <select id="shapeType">
+                                <option value="square">Hình Vuông</option>
+                                <option value="rectangle">Hình Chữ Nhật</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="dimension1">Độ dài cạnh/chiều dài:</label>
+                            <input type="number" id="dimension1" value="5" step="0.1">
+                        </div>
+                        
+                        <div class="input-group" id="dimension2Group" style="display: none;">
+                            <label for="dimension2">Chiều rộng:</label>
+                            <input type="number" id="dimension2" value="3" step="0.1">
+                        </div>
+                        
+                        <button class="btn" onclick="demoPolymorphism()">
+                            <i class="fas fa-play"></i> Tính chu vi
+                        </button>
+                        
+                        <div class="result" id="polymorphismResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="polymorphismResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN 2: Ý NGHĨA ĐA HÌNH -->
+                <section id="phan2" class="section">
+                    <h2><i class="fas fa-list-alt"></i> PHẦN 2: Ý NGHĨA CỦA ĐA HÌNH</h2>
+                    
+                    <h3>2.1. Quản lý danh sách đối tượng có mối quan hệ kế thừa</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Định nghĩa</h4>
+                        <p>Khi phải quản lý hai hoặc nhiều loại đối tượng có mối quan hệ kế thừa, ta quy về quản lý danh sách duy nhất một loại đối tượng - đó chính là lớp cha của nhóm đối tượng đó.</p>
+                    </div>
+                    
+                    <h4>Ví dụ: Quản lý hình học</h4>
+                    
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>❌ Tách riêng từng loại đối tượng</th>
+                                    <th>✔️ Quy về 1 đối tượng cha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="code-block">
+                                            HinhChuNhat hcn = <span class="keyword">new</span> HinhChuNhat();<br>
+                                            HinhVuong hv = <span class="keyword">new</span> HinhVuong();<br>
+                                            <span class="comment">// Quản lý riêng biệt</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="code-block">
+                                            TuGiac tg1 = <span class="keyword">new</span> HinhChuNhat();<br>
+                                            TuGiac tg2 = <span class="keyword">new</span> HinhVuong();<br>
+                                            <span class="comment">// Quản lý chung qua lớp cha</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>QuanLyHinhHoc.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.ArrayList;<br>
+                        <span class="keyword">import</span> java.util.List;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">QuanLyHinhHoc</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo danh sách chứa các tứ giác</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;TuGiac&gt; danhSach = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm các hình khác nhau vào danh sách</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span class="keyword">new</span> HinhVuong(5));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span class="keyword">new</span> HinhChuNhat(6, 4));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span class="keyword">new</span> HinhVuong(3));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span class="keyword">new</span> HinhChuNhat(8, 2));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tính chu vi cho tất cả hình trong danh sách</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (TuGiac hinh : danhSach) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hinh.tinhChuVi();  <span class="comment">// ĐA HÌNH: mỗi hình tự biết cách tính</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hinh.inThongTin();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Kết luận</h4>
+                        <p><strong>Thay vì quản lý từng loại đối tượng riêng lẻ, chúng ta quy về quản lý một loại đối tượng duy nhất là Tứ Giác.</strong></p>
+                        <ul>
+                            <li>Không cần quan tâm phần tử cụ thể trong danh sách là đối tượng nào</li>
+                            <li>Chỉ cần gọi các hành vi chung của lớp Tứ Giác</li>
+                            <li>Khi đó, từng phần tử con sẽ tự biết thể hiện đúng bản chất của mình</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>2.2. Quản lý bộ hành vi của các đối tượng không cùng bản chất</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Bài toán</h4>
+                        <p>Quản lý hành vi: Tính chu vi và diện tích cho các đối tượng:</p>
+                        <ul>
+                            <li>Hình Tròn</li>
+                            <li>Hình Vuông</li>
+                            <li>Hình Chữ Nhật</li>
+                        </ul>
+                        <p>→ 3 đối tượng không cùng bản chất, không thể áp dụng kế thừa thông thường.</p>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Bộ hành vi chung - Interface</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Định nghĩa bộ hành vi chung</span><br>
+                        <span class="keyword">interface</span> <span class="class-name">BoHanhViCVDT</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> tinhChuVi();     <span class="comment">// Tính chu vi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> tinhDienTich();  <span class="comment">// Tính diện tích</span><br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 3: INSTANCEOF -->
+                <section id="phan3" class="section">
+                    <h2><i class="fas fa-search"></i> PHẦN 3: TỪ KHÓA INSTANCEOF VÀ ÉP KIỂU</h2>
+                    
+                    <h3>3.1. Định nghĩa</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> instanceof là gì?</h4>
+                        <p>instanceof dùng để kiểm tra kiểu dữ liệu thực tế của một đối tượng:</p>
+                        <ul>
+                            <li>Nếu đúng → trả về <strong>true</strong></li>
+                            <li>Nếu sai → trả về <strong>false</strong></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Ví dụ instanceof</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Khai báo đối tượng</span><br>
+                        TuGiac tg1 = <span class="keyword">new</span> HinhChuNhat(5, 3);<br>
+                        <br>
+                        <span class="comment">// Kiểm tra kiểu thực tế</span><br>
+                        <span class="keyword">boolean</span> kt1 = tg1 <span class="keyword">instanceof</span> HinhChuNhat;  <span class="comment">// true</span><br>
+                        <span class="keyword">boolean</span> kt2 = tg1 <span class="keyword">instanceof</span> TuGiac;        <span class="comment">// true</span><br>
+                        <span class="keyword">boolean</span> kt3 = tg1 <span class="keyword">instanceof</span> HinhVuong;     <span class="comment">// false</span><br>
+                        <br>
+                        System.out.println(<span class="string">"tg1 có phải HinhChuNhat? "</span> + kt1);<br>
+                        System.out.println(<span class="string">"tg1 có phải TuGiac? "</span> + kt2);<br>
+                        System.out.println(<span class="string">"tg1 có phải HinhVuong? "</span> + kt3);
+                    </div>
+                    
+                    <h3>3.2. Vấn đề phát sinh và cách giải quyết</h3>
+                    
+                    <div class="warning-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Vấn đề</h4>
+                        <p>Nếu khai báo: <code>TuGiac tg1 = new HinhChuNhat();</code></p>
+                        <p>Ta chỉ có thể gọi các hành vi được khai báo trong lớp Tứ Giác, không thể gọi các hành vi riêng của Hình Chữ Nhật.</p>
+                    </div>
+                    
+                    <h4>Bài toán: In thông tin chiều dài – chiều rộng của tất cả Hình Chữ Nhật trong danh sách</h4>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>GiaiQuyetVanDe.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Giả sử HinhChuNhat có phương thức riêng</span><br>
+                        <span class="keyword">public class</span> <span class="class-name">HinhChuNhat</span> <span class="keyword">extends</span> TuGiac {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> chieuDai, chieuRong;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// ... constructor và các phương thức khác ...</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phương thức riêng của HinhChuNhat</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> inTTCDCR() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chiều dài: "</span> + chieuDai + <span class="string">", Chiều rộng: "</span> + chieuRong);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Trong chương trình chính</span><br>
+                        List&lt;TuGiac&gt; danhSach = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        danhSach.add(<span class="keyword">new</span> HinhChuNhat(5, 3));<br>
+                        danhSach.add(<span class="keyword">new</span> HinhVuong(4));<br>
+                        danhSach.add(<span class="keyword">new</span> HinhChuNhat(6, 2));<br>
+                        <br>
+                        <span class="comment">// Duyệt danh sách và in thông tin riêng của HinhChuNhat</span><br>
+                        <span class="keyword">for</span> (TuGiac hinh : danhSach) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (hinh <span class="keyword">instanceof</span> HinhChuNhat) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ép kiểu về HinhChuNhat</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HinhChuNhat hcn = (HinhChuNhat) hinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hcn.inTTCDCR();  <span class="comment">// Gọi phương thức riêng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Các bước giải quyết</h4>
+                        <ol>
+                            <li><strong>Bước 1:</strong> Kiểm tra kiểu của phần tử có phải HinhChuNhat hay không</li>
+                            <li><strong>Bước 2:</strong> Nếu kết quả là true thì ép kiểu phần tử đó về HinhChuNhat</li>
+                            <li><strong>Bước 3:</strong> Gọi các hành vi mong muốn</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm: instanceof và ép kiểu</h4>
+                        
+                        <div class="input-group">
+                            <label for="instanceofType">Chọn kiểu đối tượng:</label>
+                            <select id="instanceofType">
+                                <option value="HinhChuNhat">HinhChuNhat</option>
+                                <option value="HinhVuong">HinhVuong</option>
+                                <option value="TuGiac">TuGiac (lớp cha)</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn" onclick="demoInstanceof()">
+                            <i class="fas fa-search"></i> Kiểm tra instanceof
+                        </button>
+                        
+                        <div class="result" id="instanceofResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="instanceofResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+<!-- 
+                PHẦN 4: INTERFACE
+                <section id="phan4" class="section">
+                    <h2><i class="fas fa-plug"></i> PHẦN 4: INTERFACE - ĐỊNH NGHĨA BỘ HÀNH VI</h2>
+                    
+                    <h3>4.1. Từ khóa interface</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Định nghĩa</h4>
+                        <p>interface được sử dụng để định nghĩa bộ hành vi cho đối tượng. Một interface chỉ chứa các phương thức trừu tượng (trước Java 8) và các hằng số.</p>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp interface</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">interface</span> <span class="class-name">TenInterface</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Khai báo phương thức trừu tượng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> phuongThuc1();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> phuongThuc2(<span class="keyword">int</span> thamSo);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Khai báo hằng số (mặc định public static final)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> HANG_SO = 100;<br>
+                        }
+                    </div>
+                    
+                    <h3>4.2. Từ khóa implements</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> implements là gì?</h4>
+                        <p>Dùng khi một lớp muốn thực thi (implement) bộ hành vi đã được định nghĩa trong interface.</p>
+                        <p><strong>Lưu ý:</strong> Một lớp chỉ kế thừa được 1 lớp cha, nhưng có thể implements nhiều interface.</p>
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp implements</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">TenLop</span> <span class="keyword">implements</span> Interface1, Interface2 {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phải ghi đè toàn bộ phương thức của interface</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> phuongThuc1() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Triển khai cụ thể</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <h3>4.3. Ví dụ: Hình Tròn implements interface</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>HinhTron.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Định nghĩa interface</span><br>
+                        <span class="keyword">interface</span> <span class="class-name">BoHanhViCVDT</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> tinhChuVi();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> tinhDienTich();<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Lớp HinhTron implement interface</span><br>
+                        <span class="keyword">public class</span> <span class="class-name">HinhTron</span> <span class="keyword">implements</span> BoHanhViCVDT {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> r;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> chuVi, dienTich;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> HinhTron(<span class="keyword">double</span> r) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.r = r;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tinhChuVi() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chuVi = Math.PI * 2 * r;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chu vi hình tròn: "</span> + chuVi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tinhDienTich() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dienTich = Math.PI * r * r;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Diện tích hình tròn: "</span> + dienTich);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <div class="note">
+                        <h4>Giải thích:</h4>
+                        <p>Khi <code>HinhTron implements BoHanhViCVDT</code>, lớp <code>HinhTron</code> bắt buộc phải ghi đè toàn bộ các phương thức trong interface.</p>
+                    </div>
+                </section> -->
+
+                <!-- PHẦN 5: KẾT HỢP ABSTRACT & INTERFACE -->
+                <!-- <section id="phan5" class="section">
+                    <h2><i class="fas fa-cogs"></i> PHẦN 5: KẾT HỢP ABSTRACT CLASS VÀ INTERFACE</h2>
+                    
+                    <h3>5.1. Cách 1: Lớp con implement interface</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cach1.java - Lớp con implement</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Lớp cha trừu tượng (không định nghĩa chu vi, diện tích)</span><br>
+                        <span class="keyword">public abstract class</span> <span class="class-name">TuGiac</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected double</span> chuVi, dienTich;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Có thể có các phương thức chung khác</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> inThongTin() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chu vi: "</span> + chuVi + <span class="string">", Diện tích: "</span> + dienTich);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Lớp con implement interface</span><br>
+                        <span class="keyword">public class</span> <span class="class-name">HinhVuong</span> <span class="keyword">extends</span> TuGiac <span class="keyword">implements</span> BoHanhViCVDT {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> doDaiCanh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> HinhVuong(<span class="keyword">double</span> canh) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.doDaiCanh = canh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tinhChuVi() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chuVi = doDaiCanh * 4;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tinhDienTich() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dienTich = doDaiCanh * doDaiCanh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <h3>5.2. Cách 2: Lớp cha implement interface</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cach2.java - Lớp cha implement</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Lớp cha trừu tượng implement interface</span><br>
+                        <span class="keyword">public abstract class</span> <span class="class-name">TuGiac</span> <span class="keyword">implements</span> BoHanhViCVDT {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected double</span> chuVi, dienTich;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lớp trừu tượng không cần ghi đè ngay</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Cho phép lớp con ghi đè sau</span><br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Lớp con kế thừa và ghi đè</span><br>
+                        <span class="keyword">public class</span> <span class="class-name">HinhChuNhat</span> <span class="keyword">extends</span> TuGiac {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> chieuDai, chieuRong;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> HinhChuNhat(<span class="keyword">double</span> dai, <span class="keyword">double</span> rong) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.chieuDai = dai;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.chieuRong = rong;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tinhChuVi() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chuVi = (chieuDai + chieuRong) * 2;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tinhDienTich() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dienTich = chieuDai * chieuRong;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Giải thích:</h4>
+                        <p><strong>TuGiac</strong> là lớp trừu tượng implement interface, nên không bắt buộc ghi đè ngay các phương thức. Các lớp con sẽ ghi đè sau.</p>
+                    </div>
+                    
+                    <h3>5.3. Kế thừa giữa các interface</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>InterfaceKeThua.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Interface 1: Bộ hành vi tính chu vi</span><br>
+                        <span class="keyword">interface</span> <span class="class-name">BoHanhViCV</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> tinhChuVi();<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Interface 2: Bộ hành vi tính diện tích</span><br>
+                        <span class="keyword">interface</span> <span class="class-name">BoHanhViDT</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> tinhDienTich();<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Interface kế thừa nhiều interface</span><br>
+                        <span class="keyword">interface</span> <span class="class-name">BoHanhViCVDT</span> <span class="keyword">extends</span> BoHanhViCV, BoHanhViDT {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kế thừa cả tinhChuVi() và tinhDienTich()</span><br>
+                        }
+                    </div>
+                    
+                    <div class="note">
+                        <h4>Quan trọng:</h4>
+                        <p><strong>Một interface có thể kế thừa nhiều interface khác</strong>, không giống như class chỉ kế thừa được 1 class cha.</p>
+                    </div>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm: Kết hợp Abstract và Interface</h4>
+                        
+                        <div class="example-nav">
+                            <button class="example-btn active" onclick="showCombination('method1')">Cách 1: Con implement</button>
+                            <button class="example-btn" onclick="showCombination('method2')">Cách 2: Cha implement</button>
+                            <button class="example-btn" onclick="showCombination('interfaceInheritance')">Interface kế thừa</button>
+                        </div>
+                        
+                        <button class="btn" onclick="demoCombination()">
+                            <i class="fas fa-play"></i> Xem ví dụ
+                        </button>
+                        
+                        <div class="result" id="combinationResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="combinationResultContent"></div>
+                        </div>
+                    </div>
+                </section> -->
+
+                <!-- PHẦN 6: ĐA HÌNH VỚI INTERFACE -->
+                <!-- <section id="phan6" class="section">
+                    <h2><i class="fas fa-project-diagram"></i> PHẦN 6: ĐA HÌNH VỚI INTERFACE</h2>
+                    
+                    <h3>6.1. Quản lý đa hình qua Interface</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>DaHinhVoiInterface.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.ArrayList;<br>
+                        <span class="keyword">import</span> java.util.List;<br>
+                        <br>
+                        <span class="comment">// Interface chung</span><br>
+                        <span class="keyword">interface</span> <span class="class-name">HinhHoc</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> tinhChuVi();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> tinhDienTich();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> inThongTin();<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Các lớp implement</span><br>
+                        <span class="keyword">class</span> <span class="class-name">HinhVuong</span> <span class="keyword">implements</span> HinhHoc {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> canh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> chuVi, dienTich;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> HinhVuong(<span class="keyword">double</span> canh) { <span class="keyword">this</span>.canh = canh; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span> <span class="keyword">public void</span> tinhChuVi() { chuVi = canh * 4; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span> <span class="keyword">public void</span> tinhDienTich() { dienTich = canh * canh; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span> <span class="keyword">public void</span> inThongTin() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Hình vuông cạnh "</span> + canh + <span class="string">": CV="</span> + chuVi + <span class="string">", DT="</span> + dienTich);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">class</span> <span class="class-name">HinhTron</span> <span class="keyword">implements</span> HinhHoc {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> banKinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> chuVi, dienTich;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> HinhTron(<span class="keyword">double</span> r) { <span class="keyword">this</span>.banKinh = r; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span> <span class="keyword">public void</span> tinhChuVi() { chuVi = 2 * Math.PI * banKinh; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span> <span class="keyword">public void</span> tinhDienTich() { dienTich = Math.PI * banKinh * banKinh; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span> <span class="keyword">public void</span> inThongTin() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Hình tròn bán kính "</span> + banKinh + <span class="string">": CV="</span> + chuVi + <span class="string">", DT="</span> + dienTich);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;HinhHoc&gt; danhSach = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm các hình khác nhau vào danh sách</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span class="keyword">new</span> HinhVuong(5));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span class="keyword">new</span> HinhTron(3));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span class="keyword">new</span> HinhVuong(7));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span class="keyword">new</span> HinhTron(4));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tính toán và in thông tin tất cả hình</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (HinhHoc hinh : danhSach) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hinh.tinhChuVi();      <span class="comment">// ĐA HÌNH</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hinh.tinhDienTich();   <span class="comment">// ĐA HÌNH</span><br>
+                        &nbsp;&nbsp;&nbsp;&�nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hinh.inThongTin();    <span class="comment">// ĐA HÌNH</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Ưu điểm của đa hình với Interface</h4>
+                        <ul>
+                            <li><strong>Linh hoạt:</strong> Các lớp không cần có quan hệ kế thừa vẫn có thể có hành vi chung</li>
+                            <li><strong>Tách biệt:</strong> Tách giao diện (interface) khỏi cài đặt (implementation)</li>
+                            <li><strong>Dễ mở rộng:</strong> Thêm lớp mới implement interface mà không ảnh hưởng code cũ</li>
+                            <li><strong>Đa kế thừa:</strong> Một lớp có thể implement nhiều interface</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>6.2. So sánh Abstract Class và Interface</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tiêu chí</th>
+                                    <th>Abstract Class</th>
+                                    <th>Interface</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Kế thừa</strong></td>
+                                    <td>Chỉ kế thừa 1 lớp</td>
+                                    <td>Implement nhiều interface</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phương thức</strong></td>
+                                    <td>Có thể có phương thức cụ thể</td>
+                                    <td>Chỉ phương thức trừu tượng (trước Java 8)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Biến</strong></td>
+                                    <td>Có thể có biến instance</td>
+                                    <td>Chỉ hằng số (public static final)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Constructor</strong></td>
+                                    <td>Có constructor</td>
+                                    <td>Không có constructor</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Access modifier</strong></td>
+                                    <td>Có thể private, protected</td>
+                                    <td>Mặc định public</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Khi nào dùng</strong></td>
+                                    <td>Các lớp có quan hệ "IS-A"</td>
+                                    <td>Các lớp có hành vi chung "CAN-DO"</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section> -->
+
+                <!-- PHẦN 7: BÀI TẬP THỰC HÀNH -->
+                <!-- <section id="phan7" class="section">
+                    <h2><i class="fas fa-dumbbell"></i> PHẦN 7: BÀI TẬP THỰC HÀNH</h2>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Hướng dẫn làm bài tập</h4>
+                        <p>Giải quyết các bài tập dưới đây để nắm vững tính đa hình trong Java.</p>
+                    </div>
+                    
+                    <h3>Bài tập 1: Quản lý động vật</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>BaiTap1.java - Động vật</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// 1. Tạo interface DongVat với phương thức tiengKeu()</span><br>
+                        <span class="keyword">interface</span> <span class="class-name">DongVat</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> tiengKeu();<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// 2. Tạo các lớp ConCho, ConMeo, ConGa implement DongVat</span><br>
+                        <span class="keyword">class</span> <span class="class-name">ConCho</span> <span class="keyword">implements</span> DongVat {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tiengKeu() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Gâu gâu!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">class</span> <span class="class-name">ConMeo</span> <span class="keyword">implements</span> DongVat {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tiengKeu() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Meo meo!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">class</span> <span class="class-name">ConGa</span> <span class="keyword">implements</span> DongVat {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> tiengKeu() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ò ó o!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// 3. Viết chương trình chính tạo danh sách động vật</span><br>
+                        <span class="keyword">public class</span> <span class="class-name">QuanLyDongVat</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;DongVat&gt; danhSach = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span class="keyword">new</span> ConCho());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span class="keyword">new</span> ConMeo());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span class="keyword">new</span> ConGa());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Duyệt danh sách và gọi tiengKeu()</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (DongVat dv : danhSach) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dv.tiengKeu();  <span class="comment">// ĐA HÌNH</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <h3>Bài tập 2: Tính lương nhân viên</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>BaiTap2.java - Tính lương</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Abstract class NhanVien</span><br>
+                        <span class="keyword">abstract class</span> <span class="class-name">NhanVien</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;String ten;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> heSoLuong;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phương thức trừu tượng tính lương</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">abstract double</span> tinhLuong();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> inThongTin() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tên: "</span> + ten + <span class="string">", Lương: "</span> + tinhLuong());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Lớp NVVanPhong</span><br>
+                        <span class="keyword">class</span> <span class="class-name">NVVanPhong</span> <span class="keyword">extends</span> NhanVien {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> soNgayLam;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span> tinhLuong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> heSoLuong * 1490000 + soNgayLam * 200000;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Lớp NVSanXuat</span><br>
+                        <span class="keyword">class</span> <span class="class-name">NVSanXuat</span> <span class="keyword">extends</span> NhanVien {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> soSanPham;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span> tinhLuong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> heSoLuong * 1490000 + soSanPham * 50000;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm: Quản lý đa hình</h4>
+                        
+                        <div class="input-group">
+                            <label for="exerciseType">Chọn bài tập:</label>
+                            <select id="exerciseType">
+                                <option value="animals">Bài 1: Động vật</option>
+                                <option value="salary">Bài 2: Tính lương</option>
+                                <option value="shapes">Bài 3: Hình học</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn" onclick="demoExercise()">
+                            <i class="fas fa-play"></i> Chạy bài tập
+                        </button>
+                        
+                        <div class="result" id="exerciseResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="exerciseResultContent"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> TỔNG KẾT - 5 điều cần nhớ về Đa hình:</h4>
+                        <ol>
+                            <li><strong>Đa hình = Nhiều hình thái:</strong> Cùng tên phương thức, nhiều cách triển khai</li>
+                            <li><strong>Ghi đè (Override) là cốt lõi:</strong> Lớp con ghi đè phương thức lớp cha</li>
+                            <li><strong>Quản lý tập trung:</strong> Dùng lớp cha/interface để quản lý nhiều đối tượng</li>
+                            <li><strong>instanceof và ép kiểu:</strong> Kiểm tra và xử lý đặc thù từng loại đối tượng</li>
+                            <li><strong>Interface linh hoạt hơn kế thừa:</strong> Cho phép đa hình giữa các lớp không cùng hệ thống kế thừa</li>
+                        </ol>
+                    </div>
+                </section> -->
+            </main>
+        </div>
+
+        <footer>
+            <p> © GV: Nguyễn Đình Mạnh</p>
+            
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            
+            // Kích hoạt section đầu tiên
+            sections[0].classList.add('active');
+            navLinks[0].classList.add('active');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    // Xóa class active từ tất cả
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Thêm class active cho link được click
+                    this.classList.add('active');
+                    
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Cuộn lên đầu section
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+            
+            // Xử lý thay đổi loại hình
+            document.getElementById('shapeType').addEventListener('change', function() {
+                const dimension2Group = document.getElementById('dimension2Group');
+                if (this.value === 'rectangle') {
+                    dimension2Group.style.display = 'block';
+                } else {
+                    dimension2Group.style.display = 'none';
+                }
+            });
+        });
+        
+        // Hàm copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                button.style.background = '#27ae60';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+        
+        // =========== PHẦN 1: TÍNH ĐA HÌNH ===========
+        function demoPolymorphism() {
+            const shapeType = document.getElementById('shapeType').value;
+            const dimension1 = parseFloat(document.getElementById('dimension1').value) || 5;
+            const dimension2 = parseFloat(document.getElementById('dimension2').value) || 3;
+            
+            const result = document.getElementById('polymorphismResult');
+            const output = document.getElementById('polymorphismResultContent');
+            
+            result.classList.add('active');
+            
+            let outputText = '';
+            let perimeter = 0;
+            
+            if (shapeType === 'square') {
+                perimeter = dimension1 * 4;
+                outputText = '=== HÌNH VUÔNG ===\n';
+                outputText += `Cạnh: ${dimension1}\n`;
+                outputText += `Công thức: Chu vi = cạnh × 4\n`;
+                outputText += `Tính toán: ${dimension1} × 4 = ${perimeter}\n`;
+                outputText += `Kết quả: Chu vi = ${perimeter}`;
+            } else {
+                perimeter = (dimension1 + dimension2) * 2;
+                outputText = '=== HÌNH CHỮ NHẬT ===\n';
+                outputText += `Chiều dài: ${dimension1}, Chiều rộng: ${dimension2}\n`;
+                outputText += `Công thức: Chu vi = (dài + rộng) × 2\n`;
+                outputText += `Tính toán: (${dimension1} + ${dimension2}) × 2 = ${perimeter}\n`;
+                outputText += `Kết quả: Chu vi = ${perimeter}`;
+            }
+            
+            outputText += '\n\n=== ĐA HÌNH ===\n';
+            outputText += 'Cả hai hình đều gọi phương thức tinhChuVi()\n';
+            outputText += 'Nhưng mỗi hình tính theo công thức riêng!';
+            
+            output.textContent = outputText;
+        }
+        
+        // =========== PHẦN 3: INSTANCEOF ===========
+        function demoInstanceof() {
+            const type = document.getElementById('instanceofType').value;
+            
+            const result = document.getElementById('instanceofResult');
+            const output = document.getElementById('instanceofResultContent');
+            
+            result.classList.add('active');
+            
+            let outputText = '=== KIỂM TRA INSTANCEOF ===\n\n';
+            
+            // Mô phỏng các kiểm tra
+            outputText += 'Giả sử có: TuGiac tg = new HinhChuNhat(5, 3);\n\n';
+            outputText += 'Kết quả kiểm tra:\n';
+            
+            switch(type) {
+                case 'HinhChuNhat':
+                    outputText += 'tg instanceof HinhChuNhat → true ✓\n';
+                    outputText += 'tg instanceof TuGiac → true ✓\n';
+                    outputText += 'tg instanceof HinhVuong → false ✗\n\n';
+                    outputText += '→ Có thể ép kiểu: HinhChuNhat hcn = (HinhChuNhat) tg';
+                    break;
+                case 'HinhVuong':
+                    outputText += 'tg instanceof HinhVuong → false ✗\n';
+                    outputText += 'tg instanceof TuGiac → true ✓\n';
+                    outputText += 'tg instanceof HinhChuNhat → true ✓\n\n';
+                    outputText += '→ Không thể ép kiểu về HinhVuong (sẽ lỗi ClassCastException)';
+                    break;
+                case 'TuGiac':
+                    outputText += 'tg instanceof TuGiac → true ✓\n';
+                    outputText += 'tg instanceof HinhChuNhat → true ✓\n';
+                    outputText += 'tg instanceof HinhVuong → false ✗\n\n';
+                    outputText += '→ Không cần ép kiểu, vì tg đã là TuGiac';
+                    break;
+            }
+            
+            output.textContent = outputText;
+        }
+        
+        // =========== PHẦN 5: KẾT HỢP ABSTRACT & INTERFACE ===========
+        let currentCombination = 'method1';
+        
+        function showCombination(method) {
+            currentCombination = method;
+            document.querySelectorAll('#phan5 .example-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        function demoCombination() {
+            const result = document.getElementById('combinationResult');
+            const output = document.getElementById('combinationResultContent');
+            
+            result.classList.add('active');
+            
+            let outputText = '';
+            
+            switch(currentCombination) {
+                case 'method1':
+                    outputText = '=== CÁCH 1: LỚP CON IMPLEMENT INTERFACE ===\n\n';
+                    outputText += 'public abstract class TuGiac {\n';
+                    outputText += '    // Không định nghĩa tinhChuVi, tinhDienTich\n';
+                    outputText += '}\n\n';
+                    outputText += 'public class HinhVuong extends TuGiac implements BoHanhViCVDT {\n';
+                    outputText += '    @Override\n';
+                    outputText += '    public void tinhChuVi() { /* triển khai */ }\n';
+                    outputText += '    @Override\n';
+                    outputText += '    public void tinhDienTich() { /* triển khai */ }\n';
+                    outputText += '}\n\n';
+                    outputText += 'Ưu điểm:\n';
+                    outputText += '- TuGiac không bị ràng buộc với interface\n';
+                    outputText += '- Chỉ những lớp con cần mới implement';
+                    break;
+                    
+                case 'method2':
+                    outputText = '=== CÁCH 2: LỚP CHA IMPLEMENT INTERFACE ===\n\n';
+                    outputText += 'public abstract class TuGiac implements BoHanhViCVDT {\n';
+                    outputText += '    // Lớp trừu tượng không cần ghi đè ngay\n';
+                    outputText += '}\n\n';
+                    outputText += 'public class HinhChuNhat extends TuGiac {\n';
+                    outputText += '    @Override\n';
+                    outputText += '    public void tinhChuVi() { /* triển khai */ }\n';
+                    outputText += '    @Override\n';
+                    outputText += '    public void tinhDienTich() { /* triển khai */ }\n';
+                    outputText += '}\n\n';
+                    outputText += 'Ưu điểm:\n';
+                    outputText += '- Tất cả lớp con bắt buộc phải ghi đè\n';
+                    outputText += '- Đảm bảo tính nhất quán';
+                    break;
+                    
+                case 'interfaceInheritance':
+                    outputText = '=== KẾ THỪA GIỮA CÁC INTERFACE ===\n\n';
+                    outputText += 'interface BoHanhViCV {\n';
+                    outputText += '    void tinhChuVi();\n';
+                    outputText += '}\n\n';
+                    outputText += 'interface BoHanhViDT {\n';
+                    outputText += '    void tinhDienTich();\n';
+                    outputText += '}\n\n';
+                    outputText += 'interface BoHanhViCVDT extends BoHanhViCV, BoHanhViDT {\n';
+                    outputText += '    // Kế thừa cả 2 phương thức\n';
+                    outputText += '}\n\n';
+                    outputText += 'Lớp implement BoHanhViCVDT phải ghi đè:\n';
+                    outputText += '- tinhChuVi() (từ BoHanhViCV)\n';
+                    outputText += '- tinhDienTich() (từ BoHanhViDT)';
+                    break;
+            }
+            
+            output.textContent = outputText;
+        }
+        
+        // =========== PHẦN 7: BÀI TẬP THỰC HÀNH ===========
+        function demoExercise() {
+            const exerciseType = document.getElementById('exerciseType').value;
+            
+            const result = document.getElementById('exerciseResult');
+            const output = document.getElementById('exerciseResultContent');
+            
+            result.classList.add('active');
+            
+            let outputText = '';
+            
+            switch(exerciseType) {
+                case 'animals':
+                    outputText = '=== BÀI 1: ĐỘNG VẬT ===\n\n';
+                    outputText += 'Danh sách động vật và tiếng kêu:\n';
+                    outputText += '1. Con chó: Gâu gâu!\n';
+                    outputText += '2. Con mèo: Meo meo!\n';
+                    outputText += '3. Con gà: Ò ó o!\n\n';
+                    outputText += '=== ĐA HÌNH TRONG BÀI TẬP ===\n';
+                    outputText += 'for (DongVat dv : danhSach) {\n';
+                    outputText += '    dv.tiengKeu();  // Mỗi con vật kêu khác nhau\n';
+                    outputText += '}\n\n';
+                    outputText += '→ Cùng phương thức tiengKeu(), nhưng mỗi lớp thực hiện khác nhau';
+                    break;
+                    
+                case 'salary':
+                    outputText = '=== BÀI 2: TÍNH LƯƠNG ===\n\n';
+                    outputText += '1. Nhân viên văn phòng:\n';
+                    outputText += '   Lương = Hệ số × 1,490,000 + Số ngày làm × 200,000\n';
+                    outputText += '   Ví dụ: HS 2.5, 22 ngày → 3,725,000 + 4,400,000 = 8,125,000\n\n';
+                    outputText += '2. Nhân viên sản xuất:\n';
+                    outputText += '   Lương = Hệ số × 1,490,000 + Số sản phẩm × 50,000\n';
+                    outputText += '   Ví dụ: HS 2.0, 100 SP → 2,980,000 + 5,000,000 = 7,980,000\n\n';
+                    outputText += '=== ĐA HÌNH TRONG BÀI TẬP ===\n';
+                    outputText += 'for (NhanVien nv : danhSach) {\n';
+                    outputText += '    nv.tinhLuong();  // Mỗi loại NV tính lương khác nhau\n';
+                    outputText += '}';
+                    break;
+                    
+                case 'shapes':
+                    outputText = '=== BÀI 3: HÌNH HỌC ===\n\n';
+                    outputText += '1. Hình vuông cạnh 5:\n';
+                    outputText += '   Chu vi = 5 × 4 = 20\n';
+                    outputText += '   Diện tích = 5 × 5 = 25\n\n';
+                    outputText += '2. Hình tròn bán kính 3:\n';
+                    outputText += '   Chu vi = 2 × π × 3 ≈ 18.85\n';
+                    outputText += '   Diện tích = π × 3² ≈ 28.27\n\n';
+                    outputText += '3. Hình chữ nhật 6×4:\n';
+                    outputText += '   Chu vi = (6+4)×2 = 20\n';
+                    outputText += '   Diện tích = 6×4 = 24\n\n';
+                    outputText += '=== ĐA HÌNH TRONG BÀI TẬP ===\n';
+                    outputText += 'List<HinhHoc> danhSach = ...;\n';
+                    outputText += 'for (HinhHoc hinh : danhSach) {\n';
+                    outputText += '    hinh.tinhChuVi();     // Mỗi hình tính khác nhau\n';
+                    outputText += '    hinh.tinhDienTich();  // Mỗi hình tính khác nhau\n';
+                    outputText += '}';
+                    break;
+            }
+            
+            output.textContent = outputText;
+        }
+    </script>
+</body>
+</html>

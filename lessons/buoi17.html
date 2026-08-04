@@ -1,0 +1,2229 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMPARABLE & COMPARATOR </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+                overflow: hidden;
+
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            height: 80vh;
+            overflow: scroll;
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .nav-list {
+            list-style: none;
+            position: sticky;
+            top: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        h5 {
+            color: var(--dark);
+            margin: 15px 0 8px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.4;
+            border: 2px solid #444;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+.sidebar ul{
+    padding: 0;
+}
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+
+        .btn-run {
+            background: var(--success);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 1400px) {
+            body{
+                padding: 0;
+            }
+              footer {
+          
+            padding: 8px 20px;
+          
+        }
+
+        }
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+            }
+        }
+
+        .method-detail {
+            background: #f8f9fa;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .method-detail h5 {
+            color: var(--success);
+            margin-top: 0;
+        }
+
+        .tree-structure {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+        }
+
+        .tree-item {
+            margin-left: 20px;
+            padding: 2px 0;
+        }
+
+        .tree-item::before {
+            content: "├── ";
+            color: #666;
+        }
+
+        .tree-item:last-child::before {
+            content: "└── ";
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .timezone-demo {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .pattern-table {
+            font-size: 0.9rem;
+        }
+
+        .pattern-table code {
+            background: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>COMPARABLE & COMPARATOR </h1>
+
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#part1" class="nav-link active"><i class="fas fa-home"></i> <span>PHẦN 1: TỔNG QUAN</span></a></li>
+                    <li class="nav-item"><a href="#part2" class="nav-link"><i class="fas fa-check-circle"></i> <span>PHẦN 2: COMPARABLE</span></a></li>
+                    <li class="nav-item"><a href="#part3" class="nav-link"><i class="fas fa-random"></i> <span>PHẦN 3: COMPARATOR</span></a></li>
+                    <li class="nav-item"><a href="#part4" class="nav-link"><i class="fas fa-plus-circle"></i> <span>PHẦN 4: COMPARATOR METHODS (JAVA 8+)</span></a></li>
+                    <li class="nav-item"><a href="#part5" class="nav-link"><i class="fas fa-sort"></i> <span>PHẦN 5: SORTING</span></a></li>
+                    <li class="nav-item"><a href="#part6" class="nav-link"><i class="fas fa-tasks"></i> <span>PHẦN 6: BÀI TẬP</span></a></li>
+                    <li class="nav-item"><a href="#part7" class="nav-link"><i class="fas fa-star"></i> <span>PHẦN 7: TỔNG KẾT</span></a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN 1: TỔNG QUAN VỀ SO SÁNH TRONG JAVA -->
+                <section id="part1" class="section active">
+                    <h2><i class="fas fa-home"></i> PHẦN 1: TỔNG QUAN VỀ SO SÁNH TRONG JAVA</h2>
+
+                    <h3>1.1 TẠI SAO CẦN SO SÁNH?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p>Trong lập trình, việc so sánh các đối tượng là nhu cầu cơ bản để:</p>
+                        <ul>
+                            <li>Sắp xếp (sorting)</li>
+                            <li>Tìm kiếm (searching)</li>
+                            <li>Tìm min/max</li>
+                            <li>Xác định thứ tự ưu tiên</li>
+                        </ul>
+                    </div>
+
+                    <h4>Vấn đề với kiểu nguyên thủy:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">int</span> a = <span class="number">5</span>, b = <span class="number">10</span>;<br>
+                        System.out.println(a < b);  <span class="comment">// true - Dễ dàng so sánh</span><br>
+                        System.out.println(a > b);  <span class="comment">// false</span>
+                    </div>
+
+                    <h4>Vấn đề với đối tượng:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Student s1 = <span class="keyword">new</span> Student(<span class="string">"Alice"</span>, <span class="number">20</span>);<br>
+                        Student s2 = <span class="keyword">new</span> Student(<span class="string">"Bob"</span>, <span class="number">22</span>);<br>
+                        <br>
+                        <span class="comment">// Làm thế nào để so sánh?</span><br>
+                        <span class="comment">// s1 < s2? Theo tên? Theo tuổi? Theo điểm?</span><br>
+                        <span class="comment">// Java không thể tự động biết cách so sánh đối tượng do người dùng định nghĩa</span>
+                    </div>
+
+                    <h3>1.2 HAI CÁCH SO SÁNH TRONG JAVA</h3>
+                    
+                    <div class="info-box">
+                        <p>Java cung cấp hai interface để giải quyết vấn đề so sánh:</p>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Interface</th>
+                                    <th>Mô tả</th>
+                                    <th>Đặc điểm</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-compare">Comparable</span></td>
+                                    <td>So sánh "tự nhiên" (natural ordering)</td>
+                                    <td>Một lớp chỉ có một cách so sánh duy nhất</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-comparator">Comparator</span></td>
+                                    <td>So sánh tùy chỉnh (custom ordering)</td>
+                                    <td>Nhiều cách so sánh khác nhau cho cùng một lớp</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- PHẦN 2: COMPARABLE INTERFACE -->
+                <section id="part2" class="section">
+                    <h2><i class="fas fa-check-circle"></i> PHẦN 2: COMPARABLE INTERFACE</h2>
+
+                    <h3>2.1 COMPARABLE LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>Comparable</strong> là một interface trong Java, cho phép một lớp định nghĩa thứ tự tự nhiên (natural ordering) của các đối tượng của lớp đó.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-check"> Nằm trong package java.lang</strong></li>
+                        <li><span class="feature-check"> Chỉ có một phương thức duy nhất: compareTo()</strong></li>
+                        <li><span class="feature-check"> Được gọi là "thứ tự tự nhiên" của lớp</strong></li>
+                        <li><span class="feature-check"> Các lớp trong Java đã implement: String, Integer, Double, Date,...</strong></li>
+                    </ul>
+
+                    <h4>Cú pháp:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public interface</span> Comparable&lt;T&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compareTo(T o);<br>
+                        }
+                    </div>
+
+                    <h3>2.2 PHƯƠNG THỨC compareTo()</h3>
+                    
+                    <h4>Cú pháp:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">int</span> compareTo(T o)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>So sánh đối tượng hiện tại (this) với đối tượng o được truyền vào.</p>
+                        <p><strong>Giá trị trả về:</strong></p>
+                        <ul>
+                            <li><span class="badge badge-compare">Số âm (< 0)</span>: nếu đối tượng hiện tại nhỏ hơn đối tượng o</li>
+                            <li><span class="badge badge-compare">Số 0 (== 0)</span>: nếu đối tượng hiện tại bằng đối tượng o</li>
+                            <li><span class="badge badge-compare">Số dương (> 0)</span>: nếu đối tượng hiện tại lớn hơn đối tượng o</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Quy tắc:</h4>
+                        <pre style="background: #333; color: #fff; padding: 10px; border-radius: 5px;">
+this < o  →  trả về số âm
+this = o  →  trả về 0
+this > o  →  trả về số dương</pre>
+                    </div>
+
+                    <h3>2.3 CÁCH IMPLEMENT COMPARABLE</h3>
+
+                    <h4>2.3.1 Ví dụ với số (Integer đã có sẵn)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Integer đã implement Comparable</span><br>
+                        Integer a = <span class="number">5</span>;<br>
+                        Integer b = <span class="number">10</span>;<br>
+                        <br>
+                        System.out.println(a.compareTo(b)); <span class="comment">// -5 (5 < 10)</span><br>
+                        System.out.println(b.compareTo(a)); <span class="comment">// 5  (10 > 5)</span><br>
+                        System.out.println(a.compareTo(<span class="number">5</span>)); <span class="comment">// 0  (5 = 5)</span>
+                    </div>
+
+                    <h4>2.3.2 Ví dụ với String (String đã có sẵn)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String s1 = <span class="string">"Apple"</span>;<br>
+                        String s2 = <span class="string">"Banana"</span>;<br>
+                        <br>
+                        System.out.println(s1.compareTo(s2)); <span class="comment">// -1 (Apple < Banana)</span><br>
+                        System.out.println(s2.compareTo(s1)); <span class="comment">// 1  (Banana > Apple)</span><br>
+                        System.out.println(<span class="string">"Hello"</span>.compareTo(<span class="string">"Hello"</span>)); <span class="comment">// 0</span>
+                    </div>
+
+                    <h3>2.4 TỰ IMPLEMENT COMPARABLE CHO LỚP CỦA MÌNH</h3>
+
+                    <h4>2.4.1 Ví dụ 1: So sánh Student theo tuổi</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Student.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">Student</span> <span class="keyword">implements</span> Comparable&lt;Student&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> age;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> gpa;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> Student(String name, <span class="keyword">int</span> age, <span class="keyword">double</span> gpa) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.name = name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.age = age;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.gpa = gpa;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compareTo(Student other) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// So sánh theo tuổi (tăng dần)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (<span class="keyword">this</span>.age < other.age) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> -<span class="number">1</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else if</span> (<span class="keyword">this</span>.age > other.age) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="number">1</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Có thể viết ngắn gọn hơn:</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// public int compareTo(Student other) {</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//     return this.age - other.age;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// }</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String toString() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> name + <span class="string">"("</span> + age + <span class="string">" tuổi, GPA:"</span> + gpa + <span class="string">")"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ComparableExample1.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ComparableExample1</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student s1 = <span class="keyword">new</span> Student(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="number">8.5</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student s2 = <span class="keyword">new</span> Student(<span class="string">"Bob"</span>, <span class="number">22</span>, <span class="number">7.8</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student s3 = <span class="keyword">new</span> Student(<span class="string">"Charlie"</span>, <span class="number">20</span>, <span class="number">9.0</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"s1 so với s2: "</span> + s1.compareTo(s2)); <span class="comment">// -1 (20 < 22)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"s2 so với s1: "</span> + s2.compareTo(s1)); <span class="comment">// 1  (22 > 20)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"s1 so với s3: "</span> + s1.compareTo(s3)); <span class="comment">// 0  (20 = 20)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp danh sách sinh viên theo tuổi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Student&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(s1, s2, s3));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nTrước sort: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(students); <span class="comment">// Tự động dùng compareTo</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau sort theo tuổi: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>2.4.2 Ví dụ 2: So sánh Student theo tên (alphabet)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> StudentByName.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">StudentByName</span> <span class="keyword">implements</span> Comparable&lt;StudentByName&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> age;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> StudentByName(String name, <span class="keyword">int</span> age) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.name = name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.age = age;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compareTo(StudentByName other) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// So sánh theo tên (alphabet)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">this</span>.name.compareTo(other.name);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String toString() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> name + <span class="string">"("</span> + age + <span class="string">")"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ComparableExample2.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ComparableExample2</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StudentByName&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> StudentByName(<span class="string">"John"</span>, <span class="number">21</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> StudentByName(<span class="string">"Alice"</span>, <span class="number">20</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> StudentByName(<span class="string">"Bob"</span>, <span class="number">22</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> StudentByName(<span class="string">"David"</span>, <span class="number">19</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Trước sort: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau sort theo tên: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Alice(20), Bob(22), David(19), John(21)]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>2.4.3 Ví dụ 3: So sánh Student theo nhiều tiêu chí</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> StudentMulti.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">StudentMulti</span> <span class="keyword">implements</span> Comparable&lt;StudentMulti&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> age;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> gpa;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> StudentMulti(String name, <span class="keyword">int</span> age, <span class="keyword">double</span> gpa) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.name = name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.age = age;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.gpa = gpa;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compareTo(StudentMulti other) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ưu tiên 1: GPA giảm dần (cao nhất trước)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (<span class="keyword">this</span>.gpa > other.gpa) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> -<span class="number">1</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else if</span> (<span class="keyword">this</span>.gpa < other.gpa) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="number">1</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Nếu GPA bằng nhau, so sánh theo tuổi tăng dần</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (<span class="keyword">this</span>.age < other.age) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> -<span class="number">1</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else if</span> (<span class="keyword">this</span>.age > other.age) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="number">1</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Nếu cả GPA và tuổi bằng nhau, so sánh theo tên alphabet</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">this</span>.name.compareTo(other.name);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String toString() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> name + <span class="string">"(tuổi:"</span> + age + <span class="string">", GPA:"</span> + gpa + <span class="string">")"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ComparableExample3.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ComparableExample3</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;StudentMulti&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> StudentMulti(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> StudentMulti(<span class="string">"Bob"</span>, <span class="number">22</span>, <span class="number">9.0</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> StudentMulti(<span class="string">"Charlie"</span>, <span class="number">19</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> StudentMulti(<span class="string">"David"</span>, <span class="number">21</span>, <span class="number">9.0</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> StudentMulti(<span class="string">"Eve"</span>, <span class="number">20</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Trước sort: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau sort (GPA cao→thấp, tuổi thấp→cao, tên A→Z):"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>2.5 LƯU Ý KHI IMPLEMENT COMPARABLE</h3>
+
+                    <h4>2.5.1 Quy tắc bắc cầu</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Product.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">Product</span> <span class="keyword">implements</span> Comparable&lt;Product&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> id;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compareTo(Product other) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">this</span>.id - other.id;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// LƯU Ý: Phải đảm bảo tính bắc cầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Nếu a.compareTo(b) > 0 và b.compareTo(c) > 0</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thì a.compareTo(c) > 0</span><br>
+                        }
+                    </div>
+
+                    <h4>2.5.2 Quan hệ với equals()</h4>
+                    <div class="note">
+                        <p><strong>Khuyến nghị:</strong> Nên đảm bảo compareTo() nhất quán với equals()</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Student.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">Student</span> <span class="keyword">implements</span> Comparable&lt;Student&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> id;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public boolean</span> equals(Object obj) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (<span class="keyword">this</span> == obj) <span class="keyword">return</span> <span class="keyword">true</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!(obj <span class="keyword">instanceof</span> Student)) <span class="keyword">return</span> <span class="keyword">false</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student other = (Student) obj;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">this</span>.id == other.id;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compareTo(Student other) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Nên so sánh dựa trên cùng trường với equals</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> Integer.compare(<span class="keyword">this</span>.id, other.id);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 3: COMPARATOR INTERFACE -->
+                <section id="part3" class="section">
+                    <h2><i class="fas fa-random"></i> PHẦN 3: COMPARATOR INTERFACE</h2>
+
+                    <h3>3.1 COMPARATOR LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>Comparator</strong> là một interface trong Java, cho phép định nghĩa nhiều cách so sánh khác nhau cho cùng một lớp đối tượng.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-check"> Nằm trong package java.util</strong></li>
+                        <li><span class="feature-check"> Có phương thức chính: compare()</strong></li>
+                        <li><span class="feature-check"> Cho phép tạo nhiều bộ so sánh khác nhau</strong></li>
+                        <li><span class="feature-check"> Thường dùng khi không thể sửa lớp gốc hoặc cần nhiều cách sắp xếp</strong></li>
+                    </ul>
+
+                    <h4>Cú pháp:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public interface</span> Comparator&lt;T&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> compare(T o1, T o2);<br>
+                        }
+                    </div>
+
+                    <h3>3.2 PHƯƠNG THỨC compare()</h3>
+                    
+                    <h4>Cú pháp:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">int</span> compare(T o1, T o2)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>So sánh hai đối tượng o1 và o2 với nhau.</p>
+                        <p><strong>Giá trị trả về:</strong></p>
+                        <ul>
+                            <li><span class="badge badge-comparator">Số âm (< 0)</span>: nếu o1 nhỏ hơn o2</li>
+                            <li><span class="badge badge-comparator">Số 0 (== 0)</span>: nếu o1 bằng o2</li>
+                            <li><span class="badge badge-comparator">Số dương (> 0)</span>: nếu o1 lớn hơn o2</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Quy tắc:</h4>
+                        <pre style="background: #333; color: #fff; padding: 10px; border-radius: 5px;">
+o1 < o2  →  trả về số âm
+o1 = o2  →  trả về 0
+o1 > o2  →  trả về số dương</pre>
+                    </div>
+
+                    <h3>3.3 CÁC CÁCH TẠO COMPARATOR</h3>
+
+                    <h4>3.3.1 Cách 1: Tạo class riêng implement Comparator</h4>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Student.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">Student</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> age;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> gpa;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> Student(String name, <span class="keyword">int</span> age, <span class="keyword">double</span> gpa) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.name = name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.age = age;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.gpa = gpa;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getName() { <span class="keyword">return</span> name; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> getAge() { <span class="keyword">return</span> age; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> getGpa() { <span class="keyword">return</span> gpa; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String toString() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> name + <span class="string">"(tuổi:"</span> + age + <span class="string">", GPA:"</span> + gpa + <span class="string">")"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Comparators.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Comparator so sánh theo tên</span><br>
+                        <span class="keyword">class</span> <span class="class-name">NameComparator</span> <span class="keyword">implements</span> Comparator&lt;Student&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compare(Student s1, Student s2) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> s1.getName().compareTo(s2.getName());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Comparator so sánh theo tuổi</span><br>
+                        <span class="keyword">class</span> <span class="class-name">AgeComparator</span> <span class="keyword">implements</span> Comparator&lt;Student&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compare(Student s1, Student s2) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> Integer.compare(s1.getAge(), s2.getAge());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Comparator so sánh theo GPA (giảm dần)</span><br>
+                        <span class="keyword">class</span> <span class="class-name">GpaDescComparator</span> <span class="keyword">implements</span> Comparator&lt;Student&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compare(Student s1, Student s2) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> Double.compare(s2.getGpa(), s1.getGpa()); <span class="comment">// Đảo ngược</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ComparatorExample1.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ComparatorExample1</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Student&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Bob"</span>, <span class="number">22</span>, <span class="number">9.0</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Charlie"</span>, <span class="number">19</span>, <span class="number">7.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"David"</span>, <span class="number">21</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Danh sách gốc: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo tên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(students, <span class="keyword">new</span> NameComparator());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo tên A→Z: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo tuổi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(students, <span class="keyword">new</span> AgeComparator());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo tuổi tăng: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo GPA giảm dần</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(students, <span class="keyword">new</span> GpaDescComparator());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo GPA giảm: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>3.3.2 Cách 2: Dùng anonymous class</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ComparatorExample2.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ComparatorExample2</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Student&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Bob"</span>, <span class="number">22</span>, <span class="number">9.0</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Charlie"</span>, <span class="number">19</span>, <span class="number">7.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo tên - dùng anonymous class</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(students, <span class="keyword">new</span> Comparator&lt;Student&gt;() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compare(Student s1, Student s2) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> s1.getName().compareTo(s2.getName());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo tên: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo tuổi - dùng anonymous class</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(students, <span class="keyword">new</span> Comparator&lt;Student&gt;() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compare(Student s1, Student s2) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> Integer.compare(s1.getAge(), s2.getAge());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo tuổi: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>3.3.3 Cách 3: Dùng lambda expression (Java 8+)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ComparatorExample3.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ComparatorExample3</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Student&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Bob"</span>, <span class="number">22</span>, <span class="number">9.0</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Charlie"</span>, <span class="number">19</span>, <span class="number">7.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo tên - lambda</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(students, (s1, s2) -> s1.getName().compareTo(s2.getName()));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo tên (lambda): "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo tuổi - lambda</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(students, (s1, s2) -> s1.getAge() - s2.getAge());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo tuổi (lambda): "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo GPA giảm dần - lambda</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(students, (s1, s2) -> Double.compare(s2.getGpa(), s1.getGpa()));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo GPA giảm (lambda): "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>3.3.4 Cách 4: Dùng Comparator.comparing() (Java 8+)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ComparatorExample4.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.Comparator;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">ComparatorExample4</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Student&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Bob"</span>, <span class="number">22</span>, <span class="number">9.0</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Charlie"</span>, <span class="number">19</span>, <span class="number">7.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo tên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.sort(Comparator.comparing(Student::getName));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo tên: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo tuổi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.sort(Comparator.comparingInt(Student::getAge));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo tuổi: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo GPA</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.sort(Comparator.comparingDouble(Student::getGpa));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo GPA tăng: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp theo GPA giảm dần</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.sort(Comparator.comparingDouble(Student::getGpa).reversed());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo GPA giảm: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>3.4 SO SÁNH COMPARABLE VÀ COMPARATOR</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tiêu chí</th>
+                                    <th>Comparable</th>
+                                    <th>Comparator</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Package</strong></td>
+                                    <td>java.lang</td>
+                                    <td>java.util</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phương thức</strong></td>
+                                    <td>compareTo(T o)</td>
+                                    <td>compare(T o1, T o2)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Số lượng</strong></td>
+                                    <td>Một cách so sánh duy nhất</td>
+                                    <td>Nhiều cách so sánh khác nhau</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Vị trí định nghĩa</strong></td>
+                                    <td>Trong lớp cần so sánh</td>
+                                    <td>Bên ngoài lớp cần so sánh</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Thay đổi lớp gốc</strong></td>
+                                    <td>Phải sửa lớp</td>
+                                    <td>Không cần sửa lớp</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lambda support</strong></td>
+                                    <td>Không</td>
+                                    <td>Có (từ Java 8)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ví dụ</strong></td>
+                                    <td>class Student implements Comparable</td>
+                                    <td>new Comparator&lt;Student&gt;() {...}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- PHẦN 4: CÁC PHƯƠNG THỨC CỦA COMPARATOR (JAVA 8+) -->
+                <section id="part4" class="section">
+                    <h2><i class="fas fa-plus-circle"></i> PHẦN 4: CÁC PHƯƠNG THỨC CỦA COMPARATOR (JAVA 8+)</h2>
+
+                    <h3>4.1 TỔNG QUAN</h3>
+                    
+                    <div class="info-box">
+                        <p>Java 8 bổ sung nhiều phương thức tiện ích cho Comparator, cho phép:</p>
+                        <ul>
+                            <li>Tạo Comparator dễ dàng hơn</li>
+                            <li>Kết hợp nhiều Comparator</li>
+                            <li>Đảo ngược thứ tự</li>
+                            <li>Xử lý null</li>
+                        </ul>
+                    </div>
+
+                    <h3>4.2 PHƯƠNG THỨC comparing()</h3>
+
+                    <h4>4.2.1 comparing(Function keyExtractor)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">static</span> &lt;T,U extends Comparable&lt;? <span class="keyword">super</span> U&gt;&gt; Comparator&lt;T&gt; comparing(Function&lt;? <span class="keyword">super</span> T,? extends U&gt; keyExtractor)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Tạo Comparator dựa trên một key được trích xuất từ đối tượng<br>Key phải implement Comparable</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        List&lt;Student&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// So sánh theo tên</span><br>
+                        Comparator&lt;Student&gt; nameComp = Comparator.comparing(Student::getName);<br>
+                        students.sort(nameComp);<br>
+                        <br>
+                        <span class="comment">// So sánh theo tuổi</span><br>
+                        students.sort(Comparator.comparing(Student::getAge));<br>
+                        <br>
+                        <span class="comment">// So sánh theo GPA</span><br>
+                        students.sort(Comparator.comparing(Student::getGpa));
+                    </div>
+
+                    <h4>4.2.2 comparing(Function keyExtractor, Comparator keyComparator)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">static</span> &lt;T,U&gt; Comparator&lt;T&gt; comparing(Function&lt;? <span class="keyword">super</span> T,? extends U&gt; keyExtractor, Comparator&lt;? <span class="keyword">super</span> U&gt; keyComparator)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Tạo Comparator dựa trên key, với Comparator riêng cho key</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// So sánh theo tên nhưng không phân biệt hoa thường</span><br>
+                        students.sort(Comparator.comparing(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Student::getName,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;String.CASE_INSENSITIVE_ORDER<br>
+                        ));<br>
+                        <br>
+                        <span class="comment">// So sánh theo độ dài tên</span><br>
+                        students.sort(Comparator.comparing(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;s -> s.getName().length(),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Comparator.naturalOrder()<br>
+                        ));
+                    </div>
+
+                    <h3>4.3 PHƯƠNG THỨC thenComparing()</h3>
+
+                    <h4>4.3.1 thenComparing(Comparator other)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">default</span> Comparator&lt;T&gt; thenComparing(Comparator&lt;? <span class="keyword">super</span> T&gt; other)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Kết hợp Comparator hiện tại với Comparator khác<br>Dùng khi cần so sánh theo nhiều tiêu chí</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// So sánh theo GPA giảm dần, sau đó theo tuổi tăng dần</span><br>
+                        Comparator&lt;Student&gt; multiComp = Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;.comparingDouble(Student::getGpa).reversed()<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;.thenComparingInt(Student::getAge);<br>
+                        <br>
+                        students.sort(multiComp);<br>
+                        <br>
+                        <span class="comment">// So sánh theo tuổi, sau đó theo tên</span><br>
+                        students.sort(Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;.comparingInt(Student::getAge)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Student::getName)<br>
+                        );
+                    </div>
+
+                    <h4>4.3.2 thenComparing(Function keyExtractor)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">default</span> &lt;U extends Comparable&lt;? <span class="keyword">super</span> U&gt;&gt; Comparator&lt;T&gt; thenComparing(Function&lt;? <span class="keyword">super</span> T,? extends U&gt; keyExtractor)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Kết hợp với key mới sau Comparator hiện tại</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// So sánh theo tuổi, sau đó theo tên</span><br>
+                        students.sort(Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;.comparingInt(Student::getAge)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Student::getName)<br>
+                        );<br>
+                        <br>
+                        <span class="comment">// So sánh theo GPA, sau đó theo tuổi, sau đó theo tên</span><br>
+                        students.sort(Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;.comparingDouble(Student::getGpa).reversed()<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;.thenComparingInt(Student::getAge)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Student::getName)<br>
+                        );
+                    </div>
+
+                    <h3>4.4 PHƯƠNG THỨC reversed()</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">default</span> Comparator&lt;T&gt; reversed()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Comparator đảo ngược thứ tự</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// So sánh theo tên giảm dần</span><br>
+                        students.sort(Comparator.comparing(Student::getName).reversed());<br>
+                        <br>
+                        <span class="comment">// So sánh theo tuổi giảm dần</span><br>
+                        students.sort(Comparator.comparingInt(Student::getAge).reversed());<br>
+                        <br>
+                        <span class="comment">// Kết hợp với thenComparing</span><br>
+                        students.sort(Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;.comparingDouble(Student::getGpa).reversed()<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Student::getName)<br>
+                        );
+                    </div>
+
+                    <h3>4.5 PHƯƠNG THỨC nullsFirst() và nullsLast()</h3>
+
+                    <h4>4.5.1 nullsFirst(Comparator comparator)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">static</span> &lt;T&gt; Comparator&lt;T&gt; nullsFirst(Comparator&lt;? <span class="keyword">super</span> T&gt; comparator)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Xử lý null: đưa các giá trị null lên đầu</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        List&lt;String&gt; names = <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(<span class="string">"Alice"</span>, <span class="keyword">null</span>, <span class="string">"Bob"</span>, <span class="keyword">null</span>, <span class="string">"Charlie"</span>));<br>
+                        <br>
+                        <span class="comment">// Sắp xếp, null lên đầu</span><br>
+                        names.sort(Comparator.nullsFirst(Comparator.naturalOrder()));<br>
+                        System.out.println(names); <span class="comment">// [null, null, Alice, Bob, Charlie]</span>
+                    </div>
+
+                    <h4>4.5.2 nullsLast(Comparator comparator)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">static</span> &lt;T&gt; Comparator&lt;T&gt; nullsLast(Comparator&lt;? <span class="keyword">super</span> T&gt; comparator)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Xử lý null: đưa các giá trị null xuống cuối</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        List&lt;String&gt; names = <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(<span class="string">"Alice"</span>, <span class="keyword">null</span>, <span class="string">"Bob"</span>, <span class="keyword">null</span>, <span class="string">"Charlie"</span>));<br>
+                        <br>
+                        <span class="comment">// Sắp xếp, null xuống cuối</span><br>
+                        names.sort(Comparator.nullsLast(Comparator.naturalOrder()));<br>
+                        System.out.println(names); <span class="comment">// [Alice, Bob, Charlie, null, null]</span>
+                    </div>
+
+                    <h3>4.6 PHƯƠNG THỨC naturalOrder() và reverseOrder()</h3>
+
+                    <h4>4.6.1 naturalOrder()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">static</span> &lt;T extends Comparable&lt;? <span class="keyword">super</span> T&gt;&gt; Comparator&lt;T&gt; naturalOrder()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Comparator sử dụng thứ tự tự nhiên</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">9</span>);<br>
+                        numbers.sort(Comparator.naturalOrder());<br>
+                        System.out.println(numbers); <span class="comment">// [1, 2, 5, 8, 9]</span><br>
+                        <br>
+                        List&lt;String&gt; names = Arrays.asList(<span class="string">"John"</span>, <span class="string">"Alice"</span>, <span class="string">"Bob"</span>);<br>
+                        names.sort(Comparator.naturalOrder());<br>
+                        System.out.println(names); <span class="comment">// [Alice, Bob, John]</span>
+                    </div>
+
+                    <h4>4.6.2 reverseOrder()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">static</span> &lt;T extends Comparable&lt;? <span class="keyword">super</span> T&gt;&gt; Comparator&lt;T&gt; reverseOrder()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Comparator đảo ngược thứ tự tự nhiên</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        List&lt;Integer&gt; numbers = Arrays.asList(<span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">9</span>);<br>
+                        numbers.sort(Comparator.reverseOrder());<br>
+                        System.out.println(numbers); <span class="comment">// [9, 8, 5, 2, 1]</span><br>
+                        <br>
+                        List&lt;String&gt; names = Arrays.asList(<span class="string">"John"</span>, <span class="string">"Alice"</span>, <span class="string">"Bob"</span>);<br>
+                        names.sort(Comparator.reverseOrder());<br>
+                        System.out.println(names); <span class="comment">// [John, Bob, Alice]</span>
+                    </div>
+
+                    <h3>4.7 PHƯƠNG THỨC CHO KIỂU NGUYÊN THỦY</h3>
+
+                    <h4>4.7.1 comparingInt(), comparingLong(), comparingDouble()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">static</span> &lt;T&gt; Comparator&lt;T&gt; comparingInt(ToIntFunction&lt;? <span class="keyword">super</span> T&gt; keyExtractor)<br>
+                        <span class="keyword">static</span> &lt;T&gt; Comparator&lt;T&gt; comparingLong(ToLongFunction&lt;? <span class="keyword">super</span> T&gt; keyExtractor)<br>
+                        <span class="keyword">static</span> &lt;T&gt; Comparator&lt;T&gt; comparingDouble(ToDoubleFunction&lt;? <span class="keyword">super</span> T&gt; keyExtractor)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Tạo Comparator cho các kiểu số nguyên thủy (tránh auto-boxing)</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// comparingInt cho int</span><br>
+                        students.sort(Comparator.comparingInt(Student::getAge));<br>
+                        <br>
+                        <span class="comment">// comparingDouble cho double</span><br>
+                        students.sort(Comparator.comparingDouble(Student::getGpa));<br>
+                        <br>
+                        <span class="comment">// comparingLong cho long</span><br>
+                        students.sort(Comparator.comparingLong(s -> s.getId()));
+                    </div>
+
+                    <h3>4.8 VÍ DỤ TỔNG HỢP COMPARATOR METHODS</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ComparatorMethodsExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ComparatorMethodsExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Student&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Bob"</span>, <span class="number">22</span>, <span class="number">9.0</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Charlie"</span>, <span class="number">19</span>, <span class="number">7.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"David"</span>, <span class="number">21</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Eve"</span>, <span class="number">20</span>, <span class="number">9.0</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">null</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. So sánh đơn giản</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.stream()<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.filter(s -> s != <span class="keyword">null</span>)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.sorted(Comparator.comparing(Student::getName))<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.forEach(s -> System.out.print(s.getName() + <span class="string">" "</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. So sánh nhiều tiêu chí</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.stream()<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.filter(s -> s != <span class="keyword">null</span>)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.sorted(Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.comparingDouble(Student::getGpa).reversed()<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparingInt(Student::getAge)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Student::getName))<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.forEach(s -> System.out.println(s));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Xử lý null</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.sort(Comparator.nullsLast(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Comparator.comparing(Student::getName)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Nulls last: "</span> + students);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Kết hợp nhiều Comparator</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Comparator&lt;Student&gt; complex = Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.nullsFirst(Comparator.comparingInt(Student::getAge))<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Student::getName)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparingDouble(Student::getGpa).reversed();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.sort(complex);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 5: SORTING (SẮP XẾP) -->
+                <section id="part5" class="section">
+                    <h2><i class="fas fa-sort"></i> PHẦN 5: SORTING (SẮP XẾP)</h2>
+
+                    <h3>5.1 SẮP XẾP VỚI COLLECTIONS</h3>
+
+                    <h4>5.1.1 Collections.sort(List list)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Collections.sort(List&lt;T&gt; list)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Sắp xếp List theo thứ tự tự nhiên (các phần tử phải implement Comparable)</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        List&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(<span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">9</span>, <span class="number">3</span>));<br>
+                        Collections.sort(numbers);<br>
+                        System.out.println(numbers); <span class="comment">// [1, 2, 3, 5, 8, 9]</span><br>
+                        <br>
+                        List&lt;String&gt; names = <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(<span class="string">"John"</span>, <span class="string">"Alice"</span>, <span class="string">"Bob"</span>));<br>
+                        Collections.sort(names);<br>
+                        System.out.println(names); <span class="comment">// [Alice, Bob, John]</span>
+                    </div>
+
+                    <h4>5.1.2 Collections.sort(List list, Comparator c)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Collections.sort(List&lt;T&gt; list, Comparator&lt;? <span class="keyword">super</span> T&gt; c)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Sắp xếp List với Comparator tùy chỉnh</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        List&lt;Student&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        students.add(<span class="keyword">new</span> Student(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="number">8.5</span>));<br>
+                        students.add(<span class="keyword">new</span> Student(<span class="string">"Bob"</span>, <span class="number">22</span>, <span class="number">9.0</span>));<br>
+                        students.add(<span class="keyword">new</span> Student(<span class="string">"Charlie"</span>, <span class="number">19</span>, <span class="number">7.5</span>));<br>
+                        <br>
+                        <span class="comment">// Sắp xếp theo tên</span><br>
+                        Collections.sort(students, Comparator.comparing(Student::getName));<br>
+                        <br>
+                        <span class="comment">// Sắp xếp theo tuổi giảm dần</span><br>
+                        Collections.sort(students, Comparator.comparingInt(Student::getAge).reversed());
+                    </div>
+
+                    <h3>5.2 SẮP XẾP VỚI LIST (JAVA 8+)</h3>
+
+                    <h4>5.2.1 List.sort(Comparator c)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">default void</span> sort(Comparator&lt;? <span class="keyword">super</span> E&gt; c)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Phương thức mặc định của List từ Java 8<br>Sắp xếp List với Comparator</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        List&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(<span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">9</span>));<br>
+                        numbers.sort(Comparator.naturalOrder());<br>
+                        System.out.println(numbers); <span class="comment">// [1, 2, 5, 8, 9]</span><br>
+                        <br>
+                        numbers.sort(Comparator.reverseOrder());<br>
+                        System.out.println(numbers); <span class="comment">// [9, 8, 5, 2, 1]</span><br>
+                        <br>
+                        List&lt;Student&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        students.sort(Comparator.comparing(Student::getAge));<br>
+                        students.sort(Comparator.comparingDouble(Student::getGpa).reversed());
+                    </div>
+
+                    <h3>5.3 SẮP XẾP VỚI ARRAYS</h3>
+
+                    <h4>5.3.1 Arrays.sort(Object[] a)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Arrays.sort(Object[] a)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Sắp xếp mảng theo thứ tự tự nhiên</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">int</span>[] numbers = {<span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">9</span>, <span class="number">3</span>};<br>
+                        Arrays.sort(numbers);<br>
+                        System.out.println(Arrays.toString(numbers)); <span class="comment">// [1, 2, 3, 5, 8, 9]</span><br>
+                        <br>
+                        String[] names = {<span class="string">"John"</span>, <span class="string">"Alice"</span>, <span class="string">"Bob"</span>};<br>
+                        Arrays.sort(names);<br>
+                        System.out.println(Arrays.toString(names)); <span class="comment">// [Alice, Bob, John]</span>
+                    </div>
+
+                    <h4>5.3.2 Arrays.sort(T[] a, Comparator c)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Arrays.sort(T[] a, Comparator&lt;? <span class="keyword">super</span> T&gt; c)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Sắp xếp mảng với Comparator tùy chỉnh</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Student[] students = {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">new</span> Student(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="number">8.5</span>),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">new</span> Student(<span class="string">"Bob"</span>, <span class="number">22</span>, <span class="number">9.0</span>),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">new</span> Student(<span class="string">"Charlie"</span>, <span class="number">19</span>, <span class="number">7.5</span>)<br>
+                        };<br>
+                        <br>
+                        Arrays.sort(students, Comparator.comparing(Student::getAge));<br>
+                        System.out.println(Arrays.toString(students));
+                    </div>
+
+                    <h4>5.3.3 Arrays.parallelSort()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Arrays.parallelSort(T[] a)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Sắp xếp song song, nhanh hơn với mảng lớn</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">int</span>[] largeArray = <span class="keyword">new int</span>[<span class="number">1000000</span>];<br>
+                        <span class="comment">// ... fill array</span><br>
+                        Arrays.parallelSort(largeArray); <span class="comment">// Sử dụng đa luồng</span>
+                    </div>
+
+                    <h3>5.4 VÍ DỤ TỔNG HỢP SORTING</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> SortingExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">SortingExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Sắp xếp List&lt;Integer&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Integer&gt; numbers = <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(<span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">9</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">6</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbers.sort(Comparator.naturalOrder());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tăng dần: "</span> + numbers);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbers.sort(Comparator.reverseOrder());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Giảm dần: "</span> + numbers);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Sắp xếp List&lt;String&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;String&gt; words = <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"apple"</span>, <span class="string">"Banana"</span>, <span class="string">"cherry"</span>, <span class="string">"Date"</span>, <span class="string">"elderberry"</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;words.sort(Comparator.naturalOrder());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tự nhiên: "</span> + words);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;words.sort(String.CASE_INSENSITIVE_ORDER);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Không phân biệt hoa thường: "</span> + words);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;words.sort(Comparator.comparingInt(String::length));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo độ dài: "</span> + words);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Sắp xếp List&lt;Student&gt; với nhiều tiêu chí</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Student&gt; students = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Alice"</span>, <span class="number">20</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Bob"</span>, <span class="number">22</span>, <span class="number">9.0</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Charlie"</span>, <span class="number">19</span>, <span class="number">7.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"David"</span>, <span class="number">21</span>, <span class="number">8.5</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Eve"</span>, <span class="number">20</span>, <span class="number">9.0</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Theo GPA giảm dần, sau đó tuổi tăng dần</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.sort(Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.comparingDouble(Student::getGpa).reversed()<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparingInt(Student::getAge)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Student::getName)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nSinh viên sắp xếp:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.forEach(System.out::println);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Sắp xếp mảng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span>[] arr = {<span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">9</span>, <span class="number">3</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arrays.sort(arr);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nMảng sau sort: "</span> + Arrays.toString(arr));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 5. Sắp xếp một phần</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span>[] partial = {<span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">9</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">4</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arrays.sort(partial, <span class="number">2</span>, <span class="number">6</span>); <span class="comment">// Chỉ sort từ index 2 đến 5</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sort một phần: "</span> + Arrays.toString(partial));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 6: BÀI TẬP THỰC HÀNH -->
+                <section id="part6" class="section">
+                    <h2><i class="fas fa-tasks"></i> PHẦN 6: BÀI TẬP THỰC HÀNH</h2>
+
+                    <h3>Bài 1: Sắp xếp sản phẩm theo giá</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Product.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">Product</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> id;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> price;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> Product(<span class="keyword">int</span> id, String name, <span class="keyword">double</span> price) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.id = id;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.name = name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.price = price;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> getId() { <span class="keyword">return</span> id; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getName() { <span class="keyword">return</span> name; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> getPrice() { <span class="keyword">return</span> price; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String toString() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> String.format(<span class="string">"%d: %s (%.2f)"</span>, id, name, price);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ProductSorting.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ProductSorting</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Product&gt; products = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.add(<span class="keyword">new</span> Product(<span class="number">101</span>, <span class="string">"iPhone 14"</span>, <span class="number">999.99</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.add(<span class="keyword">new</span> Product(<span class="number">102</span>, <span class="string">"Samsung S23"</span>, <span class="number">899.99</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.add(<span class="keyword">new</span> Product(<span class="number">103</span>, <span class="string">"MacBook Pro"</span>, <span class="number">1999.99</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.add(<span class="keyword">new</span> Product(<span class="number">104</span>, <span class="string">"Dell XPS"</span>, <span class="number">1499.99</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.add(<span class="keyword">new</span> Product(<span class="number">105</span>, <span class="string">"iPad Air"</span>, <span class="number">599.99</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Sắp xếp theo giá tăng dần</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.sort(Comparator.comparingDouble(Product::getPrice));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo giá tăng:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.forEach(System.out::println);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Sắp xếp theo giá giảm dần</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.sort(Comparator.comparingDouble(Product::getPrice).reversed());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nTheo giá giảm:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.forEach(System.out::println);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Sắp xếp theo tên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.sort(Comparator.comparing(Product::getName));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nTheo tên A-Z:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.forEach(System.out::println);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Sắp xếp theo giá, nếu bằng thì theo tên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.sort(Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.comparingDouble(Product::getPrice)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Product::getName)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nTheo giá, sau đó tên:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;products.forEach(System.out::println);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>Bài 2: Quản lý nhân viên</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Employee.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">Employee</span> <span class="keyword">implements</span> Comparable&lt;Employee&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> id;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> salary;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String department;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> Employee(<span class="keyword">int</span> id, String name, <span class="keyword">double</span> salary, String department) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.id = id;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.name = name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.salary = salary;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.department = department;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Getters</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> getId() { <span class="keyword">return</span> id; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getName() { <span class="keyword">return</span> name; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> getSalary() { <span class="keyword">return</span> salary; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getDepartment() { <span class="keyword">return</span> department; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> compareTo(Employee other) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thứ tự tự nhiên: theo lương giảm dần</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> Double.compare(other.salary, <span class="keyword">this</span>.salary);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String toString() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> String.format(<span class="string">"%s (%s): %.2f"</span>, name, department, salary);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> EmployeeManagement.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">EmployeeManagement</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Employee&gt; employees = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;employees.add(<span class="keyword">new</span> Employee(<span class="number">1</span>, <span class="string">"John"</span>, <span class="number">5000</span>, <span class="string">"IT"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;employees.add(<span class="keyword">new</span> Employee(<span class="number">2</span>, <span class="string">"Alice"</span>, <span class="number">6000</span>, <span class="string">"HR"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;employees.add(<span class="keyword">new</span> Employee(<span class="number">3</span>, <span class="string">"Bob"</span>, <span class="number">4500</span>, <span class="string">"IT"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;employees.add(<span class="keyword">new</span> Employee(<span class="number">4</span>, <span class="string">"David"</span>, <span class="number">5500</span>, <span class="string">"Finance"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;employees.add(<span class="keyword">new</span> Employee(<span class="number">5</span>, <span class="string">"Eve"</span>, <span class="number">5000</span>, <span class="string">"HR"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Sắp xếp tự nhiên (theo lương giảm dần)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(employees);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo lương giảm (Comparable):"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;employees.forEach(System.out::println);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Sắp xếp theo tên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;employees.sort(Comparator.comparing(Employee::getName));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nTheo tên A-Z:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;employees.forEach(System.out::println);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Sắp xếp theo phòng ban, sau đó lương giảm dần</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;employees.sort(Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.comparing(Employee::getDepartment)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Employee::getSalary, Comparator.reverseOrder())<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nTheo phòng ban, sau đó lương giảm:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;employees.forEach(System.out::println);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Thống kê theo phòng ban</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Map&lt;String, List&lt;Employee&gt;&gt; byDept = employees.stream()<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.collect(Collectors.groupingBy(Employee::getDepartment));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nNhân viên theo phòng ban:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byDept.forEach((dept, list) -> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(dept + <span class="string">":"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.stream()<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.sorted(Comparator.comparingDouble(Employee::getSalary).reversed())<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.forEach(e -> System.out.println(<span class="string">"  "</span> + e));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>Bài 3: So sánh phức tạp</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Person.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">Person</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String firstName;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String lastName;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> age;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> Person(String firstName, String lastName, <span class="keyword">int</span> age) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.firstName = firstName;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.lastName = lastName;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.age = age;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getFirstName() { <span class="keyword">return</span> firstName; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getLastName() { <span class="keyword">return</span> lastName; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> getAge() { <span class="keyword">return</span> age; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getFullName() { <span class="keyword">return</span> firstName + <span class="string">" "</span> + lastName; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String toString() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> getFullName() + <span class="string">" ("</span> + age + <span class="string">")"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ComplexSorting.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ComplexSorting</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Person&gt; people = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.add(<span class="keyword">new</span> Person(<span class="string">"John"</span>, <span class="string">"Smith"</span>, <span class="number">30</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.add(<span class="keyword">new</span> Person(<span class="string">"Alice"</span>, <span class="string">"Johnson"</span>, <span class="number">25</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.add(<span class="keyword">new</span> Person(<span class="string">"Bob"</span>, <span class="string">"Smith"</span>, <span class="number">35</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.add(<span class="keyword">new</span> Person(<span class="string">"Charlie"</span>, <span class="string">"Brown"</span>, <span class="number">25</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.add(<span class="keyword">new</span> Person(<span class="string">"Alice"</span>, <span class="string">"Wonder"</span>, <span class="number">28</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Sắp xếp theo họ (last name), sau đó tên (first name)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.sort(Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.comparing(Person::getLastName)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Person::getFirstName)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Theo họ, sau đó tên:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.forEach(System.out::println);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Sắp xếp theo tuổi, sau đó theo họ</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.sort(Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.comparingInt(Person::getAge)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Person::getLastName)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Person::getFirstName)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nTheo tuổi, sau đó họ:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.forEach(System.out::println);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Sắp xếp theo độ dài tên đầy đủ</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.sort(Comparator<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.comparingInt((Person p) -> p.getFullName().length())<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.thenComparing(Person::getFullName)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nTheo độ dài tên:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.forEach(System.out::println);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Sắp xếp với nullsLast</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.add(<span class="keyword">null</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.add(<span class="keyword">new</span> Person(<span class="string">"Zack"</span>, <span class="string">"Young"</span>, <span class="number">40</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.sort(Comparator.nullsLast(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Comparator.comparing(Person::getLastName)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nNulls last:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;people.forEach(p -> System.out.println(p == <span class="keyword">null</span> ? <span class="string">"null"</span> : p));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 7: TỔNG KẾT -->
+                <section id="part7" class="section">
+                    <h2><i class="fas fa-star"></i> PHẦN 7: TỔNG KẾT</h2>
+
+                    <h3>7.1 KHI NÀO DÙNG COMPARABLE?</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tình huống</th>
+                                    <th>Nên dùng Comparable</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Có một cách sắp xếp "tự nhiên" duy nhất</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Có thể sửa lớp nguồn</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Cần sắp xếp mặc định</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Ví dụ</td>
+                                    <td>String, Integer, Date</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>7.2 KHI NÀO DÙNG COMPARATOR?</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tình huống</th>
+                                    <th>Nên dùng Comparator</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Cần nhiều cách sắp xếp khác nhau</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Không thể sửa lớp nguồn</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Cần sắp xếp tạm thời</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Cần sắp xếp theo tiêu chí phức tạp</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Ví dụ</td>
+                                    <td>Sắp xếp nhân viên theo lương, tên, phòng ban</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>7.3 SO SÁNH NHANH</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tiêu chí</th>
+                                    <th>Comparable</th>
+                                    <th>Comparator (Java 8+)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Cú pháp</strong></td>
+                                    <td>class A implements Comparable&lt;A&gt;</td>
+                                    <td>Comparator.comparing(A::getField)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phương thức</strong></td>
+                                    <td>compareTo()</td>
+                                    <td>compare() hoặc lambda</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Số lượng</strong></td>
+                                    <td>1</td>
+                                    <td>Nhiều</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Vị trí</strong></td>
+                                    <td>Trong class</td>
+                                    <td>Bên ngoài</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lambda</strong></td>
+                                    <td>Không</td>
+                                    <td>Có</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Method chaining</strong></td>
+                                    <td>Không</td>
+                                    <td>Có (thenComparing())</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Xử lý null</strong></td>
+                                    <td>Thủ công</td>
+                                    <td>nullsFirst(), nullsLast()</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="comparison-box">
+                        <h4><i class="fas fa-lightbulb"></i> Tóm tắt nhanh:</h4>
+                        <ul>
+                            <li><span class="badge badge-compare">Comparable</span> - "Thứ tự tự nhiên" - dùng khi lớp có một cách sắp xếp mặc định duy nhất</li>
+                            <li><span class="badge badge-comparator">Comparator</span> - "Thứ tự tùy chỉnh" - dùng khi cần nhiều cách sắp xếp khác nhau</li>
+                        </ul>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-star"></i> Tổng kết Comparable & Comparator</h4>
+                        <div class="demo-box">
+                            <p style="font-size: 1.3rem;"><i class="fas fa-balance-scale"></i> Comparable vs Comparator <i class="fas fa-sort-amount-down"></i></p>
+                            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap;">
+                                <span class="badge badge-compare">Comparable</span>
+                                <span class="badge badge-comparator">Comparator</span>
+                                <span class="badge badge-purple">compareTo()</span>
+                                <span class="badge badge-purple">compare()</span>
+                            </div>
+                            <p style="margin-top: 20px;"><i class="fas fa-quote-right"></i> "Comparable cho thứ tự tự nhiên, Comparator cho thứ tự linh hoạt!"</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p><i class="fas fa-balance-scale"></i>GV: Nguyễn Đình Mạnh        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng với hiệu ứng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click với hiệu ứng
+                    this.classList.add('active');
+                    
+                    // Thêm hiệu ứng rung nhẹ khi click
+                    this.style.animation = 'none';
+                    this.offsetHeight; // Trigger reflow
+                    this.style.animation = 'slideInLeft 0.3s ease';
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Cuộn lên đầu section
+                    document.querySelector('.main-content').scrollTop = 0;
+                });
+            });
+        });
+
+        // Hàm copy code với hiệu ứng
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            
+            // Hiệu ứng copy
+            button.innerHTML = '<i class="fas fa-check"></i> Đã copy!';
+            button.style.background = '#27ae60';
+            
+            navigator.clipboard.writeText(text).then(() => {
+                setTimeout(() => {
+                    button.innerHTML = '<i class="far fa-copy"></i> Copy';
+                    button.style.background = '#555';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

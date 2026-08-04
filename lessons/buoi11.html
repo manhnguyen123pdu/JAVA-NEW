@@ -1,0 +1,1909 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inheritance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .nav-list {
+            list-style: none;
+            position: sticky;
+            top: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        h5 {
+            color: var(--dark);
+            margin: 15px 0 8px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.4;
+            border: 2px solid #444;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        .btn-run {
+            background: var(--success);
+        }
+
+        .btn-run:hover {
+            background: #219653;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+            }
+        }
+
+        .flowchart {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .flowchart img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .placeholder-img {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0 25%, #e0e0e0 25%, #e0e0e0 50%, #f0f0f0 50%, #f0f0f0 75%, #e0e0e0 75%);
+            background-size: 20px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+            margin: 20px 0;
+        }
+        
+        .demo-container {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .demo-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .inheritance-diagram {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid var(--info);
+        }
+        
+        .diagram-box {
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .parent-box {
+            background: #d1ecf1;
+            border: 2px solid var(--info);
+        }
+        
+        .child-box {
+            background: #d4edda;
+            border: 2px solid var(--success);
+        }
+        
+        .arrow {
+            text-align: center;
+            font-size: 24px;
+            color: var(--secondary);
+            margin: 10px 0;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .example-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-project-diagram"></i> INHERITANCE</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#intro" class="nav-link active"><i class="fas fa-home"></i> Tổng quan về kế thừa</a></li>
+                    <li class="nav-item"><a href="#concept" class="nav-link"><i class="fas fa-brain"></i> Khái niệm kế thừa</a></li>
+                    <li class="nav-item"><a href="#relationship" class="nav-link"><i class="fas fa-sitemap"></i> Quan hệ kế thừa</a></li>
+                    <li class="nav-item"><a href="#example" class="nav-link"><i class="fas fa-school"></i> Ví dụ: Quản lý trường học</a></li>
+                    <li class="nav-item"><a href="#overloading-overriding" class="nav-link"><i class="fas fa-exchange-alt"></i> Nạp chồng & Ghi đè</a></li>
+                    <li class="nav-item"><a href="#management" class="nav-link"><i class="fas fa-tasks"></i> Lớp quản lý & Ứng dụng</a></li>
+                    <li class="nav-item"><a href="#benefits" class="nav-link"><i class="fas fa-check-circle"></i> Lợi ích & Lưu ý</a></li>
+                    <li class="nav-item"><a href="#final-keyword" class="nav-link"><i class="fas fa-lock"></i> Từ khóa final</a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN TỔNG QUAN -->
+                <section id="intro" class="section active">
+                    <h2><i class="fas fa-home"></i> TỔNG QUAN VỀ TÍNH KẾ THỪA</h2>
+
+                    <h3>A. TÍNH KẾ THỪA TRONG LẬP TRÌNH HƯỚNG ĐỐI TƯỢNG</h3>
+                    <p><strong>Kế thừa (Inheritance)</strong> là một trong bốn tính chất cơ bản của lập trình hướng đối tượng (OOP), cho phép một lớp (class) có thể thừa hưởng các thuộc tính và phương thức từ một lớp khác.</p>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Bốn tính chất cơ bản của OOP:</h4>
+                        <ul>
+                            <li><strong>Tính đóng gói (Encapsulation)</strong> - Ẩn dữ liệu và chỉ hiển thị cần thiết</li>
+                            <li><strong>Tính kế thừa (Inheritance)</strong> - Tái sử dụng code từ lớp cha</li>
+                            <li><strong>Tính đa hình (Polymorphism)</strong> - Nhiều hình thái khác nhau</li>
+                            <li><strong>Tính trừu tượng (Abstraction)</strong> - Ẩn chi tiết phức tạp</li>
+                        </ul>
+                    </div>
+
+                    <div class="inheritance-diagram">
+                        <div class="demo-title">Sơ đồ kế thừa cơ bản:</div>
+                        <div class="diagram-box parent-box">
+                            <strong>Lớp Cha (Parent Class)</strong><br>
+                            ConNguoi
+                        </div>
+                        <div class="arrow">↓ kế thừa (extends)</div>
+                        <div class="example-grid">
+                            <div class="diagram-box child-box">
+                                <strong>Lớp Con 1 (Child Class)</strong><br>
+                                HocSinh
+                            </div>
+                            <div class="diagram-box child-box">
+                                <strong>Lớp Con 2 (Child Class)</strong><br>
+                                NhanVien
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Đặc điểm quan trọng của kế thừa trong Java:</h4>
+                        <ul>
+                            <li>Java chỉ hỗ trợ <strong>đơn kế thừa</strong> (mỗi lớp chỉ kế thừa từ một lớp cha)</li>
+                            <li>Sử dụng từ khóa <strong>extends</strong> để thiết lập quan hệ kế thừa</li>
+                            <li>Giúp <strong>tái sử dụng code</strong>, giảm trùng lặp</li>
+                            <li>Tất cả lớp trong Java đều kế thừa từ lớp <strong>Object</strong></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Demo nhanh về kế thừa</h4>
+                        <p>Chọn một loại đối tượng để xem cách kế thừa hoạt động:</p>
+                        <div class="input-group">
+                            <label for="demo-object">Chọn đối tượng:</label>
+                            <select id="demo-object">
+                                <option value="hocsinh">Học Sinh</option>
+                                <option value="nhanvien">Nhân Viên</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="runInheritanceDemo()">
+                            <i class="fas fa-play"></i> Chạy demo
+                        </button>
+                        <div class="result" id="demoResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="demoResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN KHÁI NIỆM KẾ THỪA -->
+                <section id="concept" class="section">
+                    <h2><i class="fas fa-brain"></i> KHÁI NIỆM KẾ THỪA</h2>
+
+                    <h3>1. Định nghĩa kế thừa</h3>
+                    <p>Kế thừa là cơ chế cho phép một lớp tiếp nhận (thừa hưởng) các thuộc tính và phương thức của một lớp khác.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp cơ bản</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        class <span class="class-name">LopCon</span> <span class="keyword">extends</span> <span class="class-name">LopCha</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Các thuộc tính và phương thức riêng của lớp con</span><br>
+                        }
+                    </div>
+
+                    <h4>1.1. Ví dụ cơ bản:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>InheritanceBasic.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Lớp cha</span><br>
+                        <span class="keyword">class</span> <span class="class-name">ConNguoi</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> hoTen;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> tuoi;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> anUong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đang ăn uống..."</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Lớp con kế thừa từ lớp cha</span><br>
+                        <span class="keyword">class</span> <span class="class-name">HocSinh</span> <span class="keyword">extends</span> <span class="class-name">ConNguoi</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> maHS;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> lop;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> hocBai() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đang học bài..."</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">InheritanceBasic</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HocSinh hs = <span class="keyword">new</span> HocSinh();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hs.hoTen = <span class="string">"Nguyễn Văn A"</span>; <span class="comment">// Thuộc tính kế thừa từ ConNguoi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hs.tuoi = 10;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hs.maHS = <span class="string">"HS001"</span>;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hs.anUong();  <span class="comment">// Phương thức kế thừa từ ConNguoi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hs.hocBai();  <span class="comment">// Phương thức riêng của HocSinh</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>1.2. Thuật ngữ quan trọng</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Thuật ngữ</th>
+                                    <th>Định nghĩa</th>
+                                    <th>Ví dụ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Lớp cha (Superclass/Parent class)</strong></td>
+                                    <td>Lớp được kế thừa, chứa các thành phần chung</td>
+                                    <td>ConNguoi</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lớp con (Subclass/Child class)</strong></td>
+                                    <td>Lớp kế thừa từ lớp cha, có thể thêm thành phần riêng</td>
+                                    <td>HocSinh, NhanVien</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>IS-A relationship</strong></td>
+                                    <td>Mối quan hệ "là một" giữa lớp con và lớp cha</td>
+                                    <td>HocSinh LÀ MỘT ConNguoi</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Từ khóa extends</strong></td>
+                                    <td>Từ khóa để thiết lập quan hệ kế thừa</td>
+                                    <td>class HocSinh extends ConNguoi</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Từ khóa super</strong></td>
+                                    <td>Tham chiếu đến đối tượng lớp cha</td>
+                                    <td>super.nhapTT(...)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="success-box">
+                        <h4><i class="fas fa-lightbulb"></i> Quan hệ IS-A trong thực tế:</h4>
+                        <ul>
+                            <li>Học sinh <strong>LÀ MỘT</strong> con người</li>
+                            <li>Nhân viên <strong>LÀ MỘT</strong> con người</li>
+                            <li>Giáo viên <strong>LÀ MỘT</strong> nhân viên</li>
+                            <li>Ô tô <strong>LÀ MỘT</strong> phương tiện giao thông</li>
+                            <li>Chó <strong>LÀ MỘT</strong> động vật</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- PHẦN CƠ SỞ HÌNH THÀNH QUAN HỆ KẾ THỪA -->
+                <section id="relationship" class="section">
+                    <h2><i class="fas fa-sitemap"></i> CƠ SỞ HÌNH THÀNH QUAN HỆ KẾ THỪA</h2>
+
+                    <h3>B. NGUYÊN TẮC XÁC ĐỊNH KẾ THỪA</h3>
+                    <p>Khi hai hay nhiều đối tượng có chung đặc điểm và hành vi, ta tạo ra một lớp cha chứa các thành phần chung này.</p>
+
+                    <h4>Quy trình phân tích để xác định kế thừa:</h4>
+                    <ol>
+                        <li><strong>Xác định các đối tượng</strong> trong hệ thống</li>
+                        <li><strong>Tìm điểm chung</strong> về thuộc tính và phương thức giữa các đối tượng</li>
+                        <li><strong>Trừu tượng hóa</strong> thành lớp cha chứa các thành phần chung</li>
+                        <li><strong>Thiết lập quan hệ kế thừa</strong> giữa lớp cha và các lớp con</li>
+                        <li><strong>Bổ sung thành phần riêng</strong> cho từng lớp con</li>
+                    </ol>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Ví dụ phân tích đối tượng:</h4>
+                        <p>Trong hệ thống quản lý trường học:</p>
+                        <ul>
+                            <li><strong>Điểm chung</strong> (đưa vào lớp ConNguoi):
+                                <ul>
+                                    <li>Họ tên, tuổi, giới tính, địa chỉ</li>
+                                    <li>Phương thức: ăn uống, di chuyển</li>
+                                </ul>
+                            </li>
+                            <li><strong>Điểm riêng của Học sinh</strong>:
+                                <ul>
+                                    <li>Mã HS, lớp, điểm toán, điểm văn, điểm anh</li>
+                                    <li>Phương thức: học bài, tính điểm trung bình</li>
+                                </ul>
+                            </li>
+                            <li><strong>Điểm riêng của Nhân viên</strong>:
+                                <ul>
+                                    <li>Mã NV, chức vụ, lương</li>
+                                    <li>Phương thức: làm việc, viết báo cáo</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm xác định kế thừa</h4>
+                        <p>Chọn cặp đối tượng để phân tích điểm chung:</p>
+                        <div class="input-group">
+                            <label for="object-pair">Chọn cặp đối tượng:</label>
+                            <select id="object-pair">
+                                <option value="hocsinh-giaovien">Học Sinh - Giáo Viên</option>
+                                <option value="hocsinh-nhanvien">Học Sinh - Nhân Viên</option>
+                                <option value="giaovien-nhanvien">Giáo Viên - Nhân Viên</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="analyzeInheritance()">
+                            <i class="fas fa-search"></i> Phân tích
+                        </button>
+                        <div class="result" id="analysisResult">
+                            <strong>Kết quả phân tích:</strong>
+                            <div class="result-content" id="analysisResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN VÍ DỤ THỰC TẾ -->
+                <section id="example" class="section">
+                    <h2><i class="fas fa-school"></i> VÍ DỤ THỰC TẾ: QUẢN LÝ TRƯỜNG TIỂU HỌC</h2>
+
+                    <h3>C. BÀI TOÁN ĐẶT RA</h3>
+                    <p>Quản lý thông tin học sinh, nhân viên và quản lý trong trường học.</p>
+
+                    <h4>3.1. Phân tích đối tượng</h4>
+                    
+                    <div class="example-grid">
+                        <div class="demo-container">
+                            <div class="demo-title">Đối tượng Học Sinh:</div>
+                            <p><strong>Thuộc tính:</strong></p>
+                            <ul>
+                                <li>Mã HS, Lớp, Điểm Toán, Điểm Văn, Điểm Anh</li>
+                                <li><em>(Kế thừa từ ConNguoi):</em> Họ tên, Tuổi, Giới tính, Địa chỉ</li>
+                            </ul>
+                            <p><strong>Phương thức:</strong></p>
+                            <ul>
+                                <li>Học bài, Tính điểm trung bình</li>
+                                <li><em>(Kế thừa từ ConNguoi):</em> Ăn uống, Di chuyển</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="demo-container">
+                            <div class="demo-title">Đối tượng Nhân Viên:</div>
+                            <p><strong>Thuộc tính:</strong></p>
+                            <ul>
+                                <li>Mã NV, Chức vụ, Lương</li>
+                                <li><em>(Kế thừa từ ConNguoi):</em> Họ tên, Tuổi, Giới tính, Địa chỉ</li>
+                            </ul>
+                            <p><strong>Phương thức:</strong></p>
+                            <ul>
+                                <li>Làm việc, Viết báo cáo</li>
+                                <li><em>(Kế thừa từ ConNguoi):</em> Ăn uống, Di chuyển</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h4>3.2. Xác định lớp cha ConNguoi</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ConNguoi.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Lớp cha ConNguoi chứa các thuộc tính và phương thức chung</span><br>
+                        <span class="keyword">class</span> <span class="class-name">ConNguoi</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thuộc tính</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> hoTen;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> tuoi;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> gioiTinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> diaChi;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phương thức</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> nhapTT(<span class="keyword">String</span> hoTen, <span class="keyword">String</span> gioiTinh, <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> diaChi, <span class="keyword">int</span> tuoi) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.hoTen = hoTen;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.gioiTinh = gioiTinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.diaChi = diaChi;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.tuoi = tuoi;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> anUong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đang ăn uống..."</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> diChuyen() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đang di chuyển..."</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> inTT() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Họ tên: "</span> + hoTen);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tuổi: "</span> + tuoi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Giới tính: "</span> + gioiTinh);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Địa chỉ: "</span> + diaChi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>3.3. Triển khai lớp con HocSinh</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>HocSinh.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">HocSinh</span> <span class="keyword">extends</span> <span class="class-name">ConNguoi</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thuộc tính riêng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> maHS;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> lop;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> diemToan;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> diemVan;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> diemAnh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Nạp chồng phương thức nhapTT</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> nhapTT(<span class="keyword">String</span> hoTen, <span class="keyword">String</span> gioiTinh, <span class="keyword">String</span> diaChi, <span class="keyword">int</span> tuoi,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> maHS, <span class="keyword">String</span> lop, <span class="keyword">int</span> diemToan, <span class="keyword">int</span> diemVan, <span class="keyword">int</span> diemAnh) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Gọi phương thức của lớp cha</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.nhapTT(hoTen, gioiTinh, diaChi, tuoi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Nhập thông tin riêng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.maHS = maHS;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.lop = lop;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.diemToan = diemToan;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.diemVan = diemVan;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.diemAnh = diemAnh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ghi đè phương thức inTT</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> inTT() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Gọi phương thức inTT của lớp cha</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.inTT();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// In thông tin riêng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Mã HS: "</span> + maHS);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lớp: "</span> + lop);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Điểm Toán: "</span> + diemToan);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Điểm Văn: "</span> + diemVan);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Điểm Anh: "</span> + diemAnh);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Điểm TB: "</span> + tinhDiemTB());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phương thức riêng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> hocBai() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đang học bài..."</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span> tinhDiemTB() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> (diemToan + diemVan + diemAnh) / 3.0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>3.4. Triển khai lớp con NhanVien</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>NhanVien.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">NhanVien</span> <span class="keyword">extends</span> <span class="class-name">ConNguoi</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thuộc tính riêng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> maNV;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> chucVu;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> luong;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Nạp chồng phương thức nhapTT</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> nhapTT(<span class="keyword">String</span> hoTen, <span class="keyword">String</span> gioiTinh, <span class="keyword">String</span> diaChi, <span class="keyword">int</span> tuoi,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> maNV, <span class="keyword">String</span> chucVu, <span class="keyword">int</span> luong) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.nhapTT(hoTen, gioiTinh, diaChi, tuoi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.maNV = maNV;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.chucVu = chucVu;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.luong = luong;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ghi đè phương thức inTT</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> inTT() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.inTT();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Mã NV: "</span> + maNV);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chức vụ: "</span> + chucVu);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lương: "</span> + luong);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phương thức riêng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> lamViec() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đang làm việc..."</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> vietBaoCao() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đang viết báo cáo..."</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm lớp HocSinh và NhanVien</h4>
+                        <div class="input-group">
+                            <label for="example-type">Chọn đối tượng để tạo:</label>
+                            <select id="example-type">
+                                <option value="hocsinh">Học Sinh</option>
+                                <option value="nhanvien">Nhân Viên</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="testExample()">
+                            <i class="fas fa-play"></i> Tạo đối tượng
+                        </button>
+                        <div class="result" id="exampleResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="exampleResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN NẠP CHỒNG & GHI ĐÈ -->
+                <section id="overloading-overriding" class="section">
+                    <h2><i class="fas fa-exchange-alt"></i> NẠP CHỒNG VÀ GHI ĐÈ PHƯƠNG THỨC</h2>
+
+                    <h3>D. CÁC VẤN ĐỀ KỸ THUẬT TRONG KẾ THỪA</h3>
+
+                    <h4>4. Nạp chồng phương thức (Overloading)</h4>
+                    <p><strong>Khái niệm:</strong> Là việc tạo nhiều phương thức cùng tên nhưng khác tham số. Xảy ra trong cùng một lớp hoặc giữa lớp cha và lớp con.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Ví dụ nạp chồng</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Trong lớp ConNguoi</span><br>
+                        <span class="keyword">void</span> nhapTT(<span class="keyword">String</span> hoTen, <span class="keyword">String</span> gioiTinh, <span class="keyword">String</span> diaChi, <span class="keyword">int</span> tuoi)<br>
+                        <br>
+                        <span class="comment">// Trong lớp HocSinh (nạp chồng)</span><br>
+                        <span class="keyword">void</span> nhapTT(<span class="keyword">String</span> hoTen, <span class="keyword">String</span> gioiTinh, <span class="keyword">String</span> diaChi, <span class="keyword">int</span> tuoi,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> maHS, <span class="keyword">String</span> lop, <span class="keyword">int</span> diemToan, <span class="keyword">int</span> diemVan, <span class="keyword">int</span> diemAnh)
+                    </div>
+
+                    <h4>5. Ghi đè phương thức (Overriding)</h4>
+                    <p><strong>Khái niệm:</strong> Là việc lớp con cung cấp triển khai mới cho phương thức đã có ở lớp cha.</p>
+
+                    <h5>5.2. Hai hình thức ghi đè:</h5>
+                    <div class="example-grid">
+                        <div class="demo-container">
+                            <div class="demo-title">a) Ghi đè hoàn toàn:</div>
+                            <div class="code-block" style="margin: 10px 0; font-size: 0.9rem;">
+                                <span class="keyword">@Override</span><br>
+                                <span class="keyword">void</span> phuongThuc() {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Triển khai hoàn toàn mới</span><br>
+                                }
+                            </div>
+                        </div>
+                        
+                        <div class="demo-container">
+                            <div class="demo-title">b) Ghi đè không hoàn toàn:</div>
+                            <div class="code-block" style="margin: 10px 0; font-size: 0.9rem;">
+                                <span class="keyword">@Override</span><br>
+                                <span class="keyword">void</span> inTT() {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.inTT();  <span class="comment">// Gọi phương thức của lớp cha</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Bổ sung thêm xử lý</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thông tin bổ sung..."</span>);<br>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4>5.3. So sánh Overloading vs Overriding:</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tiêu chí</th>
+                                    <th>Overloading</th>
+                                    <th>Overriding</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Quan hệ</strong></td>
+                                    <td>Cùng lớp hoặc cha-con</td>
+                                    <td>Chỉ giữa lớp cha và con</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tham số</strong></td>
+                                    <td>Phải khác nhau</td>
+                                    <td>Phải giống nhau</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Kiểu trả về</strong></td>
+                                    <td>Có thể khác nhau</td>
+                                    <td>Phải giống nhau</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Từ khóa</strong></td>
+                                    <td>Không cần</td>
+                                    <td>@Override (khuyến khích)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Mục đích</strong></td>
+                                    <td>Xử lý các tình huống với đầu vào khác nhau</td>
+                                    <td>Cung cấp triển khai mới cho phương thức kế thừa</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm Overloading và Overriding</h4>
+                        <div class="input-group">
+                            <label for="oo-type">Chọn loại để xem ví dụ:</label>
+                            <select id="oo-type">
+                                <option value="overloading">Overloading (Nạp chồng)</option>
+                                <option value="overriding">Overriding (Ghi đè)</option>
+                                <option value="both">Cả hai</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="testOverloadingOverriding()">
+                            <i class="fas fa-play"></i> Chạy ví dụ
+                        </button>
+                        <div class="result" id="ooResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="ooResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN LỚP QUẢN LÝ & ỨNG DỤNG -->
+                <section id="management" class="section">
+                    <h2><i class="fas fa-tasks"></i> LỚP QUẢN LÝ VÀ ỨNG DỤNG</h2>
+
+                    <h3>E. LỚP QUẢN LÝ QUANLY</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>QuanLy.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">QuanLy</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng mảng thay cho ArrayList</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> NhanVien[] dsNhanVien = <span class="keyword">new</span> NhanVien[100];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> HocSinh[] dsHocSinh = <span class="keyword">new</span> HocSinh[100];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Biến đếm số lượng thực tế</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> <span class="keyword">int</span> soNV = 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> <span class="keyword">int</span> soHS = 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm nhân viên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> themNhanVien(NhanVien nv) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (soNV &lt; 100) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dsNhanVien[soNV] = nv;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;soNV++;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã thêm nhân viên: "</span> + nv.hoTen);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Danh sách nhân viên đã đầy!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm học sinh</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> themHocSinh(HocSinh hs) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (soHS &lt; 100) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dsHocSinh[soHS] = hs;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;soHS++;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã thêm học sinh: "</span> + hs.hoTen);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Danh sách học sinh đã đầy!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tìm kiếm nhân viên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;NhanVien timKiemNhanVien(<span class="keyword">String</span> maNV) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; soNV; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (dsNhanVien[i].maNV.equals(maNV)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> dsNhanVien[i];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tìm kiếm học sinh</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;HocSinh timKiemHocSinh(<span class="keyword">String</span> maHS) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; soHS; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (dsHocSinh[i].maHS.equals(maHS)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> dsHocSinh[i];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Hiển thị danh sách nhân viên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> hienThiDSNV() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"=== DANH SÁCH NHÂN VIÊN ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; soNV; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dsNhanVien[i].inTT();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"-------------------"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Hiển thị danh sách học sinh</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> hienThiDSHS() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"=== DANH SÁCH HỌC SINH ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; soHS; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dsHocSinh[i].inTT();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"-------------------"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>7. Chương trình chính MAIN</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Main.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(<span class="keyword">String</span>[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo đối tượng QuanLy</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QuanLy quanLy = <span class="keyword">new</span> QuanLy();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo và thêm học sinh</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HocSinh hs1 = <span class="keyword">new</span> HocSinh();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hs1.nhapTT(<span class="string">"Nguyễn Văn A"</span>, <span class="string">"Nam"</span>, <span class="string">"Hà Nội"</span>, 10,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"HS001"</span>, <span class="string">"5A"</span>, 9, 8, 7);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quanLy.themHocSinh(hs1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo và thêm nhân viên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NhanVien nv1 = <span class="keyword">new</span> NhanVien();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nv1.nhapTT(<span class="string">"Trần Thị B"</span>, <span class="string">"Nữ"</span>, <span class="string">"Hà Nội"</span>, 35,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"NV001"</span>, <span class="string">"Giáo viên"</span>, 10000000);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quanLy.themNhanVien(nv1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Hiển thị danh sách</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quanLy.hienThiDSHS();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quanLy.hienThiDSNV();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thử nghiệm phương thức</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hs1.hocBai();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hs1.anUong();  <span class="comment">// Kế thừa từ ConNguoi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nv1.lamViec();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nv1.diChuyen();  <span class="comment">// Kế thừa từ ConNguoi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Mô phỏng chương trình quản lý</h4>
+                        <p>Chọn hành động để thực hiện:</p>
+                        <div class="input-group">
+                            <label for="management-action">Chọn hành động:</label>
+                            <select id="management-action">
+                                <option value="themhs">Thêm học sinh mới</option>
+                                <option value="themnv">Thêm nhân viên mới</option>
+                                <option value="hienthidshs">Hiển thị danh sách học sinh</option>
+                                <option value="hienthidsnv">Hiển thị danh sách nhân viên</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="simulateManagement()">
+                            <i class="fas fa-play"></i> Thực hiện
+                        </button>
+                        <div class="result" id="managementResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="managementResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN LỢI ÍCH VÀ LƯU Ý -->
+                <section id="benefits" class="section">
+                    <h2><i class="fas fa-check-circle"></i> LỢI ÍCH VÀ LƯU Ý</h2>
+
+                    <h3>F. LỢI ÍCH CỦA KẾ THỪA</h3>
+                    <div class="example-grid">
+                        <div class="demo-container">
+                            <div class="demo-title">1. Tái sử dụng code</div>
+                            <p>Giảm trùng lặp mã nguồn bằng cách đưa các thành phần chung vào lớp cha.</p>
+                        </div>
+                        
+                        <div class="demo-container">
+                            <div class="demo-title">2. Dễ bảo trì</div>
+                            <p>Thay đổi ở lớp cha ảnh hưởng đến tất cả lớp con, giảm công sức sửa đổi.</p>
+                        </div>
+                        
+                        <div class="demo-container">
+                            <div class="demo-title">3. Mở rộng dễ dàng</div>
+                            <p>Thêm lớp mới mà không ảnh hưởng đến hệ thống cũ.</p>
+                        </div>
+                        
+                        <div class="demo-container">
+                            <div class="demo-title">4. Tổ chức code tốt hơn</div>
+                            <p>Phân cấp rõ ràng, dễ hiểu và quản lý.</p>
+                        </div>
+                    </div>
+
+                    <h3>9. Lưu ý quan trọng</h3>
+                    <div class="note">
+                        <ul>
+                            <li>Java không hỗ trợ <strong>đa kế thừa với lớp</strong> (một lớp chỉ extends một lớp cha)</li>
+                            <li>Tất cả lớp trong Java đều kế thừa từ lớp <strong>Object</strong></li>
+                            <li>Sử dụng <strong>super</strong> để gọi phương thức/constructor của lớp cha</li>
+                            <li>Có thể sử dụng <strong>final</strong> để ngăn kế thừa hoặc ghi đè</li>
+                            <li>Tránh kế thừa quá sâu (deep inheritance hierarchy) - khó bảo trì</li>
+                        </ul>
+                    </div>
+
+                    <h3>10. Best Practices</h3>
+                    <div class="success-box">
+                        <ul>
+                            <li>Sử dụng <strong>@Override</strong> khi ghi đè phương thức để dễ kiểm tra lỗi</li>
+                            <li>Ưu tiên <strong>composition over inheritance</strong> khi phù hợp</li>
+                            <li>Thiết kế lớp cha với phương thức trừu tượng nếu cần</li>
+                            <li>Tuân thủ nguyên tắc <strong>Liskov Substitution Principle</strong></li>
+                            <li>Đặt tên lớp, phương thức rõ ràng, thể hiện mối quan hệ IS-A</li>
+                        </ul>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Quiz kiến thức kế thừa</h4>
+                        <div class="input-group">
+                            <label for="quiz-question">Chọn câu hỏi:</label>
+                            <select id="quiz-question">
+                                <option value="1">Câu 1: Java có hỗ trợ đa kế thừa không?</option>
+                                <option value="2">Câu 2: Từ khóa nào dùng để kế thừa trong Java?</option>
+                                <option value="3">Câu 3: Lớp cha của tất cả các lớp trong Java là gì?</option>
+                                <option value="4">Câu 4: Từ khóa nào dùng để gọi phương thức của lớp cha?</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="showQuizAnswer()">
+                            <i class="fas fa-question-circle"></i> Xem đáp án
+                        </button>
+                        <div class="result" id="quizResult">
+                            <strong>Đáp án:</strong>
+                            <div class="result-content" id="quizResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN TỪ KHÓA FINAL -->
+                <section id="final-keyword" class="section">
+                    <h2><i class="fas fa-lock"></i> TỪ KHÓA FINAL TRONG JAVA</h2>
+
+                    <h3>14.4 TỔNG QUAN VỀ TỪ KHÓA FINAL</h3>
+                    <p>Từ khóa <strong>final</strong> trong Java là một công cụ mạnh mẽ để kiểm soát tính linh hoạt của mã nguồn, đảm bảo tính ổn định và an toàn của chương trình.</p>
+
+                    <h4>1. FINAL CLASS (LỚP KHÔNG THỂ KẾ THỪA)</h4>
+                    <p><strong>Khái niệm:</strong> Khi một lớp được khai báo với từ khóa final, lớp đó không thể được kế thừa bởi bất kỳ lớp nào khác.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Ví dụ final class</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Lớp final - không thể kế thừa</span><br>
+                        <span class="keyword">final class</span> <span class="class-name">HinhTron</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span> banKinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;HinhTron(<span class="keyword">double</span> r) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.banKinh = r;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span> tinhDienTich() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> Math.PI * banKinh * banKinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// ĐOẠN CODE SAU SẼ GÂY LỖI BIÊN DỊCH</span><br>
+                        <span class="comment">// class HinhTronMoRong extends HinhTron { // LỖI: Không thể kế thừa từ final class</span><br>
+                        <span class="comment">//     // ...</span><br>
+                        <span class="comment">// }</span>
+                    </div>
+
+                    <h4>2. FINAL METHOD (PHƯƠNG THỨC KHÔNG THỂ GHI ĐÈ)</h4>
+                    <p><strong>Khái niệm:</strong> Khi một phương thức được khai báo với từ khóa final, phương thức đó không thể bị ghi đè (override) bởi các lớp con.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Ví dụ final method</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">ConNguoi</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> hoTen;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Constructor</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;ConNguoi(<span class="keyword">String</span> hoTen) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.hoTen = hoTen;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phương thức final - không thể ghi đè</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">final void</span> gioiThieu() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tôi là: "</span> + hoTen);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tôi là con người!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phương thức thông thường - có thể ghi đè</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> anUong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đang ăn uống..."</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">class</span> <span class="class-name">HocSinh</span> <span class="keyword">extends</span> <span class="class-name">ConNguoi</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">String</span> lop;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;HocSinh(<span class="keyword">String</span> hoTen, <span class="keyword">String</span> lop) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>(hoTen);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.lop = lop;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// CÓ THỂ ghi đè phương thức anUong()</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> anUong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Học sinh "</span> + hoTen + <span class="string">" đang ăn trưa tại trường"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// KHÔNG THỂ ghi đè phương thức gioiThieu()</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// @Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// void gioiThieu() { // LỖI: Không thể ghi đè final method</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//     System.out.println("Tôi là học sinh lớp " + lop);</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// }</span><br>
+                        }
+                    </div>
+
+                    <h4>3. FINAL VARIABLE (BIẾN HẰNG SỐ)</h4>
+                    <p><strong>Khái niệm:</strong> Khi một biến được khai báo với từ khóa final, giá trị của biến đó không thể thay đổi sau khi đã được gán giá trị lần đầu.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Ví dụ final variable</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">HocSinh</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phải khởi tạo ngay hoặc trong constructor</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">final</span> <span class="keyword">String</span> MA_TRUONG = <span class="string">"TR001"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Hoặc khởi tạo trong constructor</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">final</span> <span class="keyword">String</span> MA_HS;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">final</span> <span class="keyword">String</span> HO_TEN;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> HocSinh(<span class="keyword">String</span> maHS, <span class="keyword">String</span> hoTen) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.MA_HS = maHS; <span class="comment">// Gán giá trị trong constructor</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.HO_TEN = hoTen;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// this.MA_HS = "HS002"; // LỖI: Không thể gán lại</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span> capNhatThongTin() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// HO_TEN = "Tên mới"; // LỖI: Không thể thay đổi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>4. TỔNG HỢP SO SÁNH FINAL</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Loại</th>
+                                    <th>Với lớp</th>
+                                    <th>Với phương thức</th>
+                                    <th>Với biến</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Ý nghĩa</strong></td>
+                                    <td>Không thể kế thừa</td>
+                                    <td>Không thể ghi đè</td>
+                                    <td>Không thể thay đổi giá trị</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Cú pháp</strong></td>
+                                    <td>final class A {}</td>
+                                    <td>final void method() {}</td>
+                                    <td>final int x = 10;</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lỗi khi vi phạm</strong></td>
+                                    <td>"cannot inherit from final"</td>
+                                    <td>"cannot override final method"</td>
+                                    <td>"cannot assign a value to final variable"</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ứng dụng</strong></td>
+                                    <td>Lớp utility, lớp immutable</td>
+                                    <td>Phương thức quan trọng, không muốn bị thay đổi</td>
+                                    <td>Hằng số, tham số không đổi</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm từ khóa final</h4>
+                        <div class="input-group">
+                            <label for="final-type">Chọn loại final để xem ví dụ:</label>
+                            <select id="final-type">
+                                <option value="class">Final class</option>
+                                <option value="method">Final method</option>
+                                <option value="variable">Final variable</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="testFinalKeyword()">
+                            <i class="fas fa-play"></i> Chạy ví dụ
+                        </button>
+                        <div class="result" id="finalResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="finalResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p> &copy; GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            // Hiển thị section đầu tiên
+            sections[0].classList.add('active');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click
+                    this.classList.add('active');
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+
+        // Hàm copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Demo nhanh về kế thừa
+        function runInheritanceDemo() {
+            const objectType = document.getElementById('demo-object').value;
+            const result = document.getElementById('demoResult');
+            const output = document.getElementById('demoResultContent');
+
+            result.classList.add('active');
+
+            let outputText = '';
+            
+            if (objectType === 'hocsinh') {
+                outputText = `=== DEMO KẾ THỪA VỚI HỌC SINH ===\n\n`;
+                outputText += `1. Tạo đối tượng HocSinh:\n`;
+                outputText += `   HocSinh hs = new HocSinh();\n\n`;
+                outputText += `2. Sử dụng thuộc tính kế thừa từ ConNguoi:\n`;
+                outputText += `   hs.hoTen = "Nguyễn Văn A";\n`;
+                outputText += `   hs.tuoi = 10;\n\n`;
+                outputText += `3. Sử dụng phương thức kế thừa từ ConNguoi:\n`;
+                outputText += `   hs.anUong();  // Kết quả: Đang ăn uống...\n`;
+                outputText += `   hs.diChuyen(); // Kết quả: Đang di chuyển...\n\n`;
+                outputText += `4. Sử dụng phương thức riêng của HocSinh:\n`;
+                outputText += `   hs.hocBai();   // Kết quả: Đang học bài...\n\n`;
+                outputText += `5. Gọi phương thức ghi đè:\n`;
+                outputText += `   hs.inTT();     // Hiển thị cả thông tin chung và riêng\n`;
+            } else if (objectType === 'nhanvien') {
+                outputText = `=== DEMO KẾ THỪA VỚI NHÂN VIÊN ===\n\n`;
+                outputText += `1. Tạo đối tượng NhanVien:\n`;
+                outputText += `   NhanVien nv = new NhanVien();\n\n`;
+                outputText += `2. Sử dụng thuộc tính kế thừa từ ConNguoi:\n`;
+                outputText += `   nv.hoTen = "Trần Thị B";\n`;
+                outputText += `   nv.tuoi = 35;\n\n`;
+                outputText += `3. Sử dụng phương thức kế thừa từ ConNguoi:\n`;
+                outputText += `   nv.anUong();   // Kết quả: Đang ăn uống...\n`;
+                outputText += `   nv.diChuyen(); // Kết quả: Đang di chuyển...\n\n`;
+                outputText += `4. Sử dụng phương thức riêng của NhanVien:\n`;
+                outputText += `   nv.lamViec();  // Kết quả: Đang làm việc...\n`;
+                outputText += `   nv.vietBaoCao(); // Kết quả: Đang viết báo cáo...\n\n`;
+                outputText += `5. Gọi phương thức ghi đè:\n`;
+                outputText += `   nv.inTT();     // Hiển thị cả thông tin chung và riêng\n`;
+            }
+
+            output.textContent = outputText;
+        }
+
+        // Phân tích kế thừa
+        function analyzeInheritance() {
+            const objectPair = document.getElementById('object-pair').value;
+            const result = document.getElementById('analysisResult');
+            const output = document.getElementById('analysisResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `=== PHÂN TÍCH ĐIỂM CHUNG ===\n\n`;
+            
+            if (objectPair === 'hocsinh-giaovien') {
+                outputText += `Đối tượng: Học Sinh và Giáo Viên\n\n`;
+                outputText += `ĐIỂM CHUNG (lớp cha chung):\n`;
+                outputText += `1. Thuộc tính:\n`;
+                outputText += `   - Họ tên\n`;
+                outputText += `   - Tuổi\n`;
+                outputText += `   - Giới tính\n`;
+                outputText += `   - Địa chỉ\n`;
+                outputText += `2. Phương thức:\n`;
+                outputText += `   - Ăn uống\n`;
+                outputText += `   - Di chuyển\n`;
+                outputText += `   - Nhập thông tin\n`;
+                outputText += `   - In thông tin\n\n`;
+                outputText += `ĐIỂM RIÊNG của Học Sinh:\n`;
+                outputText += `- Mã HS, lớp, điểm các môn\n`;
+                outputText += `- Học bài, tính điểm TB\n\n`;
+                outputText += `ĐIỂM RIÊNG của Giáo Viên:\n`;
+                outputText += `- Mã GV, môn dạy, bằng cấp\n`;
+                outputText += `- Giảng dạy, chấm bài\n`;
+            } else if (objectPair === 'hocsinh-nhanvien') {
+                outputText += `Đối tượng: Học Sinh và Nhân Viên\n\n`;
+                outputText += `ĐIỂM CHUNG (lớp cha ConNguoi):\n`;
+                outputText += `1. Thuộc tính:\n`;
+                outputText += `   - Họ tên\n`;
+                outputText += `   - Tuổi\n`;
+                outputText += `   - Giới tính\n`;
+                outputText += `   - Địa chỉ\n`;
+                outputText += `2. Phương thức:\n`;
+                outputText += `   - Ăn uống\n`;
+                outputText += `   - Di chuyển\n`;
+                outputText += `   - Nhập thông tin\n`;
+                outputText += `   - In thông tin\n\n`;
+                outputText += `ĐIỂM RIÊNG của Học Sinh:\n`;
+                outputText += `- Mã HS, lớp, điểm các môn\n`;
+                outputText += `- Học bài, tính điểm TB\n\n`;
+                outputText += `ĐIỂM RIÊNG của Nhân Viên:\n`;
+                outputText += `- Mã NV, chức vụ, lương\n`;
+                outputText += `- Làm việc, viết báo cáo\n`;
+            } else if (objectPair === 'giaovien-nhanvien') {
+                outputText += `Đối tượng: Giáo Viên và Nhân Viên\n\n`;
+                outputText += `ĐIỂM CHUNG (lớp cha NhanVien):\n`;
+                outputText += `1. Thuộc tính:\n`;
+                outputText += `   - Mã nhân sự\n`;
+                outputText += `   - Chức vụ\n`;
+                outputText += `   - Lương\n`;
+                outputText += `2. Phương thức:\n`;
+                outputText += `   - Làm việc\n`;
+                outputText += `   - Viết báo cáo\n\n`;
+                outputText += `ĐIỂM RIÊNG của Giáo Viên:\n`;
+                outputText += `- Môn dạy, bằng cấp\n`;
+                outputText += `- Giảng dạy, chấm bài\n\n`;
+                outputText += `ĐIỂM RIÊNG của Nhân Viên hành chính:\n`;
+                outputText += `- Phòng ban\n`;
+                outputText += `- Xử lý hồ sơ\n`;
+            }
+
+            output.textContent = outputText;
+        }
+
+        // Thử nghiệm lớp HocSinh và NhanVien
+        function testExample() {
+            const exampleType = document.getElementById('example-type').value;
+            const result = document.getElementById('exampleResult');
+            const output = document.getElementById('exampleResultContent');
+
+            result.classList.add('active');
+
+            let outputText = '';
+            
+            if (exampleType === 'hocsinh') {
+                outputText = `=== TẠO VÀ SỬ DỤNG HỌC SINH ===\n\n`;
+                outputText += `// Tạo đối tượng HocSinh\n`;
+                outputText += `HocSinh hs = new HocSinh();\n\n`;
+                outputText += `// Nhập thông tin (nạp chồng phương thức)\n`;
+                outputText += `hs.nhapTT("Nguyễn Văn A", "Nam", "Hà Nội", 10,\n`;
+                outputText += `          "HS001", "5A", 9, 8, 7);\n\n`;
+                outputText += `// Hiển thị thông tin (ghi đè phương thức)\n`;
+                outputText += `hs.inTT();\n`;
+                outputText += `Kết quả:\n`;
+                outputText += `Họ tên: Nguyễn Văn A\n`;
+                outputText += `Tuổi: 10\n`;
+                outputText += `Giới tính: Nam\n`;
+                outputText += `Địa chỉ: Hà Nội\n`;
+                outputText += `Mã HS: HS001\n`;
+                outputText += `Lớp: 5A\n`;
+                outputText += `Điểm Toán: 9\n`;
+                outputText += `Điểm Văn: 8\n`;
+                outputText += `Điểm Anh: 7\n`;
+                outputText += `Điểm TB: 8.0\n\n`;
+                outputText += `// Sử dụng phương thức riêng\n`;
+                outputText += `hs.hocBai();\n`;
+                outputText += `Kết quả: Đang học bài...\n\n`;
+                outputText += `// Sử dụng phương thức kế thừa\n`;
+                outputText += `hs.anUong();\n`;
+                outputText += `Kết quả: Đang ăn uống...\n`;
+            } else if (exampleType === 'nhanvien') {
+                outputText = `=== TẠO VÀ SỬ DỤNG NHÂN VIÊN ===\n\n`;
+                outputText += `// Tạo đối tượng NhanVien\n`;
+                outputText += `NhanVien nv = new NhanVien();\n\n`;
+                outputText += `// Nhập thông tin (nạp chồng phương thức)\n`;
+                outputText += `nv.nhapTT("Trần Thị B", "Nữ", "Hà Nội", 35,\n`;
+                outputText += `          "NV001", "Giáo viên", 10000000);\n\n`;
+                outputText += `// Hiển thị thông tin (ghi đè phương thức)\n`;
+                outputText += `nv.inTT();\n`;
+                outputText += `Kết quả:\n`;
+                outputText += `Họ tên: Trần Thị B\n`;
+                outputText += `Tuổi: 35\n`;
+                outputText += `Giới tính: Nữ\n`;
+                outputText += `Địa chỉ: Hà Nội\n`;
+                outputText += `Mã NV: NV001\n`;
+                outputText += `Chức vụ: Giáo viên\n`;
+                outputText += `Lương: 10000000\n\n`;
+                outputText += `// Sử dụng phương thức riêng\n`;
+                outputText += `nv.lamViec();\n`;
+                outputText += `Kết quả: Đang làm việc...\n`;
+                outputText += `nv.vietBaoCao();\n`;
+                outputText += `Kết quả: Đang viết báo cáo...\n\n`;
+                outputText += `// Sử dụng phương thức kế thừa\n`;
+                outputText += `nv.diChuyen();\n`;
+                outputText += `Kết quả: Đang di chuyển...\n`;
+            }
+
+            output.textContent = outputText;
+        }
+
+        // Thử nghiệm Overloading và Overriding
+        function testOverloadingOverriding() {
+            const ooType = document.getElementById('oo-type').value;
+            const result = document.getElementById('ooResult');
+            const output = document.getElementById('ooResultContent');
+
+            result.classList.add('active');
+
+            let outputText = '';
+            
+            if (ooType === 'overloading') {
+                outputText = `=== VÍ DỤ NẠP CHỒNG (OVERLOADING) ===\n\n`;
+                outputText += `// Trong lớp ConNguoi:\n`;
+                outputText += `void nhapTT(String hoTen, String gioiTinh, String diaChi, int tuoi)\n\n`;
+                outputText += `// Trong lớp HocSinh (nạp chồng):\n`;
+                outputText += `void nhapTT(String hoTen, String gioiTinh, String diaChi, int tuoi,\n`;
+                outputText += `           String maHS, String lop, int diemToan, int diemVan, int diemAnh) {\n`;
+                outputText += `    super.nhapTT(hoTen, gioiTinh, diaChi, tuoi); // Gọi phương thức cha\n`;
+                outputText += `    this.maHS = maHS;\n`;
+                outputText += `    this.lop = lop;\n`;
+                outputText += `    ...\n`;
+                outputText += `}\n\n`;
+                outputText += `ĐẶC ĐIỂM:\n`;
+                outputText += `1. Cùng tên phương thức\n`;
+                outputText += `2. Khác tham số\n`;
+                outputText += `3. Có thể khác kiểu trả về\n`;
+                outputText += `4. Có thể trong cùng lớp hoặc giữa lớp cha-con\n`;
+            } else if (ooType === 'overriding') {
+                outputText = `=== VÍ DỤ GHI ĐÈ (OVERRIDING) ===\n\n`;
+                outputText += `// Trong lớp ConNguoi:\n`;
+                outputText += `void inTT() {\n`;
+                outputText += `    System.out.println("Họ tên: " + hoTen);\n`;
+                outputText += `    System.out.println("Tuổi: " + tuoi);\n`;
+                outputText += `    ...\n`;
+                outputText += `}\n\n`;
+                outputText += `// Trong lớp HocSinh (ghi đè):\n`;
+                outputText += `@Override\n`;
+                outputText += `void inTT() {\n`;
+                outputText += `    super.inTT(); // Gọi phương thức của lớp cha\n`;
+                outputText += `    System.out.println("Mã HS: " + maHS); // Bổ sung thêm\n`;
+                outputText += `    System.out.println("Lớp: " + lop);\n`;
+                outputText += `    ...\n`;
+                outputText += `}\n\n`;
+                outputText += `ĐẶC ĐIỂM:\n`;
+                outputText += `1. Cùng tên phương thức\n`;
+                outputText += `2. Cùng tham số\n`;
+                outputText += `3. Cùng kiểu trả về\n`;
+                outputText += `4. Chỉ giữa lớp cha và con\n`;
+                outputText += `5. Sử dụng @Override để kiểm tra\n`;
+            } else if (ooType === 'both') {
+                outputText = `=== SO SÁNH NẠP CHỒNG VÀ GHI ĐÈ ===\n\n`;
+                outputText += `VÍ DỤ TRONG LỚP HOCSINH:\n\n`;
+                outputText += `1. NẠP CHỒNG (Overloading):\n`;
+                outputText += `   void nhapTT(... 4 tham số) // Kế thừa từ ConNguoi\n`;
+                outputText += `   void nhapTT(... 9 tham số) // Nạp chồng trong HocSinh\n\n`;
+                outputText += `2. GHI ĐÈ (Overriding):\n`;
+                outputText += `   // Trong ConNguoi:\n`;
+                outputText += `   void inTT() { in thông tin cơ bản }\n\n`;
+                outputText += `   // Trong HocSinh:\n`;
+                outputText += `   @Override\n`;
+                outputText += `   void inTT() {\n`;
+                outputText += `       super.inTT(); // Gọi phương thức cha\n`;
+                outputText += `       // Thêm thông tin học sinh\n`;
+                outputText += `   }\n\n`;
+                outputText += `KHÁC BIỆT CHÍNH:\n`;
+                outputText += `• Overloading: Thêm phương thức mới cùng tên\n`;
+                outputText += `• Overriding: Thay đổi hoạt động của phương thức kế thừa\n`;
+            }
+
+            output.textContent = outputText;
+        }
+
+        // Mô phỏng chương trình quản lý
+        function simulateManagement() {
+            const action = document.getElementById('management-action').value;
+            const result = document.getElementById('managementResult');
+            const output = document.getElementById('managementResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `=== MÔ PHỎNG CHƯƠNG TRÌNH QUẢN LÝ ===\n\n`;
+            
+            if (action === 'themhs') {
+                outputText += `1. Tạo đối tượng HocSinh:\n`;
+                outputText += `   HocSinh hs = new HocSinh();\n\n`;
+                outputText += `2. Nhập thông tin học sinh:\n`;
+                outputText += `   hs.nhapTT("Lê Văn C", "Nam", "Hà Nội", 11,\n`;
+                outputText += `             "HS002", "5B", 8, 9, 8);\n\n`;
+                outputText += `3. Thêm vào danh sách quản lý:\n`;
+                outputText += `   quanLy.themHocSinh(hs);\n\n`;
+                outputText += `KẾT QUẢ:\n`;
+                outputText += `Đã thêm học sinh: Lê Văn C\n`;
+                outputText += `Số học sinh hiện có: 1\n`;
+            } else if (action === 'themnv') {
+                outputText += `1. Tạo đối tượng NhanVien:\n`;
+                outputText += `   NhanVien nv = new NhanVien();\n\n`;
+                outputText += `2. Nhập thông tin nhân viên:\n`;
+                outputText += `   nv.nhapTT("Phạm Thị D", "Nữ", "Hà Nội", 40,\n`;
+                outputText += `             "NV002", "Hiệu trưởng", 15000000);\n\n`;
+                outputText += `3. Thêm vào danh sách quản lý:\n`;
+                outputText += `   quanLy.themNhanVien(nv);\n\n`;
+                outputText += `KẾT QUẢ:\n`;
+                outputText += `Đã thêm nhân viên: Phạm Thị D\n`;
+                outputText += `Số nhân viên hiện có: 1\n`;
+            } else if (action === 'hienthidshs') {
+                outputText += `HIỂN THỊ DANH SÁCH HỌC SINH:\n\n`;
+                outputText += `=== DANH SÁCH HỌC SINH ===\n\n`;
+                outputText += `Học sinh 1:\n`;
+                outputText += `Họ tên: Nguyễn Văn A\n`;
+                outputText += `Tuổi: 10\n`;
+                outputText += `Giới tính: Nam\n`;
+                outputText += `Địa chỉ: Hà Nội\n`;
+                outputText += `Mã HS: HS001\n`;
+                outputText += `Lớp: 5A\n`;
+                outputText += `Điểm Toán: 9\n`;
+                outputText += `Điểm Văn: 8\n`;
+                outputText += `Điểm Anh: 7\n`;
+                outputText += `Điểm TB: 8.0\n`;
+                outputText += `-------------------\n\n`;
+                outputText += `Tổng số: 1 học sinh\n`;
+            } else if (action === 'hienthidsnv') {
+                outputText += `HIỂN THỊ DANH SÁCH NHÂN VIÊN:\n\n`;
+                outputText += `=== DANH SÁCH NHÂN VIÊN ===\n\n`;
+                outputText += `Nhân viên 1:\n`;
+                outputText += `Họ tên: Trần Thị B\n`;
+                outputText += `Tuổi: 35\n`;
+                outputText += `Giới tính: Nữ\n`;
+                outputText += `Địa chỉ: Hà Nội\n`;
+                outputText += `Mã NV: NV001\n`;
+                outputText += `Chức vụ: Giáo viên\n`;
+                outputText += `Lương: 10000000\n`;
+                outputText += `-------------------\n\n`;
+                outputText += `Tổng số: 1 nhân viên\n`;
+            }
+
+            output.textContent = outputText;
+        }
+
+        // Quiz kiến thức kế thừa
+        function showQuizAnswer() {
+            const question = document.getElementById('quiz-question').value;
+            const result = document.getElementById('quizResult');
+            const output = document.getElementById('quizResultContent');
+
+            result.classList.add('active');
+
+            let outputText = '';
+            
+            if (question === '1') {
+                outputText = `Câu 1: Java có hỗ trợ đa kế thừa không?\n\n`;
+                outputText += `ĐÁP ÁN: KHÔNG\n\n`;
+                outputText += `GIẢI THÍCH:\n`;
+                outputText += `• Java chỉ hỗ trợ ĐƠN KẾ THỪA (single inheritance)\n`;
+                outputText += `• Một lớp chỉ có thể extends từ một lớp cha duy nhất\n`;
+                outputText += `• Tuy nhiên, Java hỗ trợ đa kế thừa với INTERFACE\n`;
+                outputText += `• Một lớp có thể implements nhiều interface\n`;
+            } else if (question === '2') {
+                outputText = `Câu 2: Từ khóa nào dùng để kế thừa trong Java?\n\n`;
+                outputText += `ĐÁP ÁN: extends\n\n`;
+                outputText += `GIẢI THÍCH:\n`;
+                outputText += `• Từ khóa extends dùng để kế thừa từ một lớp\n`;
+                outputText += `• Ví dụ: class HocSinh extends ConNguoi\n`;
+                outputText += `• Từ khóa implements dùng để triển khai interface\n`;
+                outputText += `• Ví dụ: class LopHoc implements Serializable\n`;
+            } else if (question === '3') {
+                outputText = `Câu 3: Lớp cha của tất cả các lớp trong Java là gì?\n\n`;
+                outputText += `ĐÁP ÁN: Object\n\n`;
+                outputText += `GIẢI THÍCH:\n`;
+                outputText += `• Tất cả các lớp trong Java đều kế thừa từ lớp Object\n`;
+                outputText += `• Lớp Object nằm trong package java.lang\n`;
+                outputText += `• Cung cấp các phương thức cơ bản như:\n`;
+                outputText += `  - toString(): chuyển đối tượng thành chuỗi\n`;
+                outputText += `  - equals(): so sánh đối tượng\n`;
+                outputText += `  - hashCode(): mã băm của đối tượng\n`;
+                outputText += `  - getClass(): lấy thông tin lớp\n`;
+            } else if (question === '4') {
+                outputText = `Câu 4: Từ khóa nào dùng để gọi phương thức của lớp cha?\n\n`;
+                outputText += `ĐÁP ÁN: super\n\n`;
+                outputText += `GIẢI THÍCH:\n`;
+                outputText += `• Từ khóa super tham chiếu đến đối tượng lớp cha\n`;
+                outputText += `• Có thể sử dụng để:\n`;
+                outputText += `  1. Gọi phương thức của lớp cha: super.phuongThuc()\n`;
+                outputText += `  2. Gọi constructor của lớp cha: super(...)\n`;
+                outputText += `  3. Truy cập thuộc tính của lớp cha: super.thuocTinh\n`;
+                outputText += `• Ví dụ trong ghi đè không hoàn toàn:\n`;
+                outputText += `  @Override\n`;
+                outputText += `  void inTT() {\n`;
+                outputText += `      super.inTT(); // Gọi phương thức cha\n`;
+                outputText += `      // Thêm xử lý riêng\n`;
+                outputText += `  }\n`;
+            }
+
+            output.textContent = outputText;
+        }
+
+        // Thử nghiệm từ khóa final
+        function testFinalKeyword() {
+            const finalType = document.getElementById('final-type').value;
+            const result = document.getElementById('finalResult');
+            const output = document.getElementById('finalResultContent');
+
+            result.classList.add('active');
+
+            let outputText = '';
+            
+            if (finalType === 'class') {
+                outputText = `=== FINAL CLASS (LỚP KHÔNG THỂ KẾ THỪA) ===\n\n`;
+                outputText += `VÍ DỤ:\n`;
+                outputText += `final class HinhTron {\n`;
+                outputText += `    double banKinh;\n`;
+                outputText += `    \n`;
+                outputText += `    double tinhDienTich() {\n`;
+                outputText += `        return Math.PI * banKinh * banKinh;\n`;
+                outputText += `    }\n`;
+                outputText += `}\n\n`;
+                outputText += `// ĐOẠN CODE SAU SẼ GÂY LỖI:\n`;
+                outputText += `// class HinhTronMoRong extends HinhTron {\n`;
+                outputText += `//     // LỖI: cannot inherit from final HinhTron\n`;
+                outputText += `// }\n\n`;
+                outputText += `KHI NÀO SỬ DỤNG:\n`;
+                outputText += `• Lớp không cần mở rộng\n`;
+                outputText += `• Lớp chứa phương thức nhạy cảm\n`;
+                outputText += `• Lớp immutable (không thay đổi sau khi tạo)\n`;
+                outputText += `• Lớp tiện ích (Utility class)\n`;
+            } else if (finalType === 'method') {
+                outputText = `=== FINAL METHOD (PHƯƠNG THỨC KHÔNG THỂ GHI ĐÈ) ===\n\n`;
+                outputText += `VÍ DỤ:\n`;
+                outputText += `class ConNguoi {\n`;
+                outputText += `    // Phương thức final - không thể ghi đè\n`;
+                outputText += `    final void gioiThieu() {\n`;
+                outputText += `        System.out.println("Tôi là con người!");\n`;
+                outputText += `    }\n`;
+                outputText += `    \n`;
+                outputText += `    // Phương thức thường - có thể ghi đè\n`;
+                outputText += `    void anUong() { ... }\n`;
+                outputText += `}\n\n`;
+                outputText += `class HocSinh extends ConNguoi {\n`;
+                outputText += `    // CÓ THỂ ghi đè anUong()\n`;
+                outputText += `    @Override\n`;
+                outputText += `    void anUong() { ... }\n`;
+                outputText += `    \n`;
+                outputText += `    // KHÔNG THỂ ghi đè gioiThieu()\n`;
+                outputText += `    // @Override\n`;
+                outputText += `    // void gioiThieu() { // LỖI\n`;
+                outputText += `    //     System.out.println("Tôi là học sinh!");\n`;
+                outputText += `    // }\n`;
+                outputText += `}\n\n`;
+                outputText += `LỢI ÍCH:\n`;
+                outputText += `• Đảm bảo tính nhất quán\n`;
+                outputText += `• Tối ưu hóa hiệu suất (JVM có thể inline)\n`;
+                outputText += `• Bảo mật: ngăn ghi đè phương thức nhạy cảm\n`;
+            } else if (finalType === 'variable') {
+                outputText = `=== FINAL VARIABLE (BIẾN HẰNG SỐ) ===\n\n`;
+                outputText += `VÍ DỤ CÁC LOẠI:\n\n`;
+                outputText += `1. Final local variable:\n`;
+                outputText += `   void phuongThuc() {\n`;
+                outputText += `       final int SO_NGAY = 7;\n`;
+                outputText += `       final double PI = 3.14159;\n`;
+                outputText += `       // SO_NGAY = 8; // LỖI\n`;
+                outputText += `   }\n\n`;
+                outputText += `2. Final instance variable:\n`;
+                outputText += `   class HocSinh {\n`;
+                outputText += `       final String MA_TRUONG = "TR001";\n`;
+                outputText += `       final String MA_HS;\n`;
+                outputText += `       \n`;
+                outputText += `       HocSinh(String maHS) {\n`;
+                outputText += `           this.MA_HS = maHS; // Gán trong constructor\n`;
+                outputText += `       }\n`;
+                outputText += `   }\n\n`;
+                outputText += `3. Final static variable (hằng số lớp):\n`;
+                outputText += `   class TienIch {\n`;
+                outputText += `       public static final double PHI_DANG_KY = 50000;\n`;
+                outputText += `       private static final String THONG_BAO = "Chào mừng";\n`;
+                outputText += `   }\n\n`;
+                outputText += `QUY TẮC ĐẶT TÊN:\n`;
+                outputText += `• Chữ in hoa\n`;
+                outputText += `• Phân cách bằng dấu gạch dưới\n`;
+                outputText += `• Ví dụ: MAX_SIZE, TEN_TRUONG_HOC, PI_VALUE\n`;
+            }
+
+            output.textContent = outputText;
+        }
+    </script>
+</body>
+
+</html>

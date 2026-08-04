@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Flow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./main.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-code-branch"></i>  CONTROL FLOW</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#intro" class="nav-link active"><i class="fas fa-home"></i> Giới
+                            thiệu</a></li>
+                    <li class="nav-item"><a href="#if-statement" class="nav-link"><i class="fas fa-code"></i> Câu lệnh
+                            if</a></li>
+                    <li class="nav-item"><a href="#if-else" class="nav-link"><i class="fas fa-balance-scale"></i>
+                            if...else</a></li>
+                    <li class="nav-item"><a href="#if-else-if" class="nav-link"><i class="fas fa-sitemap"></i> if...else
+                            if</a></li>
+                    <li class="nav-item"><a href="#ternary" class="nav-link"><i class="fas fa-question-circle"></i> Toán
+                            tử ba ngôi</a></li>
+                    <li class="nav-item"><a href="#switch" class="nav-link"><i class="fas fa-exchange-alt"></i>
+                            Switch-case</a></li>
+                    <li class="nav-item"><a href="#logical" class="nav-link"><i class="fas fa-project-diagram"></i> Toán
+                            tử logic</a></li>
+                    <li class="nav-item"><a href="#tips" class="nav-link"><i class="fas fa-lightbulb"></i> Mẹo và thủ
+                            thuật</a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN GIỚI THIỆU -->
+                <section id="intro" class="section active">
+                    <h2><i class="fas fa-home"></i> GIỚI THIỆU BUỔI HỌC</h2>
+
+                    <h3>Mục tiêu học tập</h3>
+                    <p>Sau buổi học này, sinh viên sẽ có khả năng:</p>
+                    <ul>
+                        <li>Hiểu và áp dụng được các cấu trúc điều khiển cơ bản trong Java</li>
+                        <li>Phân biệt được các loại câu lệnh điều kiện và khi nào nên sử dụng chúng</li>
+                        <li>Viết được chương trình có xử lý điều kiện</li>
+                        <li>Debug được các lỗi liên quan đến logic điều khiển</li>
+                    </ul>
+
+                    <h3>Tại sao cần học cấu trúc điều khiển?</h3>
+                    <ul>
+                        <li>Giúp chương trình "thông minh" hơn - biết đưa ra quyết định</li>
+                        <li>Xử lý được các tình huống khác nhau</li>
+                        <li>Tự động hóa các tác vụ lặp đi lặp lại</li>
+                        <li>Tiết kiệm code và tăng hiệu quả</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Lưu ý quan trọng</h4>
+                        <p>Cấu trúc điều khiển là nền tảng của mọi ngôn ngữ lập trình. Hiểu rõ phần này sẽ giúp bạn học
+                            các khái niệm nâng cao dễ dàng hơn.</p>
+                    </div>
+                </section>
+
+                <!-- PHẦN CÂU LỆNH IF -->
+                <section id="if-statement" class="section">
+                    <h2><i class="fas fa-code"></i> CÂU LỆNH IF</h2>
+
+                    <h3>1.2.1. Dạng 1: Câu lệnh if</h3>
+                    <p><strong>Định nghĩa:</strong> Câu lệnh if dùng để kiểm tra một điều kiện, nếu điều kiện đúng
+                        (true) thì đoạn mã trong khối if sẽ được thực thi.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        if (&lt;điều_kiện&gt;) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;khối_lệnh&gt;;<br>
+                        }
+                    </div>
+                    <div class="flowchart">
+                        <h4><i class="fas fa-project-diagram"></i> Lưu đồ thuật toán câu lệnh IF</h4>
+                        <div class="fl"><img src="../img/if.PNG" alt=""></div>
+                    </div>
+                    <h4><i class="fas fa-project-diagram"></i>Ví dụ: Kiểm tra 1 số chẵn lẻ </h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>IfExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">IfExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int number = 5;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (number > 0) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Số dương"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chương
+                            trình kết thúc"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Giải thích chi tiết:</h4>
+                        <ul>
+                            <li><strong>BƯỚC 1:</strong> Khai báo biến number = 5</li>
+                            <li><strong>BƯỚC 2:</strong> Kiểm tra điều kiện number > 0 → 5 > 0 → TRUE</li>
+                            <li><strong>BƯỚC 3:</strong> Thực thi khối lệnh trong if → in "Số dương"</li>
+                            <li><strong>BƯỚC 4:</strong> Tiếp tục chương trình → in "Chương trình kết thúc"</li>
+                        </ul>
+                        <p><strong>Kết quả:</strong><br>Số dương<br>Chương trình kết thúc</p>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm câu lệnh if</h4>
+                        <div class="input-group">
+                            <label for="ifNumber">Nhập một số:</label>
+                            <input type="number" id="ifNumber" value="5">
+                        </div>
+                        <button class="btn" onclick="testIfStatement()">
+                            <i class="fas fa-play"></i> Chạy ví dụ
+                        </button>
+                        <div class="result" id="ifResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="ifResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN IF...ELSE -->
+                <section id="if-else" class="section">
+                    <h2><i class="fas fa-balance-scale"></i> CÂU LỆNH IF...ELSE</h2>
+
+                    <h3>1.2.2. Dạng 2: Câu lệnh if...else</h3>
+                    <p><strong>Định nghĩa:</strong> if...else là câu lệnh điều kiện có 2 nhánh: Nếu điều kiện đúng →
+                        chạy khối lệnh trong if, nếu sai → chạy khối lệnh trong else.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        if (&lt;điều_kiện&gt;) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;khối_lệnh1&gt;;<br>
+                        } else {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;khối_lệnh2&gt;;<br>
+                        }
+                    </div>
+                    <div class="flowchart">
+                        <h4><i class="fas fa-project-diagram"></i> Lưu đồ thuật toán câu lệnh IF</h4>
+                        <div class="fl"><img src="../img/ifelse.PNG" alt=""></div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>IfElseExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">IfElseExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double score = 4.5;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (score >= 5) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Đậu"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Rớt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Kết
+                            thúc kiểm tra"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Giải thích chi tiết:</h4>
+                        <ul>
+                            <li><strong>BƯỚC 1:</strong> Khai báo biến score = 4.5</li>
+                            <li><strong>BƯỚC 2:</strong> Kiểm tra điều kiện score >= 5 → 4.5 >= 5 → FALSE</li>
+                            <li><strong>BƯỚC 3:</strong> Nhảy đến khối else (vì điều kiện sai)</li>
+                            <li><strong>BƯỚC 4:</strong> Thực thi khối else → in "Rớt"</li>
+                            <li><strong>BƯỚC 5:</strong> Tiếp tục chương trình → in "Kết thúc kiểm tra"</li>
+                        </ul>
+                        <p><strong>Kết quả:</strong><br>Rớt<br>Kết thúc kiểm tra</p>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm if...else</h4>
+                        <div class="input-group">
+                            <label for="ifElseScore">Nhập điểm thi:</label>
+                            <input type="number" id="ifElseScore" step="0.1" min="0" max="10" value="4.5">
+                        </div>
+                        <button class="btn" onclick="testIfElseStatement()">
+                            <i class="fas fa-play"></i> Chạy ví dụ
+                        </button>
+                        <div class="result" id="ifElseResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="ifElseResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN IF...ELSE IF -->
+                <section id="if-else-if" class="section">
+                    <h2><i class="fas fa-sitemap"></i> CÂU LỆNH IF...ELSE IF...ELSE</h2>
+
+                    <h3>1.2.3. Dạng 3: Câu lệnh if...else if...else</h3>
+                    <p><strong>Định nghĩa:</strong> Cho phép kiểm tra nhiều điều kiện khác nhau, theo thứ tự từ trên
+                        xuống. Khi gặp điều kiện đúng đầu tiên, chương trình sẽ thực hiện và không kiểm tra tiếp.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        if (&lt;điều_kiện1&gt;) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;khối_lệnh1&gt;;<br>
+                        } else if (&lt;điều_kiện2&gt;) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;khối_lệnh2&gt;;<br>
+                        } else if (&lt;điều_kiện3&gt;) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;khối_lệnh3&gt;;<br>
+                        } else {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;khối_lệnh4&gt;;<br>
+                        }
+                    </div>
+                    <div class="flowchart">
+                        <h4><i class="fas fa-project-diagram"></i> Lưu đồ thuật toán câu lệnh IF</h4>
+                        <div class="fl"><img src="../img/ifelseif.PNG" alt=""></div>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>IfElseIfExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">IfElseIfExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double score = 8.5;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String grade;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (score >= 9) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grade = <span
+                            class="string">"Xuất sắc"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Chúc mừng! Bạn đạt loại: "</span> + grade);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (score >= 7) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grade = <span
+                            class="string">"Khá"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Tốt! Bạn đạt loại: "</span> + grade);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if (score >= 5) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grade = <span
+                            class="string">"Trung bình"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Bạn đạt loại: "</span> + grade);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grade = <span
+                            class="string">"Yếu"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Cần cố gắng! Bạn đạt loại: "</span> + grade);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Kết
+                            thúc xếp loại"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Giải thích chi tiết:</h4>
+                        <ul>
+                            <li><strong>BƯỚC 1:</strong> Khai báo biến score = 8.5</li>
+                            <li><strong>BƯỚC 2:</strong> Kiểm tra điều kiện 1: score >= 9 → 8.5 >= 9 → FALSE</li>
+                            <li><strong>BƯỚC 3:</strong> Kiểm tra điều kiện 2: score >= 7 → 8.5 >= 7 → TRUE</li>
+                            <li><strong>BƯỚC 4:</strong> Dừng kiểm tra, thực thi khối lệnh tương ứng</li>
+                            <li><strong>BƯỚC 5:</strong> grade = "Khá", in "Tốt! Bạn đạt loại: Khá"</li>
+                            <li><strong>BƯỚC 6:</strong> Tiếp tục chương trình → in "Kết thúc xếp loại"</li>
+                        </ul>
+                        <p><strong>Kết quả:</strong><br>Tốt! Bạn đạt loại: Khá<br>Kết thúc xếp loại</p>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm if...else if...else</h4>
+                        <div class="input-group">
+                            <label for="ifElseIfScore">Nhập điểm (0-10):</label>
+                            <input type="number" id="ifElseIfScore" step="0.1" min="0" max="10" value="8.5">
+                        </div>
+                        <button class="btn" onclick="testIfElseIfStatement()">
+                            <i class="fas fa-play"></i> Chạy ví dụ
+                        </button>
+                        <div class="result" id="ifElseIfResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="ifElseIfResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN TOÁN TỬ BA NGÔI -->
+                <section id="ternary" class="section">
+                    <h2><i class="fas fa-question-circle"></i> TOÁN TỬ BA NGÔI</h2>
+
+                    <h3>1.3 Toán tử ba ngôi (Ternary Operator)</h3>
+                    <p><strong>Định nghĩa:</strong> Là cú pháp rút gọn của if...else, dùng khi cần lựa chọn giữa hai giá
+                        trị.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        điều_kiện ? giá_trị_nếu_đúng : giá_trị_nếu_sai;
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Ý nghĩa:</h4>
+                        <p>Giúp viết mã ngắn gọn và súc tích hơn, nhất là khi chỉ cần trả về một giá trị.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>TernaryOperator.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">TernaryOperator</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double score = 6.0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng if-else thông
+                            thường</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String result1;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (score >= 5) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result1 = <span
+                            class="string">"Đậu"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result1 = <span
+                            class="string">"Rớt"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng toán tử ba
+                            ngôi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String result2 = (score >= 5) ? <span
+                            class="string">"Đậu"</span> : <span class="string">"Rớt"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Kết quả
+                            (if-else): "</span> + result1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Kết quả
+                            (ternary): "</span> + result2);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ví dụ phức tạp
+                            hơn</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int number = 10;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String message = (number % 2 == 0) ? <span
+                            class="string">"Số chẵn"</span> : <span class="string">"Số lẻ"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(number + <span
+                            class="string">" là "</span> + message);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm toán tử ba ngôi</h4>
+                        <div class="input-group">
+                            <label for="ternaryScore">Nhập điểm:</label>
+                            <input type="number" id="ternaryScore" step="0.1" min="0" max="10" value="6.0">
+                        </div>
+                        <div class="input-group">
+                            <label for="ternaryNumber">Nhập số nguyên:</label>
+                            <input type="number" id="ternaryNumber" value="10">
+                        </div>
+                        <button class="btn" onclick="testTernaryOperator()">
+                            <i class="fas fa-play"></i> Chạy ví dụ
+                        </button>
+                        <div class="result" id="ternaryResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="ternaryResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- PHẦN SWITCH-CASE -->
+                <section id="switch" class="section">
+                    <h2><i class="fas fa-exchange-alt"></i> CÂU LỆNH SWITCH-CASE</h2>
+
+                    <h3>1.4 Câu lệnh switch...case</h3>
+                    <p><strong>Định nghĩa:</strong> Câu lệnh switch dùng để so sánh một giá trị với nhiều trường hợp
+                        khác nhau (case).</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        switch (biểu_thức) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;case giá_trị_1:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;khối_lệnh_1&gt;;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;case giá_trị_2:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;khối_lệnh_2&gt;;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;case giá_trị_n:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;khối_lệnh_n&gt;;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;default:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;khối_lệnh_mặc_định&gt;;<br>
+                        }
+                    </div>
+                    <div class="flowchart">
+                        <h4><i class="fas fa-project-diagram"></i> Lưu đồ thuật toán câu lệnh IF</h4>
+                        <div class="fl"><img src="../img/sw.PNG" alt=""></div>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>SwitchExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">SwitchExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int dayOfWeek = 3;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String dayName;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch (dayOfWeek) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 1:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayName
+                        =
+                        <span class="string">"Chủ Nhật"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 2:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayName
+                        =
+                        <span class="string">"Thứ Hai"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 3:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayName
+                        =
+                        <span class="string">"Thứ Ba"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 4:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayName
+                        =
+                        <span class="string">"Thứ Tư"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 5:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayName
+                        =
+                        <span class="string">"Thứ Năm"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 6:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayName
+                        =
+                        <span class="string">"Thứ Sáu"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 7:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayName
+                        =
+                        <span class="string">"Thứ Bảy"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dayName
+                        =
+                        <span class="string">"Không hợp lệ"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ngày
+                            "</span> +
+                        dayOfWeek + <span class="string">" là: "</span> + dayName);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Giải thích chi tiết:</h4>
+                        <ul>
+                            <li><strong>BƯỚC 1:</strong> dayOfWeek = 3</li>
+                            <li><strong>BƯỚC 2:</strong> So sánh với case 1 → không khớp</li>
+                            <li><strong>BƯỚC 3:</strong> So sánh với case 2 → không khớp</li>
+                            <li><strong>BƯỚC 4:</strong> So sánh với case 3 → KHỚP</li>
+                            <li><strong>BƯỚC 5:</strong> Thực thi dayName = "Thứ Ba"</li>
+                            <li><strong>BƯỚC 6:</strong> Gặp break → thoát switch</li>
+                            <li><strong>BƯỚC 7:</strong> In kết quả</li>
+                        </ul>
+                        <p><strong>Kết quả:</strong><br>Ngày 3 là: Thứ Ba</p>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm switch-case</h4>
+                        <div class="input-group">
+                            <label for="switchDay">Nhập số ngày (1-7):</label>
+                            <input type="number" id="switchDay" min="1" max="7" value="3">
+                        </div>
+                        <button class="btn" onclick="testSwitchStatement()">
+                            <i class="fas fa-play"></i> Chạy ví dụ
+                        </button>
+                        <div class="result" id="switchResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="switchResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN TOÁN TỬ LOGIC -->
+                <section id="logical" class="section">
+                    <h2><i class="fas fa-project-diagram"></i> TOÁN TỬ LOGIC</h2>
+
+                    <h3>1.5 Toán tử logic &&, ||, !</h3>
+                    <p><strong>Định nghĩa:</strong></p>
+                    <ul>
+                        <li><strong>&& (AND):</strong> Đúng khi cả hai điều kiện đúng</li>
+                        <li><strong>|| (OR):</strong> Đúng khi ít nhất một điều kiện đúng</li>
+                        <li><strong>! (NOT):</strong> Phủ định điều kiện (đúng thành sai và ngược lại)</li>
+                    </ul>
+
+
+                    <div class="table-container">
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>Nội dung</th>
+                                    <th>AND (&&)</th>
+                                    <th>OR (||)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><b>Lưu đồ</b></td>
+                                    <td><img style="width: 300px;" src="../img/and.PNG" alt=""></td>
+                                    <td><img style="width: 300px;" src="../img/or.PNG" alt=""></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Mô tả</b></td>
+                                    <td>Chỉ trả về TRUE khi cả hai điều kiện đều đúng</td>
+                                    <td>Trả về TRUE khi ít nhất một điều kiện đúng</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Short-circuit Evaluation</b></td>
+                                    <td>Nếu điều kiện đầu tiên sai → kết thúc ngay</td>
+                                    <td>Nếu điều kiện đầu tiên đúng → kết thúc ngay</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Ý nghĩa:</h4>
+                        <p>Toán tử && và || thực hiện đánh giá từ trái sang phải và có cơ chế "short-circuit" (ngắt
+                            mạch), nghĩa
+                            là dừng kiểm tra ngay khi có kết quả xác định.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>LogicalOperators.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">LogicalOperators</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int age = 20;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean hasID = true;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng AND
+                            (&&)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (age >= 18 && hasID) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Được vào cửa"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Không được vào"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng OR
+                            (||)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean isWeekend = true;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean isHoliday = false;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (isWeekend || isHoliday) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Hôm nay được nghỉ"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Hôm nay đi làm"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng NOT
+                            (!)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean isRaining = false;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!isRaining) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Trời không mưa, có thể đi chơi"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Trời mưa, ở nhà"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm toán tử logic</h4>
+                        <div class="input-group">
+                            <label for="logicalAge">Tuổi:</label>
+                            <input type="number" id="logicalAge" value="20">
+                        </div>
+                        <div class="input-group">
+                            <label for="hasID">Có giấy tờ?</label>
+                            <select id="hasID">
+                                <option value="true">Có</option>
+                                <option value="false">Không</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="isWeekend">Cuối tuần?</label>
+                            <select id="isWeekend">
+                                <option value="true">Có</option>
+                                <option value="false">Không</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="isRaining">Trời mưa?</label>
+                            <select id="isRaining">
+                                <option value="false">Không</option>
+                                <option value="true">Có</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="testLogicalOperators()">
+                            <i class="fas fa-play"></i> Chạy ví dụ
+                        </button>
+                        <div class="result" id="logicalResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="logicalResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN MẸO VÀ THỦ THUẬT -->
+                <section id="tips" class="section">
+                    <h2><i class="fas fa-lightbulb"></i> MẸO VÀ THỦ THUẬT</h2>
+
+                    <h3>1.6 Mẹo và cú pháp viết nhanh</h3>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Kỹ thuật</th>
+                                    <th>Mô tả</th>
+                                    <th>Ví dụ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>if (a)</strong></td>
+                                    <td>Kiểm tra nếu a tồn tại (truthy)</td>
+                                    <td>if (name != null)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>if (!a)</strong></td>
+                                    <td>Kiểm tra nếu a không tồn tại (falsy)</td>
+                                    <td>if (!isEmpty)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Viết gọn if đơn</strong></td>
+                                    <td>Bỏ {} nếu chỉ có 1 lệnh</td>
+                                    <td>if (condition) statement;</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Toán tử so sánh</strong></td>
+                                    <td>So sánh chuỗi dùng equals()</td>
+                                    <td>if (str.equals("hello"))</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>QuickSyntax.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">QuickSyntax</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name = <span
+                            class="string">"John"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean isEmpty = false;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kiểm tra null và
+                            rỗng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (name != null && !name.isEmpty()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Tên hợp lệ: "</span> + name);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Viết gọn if
+                            đơn</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int x = 10;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (x > 5) System.out.println(<span
+                            class="string">"x
+                            lớn hơn 5"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// So sánh
+                            chuỗi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String input = <span
+                            class="string">"hello"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (input.equals(<span
+                            class="string">"hello"</span>))
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Chào mừng!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Best Practices:</h4>
+                        <ul>
+                            <li>Luôn sử dụng {} cho khối lệnh, kể cả khi chỉ có 1 dòng</li>
+                            <li>Sử dụng equals() để so sánh chuỗi, không dùng ==</li>
+                            <li>Kiểm tra null trước khi gọi phương thức trên đối tượng</li>
+                            <li>Sử dụng toán tử ba ngôi cho các trường hợp đơn giản</li>
+                        </ul>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p> &copy; GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click
+                    this.classList.add('active');
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+
+        // Hàm copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Thử nghiệm câu lệnh if
+        function testIfStatement() {
+            const number = parseInt(document.getElementById('ifNumber').value) || 5;
+
+            const result = document.getElementById('ifResult');
+            const output = document.getElementById('ifResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `Biến number = ${number}\n\n`;
+
+            if (number > 0) {
+                outputText += "✅ number > 0 → TRUE\n";
+                outputText += "Thực thi khối if → in 'Số dương'\n\n";
+                outputText += "Số dương\n";
+            } else {
+                outputText += "❌ number > 0 → FALSE\n";
+                outputText += "Bỏ qua khối if\n\n";
+            }
+
+            outputText += "Chương trình kết thúc";
+            output.textContent = outputText;
+        }
+
+        // Thử nghiệm if...else
+        function testIfElseStatement() {
+            const score = parseFloat(document.getElementById('ifElseScore').value) || 4.5;
+
+            const result = document.getElementById('ifElseResult');
+            const output = document.getElementById('ifElseResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `Biến score = ${score}\n\n`;
+
+            if (score >= 5) {
+                outputText += "✅ score >= 5 → TRUE\n";
+                outputText += "Thực thi khối if → in 'Đậu'\n\n";
+                outputText += "Đậu\n";
+            } else {
+                outputText += "❌ score >= 5 → FALSE\n";
+                outputText += "Thực thi khối else → in 'Rớt'\n\n";
+                outputText += "Rớt\n";
+            }
+
+            outputText += "Kết thúc kiểm tra";
+            output.textContent = outputText;
+        }
+        // Thử nghiệm if...else if...else
+        function testIfElseIfStatement() {
+            const score = parseFloat(document.getElementById('ifElseIfScore').value) || 8.5;
+
+            const result = document.getElementById('ifElseIfResult');
+            const output = document.getElementById('ifElseIfResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `Biến score = ${score}\n\n`;
+
+            if (score >= 9) {
+                outputText += "✅ score >= 9 → TRUE\n";
+                outputText += "Thực thi khối if → grade = 'Xuất sắc'\n";
+                outputText += "Chúc mừng! Bạn đạt loại: Xuất sắc\n\n";
+            } else if (score >= 7) {
+                outputText += "❌ score >= 9 → FALSE\n";
+                outputText += "✅ score >= 7 → TRUE\n";
+                outputText += "Thực thi khối else if → grade = 'Khá'\n";
+                outputText += "Tốt! Bạn đạt loại: Khá\n\n";
+            } else if (score >= 5) {
+                outputText += "❌ score >= 9 → FALSE\n";
+                outputText += "❌ score >= 7 → FALSE\n";
+                outputText += "✅ score >= 5 → TRUE\n";
+                outputText += "Thực thi khối else if → grade = 'Trung bình'\n";
+                outputText += "Bạn đạt loại: Trung bình\n\n";
+            } else {
+                outputText += "❌ score >= 9 → FALSE\n";
+                outputText += "❌ score >= 7 → FALSE\n";
+                outputText += "❌ score >= 5 → FALSE\n";
+                outputText += "Thực thi khối else → grade = 'Yếu'\n";
+                outputText += "Cần cố gắng! Bạn đạt loại: Yếu\n\n";
+            }
+
+            outputText += "Kết thúc xếp loại";
+            output.textContent = outputText;
+        }
+
+        // Thử nghiệm toán tử ba ngôi
+        function testTernaryOperator() {
+            const score = parseFloat(document.getElementById('ternaryScore').value) || 6.0;
+            const number = parseInt(document.getElementById('ternaryNumber').value) || 10;
+
+            const result = document.getElementById('ternaryResult');
+            const output = document.getElementById('ternaryResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `Biến score = ${score}\n`;
+            outputText += `Biến number = ${number}\n\n`;
+
+            // If-else thông thường
+            let result1;
+            if (score >= 5) {
+                result1 = "Đậu";
+            } else {
+                result1 = "Rớt";
+            }
+
+            // Toán tử ba ngôi
+            let result2 = (score >= 5) ? "Đậu" : "Rớt";
+            let message = (number % 2 === 0) ? "Số chẵn" : "Số lẻ";
+
+            outputText += `Kết quả (if-else): ${result1}\n`;
+            outputText += `Kết quả (ternary): ${result2}\n`;
+            outputText += `${number} là ${message}`;
+
+            output.textContent = outputText;
+        }
+
+        // Thử nghiệm switch-case
+        function testSwitchStatement() {
+            const dayOfWeek = parseInt(document.getElementById('switchDay').value) || 3;
+
+            const result = document.getElementById('switchResult');
+            const output = document.getElementById('switchResultContent');
+
+            result.classList.add('active');
+
+            let dayName;
+            let processText = `Biến dayOfWeek = ${dayOfWeek}\n\n`;
+
+            switch (dayOfWeek) {
+                case 1:
+                    dayName = "Chủ Nhật";
+                    processText += "✅ Khớp case 1\n";
+                    break;
+                case 2:
+                    dayName = "Thứ Hai";
+                    processText += "✅ Khớp case 2\n";
+                    break;
+                case 3:
+                    dayName = "Thứ Ba";
+                    processText += "✅ Khớp case 3\n";
+                    break;
+                case 4:
+                    dayName = "Thứ Tư";
+                    processText += "✅ Khớp case 4\n";
+                    break;
+                case 5:
+                    dayName = "Thứ Năm";
+                    processText += "✅ Khớp case 5\n";
+                    break;
+                case 6:
+                    dayName = "Thứ Sáu";
+                    processText += "✅ Khớp case 6\n";
+                    break;
+                case 7:
+                    dayName = "Thứ Bảy";
+                    processText += "✅ Khớp case 7\n";
+                    break;
+                default:
+                    dayName = "Không hợp lệ";
+                    processText += "❌ Không khớp case nào, vào default\n";
+            }
+
+            processText += `\nKết quả: Ngày ${dayOfWeek} là: ${dayName}`;
+            output.textContent = processText;
+        }
+
+        // Thử nghiệm toán tử logic
+        function testLogicalOperators() {
+            const age = parseInt(document.getElementById('logicalAge').value) || 20;
+            const hasID = document.getElementById('hasID').value === 'true';
+            const isWeekend = document.getElementById('isWeekend').value === 'true';
+            const isRaining = document.getElementById('isRaining').value === 'true';
+
+            const result = document.getElementById('logicalResult');
+            const output = document.getElementById('logicalResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `Tuổi: ${age}, Có giấy tờ: ${hasID}\n`;
+            outputText += `Cuối tuần: ${isWeekend}, Mưa: ${isRaining}\n\n`;
+
+            // AND
+            if (age >= 18 && hasID) {
+                outputText += "✅ age >= 18 && hasID → TRUE\n";
+                outputText += "Được vào cửa\n\n";
+            } else {
+                outputText += "❌ age >= 18 && hasID → FALSE\n";
+                outputText += "Không được vào\n\n";
+            }
+
+            // OR
+            if (isWeekend || isRaining) {
+                outputText += "✅ isWeekend || isHoliday → TRUE\n";
+                outputText += "Hôm nay được nghỉ\n\n";
+            } else {
+                outputText += "❌ isWeekend || isHoliday → FALSE\n";
+                outputText += "Hôm nay đi làm\n\n";
+            }
+
+            // NOT
+            if (!isRaining) {
+                outputText += "✅ !isRaining → TRUE\n";
+                outputText += "Trời không mưa, có thể đi chơi\n";
+            } else {
+                outputText += "❌ !isRaining → FALSE\n";
+                outputText += "Trời mưa, ở nhà\n";
+            }
+
+            output.textContent = outputText;
+        }
+    </script>
+</body>
+
+</html>

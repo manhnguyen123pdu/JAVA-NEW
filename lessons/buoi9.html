@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP OVERVIEW </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --purple: #9b59b6;
+            --orange: #e67e22;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "{ }";
+            position: absolute;
+            font-size: 300px;
+            opacity: 0.05;
+            right: -50px;
+            top: -50px;
+            font-family: 'Consolas', monospace;
+        }
+
+        .warning-banner {
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            border-bottom: 3px solid var(--accent);
+            box-shadow: 0 3px 10px rgba(255, 94, 98, 0.3);
+        }
+
+        .warning-banner i {
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+            position: relative;
+        }
+
+        .nav-list {
+            list-style: none;
+            position: sticky;
+            top: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+            padding-left: 10px;
+            border-left: 3px solid var(--info);
+        }
+
+        h5 {
+            color: var(--dark);
+            margin: 15px 0 8px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.5;
+            border: 2px solid #444;
+            tab-size: 4;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: var(--secondary);
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+            font-style: italic;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .method {
+            color: #dcdcaa;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .danger-box {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-run {
+            background: var(--success);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+            }
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .example-box {
+            background: #f0f7ff;
+            border: 2px dashed var(--secondary);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .important-note {
+            background: #fff3e0;
+            border: 2px solid var(--orange);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .important-note::before {
+            content: "⚠️ QUAN TRỌNG";
+            display: block;
+            font-weight: bold;
+            color: var(--orange);
+            margin-bottom: 10px;
+        }
+
+        .diagram {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .object-creation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .creation-step {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+        }
+
+        .creation-arrow {
+            font-size: 2em;
+            color: var(--secondary);
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 5px 15px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 0 5px;
+        }
+
+        .pill.purple {
+            background: var(--purple);
+        }
+
+        .pill.orange {
+            background: var(--orange);
+        }
+
+        .pill.green {
+            background: var(--success);
+        }
+        
+    </style>
+    
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-cubes"></i>OOP OVERVIEW </h1>
+            <!-- <div class="header-subtitle">NỀN MÓNG CỦA LẬP TRÌNH HƯỚNG ĐỐI TƯỢNG</div> -->
+        </header>
+
+      
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#intro" class="nav-link active"><i class="fas fa-home"></i> OOP là gì?</a></li>
+                    <li class="nav-item"><a href="#class-object" class="nav-link"><i class="fas fa-project-diagram"></i> Class & Object</a></li>
+                    <li class="nav-item"><a href="#class-structure" class="nav-link"><i class="fas fa-code"></i> Cấu trúc Class</a></li>
+                    <li class="nav-item"><a href="#constructor" class="nav-link"><i class="fas fa-tools"></i> Constructor</a></li>
+                    <li class="nav-item"><a href="#object-usage" class="nav-link"><i class="fas fa-cube"></i> Tạo & Sử dụng Object</a></li>
+                    <li class="nav-item"><a href="#exercises" class="nav-link"><i class="fas fa-dumbbell"></i> Bài tập thực hành</a></li>
+                    <li class="nav-item"><a href="#summary" class="nav-link"><i class="fas fa-clipboard-check"></i> Tổng kết</a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN OOP LÀ GÌ -->
+                <section id="intro" class="section active">
+                    <h2><i class="fas fa-home"></i> OOP LÀ GÌ? (LẬP TRÌNH HƯỚNG ĐỐI TƯỢNG)</h2>
+
+                    <div class="concept-box">
+                        Object = Fields (Thuộc tính) + Methods (Phương thức) | Class → tạo ra → Object
+                    </div>
+
+                    <h3><i class="fas fa-info-circle"></i> 11.1.1 Định nghĩa OOP</h3>
+                    <p><strong>Lập trình hướng đối tượng (Object-Oriented Programming - OOP)</strong> là phương pháp lập trình trong đó chương trình được xây dựng dựa trên các đối tượng. Mỗi đối tượng đại diện cho một thực thể trong thế giới thực, có trạng thái (dữ liệu) và hành vi (xử lý).</p>
+
+                    <h4>Ví dụ minh họa: Đối tượng Sinh viên</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Student.java - Ví dụ về Class</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">Student</span> {
+    <span class="comment">// Fields (Thuộc tính)</span>
+    <span class="keyword">String</span> name;
+    <span class="keyword">int</span> age;
+    <span class="keyword">double</span> grade;
+    
+    <span class="comment">// Methods (Phương thức)</span>
+    <span class="keyword">void</span> <span class="method">study</span>() {
+        System.out.println(name + <span class="string">" đang học"</span>);
+    }
+    
+    <span class="keyword">void</span> <span class="method">takeExam</span>() {
+        System.out.println(name + <span class="string">" đang thi"</span>);
+    }
+}</pre>
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Phân tích:</h4>
+                        <ul>
+                            <li>Lớp <strong>Student</strong> mô tả sinh viên</li>
+                            <li>Dữ liệu (name, age, grade) và xử lý (study, takeExam) được đặt chung trong một lớp</li>
+                            <li>Đúng tư duy OOP: đóng gói dữ liệu và hành vi liên quan</li>
+                        </ul>
+                    </div>
+
+                    <h3><i class="fas fa-balance-scale"></i> 11.1.2 So sánh OOP vs Lập trình thủ tục</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tiêu chí</th>
+                                    <th>Lập trình thủ tục</th>
+                                    <th>Lập trình hướng đối tượng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Tổ chức</strong></td>
+                                    <td>Theo hàm</td>
+                                    <td>Theo đối tượng</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Dữ liệu</strong></td>
+                                    <td>Tách rời với hàm xử lý</td>
+                                    <td>Đóng gói trong đối tượng</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bảo trì</strong></td>
+                                    <td>Khó khi code lớn</td>
+                                    <td>Dễ dàng hơn</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Dự án lớn</strong></td>
+                                    <td>Không phù hợp</td>
+                                    <td>Rất phù hợp</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tái sử dụng</strong></td>
+                                    <td>Hạn chế</td>
+                                    <td>Cao (qua kế thừa)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bảo mật</strong></td>
+                                    <td>Dữ liệu dễ bị truy cập trực tiếp</td>
+                                    <td>Dữ liệu được bảo vệ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="danger-box">
+                        <h4><i class="fas fa-exclamation-circle"></i> Vấn đề với lập trình thủ tục:</h4>
+                        <p>Code lớn dùng thủ tục → rất dễ loạn do dữ liệu và xử lý tách rời. OOP chia nhỏ thành object → mỗi object tự quản lý → dễ quản lý, bảo trì.</p>
+                    </div>
+
+                    <h3><i class="fas fa-question-circle"></i> 11.1.3 Vì sao Java dùng OOP?</h3>
+                    
+                    <div class="important-note">
+                        <p>Java là ngôn ngữ hướng đối tượng gần như hoàn toàn (trừ các kiểu dữ liệu nguyên thủy).</p>
+                    </div>
+
+                    <h4>Lý do Java chọn OOP:</h4>
+                    <ul>
+                        <li>Java được thiết kế cho ứng dụng lớn, phức tạp</li>
+                        <li>Hỗ trợ làm việc nhóm (nhiều lập trình viên)</li>
+                        <li>Dễ bảo trì, nâng cấp trong thời gian dài</li>
+                        <li>Phù hợp với các hệ thống doanh nghiệp</li>
+                    </ul>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm OOP cơ bản</h4>
+                        <div class="input-group">
+                            <label for="studentName">Nhập tên sinh viên:</label>
+                            <input type="text" id="studentName" value="Nguyễn Văn A">
+                        </div>
+                        <div class="input-group">
+                            <label for="studentAge">Nhập tuổi:</label>
+                            <input type="number" id="studentAge" value="20">
+                        </div>
+                        <button class="btn" onclick="testOOPBasic()">
+                            <i class="fas fa-play"></i> Tạo đối tượng Student
+                        </button>
+                        <div class="result" id="oopResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="oopResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN CLASS VÀ OBJECT -->
+                <section id="class-object" class="section">
+                    <h2><i class="fas fa-project-diagram"></i> CLASS & OBJECT</h2>
+
+                    <div class="diagram">
+                        <div class="object-creation">
+                            <div class="creation-step">
+                                <i class="fas fa-file-code fa-3x" style="color: var(--secondary);"></i>
+                                <h4>Class</h4>
+                                <p>Bản thiết kế</p>
+                            </div>
+                            <div class="creation-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="creation-step">
+                                <i class="fas fa-cube fa-3x" style="color: var(--success);"></i>
+                                <h4>Object</h4>
+                                <p>Thể hiện cụ thể</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3><i class="fas fa-file-code"></i> 11.2.1 Khái niệm Class</h3>
+                    <p><strong>Class (lớp)</strong> là bản thiết kế (khuôn mẫu, template) dùng để tạo ra các đối tượng. Nó định nghĩa các thuộc tính và phương thức mà các đối tượng thuộc lớp đó sẽ có.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp cơ bản của Class</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">ClassName</span> {
+    <span class="comment">// fields - thuộc tính</span>
+    <span class="comment">// methods - phương thức</span>
+    <span class="comment">// constructors - hàm khởi tạo</span>
+}</pre>
+                    </div>
+
+                    <div class="example-box">
+                        <h4>Ví dụ về Class:</h4>
+                        <div class="code-block" style="margin: 10px 0; background: #2d2d2d;">
+<pre><span class="keyword">class</span> <span class="class-name">Student</span> {
+    <span class="keyword">String</span> name;
+    <span class="keyword">int</span> age;
+    <span class="keyword">double</span> gpa;
+}</pre>
+                        </div>
+                        <p><strong>Phân tích:</strong> Class chỉ là định nghĩa, chưa có dữ liệu thật. Giống như bản vẽ nhà - chưa phải ngôi nhà thật.</p>
+                    </div>
+
+                    <h3><i class="fas fa-cube"></i> 11.2.2 Khái niệm Object</h3>
+                    <p><strong>Object (đối tượng)</strong> là một thể hiện cụ thể của class, có dữ liệu thật và chiếm bộ nhớ.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp tạo Object</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="class-name">ClassName</span> objectName = <span class="keyword">new</span> <span class="class-name">ClassName</span>();</pre>
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Giải thích:</h4>
+                        <ul>
+                            <li><span class="pill">new</span>: toán tử cấp phát bộ nhớ cho đối tượng</li>
+                            <li><span class="pill">ClassName()</span>: gọi constructor (hàm khởi tạo)</li>
+                            <li><span class="pill">objectName</span>: biến tham chiếu đến đối tượng</li>
+                        </ul>
+                    </div>
+
+                    <h3><i class="fas fa-exchange-alt"></i> 11.2.3 Mối quan hệ Class - Object</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Car.java - Ví dụ về một Class tạo nhiều Object</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">Car</span> {
+    <span class="keyword">String</span> brand;
+    <span class="keyword">String</span> color;
+    <span class="keyword">int</span> speed;
+    
+    <span class="keyword">void</span> <span class="method">accelerate</span>() {
+        speed += <span class="number">10</span>;
+    }
+}
+
+<span class="comment">// Tạo nhiều object từ class Car</span>
+<span class="class-name">Car</span> car1 = <span class="keyword">new</span> <span class="class-name">Car</span>();
+car1.brand = <span class="string">"Toyota"</span>;
+car1.color = <span class="string">"Red"</span>;
+
+<span class="class-name">Car</span> car2 = <span class="keyword">new</span> <span class="class-name">Car</span>();
+car2.brand = <span class="string">"Honda"</span>;
+car2.color = <span class="string">"Blue"</span>;</pre>
+                    </div>
+
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Phân tích:</h4>
+                        <ul>
+                            <li>Class Car là bản thiết kế chung</li>
+                            <li>car1 và car2 là các xe cụ thể</li>
+                            <li>Chung cấu trúc (đều có brand, color, speed, accelerate())</li>
+                            <li>Dữ liệu độc lập (brand, color khác nhau)</li>
+                        </ul>
+                    </div>
+
+                    <h3><i class="fas fa-building"></i> 11.2.4 Ví dụ đời thực</h3>
+                    
+                    <h4>Ví dụ 1: Hệ thống ngân hàng</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>BankAccount.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">BankAccount</span> {
+    <span class="keyword">String</span> accountNumber;
+    <span class="keyword">String</span> ownerName;
+    <span class="keyword">double</span> balance;
+    
+    <span class="keyword">void</span> <span class="method">deposit</span>(<span class="keyword">double</span> amount) {
+        balance += amount;
+    }
+    
+    <span class="keyword">void</span> <span class="method">withdraw</span>(<span class="keyword">double</span> amount) {
+        <span class="keyword">if</span> (amount <= balance) {
+            balance -= amount;
+        }
+    }
+    
+    <span class="keyword">void</span> <span class="method">displayBalance</span>() {
+        System.out.println(<span class="string">"Số dư: "</span> + balance);
+    }
+}</pre>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Tạo và sử dụng Object</h4>
+                        <div class="input-group">
+                            <label for="accountType">Chọn loại đối tượng:</label>
+                            <select id="accountType">
+                                <option value="student">Sinh viên</option>
+                                <option value="car">Xe hơi</option>
+                                <option value="bank">Tài khoản ngân hàng</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="createObject()">
+                            <i class="fas fa-magic"></i> Tạo Object
+                        </button>
+                        <button class="btn btn-run" onclick="useObject()">
+                            <i class="fas fa-play"></i> Sử dụng Object
+                        </button>
+                        <div class="result" id="objectResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="objectResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN CẤU TRÚC CLASS -->
+                <section id="class-structure" class="section">
+                    <h2><i class="fas fa-code"></i> CẤU TRÚC CLASS TRONG JAVA</h2>
+
+                    <h3><i class="fas fa-database"></i> 11.3.1 Thuộc tính (Fields/Attributes)</h3>
+                    <p><strong>Field</strong> là biến dùng để lưu trữ trạng thái của đối tượng.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp và ví dụ về Fields</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">Person</span> {
+    <span class="comment">// Fields - Thuộc tính</span>
+    <span class="keyword">String</span> name;  <span class="comment">// Không có giá trị mặc định</span>
+    <span class="keyword">int</span> age = <span class="number">18</span>;  <span class="comment">// Giá trị mặc định</span>
+    <span class="keyword">String</span> address;
+    <span class="keyword">final</span> <span class="keyword">String</span> COUNTRY = <span class="string">"Vietnam"</span>;  <span class="comment">// Hằng số</span>
+    
+    <span class="comment">// Static field - thuộc về Class</span>
+    <span class="keyword">static</span> <span class="keyword">int</span> count = <span class="number">0</span>;
+}</pre>
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Đặc điểm của Fields:</h4>
+                        <ul>
+                            <li>Mỗi object có bản sao riêng của các fields (trừ static fields)</li>
+                            <li>Có thể khởi tạo giá trị mặc định</li>
+                            <li><span class="pill purple">final</span> cho hằng số - không thay đổi được</li>
+                            <li><span class="pill orange">static</span> thuộc về Class, không thuộc về Object</li>
+                        </ul>
+                    </div>
+
+                    <h3><i class="fas fa-cogs"></i> 11.3.2 Phương thức (Methods)</h3>
+                    <p><strong>Method</strong> mô tả hành vi của đối tượng, là các thao tác mà đối tượng có thể thực hiện.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Calculator.java - Ví dụ về Methods</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">Calculator</span> {
+    <span class="comment">// Method không trả về giá trị</span>
+    <span class="keyword">void</span> <span class="method">displayHello</span>() {
+        System.out.println(<span class="string">"Hello World!"</span>);
+    }
+    
+    <span class="comment">// Method trả về giá trị</span>
+    <span class="keyword">int</span> <span class="method">add</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b) {
+        <span class="keyword">return</span> a + b;
+    }
+    
+    <span class="comment">// Method với tham số</span>
+    <span class="keyword">void</span> <span class="method">displayInfo</span>(<span class="keyword">String</span> name, <span class="keyword">int</span> age) {
+        System.out.println(<span class="string">"Name: "</span> + name + <span class="string">", Age: "</span> + age);
+    }
+    
+    <span class="comment">// Static method</span>
+    <span class="keyword">static</span> <span class="keyword">int</span> <span class="method">multiply</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b) {
+        <span class="keyword">return</span> a * b;
+    }
+}</pre>
+                    </div>
+
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Phân tích:</h4>
+                        <ul>
+                            <li>Method định nghĩa "hành vi" của object</li>
+                            <li>Có thể có hoặc không có tham số</li>
+                            <li>Có thể trả về giá trị hoặc không (void)</li>
+                            <li>Có thể là static (thuộc về Class) hoặc non-static (thuộc về Object)</li>
+                        </ul>
+                    </div>
+
+                    <h3><i class="fas fa-tools"></i> 11.3.3 Constructor (Hàm khởi tạo)</h3>
+                    <p><strong>Constructor</strong> là phương thức đặc biệt, được gọi tự động khi tạo đối tượng, dùng để khởi tạo giá trị cho các thuộc tính.</p>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Đặc điểm của Constructor</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">ClassName</span> {
+    <span class="comment">// Constructor</span>
+    <span class="class-name">ClassName</span>(parameters) {
+        <span class="comment">// khởi tạo giá trị</span>
+    }
+}</pre>
+                    </div>
+
+                    <div class="important-note">
+                        <p><strong>Đặc điểm của Constructor:</strong></p>
+                        <ul>
+                            <li>Tên trùng với tên class</li>
+                            <li>Không có kiểu trả về (không cần void)</li>
+                            <li>Có thể có nhiều constructor (overloading)</li>
+                            <li>Được gọi tự động khi tạo object với từ khóa <span class="pill">new</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Khám phá cấu trúc Class</h4>
+                        <div class="input-group">
+                            <label for="fieldName">Tên thuộc tính:</label>
+                            <input type="text" id="fieldName" value="name">
+                        </div>
+                        <div class="input-group">
+                            <label for="fieldType">Kiểu dữ liệu:</label>
+                            <select id="fieldType">
+                                <option value="String">String</option>
+                                <option value="int">int</option>
+                                <option value="double">double</option>
+                                <option value="boolean">boolean</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="exploreClass()">
+                            <i class="fas fa-search"></i> Xem cấu trúc
+                        </button>
+                        <div class="result" id="classStructureResult">
+                            <strong>Cấu trúc Class mẫu:</strong>
+                            <div class="result-content" id="classStructureResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN CONSTRUCTOR -->
+                <section id="constructor" class="section">
+                    <h2><i class="fas fa-tools"></i> CONSTRUCTOR CHI TIẾT</h2>
+
+                    <h3><i class="fas fa-hammer"></i> 11.4.1 Constructor mặc định (Default Constructor)</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Constructor mặc định</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">Student</span> {
+    <span class="keyword">String</span> name;
+    <span class="keyword">int</span> age;
+    
+    <span class="comment">// Constructor mặc định</span>
+    <span class="class-name">Student</span>() {
+        name = <span class="string">"Unknown"</span>;
+        age = <span class="number">0</span>;
+    }
+}</pre>
+                    </div>
+
+                    <div class="important-note">
+                        <p><strong>LƯU Ý QUAN TRỌNG:</strong></p>
+                        <ul>
+                            <li>Nếu không viết constructor nào, Java tự động tạo constructor mặc định (không tham số, rỗng)</li>
+                            <li>Nếu đã viết constructor có tham số, Java <strong>KHÔNG</strong> tự tạo constructor mặc định nữa</li>
+                        </ul>
+                    </div>
+
+                    <h3><i class="fas fa-sliders-h"></i> 11.4.2 Constructor có tham số</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Constructor có tham số</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">Student</span> {
+    <span class="keyword">String</span> name;
+    <span class="keyword">int</span> age;
+    
+    <span class="comment">// Constructor có tham số</span>
+    <span class="class-name">Student</span>(<span class="keyword">String</span> studentName, <span class="keyword">int</span> studentAge) {
+        name = studentName;
+        age = studentAge;
+    }
+}
+
+<span class="comment">// Sử dụng</span>
+<span class="class-name">Student</span> s1 = <span class="keyword">new</span> <span class="class-name">Student</span>(<span class="string">"Nguyen Van A"</span>, <span class="number">20</span>);</pre>
+                    </div>
+
+                    <h3><i class="fas fa-layer-group"></i> 11.4.3 Overloading Constructor</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Overloading Constructor</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">Student</span> {
+    <span class="keyword">String</span> name;
+    <span class="keyword">int</span> age;
+    <span class="keyword">String</span> major;
+    
+    <span class="comment">// Constructor 1: Không tham số</span>
+    <span class="class-name">Student</span>() {
+        name = <span class="string">"Unknown"</span>;
+        age = <span class="number">0</span>;
+        major = <span class="string">"Undeclared"</span>;
+    }
+    
+    <span class="comment">// Constructor 2: 2 tham số</span>
+    <span class="class-name">Student</span>(<span class="keyword">String</span> name, <span class="keyword">int</span> age) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.age = age;
+        major = <span class="string">"Undeclared"</span>;
+    }
+    
+    <span class="comment">// Constructor 3: 3 tham số</span>
+    <span class="class-name">Student</span>(<span class="keyword">String</span> name, <span class="keyword">int</span> age, <span class="keyword">String</span> major) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.age = age;
+        <span class="keyword">this</span>.major = major;
+    }
+}
+
+<span class="comment">// Sử dụng</span>
+<span class="class-name">Student</span> s1 = <span class="keyword">new</span> <span class="class-name">Student</span>();  <span class="comment">// Dùng constructor 1</span>
+<span class="class-name">Student</span> s2 = <span class="keyword">new</span> <span class="class-name">Student</span>(<span class="string">"Nam"</span>, <span class="number">20</span>);  <span class="comment">// Dùng constructor 2</span>
+<span class="class-name">Student</span> s3 = <span class="keyword">new</span> <span class="class-name">Student</span>(<span class="string">"Lan"</span>, <span class="number">21</span>, <span class="string">"IT"</span>);  <span class="comment">// Dùng constructor 3</span></pre>
+                    </div>
+
+                    <h3><i class="fas fa-key"></i> 11.4.4 Từ khóa this</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Công dụng của từ khóa this</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="comment">// 1. Phân biệt thuộc tính và tham số khi trùng tên</span>
+<span class="keyword">class</span> <span class="class-name">Student</span> {
+    <span class="keyword">String</span> name;
+    <span class="keyword">int</span> age;
+    
+    <span class="class-name">Student</span>(<span class="keyword">String</span> name, <span class="keyword">int</span> age) {
+        <span class="keyword">this</span>.name = name;  <span class="comment">// this.name là thuộc tính, name là tham số</span>
+        <span class="keyword">this</span>.age = age;    <span class="comment">// this.age là thuộc tính, age là tham số</span>
+    }
+}
+
+<span class="comment">// 2. Gọi constructor khác trong cùng lớp</span>
+<span class="keyword">class</span> <span class="class-name">Student</span> {
+    <span class="keyword">String</span> name;
+    <span class="keyword">int</span> age;
+    <span class="keyword">String</span> major;
+    
+    <span class="class-name">Student</span>() {
+        <span class="keyword">this</span>(<span class="string">"Unknown"</span>, <span class="number">0</span>, <span class="string">"Undeclared"</span>);  <span class="comment">// Gọi constructor 3 tham số</span>
+    }
+    
+    <span class="class-name">Student</span>(<span class="keyword">String</span> name, <span class="keyword">int</span> age, <span class="keyword">String</span> major) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.age = age;
+        <span class="keyword">this</span>.major = major;
+    }
+}
+
+<span class="comment">// 3. Trả về đối tượng hiện tại (method chaining)</span>
+<span class="keyword">class</span> <span class="class-name">Student</span> {
+    <span class="keyword">String</span> name;
+    
+    <span class="class-name">Student</span> <span class="method">setName</span>(<span class="keyword">String</span> name) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">return</span> <span class="keyword">this</span>;  <span class="comment">// Trả về chính đối tượng này</span>
+    }
+}</pre>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm Constructor</h4>
+                        <div class="input-group">
+                            <label for="constructorType">Chọn loại Constructor:</label>
+                            <select id="constructorType">
+                                <option value="default">Mặc định (không tham số)</option>
+                                <option value="parameterized">Có tham số</option>
+                                <option value="overloaded">Overloaded Constructor</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="testConstructor()">
+                            <i class="fas fa-play"></i> Chạy ví dụ
+                        </button>
+                        <div class="result" id="constructorResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="constructorResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN TẠO VÀ SỬ DỤNG OBJECT -->
+                <section id="object-usage" class="section">
+                    <h2><i class="fas fa-cube"></i> TẠO VÀ SỬ DỤNG OBJECT</h2>
+
+                    <h3><i class="fas fa-plus-circle"></i> 11.5.1 Tạo object với new</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp tạo Object</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="comment">// Tạo object không tham số</span>
+<span class="class-name">Student</span> student1 = <span class="keyword">new</span> <span class="class-name">Student</span>();
+
+<span class="comment">// Tạo object có tham số</span>
+<span class="class-name">Student</span> student2 = <span class="keyword">new</span> <span class="class-name">Student</span>(<span class="string">"Nguyen Van A"</span>, <span class="number">20</span>);
+
+<span class="comment">// Tạo object và khai báo sau</span>
+<span class="class-name">Student</span> student3;
+student3 = <span class="keyword">new</span> <span class="class-name">Student</span>(<span class="string">"Tran Thi B"</span>, <span class="number">21</span>);</pre>
+                    </div>
+
+                    <h3><i class="fas fa-hand-point-right"></i> 11.5.2 Truy cập fields và methods</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Ví dụ đầy đủ về tạo và sử dụng Object</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">Student</span> {
+    <span class="keyword">String</span> name;
+    <span class="keyword">int</span> age;
+    
+    <span class="class-name">Student</span>(<span class="keyword">String</span> name, <span class="keyword">int</span> age) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.age = age;
+    }
+    
+    <span class="keyword">void</span> <span class="method">displayInfo</span>() {
+        System.out.println(<span class="string">"Name: "</span> + name);
+        System.out.println(<span class="string">"Age: "</span> + age);
+    }
+    
+    <span class="keyword">void</span> <span class="method">study</span>(<span class="keyword">String</span> subject) {
+        System.out.println(name + <span class="string">" is studying "</span> + subject);
+    }
+    
+    <span class="keyword">int</span> <span class="method">getAgeAfterYears</span>(<span class="keyword">int</span> years) {
+        <span class="keyword">return</span> age + years;
+    }
+}
+
+<span class="keyword">public class</span> <span class="class-name">Main</span> {
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="class-name">String</span>[] args) {
+        <span class="comment">// Tạo object</span>
+        <span class="class-name">Student</span> student = <span class="keyword">new</span> <span class="class-name">Student</span>(<span class="string">"Nguyen Van A"</span>, <span class="number">20</span>);
+        
+        <span class="comment">// Truy cập field</span>
+        System.out.println(<span class="string">"Student name: "</span> + student.name);
+        
+        <span class="comment">// Thay đổi field</span>
+        student.age = <span class="number">21</span>;
+        
+        <span class="comment">// Gọi methods</span>
+        student.displayInfo();
+        student.study(<span class="string">"Java Programming"</span>);
+        
+        <span class="keyword">int</span> futureAge = student.getAgeAfterYears(<span class="number">5</span>);
+        System.out.println(<span class="string">"Age after 5 years: "</span> + futureAge);
+    }
+}</pre>
+                    </div>
+
+                    <h3><i class="fas fa-recycle"></i> 11.5.3 Vòng đời của object</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Object Lifecycle - Vòng đời của đối tượng</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">public class</span> <span class="class-name">ObjectLifecycle</span> {
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="class-name">String</span>[] args) {
+        <span class="comment">// Giai đoạn 1: Tạo object</span>
+        <span class="class-name">Student</span> s1 = <span class="keyword">new</span> <span class="class-name">Student</span>(<span class="string">"A"</span>, <span class="number">20</span>);
+        
+        <span class="comment">// Giai đoạn 2: Sử dụng</span>
+        s1.displayInfo();
+        
+        <span class="comment">// Tạo thêm tham chiếu</span>
+        <span class="class-name">Student</span> s2 = s1;
+        
+        <span class="comment">// Giai đoạn 3: Không còn tham chiếu</span>
+        s1 = <span class="keyword">null</span>;  <span class="comment">// Object vẫn được tham chiếu bởi s2</span>
+        s2 = <span class="keyword">null</span>;  <span class="comment">// Giờ object không được tham chiếu nữa</span>
+        
+        <span class="comment">// Giai đoạn 4: Garbage Collector sẽ thu hồi bộ nhớ</span>
+        <span class="comment">// (tự động, không cần lập trình viên can thiệp)</span>
+    }
+}</pre>
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Garbage Collector (GC):</h4>
+                        <ul>
+                            <li>Tự động thu hồi bộ nhớ của các object không còn được sử dụng</li>
+                            <li>Lập trình viên không cần giải phóng bộ nhớ thủ công</li>
+                            <li>GC chạy không đồng bộ, không thể dự đoán thời điểm chính xác</li>
+                        </ul>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Mô phỏng vòng đời Object</h4>
+                        <div class="object-creation">
+                            <div class="creation-step">
+                                <i class="fas fa-plus-circle fa-2x" style="color: var(--success);"></i>
+                                <h4>1. Tạo</h4>
+                                <p>new Student()</p>
+                            </div>
+                            <div class="creation-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="creation-step">
+                                <i class="fas fa-play-circle fa-2x" style="color: var(--secondary);"></i>
+                                <h4>2. Sử dụng</h4>
+                                <p>student.study()</p>
+                            </div>
+                            <div class="creation-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="creation-step">
+                                <i class="fas fa-unlink fa-2x" style="color: var(--warning);"></i>
+                                <h4>3. Không tham chiếu</h4>
+                                <p>student = null</p>
+                            </div>
+                            <div class="creation-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="creation-step">
+                                <i class="fas fa-trash-alt fa-2x" style="color: var(--accent);"></i>
+                                <h4>4. Thu hồi</h4>
+                                <p>GC hoạt động</p>
+                            </div>
+                        </div>
+                        <button class="btn" onclick="simulateObjectLifecycle()">
+                            <i class="fas fa-sync-alt"></i> Chạy mô phỏng
+                        </button>
+                        <div class="result" id="lifecycleResult">
+                            <strong>Mô phỏng:</strong>
+                            <div class="result-content" id="lifecycleResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN BÀI TẬP THỰC HÀNH -->
+                <section id="exercises" class="section">
+                    <h2><i class="fas fa-dumbbell"></i> BÀI TẬP THỰC HÀNH</h2>
+
+                    <h3><i class="fas fa-laptop-code"></i> Bài tập 1: Tạo Class Rectangle</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Rectangle.java - Yêu cầu hoàn thành</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="keyword">class</span> <span class="class-name">Rectangle</span> {
+    <span class="comment">// TODO: Thêm các thuộc tính width và height
+    
+    // TODO: Viết constructor không tham số
+    
+    // TODO: Viết constructor có tham số (width, height)
+    
+    // TODO: Viết method tính diện tích
+    
+    // TODO: Viết method tính chu vi
+    
+    // TODO: Viết method hiển thị thông tin</span>
+}</pre>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-check-circle"></i> Kiểm tra bài tập</h4>
+                        <div class="input-group">
+                            <label for="rectWidth">Chiều rộng:</label>
+                            <input type="number" id="rectWidth" value="5">
+                        </div>
+                        <div class="input-group">
+                            <label for="rectHeight">Chiều cao:</label>
+                            <input type="number" id="rectHeight" value="10">
+                        </div>
+                        <button class="btn" onclick="testRectangle()">
+                            <i class="fas fa-play"></i> Kiểm tra Rectangle
+                        </button>
+                        <div class="result" id="exerciseResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="exerciseResultContent"></div>
+                        </div>
+                    </div>
+
+                    <h3><i class="fas fa-laptop-code"></i> Bài tập 2: Quản lý Sách</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Book.java - Yêu cầu</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+<pre><span class="comment">// Tạo class Book với các thuộc tính:
+// - title (String)
+// - author (String)
+// - price (double)
+// - quantity (int)
+
+// Các phương thức cần có:
+// - Constructor với các tham số
+// - getTotalPrice() trả về tổng giá (price * quantity)
+// - displayBookInfo() hiển thị thông tin sách
+// - applyDiscount(double percent) giảm giá sách</span></pre>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-check-circle"></i> Kiểm tra class Book</h4>
+                        <div class="input-group">
+                            <label for="bookTitle">Tên sách:</label>
+                            <input type="text" id="bookTitle" value="Java Programming">
+                        </div>
+                        <div class="input-group">
+                            <label for="bookAuthor">Tác giả:</label>
+                            <input type="text" id="bookAuthor" value="John Doe">
+                        </div>
+                        <div class="input-group">
+                            <label for="bookPrice">Giá:</label>
+                            <input type="number" id="bookPrice" value="25.5">
+                        </div>
+                        <div class="input-group">
+                            <label for="bookQuantity">Số lượng:</label>
+                            <input type="number" id="bookQuantity" value="3">
+                        </div>
+                        <button class="btn" onclick="testBook()">
+                            <i class="fas fa-play"></i> Kiểm tra Book
+                        </button>
+                        <div class="result" id="bookResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="bookResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN TỔNG KẾT -->
+                <section id="summary" class="section">
+                    <h2><i class="fas fa-clipboard-check"></i> TỔNG KẾT BUỔI 11</h2>
+
+                    <div class="concept-box">
+                        <i class="fas fa-key fa-2x"></i><br>
+                        Class là bản thiết kế → Object là thể hiện cụ thể<br>
+                        Constructor khởi tạo → this tham chiếu → new tạo đối tượng
+                    </div>
+
+                    <h3><i class="fas fa-star"></i> Những điểm chính cần nhớ</h3>
+                    
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-double"></i> Tóm tắt kiến thức:</h4>
+                        <ol>
+                            <li><strong>OOP</strong> là lập trình dựa trên đối tượng, gom dữ liệu và xử lý</li>
+                            <li><strong>Class</strong> là bản thiết kế, <strong>Object</strong> là thể hiện cụ thể</li>
+                            <li><strong>Constructor</strong> dùng để khởi tạo object</li>
+                            <li><strong>this</strong> tham chiếu đến object hiện tại</li>
+                            <li>Object được tạo bằng <strong>new</strong>, sử dụng qua dấu chấm <strong>.</strong></li>
+                        </ol>
+                    </div>
+
+                    <div class="important-note">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Lưu ý quan trọng:</h4>
+                        <ul>
+                            <li>Một class tạo nhiều object, mỗi object có dữ liệu riêng</li>
+                            <li>Nếu không viết constructor, Java tự tạo constructor mặc định</li>
+                            <li>Nếu đã viết constructor có tham số, phải tự viết constructor không tham số nếu cần</li>
+                            <li>Object trở thành rác khi không còn tham chiếu, GC sẽ tự động thu hồi</li>
+                        </ul>
+                    </div>
+
+                    <h3><i class="fas fa-question-circle"></i> Câu hỏi ôn tập</h3>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-brain"></i> Kiểm tra kiến thức</h4>
+                        <div class="input-group">
+                            <label for="quizQuestion">Chọn câu hỏi:</label>
+                            <select id="quizQuestion">
+                                <option value="1">1. OOP là gì?</option>
+                                <option value="2">2. Sự khác nhau giữa Class và Object?</option>
+                                <option value="3">3. Constructor dùng để làm gì?</option>
+                                <option value="4">4. Từ khóa 'this' có tác dụng gì?</option>
+                                <option value="5">5. Khi nào Object bị Garbage Collector thu hồi?</option>
+                            </select>
+                        </div>
+                        <button class="btn" onclick="showAnswer()">
+                            <i class="fas fa-lightbulb"></i> Xem đáp án
+                        </button>
+                        <div class="result" id="quizResult">
+                            <strong>Đáp án:</strong>
+                            <div class="result-content" id="quizResultContent"></div>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-graduation-cap"></i> Lời khuyên học tập:</h4>
+                        <p>"Đừng chỉ đọc code - hãy viết code! Thực hành tạo các class và object với nhiều tình huống khác nhau. 
+                        Hiểu rõ OOP là nền móng để học các tính chất tiếp theo: Đóng gói, Kế thừa, Đa hình, Trừu tượng."</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p>GV: Nguyễn Đình Mạnh</p>
+         
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click
+                    this.classList.add('active');
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Cuộn lên đầu section
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+        });
+
+        // Hàm copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✓ Đã copy!';
+                button.style.background = '#27ae60';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Thử nghiệm OOP cơ bản
+        function testOOPBasic() {
+            const name = document.getElementById('studentName').value || "Nguyễn Văn A";
+            const age = parseInt(document.getElementById('studentAge').value) || 20;
+
+            const result = document.getElementById('oopResult');
+            const output = document.getElementById('oopResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `=== TẠO ĐỐI TƯỢNG SINH VIÊN ===\n\n`;
+            outputText += `Đã tạo object Student với:\n`;
+            outputText += `- Tên: ${name}\n`;
+            outputText += `- Tuổi: ${age}\n\n`;
+            outputText += `=== THỰC HIỆN HÀNH VI ===\n`;
+            outputText += `${name} đang học\n`;
+            outputText += `${name} đang thi\n\n`;
+            outputText += `Object đã được tạo thành công!`;
+
+            output.textContent = outputText;
+        }
+
+        // Tạo và sử dụng Object
+        function createObject() {
+            const type = document.getElementById('accountType').value;
+            const result = document.getElementById('objectResult');
+            const output = document.getElementById('objectResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `=== TẠO OBJECT ===\n\n`;
+
+            switch(type) {
+                case 'student':
+                    outputText += `Student student = new Student("Nguyễn Văn A", 20);\n\n`;
+                    outputText += `Đã tạo đối tượng Student:\n`;
+                    outputText += `- name: "Nguyễn Văn A"\n`;
+                    outputText += `- age: 20\n`;
+                    break;
+                case 'car':
+                    outputText += `Car myCar = new Car();\n`;
+                    outputText += `myCar.brand = "Toyota";\n`;
+                    outputText += `myCar.color = "Red";\n`;
+                    outputText += `myCar.speed = 0;\n\n`;
+                    outputText += `Đã tạo đối tượng Car:\n`;
+                    outputText += `- brand: "Toyota"\n`;
+                    outputText += `- color: "Red"\n`;
+                    outputText += `- speed: 0\n`;
+                    break;
+                case 'bank':
+                    outputText += `BankAccount account = new BankAccount();\n`;
+                    outputText += `account.accountNumber = "123456789";\n`;
+                    outputText += `account.ownerName = "Trần Thị B";\n`;
+                    outputText += `account.balance = 1000.0;\n\n`;
+                    outputText += `Đã tạo đối tượng BankAccount:\n`;
+                    outputText += `- accountNumber: "123456789"\n`;
+                    outputText += `- ownerName: "Trần Thị B"\n`;
+                    outputText += `- balance: 1000.0\n`;
+                    break;
+            }
+
+            output.textContent = outputText;
+        }
+
+        function useObject() {
+            const type = document.getElementById('accountType').value;
+            const result = document.getElementById('objectResult');
+            const output = document.getElementById('objectResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `=== SỬ DỤNG OBJECT ===\n\n`;
+
+            switch(type) {
+                case 'student':
+                    outputText += `// Gọi phương thức\n`;
+                    outputText += `student.study("Java");\n`;
+                    outputText += `student.takeExam("OOP");\n\n`;
+                    outputText += `Kết quả:\n`;
+                    outputText += `Nguyễn Văn A đang học Java\n`;
+                    outputText += `Nguyễn Văn A đang thi OOP\n`;
+                    break;
+                case 'car':
+                    outputText += `// Gọi phương thức\n`;
+                    outputText += `myCar.accelerate();\n`;
+                    outputText += `myCar.accelerate();\n\n`;
+                    outputText += `Kết quả:\n`;
+                    outputText += `Tốc độ hiện tại: 20 km/h\n`;
+                    break;
+                case 'bank':
+                    outputText += `// Gọi phương thức\n`;
+                    outputText += `account.deposit(500.0);\n`;
+                    outputText += `account.withdraw(200.0);\n`;
+                    outputText += `account.displayBalance();\n\n`;
+                    outputText += `Kết quả:\n`;
+                    outputText += `Đã gửi: 500.0\n`;
+                    outputText += `Đã rút: 200.0\n`;
+                    outputText += `Số dư: 1300.0\n`;
+                    break;
+            }
+
+            output.textContent = outputText;
+        }
+
+        // Khám phá cấu trúc Class
+        function exploreClass() {
+            const fieldName = document.getElementById('fieldName').value || "name";
+            const fieldType = document.getElementById('fieldType').value || "String";
+
+            const result = document.getElementById('classStructureResult');
+            const output = document.getElementById('classStructureResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `=== CẤU TRÚC CLASS MẪU ===\n\n`;
+            outputText += `class MyClass {\n`;
+            outputText += `    // Thuộc tính (Fields)\n`;
+            outputText += `    ${fieldType} ${fieldName};\n`;
+            outputText += `    int count = 0;\n`;
+            outputText += `    final String TYPE = "Example";\n\n`;
+            outputText += `    // Constructor\n`;
+            outputText += `    MyClass(${fieldType} ${fieldName}) {\n`;
+            outputText += `        this.${fieldName} = ${fieldName};\n`;
+            outputText += `    }\n\n`;
+            outputText += `    // Phương thức (Methods)\n`;
+            outputText += `    void displayInfo() {\n`;
+            outputText += `        System.out.println("${fieldName}: " + ${fieldName});\n`;
+            outputText += `    }\n\n`;
+            outputText += `    ${fieldType} get${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}() {\n`;
+            outputText += `        return ${fieldName};\n`;
+            outputText += `    }\n`;
+            outputText += `}\n`;
+
+            output.textContent = outputText;
+        }
+
+        // Thử nghiệm Constructor
+        function testConstructor() {
+            const type = document.getElementById('constructorType').value;
+            const result = document.getElementById('constructorResult');
+            const output = document.getElementById('constructorResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `=== THỬ NGHIỆM CONSTRUCTOR ===\n\n`;
+
+            switch(type) {
+                case 'default':
+                    outputText += `// Constructor mặc định\n`;
+                    outputText += `class Student {\n`;
+                    outputText += `    String name;\n`;
+                    outputText += `    int age;\n\n`;
+                    outputText += `    // Constructor mặc định\n`;
+                    outputText += `    Student() {\n`;
+                    outputText += `        name = "Unknown";\n`;
+                    outputText += `        age = 0;\n`;
+                    outputText += `    }\n`;
+                    outputText += `}\n\n`;
+                    outputText += `// Sử dụng\n`;
+                    outputText += `Student s = new Student();\n`;
+                    outputText += `System.out.println(s.name); // "Unknown"\n`;
+                    outputText += `System.out.println(s.age);  // 0\n`;
+                    break;
+                case 'parameterized':
+                    outputText += `// Constructor có tham số\n`;
+                    outputText += `class Student {\n`;
+                    outputText += `    String name;\n`;
+                    outputText += `    int age;\n\n`;
+                    outputText += `    // Constructor có tham số\n`;
+                    outputText += `    Student(String name, int age) {\n`;
+                    outputText += `        this.name = name;\n`;
+                    outputText += `        this.age = age;\n`;
+                    outputText += `    }\n`;
+                    outputText += `}\n\n`;
+                    outputText += `// Sử dụng\n`;
+                    outputText += `Student s = new Student("Nam", 20);\n`;
+                    outputText += `System.out.println(s.name); // "Nam"\n`;
+                    outputText += `System.out.println(s.age);  // 20\n`;
+                    break;
+                case 'overloaded':
+                    outputText += `// Overloading Constructor\n`;
+                    outputText += `class Student {\n`;
+                    outputText += `    String name;\n`;
+                    outputText += `    int age;\n\n`;
+                    outputText += `    // Constructor 1\n`;
+                    outputText += `    Student() {\n`;
+                    outputText += `        this("Unknown", 0);\n`;
+                    outputText += `    }\n\n`;
+                    outputText += `    // Constructor 2\n`;
+                    outputText += `    Student(String name) {\n`;
+                    outputText += `        this(name, 0);\n`;
+                    outputText += `    }\n\n`;
+                    outputText += `    // Constructor 3\n`;
+                    outputText += `    Student(String name, int age) {\n`;
+                    outputText += `        this.name = name;\n`;
+                    outputText += `        this.age = age;\n`;
+                    outputText += `    }\n`;
+                    outputText += `}\n\n`;
+                    outputText += `// Sử dụng\n`;
+                    outputText += `Student s1 = new Student();\n`;
+                    outputText += `Student s2 = new Student("Nam");\n`;
+                    outputText += `Student s3 = new Student("Lan", 21);\n`;
+                    break;
+            }
+
+            output.textContent = outputText;
+        }
+
+        // Mô phỏng vòng đời Object
+        function simulateObjectLifecycle() {
+            const result = document.getElementById('lifecycleResult');
+            const output = document.getElementById('lifecycleResultContent');
+
+            result.classList.add('active');
+
+            let outputText = `=== MÔ PHỎNG VÒNG ĐỜI OBJECT ===\n\n`;
+            
+            outputText += `[BƯỚC 1] TẠO OBJECT\n`;
+            outputText += `Student s1 = new Student("Nguyen Van A", 20);\n`;
+            outputText += `✓ Object được tạo trong bộ nhớ\n\n`;
+            
+            outputText += `[BƯỚC 2] SỬ DỤNG OBJECT\n`;
+            outputText += `s1.study("Java");\n`;
+            outputText += `s1.displayInfo();\n`;
+            outputText += `✓ Object đang được sử dụng\n\n`;
+            
+            outputText += `[BƯỚC 3] KHÔNG CÒN THAM CHIẾU\n`;
+            outputText += `s1 = null;\n`;
+            outputText += `✓ Object không còn được tham chiếu\n\n`;
+            
+            outputText += `[BƯỚC 4] GARBAGE COLLECTOR\n`;
+            outputText += `// Tại thời điểm không xác định\n`;
+            outputText += `// GC tự động thu hồi bộ nhớ\n`;
+            outputText += `✓ Bộ nhớ đã được giải phóng\n`;
+
+            output.textContent = outputText;
+        }
+
+        // Kiểm tra bài tập Rectangle
+        function testRectangle() {
+            const width = parseInt(document.getElementById('rectWidth').value) || 5;
+            const height = parseInt(document.getElementById('rectHeight').value) || 10;
+
+            const result = document.getElementById('exerciseResult');
+            const output = document.getElementById('exerciseResultContent');
+
+            result.classList.add('active');
+
+            const area = width * height;
+            const perimeter = 2 * (width + height);
+
+            let outputText = `=== KIỂM TRA CLASS RECTANGLE ===\n\n`;
+            outputText += `class Rectangle {\n`;
+            outputText += `    double width;\n`;
+            outputText += `    double height;\n\n`;
+            outputText += `    // Constructor không tham số\n`;
+            outputText += `    Rectangle() {\n`;
+            outputText += `        width = 1.0;\n`;
+            outputText += `        height = 1.0;\n`;
+            outputText += `    }\n\n`;
+            outputText += `    // Constructor có tham số\n`;
+            outputText += `    Rectangle(double width, double height) {\n`;
+            outputText += `        this.width = width;\n`;
+            outputText += `        this.height = height;\n`;
+            outputText += `    }\n\n`;
+            outputText += `    // Tính diện tích\n`;
+            outputText += `    double getArea() {\n`;
+            outputText += `        return width * height;\n`;
+            outputText += `    }\n\n`;
+            outputText += `    // Tính chu vi\n`;
+            outputText += `    double getPerimeter() {\n`;
+            outputText += `        return 2 * (width + height);\n`;
+            outputText += `    }\n`;
+            outputText += `}\n\n`;
+            outputText += `=== KẾT QUẢ ===\n`;
+            outputText += `Rectangle rect = new Rectangle(${width}, ${height});\n`;
+            outputText += `Diện tích: ${area}\n`;
+            outputText += `Chu vi: ${perimeter}\n`;
+
+            output.textContent = outputText;
+        }
+
+        // Kiểm tra class Book
+        function testBook() {
+            const title = document.getElementById('bookTitle').value || "Java Programming";
+            const author = document.getElementById('bookAuthor').value || "John Doe";
+            const price = parseFloat(document.getElementById('bookPrice').value) || 25.5;
+            const quantity = parseInt(document.getElementById('bookQuantity').value) || 3;
+
+            const result = document.getElementById('bookResult');
+            const output = document.getElementById('bookResultContent');
+
+            result.classList.add('active');
+
+            const totalPrice = price * quantity;
+            const discountedPrice = price * 0.9; // Giảm 10%
+
+            let outputText = `=== KIỂM TRA CLASS BOOK ===\n\n`;
+            outputText += `class Book {\n`;
+            outputText += `    String title;\n`;
+            outputText += `    String author;\n`;
+            outputText += `    double price;\n`;
+            outputText += `    int quantity;\n\n`;
+            outputText += `    // Constructor\n`;
+            outputText += `    Book(String title, String author, double price, int quantity) {\n`;
+            outputText += `        this.title = title;\n`;
+            outputText += `        this.author = author;\n`;
+            outputText += `        this.price = price;\n`;
+            outputText += `        this.quantity = quantity;\n`;
+            outputText += `    }\n\n`;
+            outputText += `    // Tính tổng giá\n`;
+            outputText += `    double getTotalPrice() {\n`;
+            outputText += `        return price * quantity;\n`;
+            outputText += `    }\n\n`;
+            outputText += `    // Giảm giá\n`;
+            outputText += `    void applyDiscount(double percent) {\n`;
+            outputText += `        price = price * (1 - percent/100);\n`;
+            outputText += `    }\n`;
+            outputText += `}\n\n`;
+            outputText += `=== KẾT QUẢ ===\n`;
+            outputText += `Book book = new Book("${title}", "${author}", ${price}, ${quantity});\n`;
+            outputText += `Tổng giá: $${totalPrice.toFixed(2)}\n`;
+            outputText += `Sau giảm 10%: $${(totalPrice * 0.9).toFixed(2)}\n`;
+
+            output.textContent = outputText;
+        }
+
+        // Hiển thị đáp án câu hỏi
+        function showAnswer() {
+            const question = document.getElementById('quizQuestion').value;
+            const result = document.getElementById('quizResult');
+            const output = document.getElementById('quizResultContent');
+
+            result.classList.add('active');
+
+            let answer = "";
+
+            switch(question) {
+                case '1':
+                    answer = "OOP (Object-Oriented Programming) là phương pháp lập trình dựa trên các đối tượng, mỗi đối tượng gom dữ liệu (fields) và hành vi (methods) liên quan vào cùng một đơn vị.";
+                    break;
+                case '2':
+                    answer = "Class là bản thiết kế/khuôn mẫu, định nghĩa cấu trúc và hành vi. Object là thể hiện cụ thể của class, có dữ liệu thật và chiếm bộ nhớ.";
+                    break;
+                case '3':
+                    answer = "Constructor là phương thức đặc biệt dùng để khởi tạo object. Nó được gọi tự động khi tạo object với từ khóa 'new'.";
+                    break;
+                case '4':
+                    answer = "Từ khóa 'this' tham chiếu đến object hiện tại. Công dụng: phân biệt thuộc tính và tham số trùng tên, gọi constructor khác, trả về object hiện tại.";
+                    break;
+                case '5':
+                    answer = "Object bị Garbage Collector thu hồi khi không còn biến nào tham chiếu đến nó (trở thành 'rác'). GC hoạt động tự động, không cần lập trình viên can thiệp.";
+                    break;
+            }
+
+            output.textContent = answer;
+        }
+    </script>
+</body>
+</html>

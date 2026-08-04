@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FILE I/O & STREAMS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ <link rel="stylesheet" href="./main.css">
+<style>
+    
+</style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-file"></i>FILE I/O & STREAMS </h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#part1" class="nav-link active"><i class="fas fa-folder"></i> <span> FILE CLASS</span></a></li>
+                    <li class="nav-item"><a href="#part2" class="nav-link"><i class="fas fa-microchip"></i> <span> BYTE STREAMS</span></a></li>
+                    <li class="nav-item"><a href="#part3" class="nav-link"><i class="fas fa-font"></i> <span> CHARACTER STREAMS</span></a></li>
+                    <li class="nav-item"><a href="#part4" class="nav-link"><i class="fas fa-broom"></i> <span>TRY-WITH-RESOURCES</span></a></li>
+                    <li class="nav-item"><a href="#part5" class="nav-link"><i class="fas fa-star"></i> <span> TỔNG KẾT</span></a></li>
+                    <li class="nav-item"><a href="#part6" class="nav-link"><i class="fas fa-star"></i> <span>BÀI TẬP</span></a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN 1: FILE CLASS -->
+                <section id="part1" class="section active">
+                    <h2><i class="fas fa-folder"></i>  1: FILE CLASS</h2>
+
+                    <h3>1.1 FILE LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>File</strong> là lớp trong Java (thuộc gói java.io) đại diện cho một đường dẫn đến file hoặc thư mục trên hệ thống tệp tin.</p>
+                    </div>
+
+                    <h4>Mục đích:</h4>
+                    <ul>
+                        <li>Kiểm tra sự tồn tại của file/thư mục</li>
+                        <li>Tạo, xóa, đổi tên file/thư mục</li>
+                        <li>Lấy thông tin về file (kích thước, quyền truy cập, thời gian sửa đổi)</li>
+                        <li>Liệt kê nội dung thư mục</li>
+                        <li>Không dùng để đọc/ghi nội dung file (Stream mới làm việc đó)</li>
+                    </ul>
+
+                    <h4>Cú pháp khởi tạo:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        File file = <span class="keyword">new</span> File(String pathname);<br>
+                        File file = <span class="keyword">new</span> File(String parent, String child);<br>
+                        File file = <span class="keyword">new</span> File(File parent, String child);
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích cú pháp:</h4>
+                        <ul>
+                            <li><strong>String pathname</strong>: đường dẫn tuyệt đối hoặc tương đối đến file/thư mục</li>
+                            <li><strong>String parent, String child</strong>: thư mục cha và tên file con</li>
+                            <li><strong>File parent, String child</strong>: đối tượng File cha và tên file con</li>
+                        </ul>
+                    </div>
+
+                    <h3>1.2 KIỂM TRA VÀ LẤY THÔNG TIN FILE</h3>
+
+                    <h4>1.2.1 exists() - Kiểm tra tồn tại</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> exists()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Kiểm tra file hoặc thư mục có tồn tại trên hệ thống hay không.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> FileExistsExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">FileExistsExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File file = <span class="keyword">new</span> File(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (file.exists()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"File tồn tại!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"File không tồn tại!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>1.2.2 isFile() và isDirectory()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> isFile()<br>
+                        <span class="keyword">boolean</span> isDirectory()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <ul>
+                            <li><strong>isFile()</strong>: kiểm tra đối tượng có phải là file (không phải thư mục)</li>
+                            <li><strong>isDirectory()</strong>: kiểm tra đối tượng có phải là thư mục</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> FileTypeExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">FileTypeExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File file1 = <span class="keyword">new</span> File(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File file2 = <span class="keyword">new</span> File(<span class="string">"C:/test/folder"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (file1.exists()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"data.txt là file? "</span> + file1.isFile());       <span class="comment">// true</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"data.txt là thư mục? "</span> + file1.isDirectory()); <span class="comment">// false</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (file2.exists()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"folder là file? "</span> + file2.isFile());          <span class="comment">// false</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"folder là thư mục? "</span> + file2.isDirectory());  <span class="comment">// true</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>1.2.3 getName(), getPath(), getAbsolutePath()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String getName()           <span class="comment">// lấy tên file/thư mục</span><br>
+                        String getPath()           <span class="comment">// lấy đường dẫn khi tạo</span><br>
+                        String getAbsolutePath()   <span class="comment">// lấy đường dẫn tuyệt đối</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Lấy các thông tin về tên và đường dẫn của file.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> FilePathExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">FilePathExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File file = <span class="keyword">new</span> File(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tên file: "</span> + file.getName());           <span class="comment">// data.txt</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đường dẫn: "</span> + file.getPath());          <span class="comment">// C:/test/data.txt</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đường dẫn tuyệt đối: "</span> + file.getAbsolutePath()); <span class="comment">// C:/test/data.txt</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File relative = <span class="keyword">new</span> File(<span class="string">"data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tên: "</span> + relative.getName());            <span class="comment">// data.txt</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đường dẫn: "</span> + relative.getPath());      <span class="comment">// data.txt</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đường dẫn tuyệt đối: "</span> + relative.getAbsolutePath()); <span class="comment">// /current/path/data.txt</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>1.2.4 length() - Lấy kích thước</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">long</span> length()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Lấy kích thước của file (số byte). Trả về 0 nếu file không tồn tại hoặc là thư mục.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> FileLengthExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">FileLengthExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File file = <span class="keyword">new</span> File(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (file.exists() && file.isFile()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">long</span> bytes = file.length();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span> kilobytes = bytes / <span class="number">1024.0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span> megabytes = kilobytes / <span class="number">1024.0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Kích thước: "</span> + bytes + <span class="string">" bytes"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Kích thước: "</span> + kilobytes + <span class="string">" KB"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Kích thước: "</span> + megabytes + <span class="string">" MB"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>1.2.5 lastModified() - Thời gian sửa đổi</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">long</span> lastModified()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Lấy thời gian sửa đổi lần cuối của file (milliseconds từ 1970-01-01).</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> FileLastModifiedExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <span class="keyword">import</span> java.util.Date;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">FileLastModifiedExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File file = <span class="keyword">new</span> File(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (file.exists()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">long</span> lastModified = file.lastModified();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date date = <span class="keyword">new</span> Date(lastModified);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lần sửa cuối: "</span> + date);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>1.2.6 canRead(), canWrite(), canExecute()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> canRead()    <span class="comment">// có thể đọc?</span><br>
+                        <span class="keyword">boolean</span> canWrite()   <span class="comment">// có thể ghi?</span><br>
+                        <span class="keyword">boolean</span> canExecute() <span class="comment">// có thể thực thi?</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Kiểm tra quyền truy cập file.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> FilePermissionsExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">FilePermissionsExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File file = <span class="keyword">new</span> File(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (file.exists()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Có thể đọc: "</span> + file.canRead());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Có thể ghi: "</span> + file.canWrite());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Có thể thực thi: "</span> + file.canExecute());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>1.3 THAO TÁC VỚI FILE VÀ THƯ MỤC</h3>
+
+                    <h4>1.3.1 createNewFile() - Tạo file mới</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> createNewFile() <span class="keyword">throws</span> IOException
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Tạo một file mới, trống. Trả về true nếu tạo thành công, false nếu file đã tồn tại.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> CreateFileExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">CreateFileExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File file = <span class="keyword">new</span> File(<span class="string">"C:/test/newfile.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (file.createNewFile()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã tạo file: "</span> + file.getName());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"File đã tồn tại!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi khi tạo file: "</span> + e.getMessage());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>1.3.2 mkdir() và mkdirs() - Tạo thư mục</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> mkdir()    <span class="comment">// tạo một thư mục</span><br>
+                        <span class="keyword">boolean</span> mkdirs()   <span class="comment">// tạo cả cây thư mục</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <ul>
+                            <li><strong>mkdir()</strong>: tạo một thư mục, thư mục cha phải tồn tại</li>
+                            <li><strong>mkdirs()</strong>: tạo thư mục và tất cả thư mục cha nếu chưa tồn tại</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> CreateDirectoryExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">CreateDirectoryExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo một thư mục</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File dir1 = <span class="keyword">new</span> File(<span class="string">"C:/test/newfolder"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (dir1.mkdir()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã tạo thư mục: "</span> + dir1.getPath());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Không thể tạo thư mục!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo cây thư mục</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File dir2 = <span class="keyword">new</span> File(<span class="string">"C:/test/parent/child/grandchild"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (dir2.mkdirs()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã tạo cây thư mục: "</span> + dir2.getPath());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Không thể tạo cây thư mục!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>1.3.3 delete() - Xóa file/thư mục</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> delete()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Xóa file hoặc thư mục. Thư mục phải trống mới xóa được.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> DeleteFileExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">DeleteFileExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File file = <span class="keyword">new</span> File(<span class="string">"C:/test/oldfile.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (file.delete()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã xóa: "</span> + file.getName());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Không thể xóa!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>1.3.4 renameTo() - Đổi tên/di chuyển</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> renameTo(File dest)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Đổi tên hoặc di chuyển file/thư mục.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> RenameFileExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">RenameFileExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File oldFile = <span class="keyword">new</span> File(<span class="string">"C:/test/oldname.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File newFile = <span class="keyword">new</span> File(<span class="string">"C:/test/newname.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (oldFile.renameTo(newFile)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã đổi tên thành: "</span> + newFile.getName());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Không thể đổi tên!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>1.3.5 list() và listFiles() - Liệt kê nội dung thư mục</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String[] list()                          <span class="comment">// trả về mảng tên</span><br>
+                        File[] listFiles()                        <span class="comment">// trả về mảng File</span><br>
+                        String[] list(FilenameFilter filter)      <span class="comment">// lọc theo tên</span><br>
+                        File[] listFiles(FileFilter filter)       <span class="comment">// lọc theo file</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Liệt kê nội dung bên trong thư mục.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ListDirectoryExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">ListDirectoryExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File dir = <span class="keyword">new</span> File(<span class="string">"C:/test"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (dir.exists() && dir.isDirectory()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Cách 1: lấy tên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"=== Danh sách tên ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] names = dir.list();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String name : names) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"  "</span> + name);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Cách 2: lấy đối tượng File</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\n=== Danh sách File objects ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File[] files = dir.listFiles();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (File f : files) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (f.isFile()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"File: "</span> + f.getName() + <span class="string">" ("</span> + f.length() + <span class="string">" bytes)"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else if</span> (f.isDirectory()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thư mục: "</span> + f.getName());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ListFilteredExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.File;<br>
+                        <span class="keyword">import</span> java.io.FilenameFilter;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">ListFilteredExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;File dir = <span class="keyword">new</span> File(<span class="string">"C:/test"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lọc chỉ lấy file .txt</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FilenameFilter textFilter = <span class="keyword">new</span> FilenameFilter() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public boolean</span> accept(File dir, String name) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> name.endsWith(<span class="string">".txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Dùng lambda</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FilenameFilter lambdaFilter = (d, name) -> name.endsWith(<span class="string">".txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] txtFiles = dir.list(lambdaFilter);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Các file .txt:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String f : txtFiles) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"  "</span> + f);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 2: BYTE STREAMS -->
+                <section id="part2" class="section">
+                    <h2><i class="fas fa-microchip"></i>  2: BYTE STREAMS</h2>
+
+                    <h3>2.1 BYTE STREAMS LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>Byte Streams</strong> là các luồng xử lý dữ liệu dưới dạng byte (8-bit), phù hợp cho mọi loại file (văn bản, hình ảnh, âm thanh, video).</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul>
+                        <li>Đọc/ghi dữ liệu theo từng byte</li>
+                        <li>Không quan tâm đến encoding</li>
+                        <li>Phù hợp cho dữ liệu nhị phân</li>
+                    </ul>
+
+                    <h4>Hai lớp cơ bản:</h4>
+                    <ul>
+                        <li><strong>InputStream</strong>: lớp trừu tượng cho luồng đọc byte</li>
+                        <li><strong>OutputStream</strong>: lớp trừu tượng cho luồng ghi byte</li>
+                    </ul>
+
+                    <h4>Các lớp con thường dùng:</h4>
+                    <ul>
+                        <li>FileInputStream: đọc byte từ file</li>
+                        <li>FileOutputStream: ghi byte vào file</li>
+                        <li>BufferedInputStream: đọc có bộ đệm</li>
+                        <li>BufferedOutputStream: ghi có bộ đệm</li>
+                    </ul>
+
+                    <h3>2.2 FILE INPUT STREAM</h3>
+
+                    <h4>2.2.1 FileInputStream - Đọc byte từ file</h4>
+                    
+                    <h5>Cú pháp khởi tạo:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        FileInputStream(String name) <span class="keyword">throws</span> FileNotFoundException<br>
+                        FileInputStream(File file) <span class="keyword">throws</span> FileNotFoundException
+                    </div>
+
+                    <h5>Các phương thức chính:</h5>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phương thức</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>int read()</td>
+                                    <td>Đọc một byte, trả về giá trị 0-255, -1 nếu hết file</td>
+                                </tr>
+                                <tr>
+                                    <td>int read(byte[] b)</td>
+                                    <td>Đọc vào mảng byte, trả về số byte đọc được</td>
+                                </tr>
+                                <tr>
+                                    <td>int read(byte[] b, int off, int len)</td>
+                                    <td>Đọc len byte vào mảng b từ vị trí off</td>
+                                </tr>
+                                <tr>
+                                    <td>long skip(long n)</td>
+                                    <td>Bỏ qua n byte</td>
+                                </tr>
+                                <tr>
+                                    <td>int available()</td>
+                                    <td>Số byte có thể đọc được</td>
+                                </tr>
+                                <tr>
+                                    <td>void close()</td>
+                                    <td>Đóng luồng</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ByteStreamReadExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.FileInputStream;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">ByteStreamReadExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileInputStream fis = <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Mở file để đọc</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fis = <span class="keyword">new</span> FileInputStream(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> byteData;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Đọc từng byte cho đến khi hết file (-1)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((byteData = fis.read()) != -<span class="number">1</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print((<span class="keyword">char</span>) byteData); <span class="comment">// Chuyển byte thành ký tự</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi: "</span> + e.getMessage());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">finally</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Đóng luồng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (fis != <span class="keyword">null</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fis.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi đóng luồng: "</span> + e.getMessage());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ByteStreamReadArrayExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.FileInputStream;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">ByteStreamReadArrayExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileInputStream fis = <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fis = <span class="keyword">new</span> FileInputStream(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo bộ đệm 1024 byte</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">byte</span>[] buffer = <span class="keyword">new byte</span>[<span class="number">1024</span>];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> bytesRead;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Đọc vào mảng, trả về số byte thực tế đọc được</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((bytesRead = fis.read(buffer)) != -<span class="number">1</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Đọc "</span> + bytesRead + <span class="string">" byte: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="keyword">new</span> String(buffer, <span class="number">0</span>, bytesRead));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">finally</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (fis != <span class="keyword">null</span>) fis.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>2.3 FILE OUTPUT STREAM</h3>
+
+                    <h4>2.3.1 FileOutputStream - Ghi byte vào file</h4>
+                    
+                    <h5>Cú pháp khởi tạo:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        FileOutputStream(String name) <span class="keyword">throws</span> FileNotFoundException<br>
+                        FileOutputStream(String name, <span class="keyword">boolean</span> append) <span class="keyword">throws</span> FileNotFoundException<br>
+                        FileOutputStream(File file) <span class="keyword">throws</span> FileNotFoundException<br>
+                        FileOutputStream(File file, <span class="keyword">boolean</span> append) <span class="keyword">throws</span> FileNotFoundException
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li><strong>append = true</strong>: ghi thêm vào cuối file</li>
+                            <li><strong>append = false</strong>: ghi đè lên file cũ (mặc định)</li>
+                        </ul>
+                    </div>
+
+                    <h5>Các phương thức chính:</h5>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phương thức</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>void write(int b)</td>
+                                    <td>Ghi một byte</td>
+                                </tr>
+                                <tr>
+                                    <td>void write(byte[] b)</td>
+                                    <td>Ghi mảng byte</td>
+                                </tr>
+                                <tr>
+                                    <td>void write(byte[] b, int off, int len)</td>
+                                    <td>Ghi len byte từ mảng b từ vị trí off</td>
+                                </tr>
+                                <tr>
+                                    <td>void flush()</td>
+                                    <td>Đẩy dữ liệu từ bộ đệm xuống file</td>
+                                </tr>
+                                <tr>
+                                    <td>void close()</td>
+                                    <td>Đóng luồng</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ByteStreamWriteExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.FileOutputStream;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">ByteStreamWriteExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileOutputStream fos = <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ghi đè file</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"C:/test/output.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String text = <span class="string">"Hello, World!"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ghi từng ký tự</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < text.length(); i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fos.write(text.charAt(i)); <span class="comment">// char thành int (byte)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã ghi file thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi: "</span> + e.getMessage());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">finally</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (fos != <span class="keyword">null</span>) fos.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ByteStreamWriteArrayExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.FileOutputStream;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">ByteStreamWriteArrayExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileOutputStream fos = <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ghi đè</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"C:/test/output.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String text1 = <span class="string">"Dòng đầu tiên\n"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fos.write(text1.getBytes()); <span class="comment">// String → byte[]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fos.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ghi thêm (append)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"C:/test/output.txt"</span>, <span class="keyword">true</span>); <span class="comment">// append mode</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String text2 = <span class="string">"Dòng thứ hai\n"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fos.write(text2.getBytes());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã ghi file thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">finally</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (fos != <span class="keyword">null</span>) fos.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>2.4 COPY FILE VỚI BYTE STREAM</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> CopyFileByteStream.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.FileInputStream;<br>
+                        <span class="keyword">import</span> java.io.FileOutputStream;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">CopyFileByteStream</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileInputStream fis = <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileOutputStream fos = <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fis = <span class="keyword">new</span> FileInputStream(<span class="string">"C:/test/image.jpg"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"C:/test/image_copy.jpg"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">byte</span>[] buffer = <span class="keyword">new byte</span>[<span class="number">4096</span>]; <span class="comment">// Bộ đệm 4KB</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> bytesRead;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((bytesRead = fis.read(buffer)) != -<span class="number">1</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fos.write(buffer, <span class="number">0</span>, bytesRead);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Copy file thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">finally</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (fis != <span class="keyword">null</span>) fis.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (fos != <span class="keyword">null</span>) fos.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>2.5 BUFFERED BYTE STREAMS</h3>
+                    
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Tăng hiệu suất đọc/ghi bằng cách sử dụng bộ đệm (giảm số lần truy cập ổ đĩa).</p>
+                    </div>
+
+                    <h4>2.5.1 BufferedInputStream</h4>
+                    
+                    <h5>Cú pháp:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        BufferedInputStream(InputStream in)<br>
+                        BufferedInputStream(InputStream in, <span class="keyword">int</span> size) <span class="comment">// size: kích thước bộ đệm</span>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> BufferedInputStreamExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.BufferedInputStream;<br>
+                        <span class="keyword">import</span> java.io.FileInputStream;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">BufferedInputStreamExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">"C:/test/largefile.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedInputStream bis = <span class="keyword">new</span> BufferedInputStream(fis)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">byte</span>[] buffer = <span class="keyword">new byte</span>[<span class="number">1024</span>];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> bytesRead;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((bytesRead = bis.read(buffer)) != -<span class="number">1</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xử lý dữ liệu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="keyword">new</span> String(buffer, <span class="number">0</span>, bytesRead));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>2.5.2 BufferedOutputStream</h4>
+                    
+                    <h5>Cú pháp:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        BufferedOutputStream(OutputStream out)<br>
+                        BufferedOutputStream(OutputStream out, <span class="keyword">int</span> size)
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> BufferedOutputStreamExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.BufferedOutputStream;<br>
+                        <span class="keyword">import</span> java.io.FileOutputStream;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">BufferedOutputStreamExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"C:/test/output.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedOutputStream bos = <span class="keyword">new</span> BufferedOutputStream(fos)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String data = <span class="string">"Đây là dữ liệu cần ghi"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bos.write(data.getBytes());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bos.flush(); <span class="comment">// Đẩy dữ liệu từ bộ đệm xuống file</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã ghi xong!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 3: CHARACTER STREAMS -->
+                <section id="part3" class="section">
+                    <h2><i class="fas fa-font"></i>  3: CHARACTER STREAMS</h2>
+
+                    <h3>3.1 CHARACTER STREAMS LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>Character Streams</strong> là các luồng xử lý dữ liệu dưới dạng ký tự (16-bit Unicode), phù hợp cho file văn bản.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul>
+                        <li>Đọc/ghi dữ liệu theo từng ký tự</li>
+                        <li>Xử lý tự động chuyển đổi encoding</li>
+                        <li>Phù hợp cho file văn bản (text files)</li>
+                    </ul>
+
+                    <h4>Hai lớp cơ bản:</h4>
+                    <ul>
+                        <li><strong>Reader</strong>: lớp trừu tượng cho luồng đọc ký tự</li>
+                        <li><strong>Writer</strong>: lớp trừu tượng cho luồng ghi ký tự</li>
+                    </ul>
+
+                    <h4>Các lớp con thường dùng:</h4>
+                    <ul>
+                        <li>FileReader: đọc ký tự từ file</li>
+                        <li>FileWriter: ghi ký tự vào file</li>
+                        <li>BufferedReader: đọc có bộ đệm, có phương thức readLine()</li>
+                        <li>BufferedWriter: ghi có bộ đệm, có phương thức newLine()</li>
+                        <li>InputStreamReader: chuyển byte stream → character stream</li>
+                        <li>OutputStreamWriter: chuyển character stream → byte stream</li>
+                    </ul>
+
+                    <h3>3.2 FILE READER</h3>
+
+                    <h4>3.2.1 FileReader - Đọc ký tự từ file</h4>
+                    
+                    <h5>Cú pháp khởi tạo:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        FileReader(String fileName) <span class="keyword">throws</span> FileNotFoundException<br>
+                        FileReader(File file) <span class="keyword">throws</span> FileNotFoundException
+                    </div>
+
+                    <h5>Các phương thức chính:</h5>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phương thức</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>int read()</td>
+                                    <td>Đọc một ký tự, trả về mã Unicode, -1 nếu hết</td>
+                                </tr>
+                                <tr>
+                                    <td>int read(char[] cbuf)</td>
+                                    <td>Đọc vào mảng ký tự</td>
+                                </tr>
+                                <tr>
+                                    <td>int read(char[] cbuf, int off, int len)</td>
+                                    <td>Đọc len ký tự vào mảng</td>
+                                </tr>
+                                <tr>
+                                    <td>void close()</td>
+                                    <td>Đóng luồng</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> FileReaderExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.FileReader;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">FileReaderExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileReader fr = <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fr = <span class="keyword">new</span> FileReader(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> charData;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((charData = fr.read()) != -<span class="number">1</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print((<span class="keyword">char</span>) charData);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">finally</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (fr != <span class="keyword">null</span>) fr.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> FileReaderArrayExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.FileReader;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">FileReaderArrayExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">"C:/test/data.txt"</span>)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">char</span>[] buffer = <span class="keyword">new char</span>[<span class="number">1024</span>];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> charsRead;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((charsRead = fr.read(buffer)) != -<span class="number">1</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="keyword">new</span> String(buffer, <span class="number">0</span>, charsRead));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>3.3 FILE WRITER</h3>
+
+                    <h4>3.3.1 FileWriter - Ghi ký tự vào file</h4>
+                    
+                    <h5>Cú pháp khởi tạo:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        FileWriter(String fileName) <span class="keyword">throws</span> IOException<br>
+                        FileWriter(String fileName, <span class="keyword">boolean</span> append) <span class="keyword">throws</span> IOException<br>
+                        FileWriter(File file) <span class="keyword">throws</span> IOException<br>
+                        FileWriter(File file, <span class="keyword">boolean</span> append) <span class="keyword">throws</span> IOException
+                    </div>
+
+                    <h5>Các phương thức chính:</h5>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phương thức</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>void write(int c)</td>
+                                    <td>Ghi một ký tự</td>
+                                </tr>
+                                <tr>
+                                    <td>void write(char[] cbuf)</td>
+                                    <td>Ghi mảng ký tự</td>
+                                </tr>
+                                <tr>
+                                    <td>void write(char[] cbuf, int off, int len)</td>
+                                    <td>Ghi len ký tự từ mảng</td>
+                                </tr>
+                                <tr>
+                                    <td>void write(String str)</td>
+                                    <td>Ghi chuỗi</td>
+                                </tr>
+                                <tr>
+                                    <td>void write(String str, int off, int len)</td>
+                                    <td>Ghi một phần chuỗi</td>
+                                </tr>
+                                <tr>
+                                    <td>void flush()</td>
+                                    <td>Đẩy dữ liệu từ bộ đệm</td>
+                                </tr>
+                                <tr>
+                                    <td>void close()</td>
+                                    <td>Đóng luồng</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> FileWriterExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.FileWriter;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">FileWriterExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileWriter fw = <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fw = <span class="keyword">new</span> FileWriter(<span class="string">"C:/test/output.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String text = <span class="string">"Xin chào, Java!"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < text.length(); i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fw.write(text.charAt(i));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã ghi file thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">finally</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (fw != <span class="keyword">null</span>) fw.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> FileWriterStringExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.FileWriter;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">FileWriterStringExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ghi đè</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"C:/test/output.txt"</span>)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fw.write(<span class="string">"Dòng 1: Hello\n"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fw.write(<span class="string">"Dòng 2: World\n"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ghi thêm (append)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"C:/test/output.txt"</span>, <span class="keyword">true</span>)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fw.write(<span class="string">"Dòng 3: Thêm vào cuối file\n"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>3.4 BUFFERED READER VÀ WRITER</h3>
+
+                    <h4>3.4.1 BufferedReader - Đọc có bộ đệm</h4>
+                    
+                    <h5>Cú pháp:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        BufferedReader(Reader in)<br>
+                        BufferedReader(Reader in, <span class="keyword">int</span> sz) <span class="comment">// sz: kích thước bộ đệm</span>
+                    </div>
+
+                    <h5>Phương thức đặc biệt:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Phương thức</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String readLine() <span class="keyword">throws</span> IOException <span class="comment">// đọc một dòng, null nếu hết file</span>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> BufferedReaderExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.BufferedReader;<br>
+                        <span class="keyword">import</span> java.io.FileReader;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">BufferedReaderExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedReader br = <span class="keyword">new</span> BufferedReader(fr)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String line;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> lineNumber = <span class="number">1</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((line = br.readLine()) != <span class="keyword">null</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Dòng "</span> + lineNumber + <span class="string">": "</span> + line);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lineNumber++;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>3.4.2 BufferedWriter - Ghi có bộ đệm</h4>
+                    
+                    <h5>Cú pháp:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        BufferedWriter(Writer out)<br>
+                        BufferedWriter(Writer out, <span class="keyword">int</span> sz)
+                    </div>
+
+                    <h5>Phương thức đặc biệt:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Phương thức</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">void</span> newLine() <span class="keyword">throws</span> IOException <span class="comment">// ghi ký tự xuống dòng</span>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> BufferedWriterExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.BufferedWriter;<br>
+                        <span class="keyword">import</span> java.io.FileWriter;<br>
+                        <span class="keyword">import</span> java.io.IOException;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">BufferedWriterExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"C:/test/output.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedWriter bw = <span class="keyword">new</span> BufferedWriter(fw)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bw.write(<span class="string">"Dòng thứ nhất"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bw.newLine(); <span class="comment">// Xuống dòng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bw.write(<span class="string">"Dòng thứ hai"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bw.newLine();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bw.write(<span class="string">"Dòng thứ ba"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã ghi file thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>3.5 COPY FILE VỚI CHARACTER STREAM</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> CopyFileCharacterStream.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">CopyFileCharacterStream</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">"C:/test/source.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"C:/test/destination.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedReader br = <span class="keyword">new</span> BufferedReader(fr);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedWriter bw = <span class="keyword">new</span> BufferedWriter(fw)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String line;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((line = br.readLine()) != <span class="keyword">null</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bw.write(line);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bw.newLine();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Copy file thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>3.6 CHUYỂN ĐỔI GIỮA BYTE VÀ CHARACTER STREAMS</h3>
+
+                    <h4>3.6.1 InputStreamReader - Byte → Character</h4>
+                    
+                    <h5>Cú pháp:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        InputStreamReader(InputStream in)<br>
+                        InputStreamReader(InputStream in, String charsetName) <span class="comment">// chỉ định encoding</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Chuyển luồng byte thành luồng ký tự, có thể chỉ định encoding.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> InputStreamReaderExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">InputStreamReaderExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;InputStreamReader isr = <span class="keyword">new</span> InputStreamReader(fis, <span class="string">"UTF-8"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedReader br = <span class="keyword">new</span> BufferedReader(isr)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String line;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((line = br.readLine()) != <span class="keyword">null</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(line);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>3.6.2 OutputStreamWriter - Character → Byte</h4>
+                    
+                    <h5>Cú pháp:</h5>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        OutputStreamWriter(OutputStream out)<br>
+                        OutputStreamWriter(OutputStream out, String charsetName)
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> OutputStreamWriterExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">OutputStreamWriterExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"C:/test/output.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OutputStreamWriter osw = <span class="keyword">new</span> OutputStreamWriter(fos, <span class="string">"UTF-8"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedWriter bw = <span class="keyword">new</span> BufferedWriter(osw)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bw.write(<span class="string">"Xin chào, thế giới!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bw.newLine();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bw.write(<span class="string">"Hello, world!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 4: TRY-WITH-RESOURCES -->
+                <section id="part4" class="section">
+                    <h2><i class="fas fa-broom"></i>  4: TRY-WITH-RESOURCES</h2>
+
+                    <h3>4.1 TRY-WITH-RESOURCES LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>Try-with-resources</strong> là cú pháp giới thiệu từ Java 7, tự động đóng các tài nguyên (resources) sau khi sử dụng, mà không cần finally block.</p>
+                    </div>
+
+                    <h4>Mục đích:</h4>
+                    <ul>
+                        <li>Tự động đóng resources (file streams, database connections, ...)</li>
+                        <li>Giảm boilerplate code (finally block dài dòng)</li>
+                        <li>Tránh lỗi quên đóng resource</li>
+                        <li>Xử lý exception tốt hơn</li>
+                    </ul>
+
+                    <div class="warning-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Yêu cầu:</h4>
+                        <p>Resource phải implement interface <strong>AutoCloseable</strong> hoặc <strong>Closeable</strong>.</p>
+                    </div>
+
+                    <h3>4.2 CÚ PHÁP</h3>
+                    
+                    <h4>Cú pháp cơ bản:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">try</span> (ResourceType resource = <span class="keyword">new</span> ResourceType()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng resource</span><br>
+                        } <span class="keyword">catch</span> (Exception e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xử lý exception</span><br>
+                        }
+                    </div>
+
+                    <h4>Cú pháp với nhiều resources:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">try</span> (ResourceType1 r1 = <span class="keyword">new</span> ResourceType1();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResourceType2 r2 = <span class="keyword">new</span> ResourceType2()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng resources</span><br>
+                        } <span class="keyword">catch</span> (Exception e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xử lý exception</span><br>
+                        }
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Resources được khai báo trong dấu () sau try</li>
+                            <li>Các resources tự động đóng khi thoát khỏi try block</li>
+                            <li>Thứ tự đóng ngược với thứ tự khai báo</li>
+                        </ul>
+                    </div>
+
+                    <h3>4.3 VÍ DỤ SO SÁNH</h3>
+
+                    <h4>4.3.1 Cách cũ (trước Java 7)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> OldWayExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">OldWayExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileReader fr = <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedReader br = <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fr = <span class="keyword">new</span> FileReader(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;br = <span class="keyword">new</span> BufferedReader(fr);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String line;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((line = br.readLine()) != <span class="keyword">null</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(line);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">finally</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phải tự đóng và xử lý exception</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (br != <span class="keyword">null</span>) br.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (fr != <span class="keyword">null</span>) fr.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="warning-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Vấn đề:</h4>
+                        <ul>
+                            <li>Code dài dòng, khó đọc</li>
+                            <li>Dễ quên đóng resource</li>
+                            <li>Phải xử lý nested try-catch</li>
+                        </ul>
+                    </div>
+
+                    <h4>4.3.2 Cách mới (try-with-resources)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> TryWithResourcesExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">TryWithResourcesExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tự động đóng fr và br khi thoát try</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">"C:/test/data.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedReader br = <span class="keyword">new</span> BufferedReader(fr)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String line;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((line = br.readLine()) != <span class="keyword">null</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(line);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Không cần finally, không cần đóng thủ công</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>4.4 VÍ DỤ VỚI NHIỀU RESOURCES</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> MultipleResourcesExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">MultipleResourcesExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Copy file với try-with-resources</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">"C:/test/source.jpg"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"C:/test/dest.jpg"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedInputStream bis = <span class="keyword">new</span> BufferedInputStream(fis);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedOutputStream bos = <span class="keyword">new</span> BufferedOutputStream(fos)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">byte</span>[] buffer = <span class="keyword">new byte</span>[<span class="number">4096</span>];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> bytesRead;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> ((bytesRead = bis.read(buffer)) != -<span class="number">1</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bos.write(buffer, <span class="number">0</span>, bytesRead);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Copy thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi: "</span> + e.getMessage());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tất cả 4 streams đều được đóng tự động</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>4.5 THỨ TỰ ĐÓNG RESOURCES</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> CloseOrderExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.*;<br>
+                        <br>
+                        <span class="keyword">class</span> <span class="class-name">Resource1</span> <span class="keyword">implements</span> AutoCloseable {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> close() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đóng Resource1"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">class</span> <span class="class-name">Resource2</span> <span class="keyword">implements</span> AutoCloseable {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> close() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đóng Resource2"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">CloseOrderExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Resource1 r1 = <span class="keyword">new</span> Resource1();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Resource2 r2 = <span class="keyword">new</span> Resource2()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đang xử lý..."</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (Exception e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <span class="comment">// Output:</span><br>
+                        <span class="comment">// Đang xử lý...</span><br>
+                        <span class="comment">// Đóng Resource2</span><br>
+                        <span class="comment">// Đóng Resource1</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Resources được đóng theo thứ tự ngược với thứ tự khai báo.</p>
+                    </div>
+
+                    <h3>4.6 XỬ LÝ EXCEPTION TRONG TRY-WITH-RESOURCES</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ExceptionInTryWithResources.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.io.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">ExceptionInTryWithResources</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">"C:/test/khongton tai.txt"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedReader br = <span class="keyword">new</span> BufferedReader(fr)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String line = br.readLine();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(line);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (FileNotFoundException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Không tìm thấy file: "</span> + e.getMessage());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (IOException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi IO: "</span> + e.getMessage());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>4.7 TẠO RESOURCE TỰ ĐỊNH NGHĨA</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> CustomResourceExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">MyResource</span> <span class="keyword">implements</span> AutoCloseable {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> MyResource(String name) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.name = name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(name + <span class="string">" được mở"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> doSomething() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(name + <span class="string">" đang làm việc"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> close() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(name + <span class="string">" được đóng"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">CustomResourceExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (MyResource r1 = <span class="keyword">new</span> MyResource(<span class="string">"Resource 1"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MyResource r2 = <span class="keyword">new</span> MyResource(<span class="string">"Resource 2"</span>)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r1.doSomething();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r2.doSomething();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="comment">// Tự động gọi close() cho r2, r1</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 5: TỔNG KẾT -->
+                <section id="part5" class="section">
+                    <h2><i class="fas fa-star"></i>  5: TỔNG KẾT</h2>
+
+                    <h3>5.1 SO SÁNH BYTE STREAM VÀ CHARACTER STREAM</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tiêu chí</th>
+                                    <th>Byte Stream</th>
+                                    <th>Character Stream</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Đơn vị xử lý</td>
+                                    <td>byte (8-bit)</td>
+                                    <td>char (16-bit)</td>
+                                </tr>
+                                <tr>
+                                    <td>Lớp cơ bản</td>
+                                    <td>InputStream, OutputStream</td>
+                                    <td>Reader, Writer</td>
+                                </tr>
+                                <tr>
+                                    <td>File classes</td>
+                                    <td>FileInputStream, FileOutputStream</td>
+                                    <td>FileReader, FileWriter</td>
+                                </tr>
+                                <tr>
+                                    <td>Buffered classes</td>
+                                    <td>BufferedInputStream, BufferedOutputStream</td>
+                                    <td>BufferedReader, BufferedWriter</td>
+                                </tr>
+                                <tr>
+                                    <td>Phù hợp</td>
+                                    <td>Mọi loại file (nhị phân)</td>
+                                    <td>File văn bản</td>
+                                </tr>
+                                <tr>
+                                    <td>Encoding</td>
+                                    <td>Không quan tâm</td>
+                                    <td>Tự động xử lý</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>5.2 CÁC LỚP FILE I/O QUAN TRỌNG</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lớp</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>File</td>
+                                    <td>Đại diện file/thư mục, thao tác với hệ thống tệp</td>
+                                </tr>
+                                <tr>
+                                    <td>FileInputStream</td>
+                                    <td>Đọc byte từ file</td>
+                                </tr>
+                                <tr>
+                                    <td>FileOutputStream</td>
+                                    <td>Ghi byte vào file</td>
+                                </tr>
+                                <tr>
+                                    <td>FileReader</td>
+                                    <td>Đọc ký tự từ file</td>
+                                </tr>
+                                <tr>
+                                    <td>FileWriter</td>
+                                    <td>Ghi ký tự vào file</td>
+                                </tr>
+                                <tr>
+                                    <td>BufferedInputStream</td>
+                                    <td>Đọc byte có bộ đệm</td>
+                                </tr>
+                                <tr>
+                                    <td>BufferedOutputStream</td>
+                                    <td>Ghi byte có bộ đệm</td>
+                                </tr>
+                                <tr>
+                                    <td>BufferedReader</td>
+                                    <td>Đọc ký tự có bộ đệm, có readLine()</td>
+                                </tr>
+                                <tr>
+                                    <td>BufferedWriter</td>
+                                    <td>Ghi ký tự có bộ đệm, có newLine()</td>
+                                </tr>
+                                <tr>
+                                    <td>InputStreamReader</td>
+                                    <td>Chuyển byte → character</td>
+                                </tr>
+                                <tr>
+                                    <td>OutputStreamWriter</td>
+                                    <td>Chuyển character → byte</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="comparison-box">
+                        <h4><i class="fas fa-lightbulb"></i> Tóm tắt nhanh:</h4>
+                        <ul>
+                            <li><span class="badge badge-file">File</span> - Quản lý file và thư mục</li>
+                            <li><span class="badge badge-byte">Byte Streams</span> - Đọc/ghi dữ liệu nhị phân</li>
+                            <li><span class="badge badge-char">Character Streams</span> - Đọc/ghi file văn bản</li>
+                            <li><span class="badge badge-resource">Try-with-resources</span> - Tự động đóng tài nguyên</li>
+                        </ul>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-star"></i> Tổng kết File I/O</h4>
+                        <div class="demo-box">
+                            <p style="font-size: 1.3rem;"><i class="fas fa-file"></i> File <i class="fas fa-arrow-right"></i> <i class="fas fa-microchip"></i> Byte Streams <i class="fas fa-arrow-right"></i> <i class="fas fa-font"></i> Character Streams <i class="fas fa-arrow-right"></i> <i class="fas fa-broom"></i> Try-with-resources</p>
+                            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap;">
+                                <span class="badge badge-file">File</span>
+                                <span class="badge badge-byte">Byte</span>
+                                <span class="badge badge-char">Character</span>
+                                <span class="badge badge-resource">Try-with-resources</span>
+                            </div>
+                            <p style="margin-top: 20px;"><i class="fas fa-quote-right"></i> "Xử lý file hiệu quả với Java I/O Streams!"</p>
+                        </div>
+                    </div>
+                </section>
+                <section id="part6" class="section">
+    <!-- BÀI 1: FILE CLASS -->
+    <div id="bai1">
+        <h2>Bài 1: FILE CLASS <span class="badge">Java.io.File</span></h2>
+        <ol>
+            <li><strong></strong> Tạo đối tượng File trỏ đến file <code>data.txt</code>.</li>
+            <li><strong></strong> Kiểm tra file <code>data.txt</code> có tồn tại không. In ra <code>"Ton tai"</code> hoặc <code>"Khong ton tai"</code>.</li>
+            <li><strong></strong> Tạo file rỗng <code>myfile.txt</code> bằng phương thức của File.</li>
+            <li><strong></strong> In ra đường dẫn tuyệt đối của file <code>myfile.txt</code>.</li>
+            <li><strong></strong> In ra tên file của <code>myfile.txt</code>.</li>
+            <li><strong></strong> In ra kích thước (bytes) của <code>myfile.txt</code>.</li>
+            <li><strong></strong> Tạo thư mục <code>mydir</code> bằng File.</li>
+            <li><strong></strong> Kiểm tra <code>mydir</code> có phải là thư mục không. In ra <code>"La thu muc"</code> hoặc <code>"Khong phai thu muc"</code>.</li>
+            <li><strong></strong> Liệt kê tất cả file và thư mục con trong thư mục hiện tại (dùng <code>list()</code>).</li>
+            <li><strong></strong> Xóa file <code>myfile.txt</code> bằng phương thức của File.</li>
+        </ol>
+    </div>
+
+
+    <!-- BÀI 2: BYTE STREAMS (Ghi file) -->
+    <div id="bai2">
+        <h2>Bài 2: BYTE STREAMS (Ghi file) <span class="badge">FileOutputStream</span></h2>
+        <ol>
+            <li><strong></strong> Dùng <code>FileOutputStream</code> ghi chuỗi <code>"Hello Byte"</code> vào file <code>byte.txt</code>.</li>
+            <li><strong></strong> Ghi mảng byte <code>{65,66,67,68,69}</code> vào file <code>letters.dat</code>.</li>
+            <li><strong></strong> Ghi số nguyên <code>100</code> vào file <code>number.dat</code> (chuyển thành byte hoặc dùng write).</li>
+            <li><strong></strong> Ghi tiếp dòng <code>"Dong thu hai"</code> vào cuối file <code>byte.txt</code> (dùng append).</li>
+            <li><strong></strong> Ghi mảng byte <code>{10,20,30,40,50}</code> vào file <code>scores.dat</code>.</li>
+            <li><strong></strong> Ghi 5 ký tự <code>'A','B','C','D','E'</code> vào file <code>chars.dat</code> (dùng write từng byte).</li>
+            <li><strong></strong> Ghi chuỗi <code>"Java I/O"</code> vào file <code>io.txt</code> sau đó ghi thêm <code>" Rat hay"</code> vào cuối.</li>
+            <li><strong></strong> Tạo file <code>empty.dat</code> với nội dung rỗng.</li>
+            <li><strong></strong> Ghi giá trị <code>255</code> vào file <code>max.dat</code> (dạng byte).</li>
+            <li><strong></strong> Ghi mảng byte từ 0 đến 9 vào file <code>digits.dat</code>.</li>
+        </ol>
+    </div>
+
+
+    <!-- BÀI 3: BYTE STREAMS (Đọc file) -->
+    <div id="bai3">
+        <h2>Bài 3: BYTE STREAMS (Đọc file) <span class="badge">FileInputStream</span></h2>
+        <ol>
+            <li><strong></strong> Đọc file <code>byte.txt</code> (từ Bài 2) và in từng byte ra màn hình.</li>
+            <li><strong></strong> Đọc file <code>letters.dat</code> và in ra từng ký tự tương ứng.</li>
+            <li><strong></strong> Đọc file <code>scores.dat</code> và tính tổng các số, in ra.</li>
+            <li><strong></strong> Đọc file <code>scores.dat</code> và tìm số lớn nhất, in ra.</li>
+            <li><strong></strong> Đọc file <code>digits.dat</code> và in ra các số chẵn.</li>
+            <li><strong></strong> Đọc file <code>chars.dat</code> và in ra các ký tự dạng chữ.</li>
+            <li><strong></strong> Đọc file <code>number.dat</code> và in ra số đó (chỉ đọc 1 byte).</li>
+            <li><strong></strong> Đọc file <code>max.dat</code> và in ra giá trị (dạng int).</li>
+            <li><strong></strong> Sao chép nội dung file <code>byte.txt</code> sang file <code>copy_byte.txt</code> (đọc từng byte, ghi từng byte).</li>
+            <li><strong></strong> Đọc file <code>letters.dat</code> và đếm xem có bao nhiêu byte có giá trị lớn hơn 70.</li>
+        </ol>
+    </div>
+
+   
+
+    <!-- BÀI 4: CHARACTER STREAMS -->
+    <div id="bai4">
+        <h2>Bài 4: CHARACTER STREAMS <span class="badge">FileReader / FileWriter</span></h2>
+        <ol>
+            <li><strong></strong> Dùng <code>FileWriter</code> ghi dòng <code>"Dong mot"</code> vào file <code>char.txt</code>.</li>
+            <li><strong></strong> Dùng <code>FileWriter</code> ghi tiếp dòng <code>"Dong hai"</code> vào cuối file <code>char.txt</code>.</li>
+            <li><strong></strong> Dùng <code>FileWriter</code> ghi chuỗi <code>"Java Character Stream"</code> vào file <code>stream.txt</code>.</li>
+            <li><strong></strong> Dùng <code>FileReader</code> đọc file <code>char.txt</code> và in từng ký tự.</li>
+            <li><strong></strong> Dùng <code>FileReader</code> đọc file <code>stream.txt</code> và đếm số ký tự.</li>
+            <li><strong></strong> Dùng <code>FileReader</code> đọc file <code>char.txt</code> và in ra 5 ký tự đầu tiên.</li>
+            <li><strong></strong> Ghi mảng ký tự <code>{'X','Y','Z'}</code> vào file <code>xyz.txt</code> dùng <code>FileWriter</code>.</li>
+            <li><strong></strong> Đọc file <code>xyz.txt</code> và in ra các ký tự đó.</li>
+            <li><strong></strong> Sao chép file <code>char.txt</code> sang <code>copy_char.txt</code> dùng <code>FileReader</code> và <code>FileWriter</code>.</li>
+            <li><strong></strong> Đọc file <code>char.txt</code> và in ra các ký tự là chữ in hoa (nếu có).</li>
+        </ol>
+    </div>
+
+ 
+
+    <!-- BÀI 7: TỔNG HỢP CƠ BẢN -->
+    <div id="bai7">
+        <h2>Bài 5: TỔNG HỢP CƠ BẢN <span class="badge">Tổng hợp</span></h2>
+        <ol>
+            <li><strong></strong> Tạo thư mục <code>mydata</code>.</li>
+            <li><strong></strong> Trong thư mục <code>mydata</code>, tạo file <code>info.txt</code>.</li>
+            <li><strong></strong> Ghi dòng <code>"Hoc Java I/O"</code> vào file <code>mydata/info.txt</code>.</li>
+            <li><strong></strong> Đọc file <code>mydata/info.txt</code> và in nội dung.</li>
+            <li><strong></strong> Dùng byte stream ghi mảng <code>{5,10,15,20}</code> vào <code>numbers.dat</code>.</li>
+            <li><strong></strong> Đọc file <code>numbers.dat</code> và in ra các số chia hết cho 5.</li>
+            <li><strong></strong> Dùng character stream ghi tên của bạn vào <code>name.txt</code>.</li>
+            <li><strong></strong> Đọc file <code>name.txt</code> và in ra số lượng ký tự.</li>
+            <li><strong></strong> Dùng <code>BufferedReader</code> đọc file <code>name.txt</code> và kiểm tra có chứa chữ <code>"a"</code> không.</li>
+            <li><strong></strong> Xóa file <code>name.txt</code> và thư mục <code>mydata</code>.</li>
+        </ol>
+    </div>
+
+   
+
+    <!-- BÀI 8: TỔNG HỢP NÂNG CAO -->
+    <div id="bai8">
+        <h2>Bài 6: TỔNG HỢP NÂNG CAO <span class="badge">Nâng cao</span></h2>
+        <ol>
+            <li><strong></strong> Kiểm tra file <code>data.txt</code> nếu chưa có thì tạo mới.</li>
+            <li><strong></strong> Ghi dòng <code>"Dong 1"</code> và <code>"Dong 2"</code> vào <code>data.txt</code> (mỗi dòng trên 1 lần ghi).</li>
+            <li><strong></strong> Đọc file <code>data.txt</code> và in ra từng dòng.</li>
+            <li><strong></strong> Đọc file <code>data.txt</code> và đếm tổng số ký tự (không tính xuống dòng).</li>
+            <li><strong></strong> Ghi mảng <code>{100,200,300}</code> vào <code>values.dat</code> dạng byte.</li>
+            <li><strong></strong> Đọc file <code>values.dat</code> và in ra số thứ 2.</li>
+            <li><strong></strong> Sao chép file <code>data.txt</code> sang <code>backup.txt</code> (dùng character stream).</li>
+            <li><strong></strong> Đọc file <code>backup.txt</code> và in ra dòng có độ dài lớn nhất.</li>
+            <li><strong></strong> Dùng <code>try-with-resources</code> để ghi và đọc file <code>test.txt</code>.</li>
+            <li><strong></strong> Xóa tất cả file đã tạo trong bài (nếu còn).</li>
+        </ol>
+    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p></i>GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng với hiệu ứng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click với hiệu ứng
+                    this.classList.add('active');
+                    
+                    // Thêm hiệu ứng rung nhẹ khi click
+                    this.style.animation = 'none';
+                    this.offsetHeight; // Trigger reflow
+                    this.style.animation = 'slideInLeft 0.3s ease';
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Cuộn lên đầu section
+                    document.querySelector('.main-content').scrollTop = 0;
+                });
+            });
+        });
+
+        // Hàm copy code với hiệu ứng
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            
+            // Hiệu ứng copy
+            button.innerHTML = '<i class="fas fa-check"></i> Đã copy!';
+            button.style.background = '#27ae60';
+            
+            navigator.clipboard.writeText(text).then(() => {
+                setTimeout(() => {
+                    button.innerHTML = '<i class="far fa-copy"></i> Copy';
+                    button.style.background = '#555';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

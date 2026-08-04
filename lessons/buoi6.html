@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            /* padding: 30px; */
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .objectives {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .nav-list {
+            list-style: none;
+            position: sticky;
+            top: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        h5 {
+            color: var(--dark);
+            margin: 15px 0 8px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.4;
+            border: 2px solid #444;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+
+        .btn-run {
+            background: var(--success);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+            }
+        }
+
+        .memory-visualization {
+            background: #e8f4f8;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #b8d8e8;
+        }
+
+        .memory-step {
+            margin: 15px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--info);
+        }
+
+        .array-visual {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .array-cell {
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--secondary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .array-index {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .array-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-layer-group"></i> ARRAY</h1>
+           
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#intro" class="nav-link active"><i class="fas fa-home"></i> Giới thiệu</a></li>
+                    <li class="nav-item"><a href="#array-definition" class="nav-link"><i class="fas fa-th"></i> Định nghĩa Mảng</a></li>
+                    <li class="nav-item"><a href="#array-why" class="nav-link"><i class="fas fa-question-circle"></i> Tại sao dùng Mảng</a></li>
+                    <li class="nav-item"><a href="#array-declaration" class="nav-link"><i class="fas fa-code"></i> Khai báo Mảng</a></li>
+                    <li class="nav-item"><a href="#array-memory" class="nav-link"><i class="fas fa-memory"></i> Cấp phát bộ nhớ</a></li>
+                    <li class="nav-item"><a href="#array-access" class="nav-link"><i class="fas fa-key"></i> Truy cập Mảng</a></li>
+                    <li class="nav-item"><a href="#array-methods" class="nav-link"><i class="fas fa-tools"></i> Phương thức Mảng</a></li>
+                    <li class="nav-item"><a href="#array-summary" class="nav-link"><i class="fas fa-clipboard-list"></i> Tóm tắt</a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN GIỚI THIỆU -->
+                <section id="intro" class="section active">
+                    <h2><i class="fas fa-home"></i> GIỚI THIỆU VỀ MẢNG </h2>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Tầm quan trọng</h4>
+                        <p>Mảng là  cấu trúc dữ liệu cơ bản và quan trọng nhất trong lập trình Java. Hiểu rõ cách làm việc với chúng là nền tảng để giải quyết các bài toán phức tạp hơn.</p>
+                    </div>
+
+                    
+                </section>
+
+                <!-- PHẦN ĐỊNH NGHĨA MẢNG -->
+                <section id="array-definition" class="section">
+                    <h2><i class="fas fa-th"></i> ĐỊNH NGHĨA MẢNG</h2>
+
+                    <h3>1.1 Định nghĩa Mảng</h3>
+                    <p><strong>Định nghĩa:</strong> Mảng trong Java là một cấu trúc dữ liệu cho phép lưu trữ nhiều giá trị cùng kiểu dữ liệu trong một biến duy nhất. Các giá trị được lưu theo thứ tự và mỗi giá trị có một chỉ số (index) riêng để truy xuất.</p>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul>
+                        <li>Index bắt đầu từ 0</li>
+                        <li>Kích thước cố định sau khi khai báo</li>
+                        <li>Tất cả phần tử cùng kiểu dữ liệu</li>
+                        <li>Có thể chứa các kiểu dữ liệu nguyên thủy hoặc đối tượng</li>
+                    </ul>
+
+                    <div class="memory-visualization">
+                        <h4><i class="fas fa-eye"></i> Hình dung mảng:</h4>
+                        <p>Giống như một dãy tủ locker, mỗi locker là một phần tử trong mảng:</p>
+                        
+                        <div class="array-visual">
+                            <div class="array-cell">
+                                <div class="array-index">[0]</div>
+                                <div class="array-value">10</div>
+                            </div>
+                            <div class="array-cell">
+                                <div class="array-index">[1]</div>
+                                <div class="array-value">20</div>
+                            </div>
+                            <div class="array-cell">
+                                <div class="array-index">[2]</div>
+                                <div class="array-value">30</div>
+                            </div>
+                            <div class="array-cell">
+                                <div class="array-index">[3]</div>
+                                <div class="array-value">40</div>
+                            </div>
+                            <div class="array-cell">
+                                <div class="array-index">[4]</div>
+                                <div class="array-value">50</div>
+                            </div>
+                        </div>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Khai báo mảng</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">int</span>[] numbers = {10, 20, 30, 40, 50};
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN TẠI SAO DÙNG MẢNG -->
+                <section id="array-why" class="section">
+                    <h2><i class="fas fa-question-circle"></i> TẠI SAO PHẢI DÙNG MẢNG?</h2>
+
+                    <h3>1.2 So sánh: Biến thường vs Mảng</h3>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Trường hợp</th>
+                                    <th>Dùng biến thường</th>
+                                    <th>Dùng mảng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Lưu 3 tên học sinh</strong></td>
+                                    <td>
+                                        String a = "Nam";<br>
+                                        String b = "Lan";<br>
+                                        String c = "Mai";
+                                    </td>
+                                    <td>String[] students = {"Nam", "Lan", "Mai"};</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Truy cập tên thứ 2</strong></td>
+                                    <td>System.out.println(b);</td>
+                                    <td>System.out.println(students[1]);</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Duyệt qua 3 người</strong></td>
+                                    <td>
+                                        System.out.println(a);<br>
+                                        System.out.println(b);<br>
+                                        System.out.println(c);
+                                    </td>
+                                    <td>
+                                        for(int i=0; i&lt;students.length; i++) { <br>
+                                        &nbsp;&nbsp;System.out.println(students[i]);<br>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>Ưu điểm khi dùng mảng:</h4>
+                    <ul>
+                        <li><strong>Dễ tổ chức dữ liệu:</strong> Gom nhiều giá trị vào một biến</li>
+                        <li><strong>Truy xuất nhanh:</strong> Bằng chỉ số index</li>
+                        <li><strong>Dễ thao tác hàng loạt:</strong> Thêm, xóa, sắp xếp, lọc...</li>
+                        <li><strong>Phù hợp vòng lặp:</strong> Xử lý dữ liệu hiệu quả</li>
+                    </ul>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm so sánh</h4>
+                        <button class="btn" onclick="testVariableVsArray()">
+                            <i class="fas fa-play"></i> Chạy so sánh
+                        </button>
+                        <div class="result" id="comparisonResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="comparisonResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN KHAI BÁO MẢNG -->
+                <section id="array-declaration" class="section">
+                    <h2><i class="fas fa-code"></i> KHAI BÁO MẢNG</h2>
+
+                    <h3>1.3 Khai báo Mảng</h3>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp khai báo mảng</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: Sử dụng dấu ngoặc vuông [] (Array literal)</span><br>
+                        kiểu_dữ_liệu[] tên_mảng = {giá_trị_1, giá_trị_2, ..., giá_trị_n};<br>
+                        <br>
+                        <span class="comment">// Cách 2: Sử dụng từ khóa new (Array constructor)</span><br>
+                        kiểu_dữ_liệu[] tên_mảng = new kiểu_dữ_liệu[kích_thước];<br>
+                        <br>
+                        <span class="comment">// Cách 3: Khai báo mảng rỗng</span><br>
+                        kiểu_dữ_liệu[] tên_mảng = new kiểu_dữ_liệu[]{giá_trị_1, giá_trị_2, ...};
+                    </div>
+
+                    <h4>Giải thích cú pháp:</h4>
+                    <ul>
+                        <li><strong>kiểu_dữ_liệu:</strong> int, double, String, boolean,...</li>
+                        <li><strong>tên_mảng:</strong> Tên biến mảng, đặt theo quy tắc Java</li>
+                        <li><strong>kích_thước:</strong> Số lượng phần tử tối đa</li>
+                        <li><strong>new:</strong> Toán tử cấp phát bộ nhớ</li>
+                        <li><strong>{}</strong> Khởi tạo với giá trị cụ thể</li>
+                    </ul>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ArrayDeclaration.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ArrayDeclaration</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"=== KHAI BÁO MẢNG ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Cách 1: Array literal</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span>[] numbers1 = {1, 2, 3, 4, 5};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] fruits = {<span class="string">"Táo"</span>, <span class="string">"Cam"</span>, <span class="string">"Chuối"</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Cách 2: Array constructor</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span>[] numbers2 = <span class="keyword">new</span> <span class="keyword">int</span>[3]; <span class="comment">// Mảng 3 phần tử</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span>[] prices = <span class="keyword">new</span> <span class="keyword">double</span>[5];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Cách 3: Khai báo và khởi tạo với new</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">char</span>[] letters = <span class="keyword">new</span> <span class="keyword">char</span>[]{<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Gán giá trị cho mảng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbers2[0] = 10;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbers2[1] = 20;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbers2[2] = 30;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prices[0] = 1.5;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prices[1] = 2.3;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prices[2] = 3.7;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prices[3] = 4.1;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prices[4] = 5.9;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Hiển thị mảng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"numbers1: "</span> + java.util.Arrays.toString(numbers1));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"fruits: "</span> + java.util.Arrays.toString(fruits));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"numbers2: "</span> + java.util.Arrays.toString(numbers2));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"prices: "</span> + java.util.Arrays.toString(prices));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"letters: "</span> + java.util.Arrays.toString(letters));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm khai báo mảng</h4>
+                        <button class="btn" onclick="testArrayDeclaration()">
+                            <i class="fas fa-play"></i> Chạy ví dụ
+                        </button>
+                        <div class="result" id="declarationResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="declarationResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN CẤP PHÁT BỘ NHỚ -->
+                <section id="array-memory" class="section">
+                    <h2><i class="fas fa-memory"></i> CẤP PHÁT BỘ NHỚ TRONG MẢNG</h2>
+
+                    <h3>1.4 Cấp phát bộ nhớ trong mảng</h3>
+                    <p><strong>Quy trình cấp phát bộ nhớ mảng trong java</strong></p>
+
+                    <div class="memory-visualization">
+                        <div class="memory-step">
+                            <h5>B1: Khai báo mảng: int[] arr;</h5>
+                            <p>➡ Khi đó, Java chỉ khai báo một biến tham chiếu (arr) nhưng chưa cấp phát bộ nhớ thực sự cho các phần tử. arr lúc này chưa trỏ đến vùng nhớ nào (null).</p>
+                        </div>
+
+                        <div class="memory-step">
+                            <h5>B2: Yêu cầu cấp phát</h5>
+                            <p>Khi dùng từ khóa new: arr = new int[5];<br>
+                            ➡ Trình JVM (Java Virtual Machine) gửi yêu cầu cấp phát bộ nhớ cho vùng nhớ heap.</p>
+                        </div>
+
+                        <div class="memory-step">
+                            <h5>B3: JVM kiểm tra vùng nhớ Heap</h5>
+                            <p>JVM sẽ kiểm tra xem vùng nhớ Heap còn đủ chỗ để lưu mảng kích thước 5 phần tử.<br>
+                            Nếu đủ bộ nhớ → chuyển sang bước 6.<br>
+                            Nếu không đủ bộ nhớ → sang bước 4.</p>
+                        </div>
+
+                        <div class="memory-step">
+                            <h5>B4: Kích hoạt bộ dọn rác (Garbage Collector – GC)</h5>
+                            <p>JVM kích hoạt GC để giải phóng những đối tượng không còn được tham chiếu trong chương trình.<br>
+                            Sau khi GC hoạt động, nếu có đủ bộ nhớ trống thì tiếp tục cấp phát.</p>
+                        </div>
+
+                        <div class="memory-step">
+                            <h5>B5: GC kiểm tra kết quả</h5>
+                            <p>Nếu GC giải phóng đủ bộ nhớ → sang bước 6.<br>
+                            Nếu vẫn không đủ → JVM ném lỗi: OutOfMemoryError</p>
+                        </div>
+
+                        <div class="memory-step">
+                            <h5>B6: Cấp phát bộ nhớ thành công</h5>
+                            <p>JVM tạo ra một vùng nhớ mới trong heap để chứa mảng.<br>
+                            Vùng nhớ này gồm:<br>
+                            - Thông tin về kiểu dữ liệu (int, double, String, …)<br>
+                            - Số lượng phần tử<br>
+                            - Các ô nhớ liên tiếp để lưu giá trị</p>
+                        </div>
+
+                        <div class="memory-step">
+                            <h5>B7: Khởi tạo giá trị mặc định</h5>
+                            <p>Tất cả phần tử trong mảng sẽ được gán giá trị mặc định tùy theo kiểu dữ liệu:</p>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Kiểu dữ liệu</th>
+                                            <th>Giá trị mặc định</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>int, byte, short, long</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>float, double</td>
+                                            <td>0.0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>char</td>
+                                            <td>'\u0000' (ký tự rỗng)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>boolean</td>
+                                            <td>false</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Đối tượng (String, Object, …)</td>
+                                            <td>null</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="memory-step">
+                            <h5>B8: Gán địa chỉ cho biến tham chiếu</h5>
+                            <p>Biến mảng (ví dụ arr) sẽ nhận địa chỉ vùng nhớ của mảng vừa được tạo trong Heap.<br>
+                            Lúc này arr trỏ tới vùng nhớ mảng [0, 0, 0, 0, 0].</p>
+                        </div>
+
+                        <div class="memory-step">
+                            <h5>B9: Mảng sẵn sàng sử dụng</h5>
+                            <p>Giờ ta có thể truy cập và gán giá trị cho từng phần tử:<br>
+                            arr[0] = 10;<br>
+                            arr[1] = 20;</p>
+                            <div class="array-visual">
+                                <div class="array-cell">
+                                    <div class="array-index">[0]</div>
+                                    <div class="array-value">10</div>
+                                </div>
+                                <div class="array-cell">
+                                    <div class="array-index">[1]</div>
+                                    <div class="array-value">20</div>
+                                </div>
+                                <div class="array-cell">
+                                    <div class="array-index">[2]</div>
+                                    <div class="array-value">0</div>
+                                </div>
+                                <div class="array-cell">
+                                    <div class="array-index">[3]</div>
+                                    <div class="array-value">0</div>
+                                </div>
+                                <div class="array-cell">
+                                    <div class="array-index">[4]</div>
+                                    <div class="array-value">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN TRUY CẬP MẢNG -->
+                <section id="array-access" class="section">
+                    <h2><i class="fas fa-key"></i> TRUY CẬP PHẦN TỬ TRONG MẢNG</h2>
+
+                    <h3>1.5 Truy cập Phần tử trong Mảng</h3>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp truy cập</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        tên_mảng[vị_trí]
+                    </div>
+
+                    <h4>Giải thích:</h4>
+                    <ul>
+                        <li><strong>vị_trí:</strong> Chỉ số index (bắt đầu từ 0)</li>
+                        <li>Muốn truy cập phần tử thứ i → dùng arr[i-1]</li>
+                        <li>Truy cập cuối mảng → arr[arr.length - 1]</li>
+                    </ul>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ArrayAccess.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ArrayAccess</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"=== TRUY CẬP PHẦN TỬ MẢNG ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] fruits = {<span class="string">"Táo"</span>, <span class="string">"Cam"</span>, <span class="string">"Chuối"</span>, <span class="string">"Xoài"</span>, <span class="string">"Ổi"</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Truy cập phần tử</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Phần tử đầu: "</span> + fruits[0]);     <span class="comment">// Táo</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Phần tử thứ 2: "</span> + fruits[1]);   <span class="comment">// Cam</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Phần tử thứ 3: "</span> + fruits[2]);   <span class="comment">// Chuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Truy cập phần tử cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Phần tử cuối: "</span> + fruits[fruits.length - 1]); <span class="comment">// Ổi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thay đổi phần tử</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fruits[1] = <span class="string">"Quýt"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau thay đổi: "</span> + fruits[1]); <span class="comment">// Quýt</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lỗi thường gặp</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(fruits[-1]); <span class="comment">// Lỗi: ArrayIndexOutOfBoundsException</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (Exception e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi truy cập index -1: "</span> + e.getMessage());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(fruits[10]); <span class="comment">// Lỗi: ArrayIndexOutOfBoundsException</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (Exception e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi truy cập index 10: "</span> + e.getMessage());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Duyệt toàn bộ mảng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nDuyệt mảng fruits:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; fruits.length; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"fruits["</span> + i + <span class="string">"] = "</span> + fruits[i]);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="warning-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Lỗi thường gặp</h4>
+                        <p><strong>ArrayIndexOutOfBoundsException:</strong> Xảy ra khi truy cập index ngoài phạm vi mảng (index âm hoặc lớn hơn length-1)</p>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm truy cập mảng</h4>
+                        <div class="input-group">
+                            <label for="arrayIndex">Nhập index (0-4):</label>
+                            <input type="number" id="arrayIndex" value="1" min="0" max="4">
+                        </div>
+                        <button class="btn" onclick="testArrayAccess()">
+                            <i class="fas fa-play"></i> Truy cập phần tử
+                        </button>
+                        <div class="result" id="accessResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="accessResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN PHƯƠNG THỨC MẢNG -->
+                <section id="array-methods" class="section">
+                    <h2><i class="fas fa-tools"></i> CÁC PHƯƠNG THỨC VỚI MẢNG TRONG JAVA</h2>
+
+                    <h3>2.1 Các phương thức cơ bản của mảng</h3>
+
+                    <h4>2.1.1. length - Độ dài mảng</h4>
+                    <p><strong>Định nghĩa:</strong> length là thuộc tính (property) của mảng, trả về số lượng phần tử trong mảng.</p>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        tên_mảng.length
+                    </div>
+                    <p><strong>Giải thích:</strong></p>
+                    <ul>
+                        <li>Không có dấu ngoặc đơn vì là thuộc tính, không phải phương thức</li>
+                        <li>Trả về số nguyên (int)</li>
+                        <li>Chỉ đọc (read-only), không thể thay đổi</li>
+                    </ul>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ArrayLength.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ArrayLength</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span>[] numbers = {10, 20, 30, 40, 50};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] names = {<span class="string">"An"</span>, <span class="string">"Bình"</span>, <span class="string">"Chi"</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Độ dài mảng numbers: "</span> + numbers.length); <span class="comment">// 5</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Độ dài mảng names: "</span> + names.length);     <span class="comment">// 3</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng trong vòng lặp</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i &lt; numbers.length; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"numbers["</span> + i + <span class="string">"] = "</span> + numbers[i]);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>2.2 Các phương thức với lớp Arrays</h3>
+
+                    <h4>2.2.1. Arrays.toString() - Chuyển mảng thành chuỗi</h4>
+                    <p><strong>Định nghĩa:</strong> Phương thức tĩnh của lớp Arrays để chuyển mảng thành chuỗi dễ đọc.</p>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        Arrays.toString(tên_mảng)
+                    </div>
+                    <p><strong>Giải thích:</strong></p>
+                    <ul>
+                        <li>Phương thức tĩnh → gọi trực tiếp qua lớp Arrays</li>
+                        <li>Trả về String định dạng: [element1, element2, ...]</li>
+                        <li>Cần import java.util.Arrays</li>
+                    </ul>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ToStringMethod.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.Arrays;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">ToStringMethod</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span>[] numbers = {1, 2, 3, 4, 5};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] fruits = {<span class="string">"Táo"</span>, <span class="string">"Cam"</span>, <span class="string">"Chuối"</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">boolean</span>[] flags = {<span class="keyword">true</span>, <span class="keyword">false</span>, <span class="keyword">true</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Mảng numbers: "</span> + Arrays.toString(numbers));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Mảng fruits: "</span> + Arrays.toString(fruits));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Mảng flags: "</span> + Arrays.toString(flags));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// So sánh với in trực tiếp</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"In trực tiếp: "</span> + numbers); <span class="comment">// [I@hashcode</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>2.2.2. Arrays.sort() - Sắp xếp mảng</h4>
+                    <p><strong>Định nghĩa:</strong> Sắp xếp các phần tử trong mảng theo thứ tự tăng dần.</p>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        Arrays.sort(tên_mảng)                    <span class="comment">// Sắp xếp toàn bộ</span><br>
+                        Arrays.sort(tên_mảng, fromIndex, toIndex) <span class="comment">// Sắp xếp một phần</span>
+                    </div>
+                    <p><strong>Giải thích:</strong></p>
+                    <ul>
+                        <li>Sắp xếp tại chỗ (in-place) → thay đổi mảng gốc</li>
+                        <li>fromIndex: vị trí bắt đầu (bao gồm)</li>
+                        <li>toIndex: vị trí kết thúc (không bao gồm)</li>
+                        <li>Sắp xếp tăng dần theo thứ tự tự nhiên</li>
+                    </ul>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>SortMethod.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.Arrays;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">SortMethod</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span>[] numbers = {5, 2, 8, 1, 9, 3};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] names = {<span class="string">"Mai"</span>, <span class="string">"An"</span>, <span class="string">"Bình"</span>, <span class="string">"Chi"</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Mảng gốc: "</span> + Arrays.toString(numbers));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp toàn bộ</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arrays.sort(numbers);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau sort toàn bộ: "</span> + Arrays.toString(numbers));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp một phần (từ index 1 đến 4)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span>[] partial = {5, 2, 8, 1, 9, 3};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arrays.sort(partial, 1, 4);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sort từ index 1-4: "</span> + Arrays.toString(partial));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp chuỗi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Names gốc: "</span> + Arrays.toString(names));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arrays.sort(names);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Names sau sort: "</span> + Arrays.toString(names));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm các phương thức mảng</h4>
+                        <button class="btn" onclick="testArrayMethods()">
+                            <i class="fas fa-play"></i> Chạy tất cả phương thức
+                        </button>
+                        <div class="result" id="methodsResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="methodsResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN TÓM TẮT -->
+                <section id="array-summary" class="section">
+                    <h2><i class="fas fa-clipboard-list"></i> TÓM TẮT CÁC PHƯƠNG THỨC MẢNG</h2>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phương thức</th>
+                                    <th>Mục đích</th>
+                                    <th>Có thay đổi mảng gốc?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>arr.length</strong></td>
+                                    <td>Lấy độ dài</td>
+                                    <td>Không</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Arrays.toString(arr)</strong></td>
+                                    <td>Chuyển thành chuỗi</td>
+                                    <td>Không</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Arrays.sort(arr)</strong></td>
+                                    <td>Sắp xếp</td>
+                                    <td>Có</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Arrays.binarySearch(arr, value)</strong></td>
+                                    <td>Tìm kiếm nhị phân</td>
+                                    <td>Không</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Arrays.copyOf(arr, newLength)</strong></td>
+                                    <td>Sao chép mảng</td>
+                                    <td>Không</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Arrays.copyOfRange(arr, start, end)</strong></td>
+                                    <td>Sao chép đoạn</td>
+                                    <td>Không</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Arrays.fill(arr, value)</strong></td>
+                                    <td>Điền giá trị</td>
+                                    <td>Có</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Arrays.equals(arr1, arr2)</strong></td>
+                                    <td>So sánh mảng</td>
+                                    <td>Không</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Lưu ý quan trọng:</h4>
+                        <ul>
+                            <li>Luôn import <code>java.util.Arrays</code> khi sử dụng các phương thức</li>
+                            <li><code>length</code> là thuộc tính, không phải phương thức</li>
+                            <li>Các phương thức có từ "copy" tạo mảng mới</li>
+                            <li><code>sort()</code> và <code>fill()</code> thay đổi mảng gốc</li>
+                        </ul>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Tổng hợp kiến thức mảng</h4>
+                        <button class="btn" onclick="testArrayKnowledge()">
+                            <i class="fas fa-play"></i> Kiểm tra kiến thức
+                        </button>
+                        <div class="result" id="knowledgeResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="knowledgeResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p>GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click
+                    this.classList.add('active');
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+
+        // Hàm copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Thử nghiệm so sánh biến thường vs mảng
+        function testVariableVsArray() {
+            const result = document.getElementById('comparisonResult');
+            const output = document.getElementById('comparisonResultContent');
+
+            result.classList.add('active');
+
+            let outputText = '=== SO SÁNH BIẾN THƯỜNG VS MẢNG ===\n\n';
+
+            // Dùng biến thường
+            outputText += '--- DÙNG BIẾN THƯỜNG ---\n';
+            let student1 = 'Nam';
+            let student2 = 'Lan';
+            let student3 = 'Mai';
+            
+            outputText += `student1 = ${student1}\n`;
+            outputText += `student2 = ${student2}\n`;
+            outputText += `student3 = ${student3}\n\n`;
+            
+            outputText += 'Truy cập tên thứ 2: ' + student2 + '\n\n';
+
+            // Dùng mảng
+            outputText += '--- DÙNG MẢNG ---\n';
+            let students = ['Nam', 'Lan', 'Mai'];
+            outputText += `students = [${students.join(', ')}]\n\n`;
+            outputText += 'Truy cập tên thứ 2: ' + students[1] + '\n\n';
+            
+            outputText += 'Duyệt qua tất cả tên:\n';
+            for (let i = 0; i < students.length; i++) {
+                outputText += `students[${i}] = ${students[i]}\n`;
+            }
+
+            output.textContent = outputText;
+        }
+
+        // Thử nghiệm khai báo mảng
+        function testArrayDeclaration() {
+            const result = document.getElementById('declarationResult');
+            const output = document.getElementById('declarationResultContent');
+
+            result.classList.add('active');
+
+            let outputText = '=== KHAI BÁO MẢNG ===\n\n';
+
+            // Cách 1: Array literal
+            let numbers1 = [1, 2, 3, 4, 5];
+            let fruits = ['Táo', 'Cam', 'Chuối'];
+            
+            outputText += '--- CÁCH 1: Array literal ---\n';
+            outputText += `numbers1 = [${numbers1.join(', ')}]\n`;
+            outputText += `fruits = [${fruits.join(', ')}]\n\n`;
+
+            // Cách 2: Array constructor
+            let numbers2 = new Array(3);
+            numbers2[0] = 10;
+            numbers2[1] = 20;
+            numbers2[2] = 30;
+            
+            let prices = new Array(5);
+            prices[0] = 1.5;
+            prices[1] = 2.3;
+            prices[2] = 3.7;
+            prices[3] = 4.1;
+            prices[4] = 5.9;
+            
+            outputText += '--- CÁCH 2: Array constructor ---\n';
+            outputText += `numbers2 = [${numbers2.join(', ')}]\n`;
+            outputText += `prices = [${prices.join(', ')}]\n\n`;
+
+            // Cách 3: Khai báo với new
+            let letters = new Array('A', 'B', 'C');
+            outputText += '--- CÁCH 3: Khai báo với new ---\n';
+            outputText += `letters = [${letters.join(', ')}]\n`;
+
+            output.textContent = outputText;
+        }
+
+        // Thử nghiệm truy cập mảng
+        function testArrayAccess() {
+            const index = parseInt(document.getElementById('arrayIndex').value) || 1;
+            const result = document.getElementById('accessResult');
+            const output = document.getElementById('accessResultContent');
+
+            result.classList.add('active');
+
+            let fruits = ['Táo', 'Cam', 'Chuối', 'Xoài', 'Ổi'];
+            let outputText = '=== TRUY CẬP PHẦN TỬ MẢNG ===\n\n';
+            outputText += `Mảng fruits = [${fruits.join(', ')}]\n\n`;
+
+            if (index >= 0 && index < fruits.length) {
+                outputText += `Truy cập fruits[${index}] = ${fruits[index]}\n\n`;
+                
+                // Thay đổi phần tử
+                if (index === 1) {
+                    fruits[1] = 'Quýt';
+                    outputText += `Sau thay đổi fruits[1] = 'Quýt':\n`;
+                    outputText += `Mảng mới: [${fruits.join(', ')}]\n\n`;
+                }
+                
+                // Duyệt toàn bộ mảng
+                outputText += 'Duyệt toàn bộ mảng:\n';
+                for (let i = 0; i < fruits.length; i++) {
+                    outputText += `fruits[${i}] = ${fruits[i]}\n`;
+                }
+            } else {
+                outputText += `LỖI: Index ${index} ngoài phạm vi mảng!\n`;
+                outputText += `Chỉ số hợp lệ: 0 đến ${fruits.length - 1}`;
+            }
+
+            output.textContent = outputText;
+        }
+
+        // Thử nghiệm các phương thức mảng
+        function testArrayMethods() {
+            const result = document.getElementById('methodsResult');
+            const output = document.getElementById('methodsResultContent');
+
+            result.classList.add('active');
+
+            let outputText = '=== CÁC PHƯƠNG THỨC MẢNG ===\n\n';
+
+            // Mảng gốc
+            let numbers = [5, 2, 8, 1, 9, 3];
+            let names = ['Mai', 'An', 'Bình', 'Chi'];
+            
+            outputText += '--- MẢNG GỐC ---\n';
+            outputText += `numbers = [${numbers.join(', ')}]\n`;
+            outputText += `names = [${names.join(', ')}]\n\n`;
+
+            // length
+            outputText += '--- length ---\n';
+            outputText += `numbers.length = ${numbers.length}\n`;
+            outputText += `names.length = ${names.length}\n\n`;
+
+            // Arrays.sort()
+            let sortedNumbers = [...numbers].sort((a, b) => a - b);
+            let sortedNames = [...names].sort();
+            
+            outputText += '--- Arrays.sort() ---\n';
+            outputText += `Sau sort numbers: [${sortedNumbers.join(', ')}]\n`;
+            outputText += `Sau sort names: [${sortedNames.join(', ')}]\n\n`;
+
+            // Arrays.toString()
+            outputText += '--- Arrays.toString() ---\n';
+            outputText += `numbers.toString() = ${numbers.toString()}\n`;
+            outputText += `names.toString() = ${names.toString()}\n\n`;
+
+            // Arrays.copyOf()
+            let copyNumbers = numbers.slice(0, 3);
+            outputText += '--- Arrays.copyOf(numbers, 3) ---\n';
+            outputText += `Kết quả: [${copyNumbers.join(', ')}]\n\n`;
+
+            // Arrays.fill()
+            let filledArray = new Array(5).fill(7);
+            outputText += '--- Arrays.fill(arr, 7) ---\n';
+            outputText += `Kết quả: [${filledArray.join(', ')}]\n`;
+
+            output.textContent = outputText;
+        }
+
+        // Kiểm tra kiến thức
+        function testArrayKnowledge() {
+            const result = document.getElementById('knowledgeResult');
+            const output = document.getElementById('knowledgeResultContent');
+
+            result.classList.add('active');
+
+            let outputText = '=== KIỂM TRA KIẾN THỨC MẢNG ===\n\n';
+
+            outputText += '1. Khai báo mảng số nguyên 5 phần tử:\n';
+            outputText += '   int[] numbers = new int[5];\n\n';
+
+            outputText += '2. Khai báo mảng chuỗi với giá trị ban đầu:\n';
+            outputText += '   String[] fruits = {"Táo", "Cam", "Chuối"};\n\n';
+
+            outputText += '3. Truy cập phần tử đầu tiên của mảng:\n';
+            outputText += '   arr[0]\n\n';
+
+            outputText += '4. Truy cập phần tử cuối cùng của mảng:\n';
+            outputText += '   arr[arr.length - 1]\n\n';
+
+            outputText += '5. Lấy độ dài mảng:\n';
+            outputText += '   arr.length\n\n';
+
+            outputText += '6. Sắp xếp mảng:\n';
+            outputText += '   Arrays.sort(arr);\n\n';
+
+            outputText += '7. Chuyển mảng thành chuỗi:\n';
+            outputText += '   Arrays.toString(arr)\n\n';
+
+            outputText += '8. So sánh hai mảng:\n';
+            outputText += '   Arrays.equals(arr1, arr2)\n\n';
+
+            outputText += '9. Sao chép mảng:\n';
+            outputText += '   Arrays.copyOf(arr, newLength)\n\n';
+
+            outputText += '10. Điền giá trị cho mảng:\n';
+            outputText += '    Arrays.fill(arr, value)';
+
+            output.textContent = outputText;
+        }
+    </script>
+</body>
+
+</html>

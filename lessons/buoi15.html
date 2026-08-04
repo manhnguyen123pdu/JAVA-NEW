@@ -1,0 +1,2818 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COLLECTIONS OVERVIEW </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            overflow: hidden;
+
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 80vh;
+        }
+  .hierarchy {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 25px;
+            border-radius: 24px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            line-height: 2;
+            margin: 25px 0;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            animation: glowBorder 4s infinite;
+        }
+
+        .sidebar {
+            height: 80vh;
+            overflow: scroll;
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .nav-list {
+            list-style: none;
+            position: sticky;
+            top: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        h5 {
+            color: var(--dark);
+            margin: 15px 0 8px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.4;
+            border: 2px solid #444;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .sidebar ul {
+            padding: 0;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+
+        .btn-run {
+            background: var(--success);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 1400px) {
+            body {
+                padding: 0;
+            }
+
+            footer {
+
+                padding: 8px 20px;
+
+            }
+
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+            }
+        }
+
+        .method-detail {
+            background: #f8f9fa;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .method-detail h5 {
+            color: var(--success);
+            margin-top: 0;
+        }
+
+        .tree-structure {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+        }
+
+        .tree-item {
+            margin-left: 20px;
+            padding: 2px 0;
+        }
+
+        .tree-item::before {
+            content: "├── ";
+            color: #666;
+        }
+
+        .tree-item:last-child::before {
+            content: "└── ";
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .timezone-demo {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .pattern-table {
+            font-size: 0.9rem;
+        }
+
+        .pattern-table code {
+            background: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-layer-group"></i> COLLECTIONS & LIST</i></h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#section1" class="nav-link active"><i class="fas fa-cubes"></i>
+                            <span>MỤC 1: COLLECTIONS FRAMEWORK</span></a></li>
+                    <li class="nav-item"><a href="#section2" class="nav-link"><i class="fas fa-list"></i> <span>MỤC 2:
+                                LIST INTERFACE</span></a></li>
+                    <li class="nav-item"><a href="#section3" class="nav-link"><i class="fas fa-plus-circle"></i>
+                            <span>MỤC 3: CÁC PHƯƠNG THỨC LIST</span></a></li>
+                    <li class="nav-item"><a href="#section4" class="nav-link"><i class="fas fa-array"></i> <span>MỤC 4:
+                                ARRAYLIST</span></a></li>
+                    <li class="nav-item"><a href="#section5" class="nav-link"><i class="fas fa-link"></i> <span>MỤC 5:
+                                LINKEDLIST</span></a></li>
+                    <li class="nav-item"><a href="#section6" class="nav-link"><i class="fas fa-balance-scale"></i>
+                            <span>MỤC 6: ARRAYLIST VS LINKEDLIST</span></a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- MỤC 1: COLLECTIONS FRAMEWORK -->
+                <section id="section1" class="section active">
+                    <h2><i class="fas fa-cubes"></i> MỤC 1: COLLECTIONS FRAMEWORK - TỔNG QUAN</h2>
+
+                    <h3>1.1 Collections Framework là gì?</h3>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>Collections Framework</strong> là một bộ khung (framework) thống nhất trong Java,
+                            cung cấp các lớp và interface để lưu trữ, quản lý và xử lý các nhóm đối tượng một cách hiệu
+                            quả.</p>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích đơn giản:</h4>
+                        <p>Thay vì tự viết code để quản lý mảng, thêm/xóa phần tử, sắp xếp,... Collections Framework đã
+                            làm sẵn hết cho bạn.</p>
+                    </div>
+
+                    <h4>Cú pháp khai báo:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Import Collections Framework</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*; <span class="comment">// Import toàn bộ
+                            Collections Framework</span>
+                    </div>
+
+                    <h4>Ví dụ:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ViDuCollection.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> ViDuCollection {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Không cần tự viết code
+                            quản lý mảng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> danhSach = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm phần tử -
+                                    Java tự động mở rộng mảng</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSach.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy phần
+                                    tử</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String ngonNgu = danhSach.get(<span
+                                    class="number">0</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Ngôn ngữ đầu: "</span> + ngonNgu);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h3>1.2 Lợi ích của Collections Framework</h3>
+
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Các lợi ích chính:</h4>
+                        <ul>
+                            <li>Không phải tự viết lại cấu trúc dữ liệu</li>
+                            <li>Hiệu suất cao (đã được tối ưu)</li>
+                            <li>Có sẵn các thuật toán (sắp xếp, tìm kiếm,...)</li>
+                            <li>Tương thích với nhau (có thể chuyển đổi qua lại)</li>
+                        </ul>
+                    </div>
+
+                    <h4>Ví dụ về thuật toán có sẵn:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> LoiIchCollection.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> LoiIchCollection {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<Integer> so = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so.add(<span
+                                    class="number">5</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so.add(<span
+                                    class="number">2</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so.add(<span
+                                    class="number">8</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so.add(<span
+                                    class="number">1</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sắp xếp - có
+                                    sẵn</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(so);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau sắp xếp: "</span> + so); <span class="comment">// [1, 2, 5,
+                                    8]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tìm kiếm nhị
+                                    phân - có sẵn</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> viTri =
+                                Collections.binarySearch(so, <span class="number">5</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Số 5 ở vị trí: "</span> + viTri); <span class="comment">//
+                                    2</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Đảo ngược - có
+                                    sẵn</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.reverse(so);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau đảo ngược: "</span> + so); <span class="comment">// [8, 5, 2,
+                                    1]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h3>1.3 Các interface chính</h3>
+
+                    <h4>Sơ đồ phân cấp:</h4>
+                    <div class="hierarchy">
+                        <pre style="color: #fff; font-family: monospace;">
+Collection (interface gốc)
+    ├── List (interface)    - Danh sách có thứ tự, cho phép trùng
+    ├── Set (interface)     - Tập hợp không trùng
+    └── Queue (interface)   - Hàng đợi (FIFO)
+                        </pre>
+                    </div>
+
+                    <h4>Ví dụ so sánh các interface:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> SoSanhInterface.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> SoSanhInterface {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. LIST - có thứ tự,
+                            cho phép trùng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"A"</span>); <span class="comment">// index 0</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"B"</span>); <span class="comment">// index 1</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"A"</span>); <span class="comment">// index 2 - cho phép
+                                    trùng</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"List: "</span> + list); <span class="comment">// [A, B,
+                                    A]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. SET - không
+                                    trùng</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set<String> set = <span
+                                        class="keyword">new</span> HashSet<>();<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set.add(<span
+                                            class="string">"A"</span>);<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set.add(<span
+                                            class="string">"B"</span>);<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set.add(<span
+                                            class="string">"A"</span>); <span class="comment">// bị bỏ qua vì
+                                            trùng</span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                            class="string">"Set: "</span> + set); <span class="comment">// [A,
+                                            B]</span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3.
+                                            QUEUE - vào trước ra trước</span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Queue<String> queue = <span
+                                                class="keyword">new</span> LinkedList<>();<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue.add(<span
+                                                    class="string">"Người 1"</span>);<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue.add(<span
+                                                    class="string">"Người 2"</span>);<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue.add(<span
+                                                    class="string">"Người 3"</span>);<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String raTruoc =
+                                                queue.poll(); <span class="comment">// lấy phần tử đầu</span><br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                                    class="string">"Ra trước: "</span> + raTruoc); <span
+                                                    class="comment">// Người 1</span><br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                                    class="string">"Còn lại: "</span> + queue); <span class="comment">//
+                                                    [Người 2, Người 3]</span><br>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                                }
+                    </div>
+                </section>
+
+                <!-- MỤC 2: LIST INTERFACE -->
+                <section id="section2" class="section">
+                    <h2><i class="fas fa-list"></i> MỤC 2: LIST INTERFACE</h2>
+
+                    <h3>2.1 Định nghĩa List</h3>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>List</strong> là một interface trong Java Collections Framework, đại diện cho một
+                            danh sách có thứ tự (ordered collection).</p>
+                    </div>
+
+                    <h4>Cú pháp khai báo List:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cú pháp</span><br>
+                        List<KiểuDữLiệu> tenBien = <span class="keyword">new</span> Implementation<>();<br>
+                                <br>
+                                <span class="comment">// Ví dụ</span><br>
+                                List<String> list = <span class="keyword">new</span> ArrayList<>();<br>
+                                        List<Integer> numbers = <span class="keyword">new</span> LinkedList<>();
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích cú pháp:</h4>
+                        <ul>
+                            <li><strong>List</strong>: Interface cha</li>
+                            <li><strong>&lt;KiểuDữLiệu&gt;</strong>: Kiểu dữ liệu của các phần tử (Wrapper class)</li>
+                            <li><strong>tenBien</strong>: Tên biến</li>
+                            <li><strong>new Implementation&lt;&gt;()</strong>: Khởi tạo đối tượng cụ thể (ArrayList,
+                                LinkedList,...)</li>
+                        </ul>
+                    </div>
+
+                    <h3>2.2 Đặc điểm của List</h3>
+
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Các đặc điểm chính:</h4>
+                        <ul>
+                            <li><strong>Có thứ tự</strong> - Phần tử được lưu theo thứ tự thêm vào</li>
+                            <li><strong>Cho phép trùng</strong> - Có thể thêm phần tử giống nhau</li>
+                            <li><strong>Truy cập bằng index</strong> - Mỗi phần tử có vị trí (bắt đầu từ 0)</li>
+                            <li><strong>Cho phép null</strong> - Có thể lưu giá trị null</li>
+                        </ul>
+                    </div>
+
+                    <h4>Ví dụ minh họa các đặc điểm:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> DacDiemList.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> DacDiemList {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Có thứ
+                                    tự</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>); <span class="comment">// index 0</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>); <span class="comment">// index 1</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>); <span class="comment">// index 2</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Thứ tự: "</span> + list); <span class="comment">// [Java, Python,
+                                    JavaScript]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Cho phép
+                                    trùng</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>); <span class="comment">// Thêm thêm một lần
+                                    nữa</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Cho phép trùng: "</span> + list); <span class="comment">// [Java,
+                                    Python, JavaScript, Java]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Truy cập
+                                    bằng index</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String phanTuThu2 = list.get(<span
+                                    class="number">1</span>); <span class="comment">// Lấy phần tử ở index 1</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Phần tử thứ 2: "</span> + phanTuThu2); <span class="comment">//
+                                    Python</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Cho phép
+                                    null</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="keyword">null</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Cho phép null: "</span> + list); <span class="comment">// [Java,
+                                    Python, JavaScript, Java, null]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+                </section>
+
+                <!-- MỤC 3: CÁC PHƯƠNG THỨC CỦA LIST -->
+                <section id="section3" class="section">
+                    <h2><i class="fas fa-plus-circle"></i> MỤC 3: CÁC PHƯƠNG THỨC CỦA LIST</h2>
+
+                    <h3>3.1 Phương thức add() - Thêm phần tử</h3>
+
+                    <h4>3.1.1 add(E element) - Thêm vào cuối</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> add(E element)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Thêm phần tử vào cuối danh sách</li>
+                            <li>Trả về true nếu thêm thành công</li>
+                            <li>Tham số element: Phần tử cần thêm</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> AddViDu1.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> AddViDu1 {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm vào
+                                    cuối</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(list); <span
+                                    class="comment">// [Java, Python, JavaScript]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h4>3.1.2 add(int index, E element) - Thêm vào vị trí chỉ định</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">void</span> add(<span class="keyword">int</span> index, E element)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Thêm phần tử vào vị trí index chỉ định</li>
+                            <li>Các phần tử từ index trở đi được đẩy sang phải</li>
+                            <li>index: Vị trí cần thêm (0 đến size)</li>
+                            <li>element: Phần tử cần thêm</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> AddViDu2.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> AddViDu2 {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Ban đầu: "</span> + list); <span class="comment">// [Java, Python,
+                                    JavaScript]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm vào vị trí
+                                    index 1</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="number">1</span>,
+                                <span class="string">"C++"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi thêm C++ vào index 1: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java, C++,
+                                    Python, JavaScript]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm vào đầu
+                                    danh sách</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="number">0</span>,
+                                <span class="string">"Ruby"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi thêm Ruby vào đầu: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Ruby, Java,
+                                    C++, Python, JavaScript]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm vào cuối
+                                    (tương đương add(element))</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(list.size(), <span
+                                    class="string">"Go"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi thêm Go vào cuối: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Ruby, Java,
+                                    C++, Python, JavaScript, Go]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h3>3.2 Phương thức get() - Lấy phần tử</h3>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E get(<span class="keyword">int</span> index)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Trả về phần tử tại vị trí index chỉ định</li>
+                            <li>index: Vị trí cần lấy (0 đến size-1)</li>
+                            <li>Ném IndexOutOfBoundsException nếu index không hợp lệ</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> GetViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> GetViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy phần
+                                    tử</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String first = list.get(<span
+                                    class="number">0</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String second = list.get(<span
+                                    class="number">1</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String last = list.get(list.size() -
+                                <span class="number">1</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Phần tử đầu: "</span> + first); <span class="comment">//
+                                    Java</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Phần tử thứ hai: "</span> + second); <span class="comment">//
+                                    Python</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Phần tử cuối: "</span> + last); <span class="comment">//
+                                    JavaScript</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lỗi nếu index
+                                    không hợp lệ</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String error =
+                                list.get(<span class="number">10</span>); <span class="comment">// index 10 không tồn
+                                    tại</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span>
+                                (IndexOutOfBoundsException e) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Lỗi: Index không hợp lệ"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h3>3.3 Phương thức set() - Sửa phần tử</h3>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E set(<span class="keyword">int</span> index, E element)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Thay thế phần tử tại vị trí index bằng element mới</li>
+                            <li>Trả về phần tử cũ đã bị thay thế</li>
+                            <li>index: Vị trí cần sửa</li>
+                            <li>element: Giá trị mới</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> SetViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> SetViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Ban đầu: "</span> + list); <span class="comment">// [Java, Python,
+                                    JavaScript]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sửa phần tử tại
+                                    index 1</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String oldValue = list.set(<span
+                                    class="number">1</span>, <span class="string">"C++"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Giá trị cũ: "</span> + oldValue); <span class="comment">//
+                                    Python</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi sửa: "</span> + list); <span class="comment">// [Java, C++,
+                                    JavaScript]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sửa phần tử
+                                    đầu</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldValue = list.set(<span
+                                    class="number">0</span>, <span class="string">"Ruby"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi sửa đầu: "</span> + list); <span class="comment">// [Ruby,
+                                    C++, JavaScript]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sửa phần tử
+                                    cuối</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oldValue = list.set(list.size() - <span
+                                    class="number">1</span>, <span class="string">"Go"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi sửa cuối: "</span> + list); <span class="comment">// [Ruby,
+                                    C++, Go]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h3>3.4 Phương thức remove() - Xóa phần tử</h3>
+
+                    <h4>3.4.1 remove(int index) - Xóa theo vị trí</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E remove(<span class="keyword">int</span> index)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Xóa phần tử tại vị trí index</li>
+                            <li>Trả về phần tử đã xóa</li>
+                            <li>Các phần tử phía sau dịch sang trái</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> RemoveViDu1.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> RemoveViDu1 {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"C++"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Ruby"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Ban đầu: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java, Python,
+                                    JavaScript, C++, Ruby]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa phần tử tại
+                                    index 2</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String removed = list.remove(<span
+                                    class="number">2</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Đã xóa: "</span> + removed); <span class="comment">//
+                                    JavaScript</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi xóa: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java, Python,
+                                    C++, Ruby]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa phần tử
+                                    đầu</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;removed = list.remove(<span
+                                    class="number">0</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Đã xóa đầu: "</span> + removed); <span class="comment">//
+                                    Java</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi xóa đầu: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Python, C++,
+                                    Ruby]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa phần tử
+                                    cuối</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;removed = list.remove(list.size() -
+                                <span class="number">1</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Đã xóa cuối: "</span> + removed); <span class="comment">//
+                                    Ruby</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi xóa cuối: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Python,
+                                    C++]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h4>3.4.2 remove(Object o) - Xóa theo giá trị</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> remove(Object o)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Xóa phần tử đầu tiên có giá trị bằng o</li>
+                            <li>Trả về true nếu tìm thấy và xóa thành công</li>
+                            <li>Trả về false nếu không tìm thấy</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> RemoveViDu2.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> RemoveViDu2 {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>); <span class="comment">// Thêm Python lần
+                                    2</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Ruby"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Ban đầu: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java, Python,
+                                    JavaScript, Python, Ruby]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa phần tử
+                                    "Python" đầu tiên</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">boolean</span>
+                                found = list.remove(<span class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Tìm thấy và xóa? "</span> + found); <span class="comment">//
+                                    true</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi xóa Python đầu tiên: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java,
+                                    JavaScript, Python, Ruby]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa phần tử
+                                    không tồn tại</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;found = list.remove(<span
+                                    class="string">"C++"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Tìm thấy C++? "</span> + found); <span class="comment">//
+                                    false</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"List không thay đổi: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java,
+                                    JavaScript, Python, Ruby]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h3>3.5 Phương thức size() - Lấy kích thước</h3>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">int</span> size()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Trả về số lượng phần tử hiện có trong List</li>
+                            <li>Không phải dung lượng tối đa, mà là số phần tử thực tế</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> SizeViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> SizeViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Kích thước ban đầu: "</span> + list.size()); <span
+                                    class="comment">// 0</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi thêm 2 phần tử: "</span> + list.size()); <span
+                                    class="comment">// 2</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi thêm thêm 1: "</span> + list.size()); <span
+                                    class="comment">// 3</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.remove(<span
+                                    class="number">0</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi xóa 1: "</span> + list.size()); <span class="comment">//
+                                    2</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.clear();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi xóa hết: "</span> + list.size()); <span class="comment">//
+                                    0</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h3>3.6 Phương thức contains() - Kiểm tra tồn tại</h3>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> contains(Object o)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Kiểm tra List có chứa phần tử o hay không</li>
+                            <li>Trả về true nếu có, false nếu không</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ContainsViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> ContainsViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kiểm tra phần
+                                    tử có tồn tại</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">boolean</span>
+                                hasJava = list.contains(<span class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">boolean</span>
+                                hasCpp = list.contains(<span class="string">"C++"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Có Java không? "</span> + hasJava); <span class="comment">//
+                                    true</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Có C++ không? "</span> + hasCpp); <span class="comment">//
+                                    false</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thường dùng
+                                    trong if</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>
+                                (list.contains(<span class="string">"Python"</span>)) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Python có trong danh sách"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Với
+                                    null</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="keyword">null</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Có null không? "</span> + list.contains(<span
+                                    class="keyword">null</span>)); <span class="comment">// true</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h3>3.7 Phương thức indexOf() và lastIndexOf() - Tìm vị trí</h3>
+
+                    <h4>3.7.1 indexOf(Object o)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">int</span> indexOf(Object o)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Trả về vị trí đầu tiên của phần tử o</li>
+                            <li>Trả về -1 nếu không tìm thấy</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> IndexOfViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> IndexOfViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>); <span class="comment">// Python lần 2</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Ruby"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tìm vị trí đầu
+                                    tiên</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> pos1 =
+                                list.indexOf(<span class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Python đầu tiên ở index: "</span> + pos1); <span class="comment">//
+                                    1</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> pos2 =
+                                list.indexOf(<span class="string">"C++"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"C++ ở index: "</span> + pos2); <span class="comment">//
+                                    -1</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thường dùng để
+                                    kiểm tra tồn tại</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>
+                                (list.indexOf(<span class="string">"Java"</span>) != -<span class="number">1</span>)
+                                {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Java có trong list"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h4>3.7.2 lastIndexOf(Object o)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">int</span> lastIndexOf(Object o)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Trả về vị trí cuối cùng của phần tử o</li>
+                            <li>Trả về -1 nếu không tìm thấy</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> LastIndexOfViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> LastIndexOfViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>); <span class="comment">// Python lần 2</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Ruby"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>); <span class="comment">// Python lần 3</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"List: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java, Python,
+                                    JavaScript, Python, Ruby, Python]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> first =
+                                list.indexOf(<span class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> last =
+                                list.lastIndexOf(<span class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Python đầu tiên: "</span> + first); <span class="comment">//
+                                    1</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Python cuối cùng: "</span> + last); <span class="comment">//
+                                    5</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Số lần xuất hiện: "</span> + (last - first + <span
+                                    class="number">1</span>)); <span class="comment">// 3</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h3>3.8 Phương thức isEmpty() và clear()</h3>
+
+                    <h4>3.8.1 isEmpty() - Kiểm tra rỗng</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> isEmpty()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Kiểm tra List có rỗng không (size = 0)</li>
+                            <li>Trả về true nếu rỗng, false nếu có phần tử</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> IsEmptyViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> IsEmptyViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"List vừa tạo có rỗng? "</span> + list.isEmpty()); <span
+                                    class="comment">// true</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi thêm 1 phần tử: "</span> + list.isEmpty()); <span
+                                    class="comment">// false</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.remove(<span
+                                    class="number">0</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Sau khi xóa hết: "</span> + list.isEmpty()); <span
+                                    class="comment">// true</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thường dùng
+                                    trong if</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>
+                                (!list.isEmpty()) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"List có dữ liệu"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span>
+                                {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"List rỗng"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h4>3.8.2 clear() - Xóa tất cả</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">void</span> clear()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Xóa tất cả phần tử trong List</li>
+                            <li>List trở thành rỗng (size = 0)</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ClearViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> ClearViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"C++"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"Trước clear:"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">" List: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">" Size: "</span> + list.size());<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">" Rỗng? "</span> + list.isEmpty());<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa tất
+                                    cả</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.clear();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"\nSau clear:"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">" List: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">" Size: "</span> + list.size());<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">" Rỗng? "</span> + list.isEmpty());<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                    </div>
+
+                    <h3>3.9 Phương thức subList() - Lấy danh sách con</h3>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        List<E> subList(<span class="keyword">int</span> fromIndex, <span class="keyword">int</span>
+                            toIndex)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Trả về một view của List từ fromIndex đến toIndex - 1</li>
+                            <li>fromIndex: Vị trí bắt đầu (bao gồm)</li>
+                            <li>toIndex: Vị trí kết thúc (không bao gồm)</li>
+                            <li>Thay đổi trên subList sẽ ảnh hưởng đến List gốc</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> SubListViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> SubListViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span
+                                class="keyword">new</span> ArrayList<>();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Java"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Python"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"JavaScript"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"C++"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Ruby"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span
+                                    class="string">"Go"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                    class="string">"List gốc: "</span> + list);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java, Python,
+                                    JavaScript, C++, Ruby, Go]</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy từ index 1
+                                    đến 3 (1, 2)</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> sub = list.subList(<span
+                                        class="number">1</span>, <span class="number">4</span>);<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                        class="string">"subList(1,4): "</span> + sub);<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Python,
+                                        JavaScript, C++]</span><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy 3 phần
+                                        tử đầu</span><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> first3 =
+                                        list.subList(<span class="number">0</span>, <span class="number">3</span>);<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                            class="string">"3 phần tử đầu: "</span> + first3);<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java,
+                                            Python, JavaScript]</span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy 3
+                                            phần tử cuối</span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> last3 =
+                                            list.subList(list.size() - <span class="number">3</span>, list.size());<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                                class="string">"3 phần tử cuối: "</span> + last3);<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//
+                                                [C++, Ruby, Go]</span><br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//
+                                                Thay đổi trên subList ảnh hưởng đến list gốc</span><br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sub.set(<span
+                                                class="number">1</span>, <span class="string">"JavaScript
+                                                (sửa)"</span>);<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                                                class="string">"List gốc sau khi sửa sub: "</span> + list);<br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//
+                                                [Java, Python, JavaScript (sửa), C++, Ruby, Go]</span><br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                            }
+                    </div>
+
+                    <h3>3.10 Phương thức addAll() - Thêm nhiều phần tử</h3>
+
+                    <h4>3.10.1 addAll(Collection c) - Thêm vào cuối</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> addAll(Collection
+                        <? extends E> c)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Thêm tất cả phần tử từ Collection c vào cuối List</li>
+                            <li>Trả về true nếu List thay đổi</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> AddAllViDu1.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> AddAllViDu1 {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list1 = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list1.add(<span class="string">"Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list1.add(<span class="string">"Python"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list2 = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list2.add(<span class="string">"JavaScript"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list2.add(<span class="string">"C++"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"list1 ban đầu: "</span> + list1);  <span class="comment">// [Java, Python]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"list2: "</span> + list2);          <span class="comment">// [JavaScript, C++]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm toàn bộ list2 vào list1</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list1.addAll(list2);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"list1 sau addAll: "</span> + list1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java, Python, JavaScript, C++]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm từ Array (chuyển thành List trước)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] arr = {<span class="string">"Ruby"</span>, <span class="string">"Go"</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list1.addAll(Arrays.asList(arr));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau khi thêm từ mảng: "</span> + list1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java, Python, JavaScript, C++, Ruby, Go]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>3.10.2 addAll(int index, Collection c) - Thêm vào vị trí</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> addAll(<span class="keyword">int</span> index, Collection<? extends E> c)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Thêm tất cả phần tử từ Collection c vào vị trí index</li>
+                            <li>Các phần tử từ index trở đi được đẩy sang phải</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> AddAllViDu2.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> AddAllViDu2 {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> list = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Python"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Ruby"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> them = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;them.add(<span class="string">"C++"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;them.add(<span class="string">"Go"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"List ban đầu: "</span> + list);  <span class="comment">// [Java, Python, Ruby]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thêm vào: "</span> + them);       <span class="comment">// [C++, Go]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm vào vị trí index 1</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.addAll(<span class="number">1</span>, them);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau khi thêm vào index 1: "</span> + list);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java, C++, Go, Python, Ruby]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm vào đầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> dau = Arrays.asList(<span class="string">"A"</span>, <span class="string">"B"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.addAll(<span class="number">0</span>, dau);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau khi thêm vào đầu: "</span> + list);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [A, B, Java, C++, Go, Python, Ruby]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm vào cuối (tương tự addAll(Collection))</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> cuoi = Arrays.asList(<span class="string">"X"</span>, <span class="string">"Y"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.addAll(list.size(), cuoi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau khi thêm vào cuối: "</span> + list);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [A, B, Java, C++, Go, Python, Ruby, X, Y]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- MỤC 4: ARRAYLIST -->
+                <section id="section4" class="section">
+                    <h2><i class="fas fa-array"></i> MỤC 4: ARRAYLIST</h2>
+
+                    <h3>4.1 Định nghĩa ArrayList</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>ArrayList</strong> là một class implements List, sử dụng mảng động (dynamic array) để lưu trữ dữ liệu. Khi mảng đầy, nó tự động tăng kích thước.</p>
+                    </div>
+
+                    <h4>Cú pháp tạo ArrayList:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cú pháp</span><br>
+                        ArrayList<KiểuDữLiệu> tenBien = <span class="keyword">new</span> ArrayList<>();<br>
+                        <br>
+                        <span class="comment">// Ví dụ</span><br>
+                        ArrayList<String> list1 = <span class="keyword">new</span> ArrayList<>();           <span class="comment">// Mặc định capacity = 10</span><br>
+                        ArrayList<String> list2 = <span class="keyword">new</span> ArrayList<>(<span class="number">20</span>);         <span class="comment">// Chỉ định capacity = 20</span><br>
+                        ArrayList<String> list3 = <span class="keyword">new</span> ArrayList<>(list1);      <span class="comment">// Copy từ ArrayList khác</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích cú pháp:</h4>
+                        <ul>
+                            <li><strong>ArrayList</strong>: Tên class</li>
+                            <li><strong>&lt;KiểuDữLiệu&gt;</strong>: Kiểu dữ liệu của phần tử (phải là Wrapper class)</li>
+                            <li><strong>new ArrayList&lt;&gt;()</strong>: Khởi tạo với capacity mặc định (10)</li>
+                            <li><strong>new ArrayList&lt;&gt;(20)</strong>: Khởi tạo với capacity chỉ định</li>
+                            <li><strong>new ArrayList&lt;&gt;(collection)</strong>: Copy từ collection khác</li>
+                        </ul>
+                    </div>
+
+                    <h4>Ví dụ tạo ArrayList:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> TaoArrayList.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> TaoArrayList {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Tạo ArrayList rỗng (capacity mặc định 10)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList<String> list1 = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list1.add(<span class="string">"Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list1.add(<span class="string">"Python"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"list1: "</span> + list1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Tạo với capacity chỉ định</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList<Integer> list2 = <span class="keyword">new</span> ArrayList<>(<span class="number">100</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"list2 capacity: 100 (chưa có phần tử)"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Tạo từ collection khác</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList<String> list3 = <span class="keyword">new</span> ArrayList<>(list1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list3.add(<span class="string">"JavaScript"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"list3 copy từ list1: "</span> + list3);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Java, Python, JavaScript]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Tạo từ Array</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] arr = {<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList<String> list4 = <span class="keyword">new</span> ArrayList<>(Arrays.asList(arr));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"list4 từ mảng: "</span> + list4);  <span class="comment">// [A, B, C]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>4.2 Các phương thức đặc biệt của ArrayList</h3>
+
+                    <h4>4.2.1 ensureCapacity() - Đảm bảo dung lượng</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">void</span> ensureCapacity(<span class="keyword">int</span> minCapacity)
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Tăng dung lượng của ArrayList lên ít nhất minCapacity</li>
+                            <li>Giúp tối ưu hiệu suất khi biết trước số lượng phần tử lớn</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> EnsureCapacityViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> EnsureCapacityViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Không dùng ensureCapacity</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList<Integer> list1 = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">long</span> start = System.nanoTime();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < <span class="number">100000</span>; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list1.add(i);  <span class="comment">// Phải resize nhiều lần</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">long</span> end = System.nanoTime();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Không ensure: "</span> + (end - start) / <span class="number">1000000</span> + <span class="string">" ms"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Có dùng ensureCapacity</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList<Integer> list2 = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list2.ensureCapacity(<span class="number">100000</span>);  <span class="comment">// Cấp sẵn chỗ cho 100000 phần tử</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start = System.nanoTime();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < <span class="number">100000</span>; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list2.add(i);  <span class="comment">// Không cần resize</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = System.nanoTime();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Có ensure: "</span> + (end - start) / <span class="number">1000000</span> + <span class="string">" ms"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>4.2.2 trimToSize() - Cắt bớt dung lượng</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">void</span> trimToSize()
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Cắt giảm dung lượng của ArrayList xuống bằng đúng kích thước hiện tại</li>
+                            <li>Giúp tiết kiệm bộ nhớ</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> TrimToSizeViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> TrimToSizeViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList<String> list = <span class="keyword">new</span> ArrayList<>(<span class="number">100</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Python"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"JavaScript"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Số phần tử: "</span> + list.size());      <span class="comment">// 3</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Dung lượng: ~100 (không xem trực tiếp được)"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Cắt giảm dung lượng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.trimToSize();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau trimToSize: dung lượng = size = 3"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm phần tử - sẽ phải tăng dung lượng lại</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"C++"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau khi thêm: "</span> + list);  <span class="comment">// [Java, Python, JavaScript, C++]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- MỤC 5: LINKEDLIST -->
+                <section id="section5" class="section">
+                    <h2><i class="fas fa-link"></i> MỤC 5: LINKEDLIST</h2>
+
+                    <h3>5.1 Định nghĩa LinkedList</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>LinkedList</strong> là một class implements List, sử dụng danh sách liên kết kép (doubly-linked list) để lưu trữ dữ liệu. Mỗi phần tử là một node chứa dữ liệu và 2 con trỏ (next, prev).</p>
+                    </div>
+
+                    <h4>Cú pháp tạo LinkedList:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cú pháp</span><br>
+                        LinkedList<KiểuDữLiệu> tenBien = <span class="keyword">new</span> LinkedList<>();<br>
+                        <br>
+                        <span class="comment">// Ví dụ</span><br>
+                        LinkedList<String> list1 = <span class="keyword">new</span> LinkedList<>();           <span class="comment">// Tạo rỗng</span><br>
+                        LinkedList<String> list2 = <span class="keyword">new</span> LinkedList<>(list1);      <span class="comment">// Copy từ collection khác</span>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> TaoLinkedList.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> TaoLinkedList {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Tạo LinkedList rỗng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> list1 = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list1.add(<span class="string">"Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list1.add(<span class="string">"Python"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list1.add(<span class="string">"JavaScript"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"list1: "</span> + list1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Tạo từ collection khác</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> list2 = <span class="keyword">new</span> LinkedList<>(list1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list2.add(<span class="string">"C++"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"list2 copy từ list1: "</span> + list2);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Tạo từ Array</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] arr = {<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> list3 = <span class="keyword">new</span> LinkedList<>(Arrays.asList(arr));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"list3 từ mảng: "</span> + list3);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>5.2 Các phương thức đặc biệt của LinkedList (Deque operations)</h3>
+
+                    <h4>5.2.1 addFirst() và addLast()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">void</span> addFirst(E e)    <span class="comment">// Thêm vào đầu danh sách</span><br>
+                        <span class="keyword">void</span> addLast(E e)     <span class="comment">// Thêm vào cuối danh sách</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li><strong>addFirst</strong>: Thêm phần tử vào đầu danh sách (O(1))</li>
+                            <li><strong>addLast</strong>: Thêm phần tử vào cuối danh sách (O(1))</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> AddFirstLastViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> AddFirstLastViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> list = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"B"</span>);  <span class="comment">// Thêm bình thường (vào cuối)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ban đầu: "</span> + list);  <span class="comment">// [B]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm vào đầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.addFirst(<span class="string">"A"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau addFirst A: "</span> + list);  <span class="comment">// [A, B]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm vào cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.addLast(<span class="string">"C"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau addLast C: "</span> + list);  <span class="comment">// [A, B, C]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm tiếp</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.addFirst(<span class="string">"X"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.addLast(<span class="string">"Y"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Cuối cùng: "</span> + list);  <span class="comment">// [X, A, B, C, Y]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>5.2.2 getFirst() và getLast()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E getFirst()    <span class="comment">// Lấy phần tử đầu (ném exception nếu rỗng)</span><br>
+                        E getLast()     <span class="comment">// Lấy phần tử cuối (ném exception nếu rỗng)</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Trả về phần tử đầu/cuối nhưng không xóa</li>
+                            <li>Ném NoSuchElementException nếu danh sách rỗng</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> GetFirstLastViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> GetFirstLastViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> list = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Python"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"JavaScript"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy phần tử đầu và cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String first = list.getFirst();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String last = list.getLast();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"List: "</span> + list);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Phần tử đầu: "</span> + first);  <span class="comment">// Java</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Phần tử cuối: "</span> + last);  <span class="comment">// JavaScript</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"List không thay đổi: "</span> + list);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xử lý khi list rỗng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> empty = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empty.getFirst();  <span class="comment">// Sẽ ném exception</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (NoSuchElementException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi: List rỗng!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>5.2.3 peekFirst() và peekLast()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E peekFirst()    <span class="comment">// Lấy phần tử đầu (trả null nếu rỗng)</span><br>
+                        E peekLast()     <span class="comment">// Lấy phần tử cuối (trả null nếu rỗng)</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Giống getFirst()/getLast() nhưng trả null thay vì ném exception</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> PeekFirstLastViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> PeekFirstLastViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> list = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Python"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy phần tử - list có dữ liệu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String first = list.peekFirst();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String last = list.peekLast();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"List: "</span> + list);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"peekFirst: "</span> + first);  <span class="comment">// Java</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"peekLast: "</span> + last);    <span class="comment">// Python</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Với list rỗng - trả null</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> empty = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String nullFirst = empty.peekFirst();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String nullLast = empty.peekLast();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nList rỗng:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"peekFirst: "</span> + nullFirst);  <span class="comment">// null</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"peekLast: "</span> + nullLast);    <span class="comment">// null</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kiểm tra null an toàn</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (nullFirst != <span class="keyword">null</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Có dữ liệu"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"List rỗng"</span>);  <span class="comment">// In ra dòng này</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>5.2.4 removeFirst() và removeLast()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E removeFirst()    <span class="comment">// Xóa và lấy phần tử đầu (ném exception nếu rỗng)</span><br>
+                        E removeLast()     <span class="comment">// Xóa và lấy phần tử cuối (ném exception nếu rỗng)</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Xóa và trả về phần tử đầu/cuối</li>
+                            <li>Ném NoSuchElementException nếu danh sách rỗng</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> RemoveFirstLastViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> RemoveFirstLastViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> list = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Python"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"JavaScript"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ban đầu: "</span> + list);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa và lấy phần tử đầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String first = list.removeFirst();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã xóa đầu: "</span> + first);     <span class="comment">// Java</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Còn lại: "</span> + list);         <span class="comment">// [Python, JavaScript]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa và lấy phần tử cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String last = list.removeLast();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã xóa cuối: "</span> + last);     <span class="comment">// JavaScript</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Còn lại: "</span> + list);         <span class="comment">// [Python]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa phần tử cuối cùng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String only = list.removeLast();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã xóa phần tử cuối: "</span> + only);  <span class="comment">// Python</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"List bây giờ: "</span> + list);         <span class="comment">// []</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thử xóa khi list rỗng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.removeFirst();  <span class="comment">// Sẽ ném exception</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (NoSuchElementException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi: Không thể xóa từ list rỗng"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>5.2.5 pollFirst() và pollLast()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E pollFirst()    <span class="comment">// Xóa và lấy phần tử đầu (trả null nếu rỗng)</span><br>
+                        E pollLast()     <span class="comment">// Xóa và lấy phần tử cuối (trả null nếu rỗng)</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Giống removeFirst()/removeLast() nhưng trả null thay vì ném exception</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> PollFirstLastViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> PollFirstLastViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> list = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"Python"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ban đầu: "</span> + list);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// pollFirst - xóa và lấy đầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String first = list.pollFirst();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"pollFirst: "</span> + first);  <span class="comment">// Java</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Còn lại: "</span> + list);     <span class="comment">// [Python]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// pollLast - xóa và lấy cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String last = list.pollLast();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"pollLast: "</span> + last);    <span class="comment">// Python</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Còn lại: "</span> + list);     <span class="comment">// []</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Với list rỗng - trả null</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String nullFirst = list.pollFirst();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String nullLast = list.pollLast();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nVới list rỗng:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"pollFirst: "</span> + nullFirst);  <span class="comment">// null</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"pollLast: "</span> + nullLast);    <span class="comment">// null</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// An toàn vì không ném exception</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (list.pollFirst() == <span class="keyword">null</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"List rỗng, không có gì để xóa"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>5.2.6 push() và pop() - Stack operations</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">void</span> push(E e)     <span class="comment">// Thêm vào đầu (giống addFirst)</span><br>
+                        E pop()            <span class="comment">// Lấy và xóa đầu (giống removeFirst)</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li><strong>push</strong>: Thêm phần tử vào đầu stack</li>
+                            <li><strong>pop</strong>: Lấy và xóa phần tử đầu stack (ném exception nếu rỗng)</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> PushPopViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> PushPopViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> stack = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// push - thêm vào đầu (giống addFirst)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stack.push(<span class="string">"Sách 1"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stack.push(<span class="string">"Sách 2"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stack.push(<span class="string">"Sách 3"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Stack sau push: "</span> + stack);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// [Sách 3, Sách 2, Sách 1]  - phần tử thêm sau ở trên đầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// pop - lấy và xóa đầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String top = stack.pop();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"pop: "</span> + top);  <span class="comment">// Sách 3</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Còn lại: "</span> + stack);  <span class="comment">// [Sách 2, Sách 1]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top = stack.pop();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"pop: "</span> + top);  <span class="comment">// Sách 2</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Còn lại: "</span> + stack);  <span class="comment">// [Sách 1]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top = stack.pop();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"pop: "</span> + top);  <span class="comment">// Sách 1</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Còn lại: "</span> + stack);  <span class="comment">// []</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// pop khi rỗng - ném exception</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stack.pop();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (NoSuchElementException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi: Stack rỗng!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>5.2.7 offerFirst() và offerLast()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> offerFirst(E e)    <span class="comment">// Thêm vào đầu (trả false nếu lỗi)</span><br>
+                        <span class="keyword">boolean</span> offerLast(E e)     <span class="comment">// Thêm vào cuối (trả false nếu lỗi)</span>
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li>Thêm phần tử vào đầu/cuối</li>
+                            <li>Trả về true nếu thành công, false nếu thất bại</li>
+                            <li>Với LinkedList không giới hạn, luôn trả về true</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> OfferFirstLastViDu.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> OfferFirstLastViDu {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> list = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(<span class="string">"B"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// offerFirst - thêm vào đầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">boolean</span> result1 = list.offerFirst(<span class="string">"A"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"offerFirst A: "</span> + result1);  <span class="comment">// true</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"List: "</span> + list);  <span class="comment">// [A, B]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// offerLast - thêm vào cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">boolean</span> result2 = list.offerLast(<span class="string">"C"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"offerLast C: "</span> + result2);   <span class="comment">// true</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"List: "</span> + list);  <span class="comment">// [A, B, C]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Có thể dùng trong if</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (list.offerFirst(<span class="string">"X"</span>)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thêm X thành công"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Cuối cùng: "</span> + list);  <span class="comment">// [X, A, B, C]</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- MỤC 6: ARRAYLIST VS LINKEDLIST -->
+                <section id="section6" class="section">
+                    <h2><i class="fas fa-balance-scale"></i> MỤC 6: ARRAYLIST VS LINKEDLIST</h2>
+
+                    <h3>6.1 So sánh về cấu trúc</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tiêu chí</th>
+                                    <th>ArrayList</th>
+                                    <th>LinkedList</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Cấu trúc</strong></td>
+                                    <td>Mảng động (dynamic array)</td>
+                                    <td>Danh sách liên kết kép</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bộ nhớ</strong></td>
+                                    <td>Lưu liên tiếp trong RAM</td>
+                                    <td>Lưu rải rác, mỗi node có thêm 2 con trỏ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>6.2 So sánh về hiệu suất (Big O Notation)</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Thao tác</th>
+                                    <th>ArrayList</th>
+                                    <th>LinkedList</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>get(int index)</td>
+                                    <td><span class="big-o big-o-fast">O(1) - Rất nhanh</span></td>
+                                    <td><span class="big-o big-o-slow">O(n) - Chậm</span></td>
+                                </tr>
+                                <tr>
+                                    <td>add(E element)</td>
+                                    <td><span class="big-o big-o-fast">O(1)* - Nhanh</span></td>
+                                    <td><span class="big-o big-o-fast">O(1) - Nhanh</span></td>
+                                </tr>
+                                <tr>
+                                    <td>add(int index, E)</td>
+                                    <td><span class="big-o big-o-medium">O(n) - Trung bình</span></td>
+                                    <td><span class="big-o big-o-medium">O(n) - Trung bình</span></td>
+                                </tr>
+                                <tr>
+                                    <td>remove(int index)</td>
+                                    <td><span class="big-o big-o-medium">O(n) - Trung bình</span></td>
+                                    <td><span class="big-o big-o-medium">O(n) - Trung bình</span></td>
+                                </tr>
+                                <tr>
+                                    <td>addFirst</td>
+                                    <td><span class="big-o big-o-slow">O(n) - Chậm</span></td>
+                                    <td><span class="big-o big-o-fast">O(1) - Rất nhanh</span></td>
+                                </tr>
+                                <tr>
+                                    <td>removeFirst</td>
+                                    <td><span class="big-o big-o-slow">O(n) - Chậm</span></td>
+                                    <td><span class="big-o big-o-fast">O(1) - Rất nhanh</span></td>
+                                </tr>
+                                <tr>
+                                    <td>addLast</td>
+                                    <td><span class="big-o big-o-fast">O(1)* - Nhanh</span></td>
+                                    <td><span class="big-o big-o-fast">O(1) - Nhanh</span></td>
+                                </tr>
+                                <tr>
+                                    <td>removeLast</td>
+                                    <td><span class="big-o big-o-fast">O(1) - Nhanh</span></td>
+                                    <td><span class="big-o big-o-fast">O(1) - Nhanh</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>6.3 Ví dụ so sánh cụ thể</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> SoSanhArrayListLinkedList.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> SoSanhArrayListLinkedList {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> size = <span class="number">100000</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// TEST 1: Thêm vào cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"=== TEST 1: Thêm vào cuối ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// ArrayList thêm cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">long</span> start = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList<Integer> arrayList = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < size; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arrayList.add(i);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">long</span> end = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"ArrayList thêm cuối: "</span> + (end - start) + <span class="string">" ms"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// LinkedList thêm cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<Integer> linkedList = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < size; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;linkedList.add(i);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"LinkedList thêm cuối: "</span> + (end - start) + <span class="string">" ms"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// TEST 2: Thêm vào đầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\n=== TEST 2: Thêm vào đầu ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// ArrayList thêm đầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arrayList = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < <span class="number">10000</span>; i++) {  <span class="comment">// Giảm size vì ArrayList thêm đầu rất chậm</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arrayList.add(<span class="number">0</span>, i);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"ArrayList thêm đầu (10000): "</span> + (end - start) + <span class="string">" ms"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// LinkedList thêm đầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;linkedList = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < <span class="number">10000</span>; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;linkedList.addFirst(i);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"LinkedList thêm đầu (10000): "</span> + (end - start) + <span class="string">" ms"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// TEST 3: Truy cập ngẫu nhiên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\n=== TEST 3: Truy cập ngẫu nhiên ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Chuẩn bị dữ liệu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arrayList = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;linkedList = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < <span class="number">100000</span>; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arrayList.add(i);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;linkedList.add(i);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Random random = <span class="keyword">new</span> Random();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// ArrayList get</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> sum1 = <span class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < <span class="number">10000</span>; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> index = random.nextInt(<span class="number">100000</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum1 += arrayList.get(index);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"ArrayList get (10000 lần): "</span> + (end - start) + <span class="string">" ms"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// LinkedList get</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;start = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> sum2 = <span class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < <span class="number">10000</span>; i++) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> index = random.nextInt(<span class="number">100000</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum2 += linkedList.get(index);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end = System.currentTimeMillis();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"LinkedList get (10000 lần): "</span> + (end - start) + <span class="string">" ms"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>6.4 Khi nào dùng ArrayList?</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> KhiNaoDungArrayList.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> KhiNaoDungArrayList {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Cần truy cập ngẫu nhiên nhiều</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<Student> students = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"John"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;students.add(<span class="keyword">new</span> Student(<span class="string">"Jane"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thường xuyên lấy theo index</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student first = students.get(<span class="number">0</span>);        <span class="comment">// Nhanh O(1)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student last = students.get(students.size() - <span class="number">1</span>);  <span class="comment">// Nhanh O(1)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Thêm/xóa chủ yếu ở cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<String> logs = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logs.add(<span class="string">"Log 1"</span>);  <span class="comment">// Thêm cuối - nhanh</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logs.add(<span class="string">"Log 2"</span>);  <span class="comment">// Thêm cuối - nhanh</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logs.add(<span class="string">"Log 3"</span>);  <span class="comment">// Thêm cuối - nhanh</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Duyệt tuần tự</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String log : logs) {  <span class="comment">// Duyệt nhanh</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(log);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Cần sắp xếp nhiều</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List<Integer> numbers = <span class="keyword">new</span> ArrayList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbers.addAll(Arrays.asList(<span class="number">5</span>, <span class="number">2</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">9</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(numbers);  <span class="comment">// Sắp xếp nhanh trên ArrayList</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">static class</span> Student {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Student(String name) { <span class="keyword">this</span>.name = name; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>6.5 Khi nào dùng LinkedList?</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> KhiNaoDungLinkedList.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.util.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> KhiNaoDungLinkedList {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Thêm/xóa ở đầu nhiều</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<String> history = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lưu lịch sử truy cập - gần nhất ở đầu</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;history.addFirst(<span class="string">"Trang chủ"</span>);     <span class="comment">// Nhanh O(1)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;history.addFirst(<span class="string">"Sản phẩm"</span>);      <span class="comment">// Nhanh O(1)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;history.addFirst(<span class="string">"Chi tiết"</span>);      <span class="comment">// Nhanh O(1)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lịch sử: "</span> + history);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Làm Queue (hàng đợi) - FIFO</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Queue<String> queue = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue.offer(<span class="string">"Khách 1"</span>);  <span class="comment">// Thêm vào cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue.offer(<span class="string">"Khách 2"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue.offer(<span class="string">"Khách 3"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String phucVu = queue.poll();  <span class="comment">// Lấy từ đầu - Khách 1</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đang phục vụ: "</span> + phucVu);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Làm Stack (ngăn xếp) - LIFO</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deque<String> stack = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stack.push(<span class="string">"Sách 1"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stack.push(<span class="string">"Sách 2"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stack.push(<span class="string">"Sách 3"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String layRa = stack.pop();  <span class="comment">// Lấy từ đầu - Sách 3</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lấy ra: "</span> + layRa);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Cần xóa phần tử ở giữa nhiều (với Iterator)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LinkedList<Integer> numbers = <span class="keyword">new</span> LinkedList<>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbers.addAll(Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa các số chẵn - LinkedList xóa nhanh hơn khi đã có Iterator</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Iterator<Integer> it = numbers.iterator();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> (it.hasNext()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (it.next() % <span class="number">2</span> == <span class="number">0</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it.remove();  <span class="comment">// O(1) với LinkedList</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau khi xóa số chẵn: "</span> + numbers);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>6.6 Bảng tóm tắt chọn lựa</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tình huống</th>
+                                    <th>Nên chọn</th>
+                                    <th>Lý do</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Truy cập ngẫu nhiên nhiều</td>
+                                    <td><span class="badge badge-array">ArrayList</span></td>
+                                    <td>get(index) là O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td>Thêm/xóa ở đầu nhiều</td>
+                                    <td><span class="badge badge-linked">LinkedList</span></td>
+                                    <td>addFirst/removeFirst là O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td>Thêm/xóa ở cuối nhiều</td>
+                                    <td><span class="badge badge-array">Cả hai đều tốt</span></td>
+                                    <td>add/remove cuối O(1)</td>
+                                </tr>
+                                <tr>
+                                    <td>Làm Queue/Stack</td>
+                                    <td><span class="badge badge-linked">LinkedList</span></td>
+                                    <td>Có sẵn các phương thức</td>
+                                </tr>
+                                <tr>
+                                    <td>Sắp xếp, tìm kiếm nhiều</td>
+                                    <td><span class="badge badge-array">ArrayList</span></td>
+                                    <td>Collections.sort() hiệu quả hơn</td>
+                                </tr>
+                                <tr>
+                                    <td>Bộ nhớ hạn chế</td>
+                                    <td><span class="badge badge-array">ArrayList</span></td>
+                                    <td>Tốn ít bộ nhớ hơn</td>
+                                </tr>
+                                <tr>
+                                    <td>Duyệt tuần tự là chính</td>
+                                    <td><span class="badge badge-array">Cả hai đều tốt</span></td>
+                                    <td>Iterator cho cả hai</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="comparison-box">
+                        <h4><i class="fas fa-lightbulb"></i> Tóm tắt nhanh:</h4>
+                        <ul>
+                            <li><span class="badge badge-array">ArrayList</span> - "Vua truy cập ngẫu nhiên" - dùng khi cần get/set nhiều</li>
+                            <li><span class="badge badge-linked">LinkedList</span> - "Vua thêm xóa đầu/cuối" - dùng khi cần add/remove ở đầu nhiều, làm Queue/Stack</li>
+                        </ul>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-star"></i> Tổng kết Collections & List</h4>
+                        <div class="demo-box">
+                            <p style="font-size: 1.3rem;"><i class="fas fa-layer-group"></i> Collections Framework <i class="fas fa-arrow-right"></i> <i class="fas fa-list"></i> List <i class="fas fa-arrow-right"></i> <i class="fas fa-array"></i> ArrayList | <i class="fas fa-link"></i> LinkedList</p>
+                            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap;">
+                                <span class="badge badge-list">List</span>
+                                <span class="badge badge-array">ArrayList</span>
+                                <span class="badge badge-linked">LinkedList</span>
+                                <span class="badge badge-gold">O(1) vs O(n)</span>
+                            </div>
+                            <p style="margin-top: 20px;"><i class="fas fa-quote-right"></i> "Chọn đúng cấu trúc dữ liệu giúp chương trình chạy nhanh hơn!"</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p> GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng với hiệu ứng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click với hiệu ứng
+                    this.classList.add('active');
+
+                    // Thêm hiệu ứng rung nhẹ khi click
+                    this.style.animation = 'none';
+                    this.offsetHeight; // Trigger reflow
+                    this.style.animation = 'slideInLeft 0.3s ease';
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+
+                    // Cuộn lên đầu section
+                    document.querySelector('.main-content').scrollTop = 0;
+                });
+            });
+        });
+
+        // Hàm copy code với hiệu ứng
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+
+            // Hiệu ứng copy
+            button.innerHTML = '<i class="fas fa-check"></i> Đã copy!';
+            button.style.background = '#27ae60';
+
+            navigator.clipboard.writeText(text).then(() => {
+                setTimeout(() => {
+                    button.innerHTML = '<i class="far fa-copy"></i> Copy';
+                    button.style.background = '#555';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

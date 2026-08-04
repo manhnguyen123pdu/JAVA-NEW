@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JDBC BASICS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>  .architecture {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 25px;
+            border-radius: 24px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            line-height: 2;
+            margin: 25px 0;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            animation: glowBorder 4s infinite;
+        }
+        </style>
+    <link rel="stylesheet" href="./main.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-plug"></i> JDBC BASICS </h1>
+
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#part0" class="nav-link active"><i class="fas fa-download"></i> <span> GIỚI THIỆU & CÀI ĐẶT</span></a></li>
+                    <li class="nav-item"><a href="#part1" class="nav-link"><i class="fas fa-sitemap"></i> <span> JDBC ARCHITECTURE</span></a></li>
+                    <li class="nav-item"><a href="#part2" class="nav-link"><i class="fas fa-steps"></i> <span> JDBC STEPS</span></a></li>
+                    <li class="nav-item"><a href="#part3" class="nav-link"><i class="fas fa-code"></i> <span> STATEMENT TYPES</span></a></li>
+                    <li class="nav-item"><a href="#part4" class="nav-link"><i class="fas fa-project-diagram"></i> <span> VÍ DỤ TỔNG HỢP</span></a></li>
+                    <li class="nav-item"><a href="#part5" class="nav-link"><i class="fas fa-star"></i> <span> TỔNG KẾT</span></a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!--  GIỚI THIỆU VÀ CÀI ĐẶT -->
+                <section id="part0" class="section active">
+                    <h2><i class="fas fa-download"></i>  GIỚI THIỆU VÀ CÀI ĐẶT</h2>
+
+                    <h3>1 JDBC LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>JDBC (Java Database Connectivity)</strong> là API (Application Programming Interface) trong Java cho phép các chương trình Java kết nối và tương tác với cơ sở dữ liệu.</p>
+                    </div>
+
+                    <h4>Mục đích:</h4>
+                    <ul>
+                        <li>Kết nối Java application với database</li>
+                        <li>Gửi câu lệnh SQL từ Java xuống database</li>
+                        <li>Nhận kết quả từ database về Java</li>
+                        <li>Xử lý giao dịch (transaction)</li>
+                    </ul>
+
+                    <h4>Kiến trúc JDBC:</h4>
+                    <div class="architecture">
+                        <pre style="color: #fff; font-family: monospace;">
+Java Application
+       ↓
+   JDBC API
+       ↓
+JDBC Driver Manager
+       ↓
+   JDBC Driver
+       ↓
+   Database
+                        </pre>
+                    </div>
+
+                    <h3>2 CÁC THÀNH PHẦN CỦA JDBC</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Thành phần</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-jdbc">JDBC API</span></td>
+                                    <td>Các interface và class trong java.sql và javax.sql</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-driver">Driver Manager</span></td>
+                                    <td>Quản lý các driver, kết nối đến database</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-statement">JDBC Driver</span></td>
+                                    <td>Cầu nối giữa Java và database cụ thể</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-result">Database</span></td>
+                                    <td>Hệ quản trị CSDL (MySQL, Oracle, SQL Server...)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>3 CÁC LOẠI JDBC DRIVER</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Loại</th>
+                                    <th>Tên</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Type 1</td>
+                                    <td>JDBC-ODBC Bridge</td>
+                                    <td>Dùng ODBC driver, hiện đã deprecated</td>
+                                </tr>
+                                <tr>
+                                    <td>Type 2</td>
+                                    <td>Native-API</td>
+                                    <td>Dùng thư viện native của database</td>
+                                </tr>
+                                <tr>
+                                    <td>Type 3</td>
+                                    <td>Network Protocol</td>
+                                    <td>Dùng middleware server</td>
+                                </tr>
+                                <tr>
+                                    <td>Type 4</td>
+                                    <td><span class="badge badge-jdbc">Pure Java</span></td>
+                                    <td>Driver thuần Java, kết nối trực tiếp (khuyên dùng)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="note">
+                        <p>Trong khóa học này, chúng ta dùng <strong>Type 4 driver</strong> cho MySQL.</p>
+                    </div>
+
+                    <h3>4 CÀI ĐẶT MYSQL JDBC DRIVER</h3>
+
+                    <h4>Cách 1: Tải thủ công</h4>
+                    <ol>
+                        <li><strong>Bước 1:</strong> Vào trang: <a href="https://dev.mysql.com/downloads/connector/j/" target="_blank">https://dev.mysql.com/downloads/connector/j/</a></li>
+                        <li><strong>Bước 2:</strong> Chọn "Platform Independent" → Download file ZIP</li>
+                        <li><strong>Bước 3:</strong> Giải nén, lấy file mysql-connector-java-x.x.xx.jar</li>
+                        <li><strong>Bước 4:</strong> Thêm vào project:
+                            <ul>
+                                <li>Trong IDE (Eclipse/IntelliJ): Add JAR to Build Path</li>
+                                <li>Hoặc copy vào thư mục lib của project</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h4>Cách 2: Dùng Maven (khuyên dùng)</h4>
+                    <!DOCTYPE html>
+
+
+    <h5>BƯỚC 1: Tạo Maven Project trong Eclipse</h5>
+    <ul>
+        <li>Mở Eclipse</li>
+        <li>Chọn: <b>File → New → Maven Project</b></li>
+        <li>Tick chọn: <br> ☑ Create a simple project (skip archetype selection)</li>
+        <li>Nhấn <b>Next</b></li>
+    </ul>
+
+    <h5>BƯỚC 2: Cấu hình Project</h5>
+    <p>Nhập thông tin:</p>
+    <ul>
+        <li>Group Id: <b>com.example</b></li>
+        <li>Artifact Id: <b>DemoMySQL</b></li>
+        <li>Packaging: <b>jar</b></li>
+        <li>Java version: <b>8 hoặc 11</b></li>
+    </ul>
+    <p>Nhấn <b>Finish</b></p>
+
+    <h5>BƯỚC 3: Thêm thư viện MySQL (quan trọng nhất)</h5>
+    <p>Mở file <b>pom.xml</b> → thêm dependency:</p>
+
+<div style="background: #1e1e1e; color: white; border-radius: 5px; padding: 20px;">
+        <pre>
+&lt;dependencies&gt;
+   &lt;!-- MySQL Connector --&gt;
+   &lt;dependency&gt;
+       &lt;groupId&gt;com.mysql&lt;/groupId&gt;
+       &lt;artifactId&gt;mysql-connector-j&lt;/artifactId&gt;
+       &lt;version&gt;8.3.0&lt;/version&gt;
+   &lt;/dependency&gt;
+&lt;/dependencies&gt;
+    </pre>
+</div>
+
+    <h5>Sửa lỗi validate XML (Nếu có)</h5>
+    <ul>
+        <li>Vào: <b>Window → Preferences → Validation</b></li>
+        <li>Tìm: <b>XML Validator</b></li>
+        <li>Sau đó:</li>
+        <li>Chuột phải project → <b>Maven → Update Project (Alt + F5)</b></li>
+    </ul>
+
+                    <h3>5 CHUẨN BỊ DATABASE</h3>
+                    
+                    <div class="info-box">
+                        <p>Trước khi học JDBC, chúng ta cần có database để kết nối. Hãy tạo database và bảng sau trong MySQL:</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> SQL</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">-- Tạo database</span><br>
+                        <span class="keyword">CREATE DATABASE</span> QuanLySinhVien;<br>
+                        <span class="keyword">USE</span> QuanLySinhVien;<br>
+                        <br>
+                        <span class="comment">-- Tạo bảng SinhVien</span><br>
+                        <span class="keyword">CREATE TABLE</span> SinhVien (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;MaSV <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;HoTen <span class="keyword">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT NULL</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;NgaySinh <span class="keyword">DATE</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;GioiTinh <span class="keyword">VARCHAR</span>(<span class="number">10</span>),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;DiaChi <span class="keyword">VARCHAR</span>(<span class="number">200</span>),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;DienThoai <span class="keyword">VARCHAR</span>(<span class="number">15</span>),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Email <span class="keyword">VARCHAR</span>(<span class="number">100</span>)<br>
+                        );<br>
+                        <br>
+                        <span class="comment">-- Thêm dữ liệu mẫu</span><br>
+                        <span class="keyword">INSERT INTO</span> SinhVien (HoTen, NgaySinh, GioiTinh, DiaChi, DienThoai, Email) <span class="keyword">VALUES</span><br>
+                        (<span class="string">'Nguyễn Văn An'</span>, <span class="string">'2000-05-15'</span>, <span class="string">'Nam'</span>, <span class="string">'Hà Nội'</span>, <span class="string">'0912345678'</span>, <span class="string">'an@gmail.com'</span>),<br>
+                        (<span class="string">'Trần Thị Bích'</span>, <span class="string">'2001-08-20'</span>, <span class="string">'Nữ'</span>, <span class="string">'TP HCM'</span>, <span class="string">'0987654321'</span>, <span class="string">'bich@gmail.com'</span>),<br>
+                        (<span class="string">'Lê Văn Cường'</span>, <span class="string">'1999-12-10'</span>, <span class="string">'Nam'</span>, <span class="string">'Đà Nẵng'</span>, <span class="string">'0905123456'</span>, <span class="string">'cuong@gmail.com'</span>),<br>
+                        (<span class="string">'Phạm Thị Dung'</span>, <span class="string">'2000-03-25'</span>, <span class="string">'Nữ'</span>, <span class="string">'Hải Phòng'</span>, <span class="string">'0933123456'</span>, <span class="string">'dung@gmail.com'</span>),<br>
+                        (<span class="string">'Hoàng Văn Em'</span>, <span class="string">'2001-07-30'</span>, <span class="string">'Nam'</span>, <span class="string">'Cần Thơ'</span>, <span class="string">'0977123456'</span>, <span class="string">'em@gmail.com'</span>);
+                    </div>
+                </section>
+
+                <!-- PHẦN 1: JDBC ARCHITECTURE -->
+                <section id="part1" class="section">
+                    <h2><i class="fas fa-sitemap"></i>JDBC ARCHITECTURE</h2>
+
+                    <h3>1.1 KIẾN TRÚC TỔNG QUAN</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>JDBC Architecture</strong> là kiến trúc nhiều lớp (layered architecture) giúp tách biệt ứng dụng Java khỏi database cụ thể.</p>
+                    </div>
+
+                    <h4>Sơ đồ chi tiết:</h4>
+                    <div class="architecture">
+                        <pre style="color: #fff; font-family: monospace;">
+┌─────────────────────┐
+│   Java Application  │
+└──────────┬──────────┘
+           │
+┌──────────▼──────────┐
+│     JDBC API        │
+│  (java.sql.*)       │
+└──────────┬──────────┘
+           │
+┌──────────▼──────────┐
+│  DriverManager      │
+└──────────┬──────────┘
+           │
+┌──────────▼──────────┐
+│   JDBC Driver       │
+└──────────┬──────────┘
+           │
+┌──────────▼──────────┐
+│     Database        │
+└─────────────────────┘
+                        </pre>
+                    </div>
+
+                    <h3>1.2 CÁC INTERFACE CHÍNH TRONG JDBC</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Interface</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-jdbc">Driver</span></td>
+                                    <td>Đăng ký driver, kết nối database</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-result">Connection</span></td>
+                                    <td>Đại diện cho một kết nối đến database</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-statement">Statement</span></td>
+                                    <td>Thực thi câu lệnh SQL</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-prepared">PreparedStatement</span></td>
+                                    <td>Statement đã được biên dịch trước, chống SQL injection</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-driver">CallableStatement</span></td>
+                                    <td>Gọi stored procedure</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-result">ResultSet</span></td>
+                                    <td>Kết quả trả về từ câu lệnh SELECT</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-jdbc">ResultSetMetaData</span></td>
+                                    <td>Thông tin về ResultSet (số cột, tên cột)</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-driver">DatabaseMetaData</span></td>
+                                    <td>Thông tin về database</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>1.3 CÁC BƯỚC KẾT NỐI JDBC</h3>
+                    
+                    <div class="note">
+                        <h4><i class="fas fa-list-ol"></i> Quy trình 7 bước:</h4>
+                        <pre style="background: #333; color: #fff; padding: 10px; border-radius: 5px;">
+1. Load driver
+         ↓
+2. Tạo kết nối (Connection)
+         ↓
+3. Tạo Statement
+         ↓
+4. Thực thi câu lệnh SQL
+         ↓
+5. Xử lý kết quả (ResultSet)
+         ↓
+6. Đóng kết nối
+                        </pre>
+                    </div>
+                </section>
+
+                <!-- PHẦN 2: JDBC STEPS -->
+                <section id="part2" class="section">
+                    <h2><i class="fas fa-steps"></i>  JDBC STEPS</h2>
+
+                    <h3>2.1 BƯỚC 1: LOAD DRIVER</h3>
+                    
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Đăng ký driver với DriverManager để có thể kết nối đến database.</p>
+                    </div>
+
+                    <h4>Cú pháp:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: Class.forName() (cổ điển)</span><br>
+                        <span class="keyword">Class</span>.<span class="keyword">forName</span>(<span class="string">"com.mysql.cj.jdbc.Driver"</span>);<br>
+                        <br>
+                        <span class="comment">// Cách 2: DriverManager.registerDriver() (ít dùng)</span><br>
+                        DriverManager.registerDriver(<span class="keyword">new</span> com.mysql.cj.jdbc.Driver());<br>
+                        <br>
+                        <span class="comment">// Cách 3: Không cần load (từ JDBC 4.0 trở đi - tự động tìm driver)</span><br>
+                        <span class="comment">// Chỉ cần có driver trong classpath</span>
+                    </div>
+
+                    <h4>Ví dụ:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> LoadDriverExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.sql.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">LoadDriverExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Load MySQL driver</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">Class</span>.<span class="keyword">forName</span>(<span class="string">"com.mysql.cj.jdbc.Driver"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã load driver thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (ClassNotFoundException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Không tìm thấy driver: "</span> + e.getMessage());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li><strong>com.mysql.cj.jdbc.Driver</strong> là tên class driver của MySQL</li>
+                            <li><strong>Class.forName()</strong> nạp class vào bộ nhớ, tự động đăng ký với DriverManager</li>
+                            <li>Từ Java 6, không bắt buộc phải gọi Class.forName() nếu driver có trong classpath</li>
+                        </ul>
+                    </div>
+
+                    <h3>2.2 BƯỚC 2: TẠO KẾT NỐI (CONNECTION)</h3>
+                    
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Tạo kết nối từ Java application đến database.</p>
+                    </div>
+
+                    <h4>Cú pháp:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String url = <span class="string">"jdbc:mysql://host:port/database"</span>;<br>
+                        String username = <span class="string">"username"</span>;<br>
+                        String password = <span class="string">"password"</span>;<br>
+                        <br>
+                        Connection conn = DriverManager.getConnection(url, username, password);
+                    </div>
+
+                    <h4>Cấu trúc URL kết nối MySQL:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> URL</span>
+                        </div>
+                        jdbc:mysql://localhost:3306/QuanLySinhVien?useSSL=false&serverTimezone=UTC<br>
+                          ↑       ↑         ↑    ↑        ↑<br>
+                        Giao thức Server   Port   Database Parameters
+                    </div>
+
+                    <h4>Ví dụ:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ConnectionExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.sql.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">ConnectionExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connection conn = <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thông tin kết nối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String url = <span class="string">"jdbc:mysql://localhost:3306/QuanLySinhVien?useSSL=false&serverTimezone=UTC"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String username = <span class="string">"root"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String password = <span class="string">"123456"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo kết nối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conn = DriverManager.getConnection(url, username, password);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Kết nối thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi kết nối: "</span> + e.getMessage());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">finally</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Đóng kết nối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (conn != <span class="keyword">null</span>) conn.close();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <ul>
+                            <li><strong>localhost</strong>: máy chủ database (có thể là IP)</li>
+                            <li><strong>3306</strong>: port mặc định của MySQL</li>
+                            <li><strong>QuanLySinhVien</strong>: tên database</li>
+                            <li><strong>useSSL=false</strong>: tắt SSL (cho đơn giản)</li>
+                            <li><strong>serverTimezone=UTC</strong>: chỉ định múi giờ</li>
+                        </ul>
+                    </div>
+
+                    <h3>2.3 BƯỚC 3: TẠO STATEMENT</h3>
+                    
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Tạo đối tượng Statement để thực thi câu lệnh SQL.</p>
+                    </div>
+
+                    <h4>Cú pháp:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Statement stmt = conn.createStatement();
+                    </div>
+
+                    <h3>2.4 BƯỚC 4: THỰC THI CÂU LỆNH SQL</h3>
+                    
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Gửi câu lệnh SQL xuống database và nhận kết quả.</p>
+                    </div>
+
+                    <h4>Các phương thức thực thi:</h4>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phương thức</th>
+                                    <th>Dùng cho</th>
+                                    <th>Trả về</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-jdbc">executeQuery(sql)</span></td>
+                                    <td>SELECT</td>
+                                    <td>ResultSet</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-statement">executeUpdate(sql)</span></td>
+                                    <td>INSERT, UPDATE, DELETE</td>
+                                    <td>int (số hàng bị ảnh hưởng)</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-result">execute(sql)</span></td>
+                                    <td>Mọi loại SQL</td>
+                                    <td>boolean (true nếu có ResultSet)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>Ví dụ 1: Thực thi SELECT với executeQuery()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String sql = <span class="string">"SELECT * FROM SinhVien"</span>;<br>
+                        ResultSet rs = stmt.executeQuery(sql);
+                    </div>
+
+                    <h4>Ví dụ 2: Thực thi INSERT với executeUpdate()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String sql = <span class="string">"INSERT INTO SinhVien (HoTen, Email) VALUES ('Nguyen Van A', 'a@gmail.com')"</span>;<br>
+                        <span class="keyword">int</span> rows = stmt.executeUpdate(sql);<br>
+                        System.out.println(rows + <span class="string">" hàng đã được thêm"</span>);
+                    </div>
+
+                    <h4>Ví dụ 3: Thực thi UPDATE với executeUpdate()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String sql = <span class="string">"UPDATE SinhVien SET DiaChi = 'Hà Nội' WHERE MaSV = 1"</span>;<br>
+                        <span class="keyword">int</span> rows = stmt.executeUpdate(sql);<br>
+                        System.out.println(rows + <span class="string">" hàng đã được cập nhật"</span>);
+                    </div>
+
+                    <h4>Ví dụ 4: Thực thi DELETE với executeUpdate()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String sql = <span class="string">"DELETE FROM SinhVien WHERE MaSV = 5"</span>;<br>
+                        <span class="keyword">int</span> rows = stmt.executeUpdate(sql);<br>
+                        System.out.println(rows + <span class="string">" hàng đã được xóa"</span>);
+                    </div>
+
+                    <h3>2.5 BƯỚC 5: XỬ LÝ KẾT QUẢ (RESULTSET)</h3>
+                    
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Đọc dữ liệu từ ResultSet trả về từ câu lệnh SELECT.</p>
+                    </div>
+
+                    <h4>Các phương thức của ResultSet:</h4>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phương thức</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-result">next()</span></td>
+                                    <td>Di chuyển đến hàng tiếp theo, true nếu còn hàng</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-result">getString(columnName)</span></td>
+                                    <td>Lấy giá trị String theo tên cột</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-result">getInt(columnName)</span></td>
+                                    <td>Lấy giá trị int theo tên cột</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-result">getDouble(columnName)</span></td>
+                                    <td>Lấy giá trị double theo tên cột</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-result">getDate(columnName)</span></td>
+                                    <td>Lấy giá trị Date theo tên cột</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-result">getBoolean(columnName)</span></td>
+                                    <td>Lấy giá trị boolean theo tên cột</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-result">getString(index)</span></td>
+                                    <td>Lấy giá trị theo chỉ số cột (bắt đầu từ 1)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>Ví dụ:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> ResultSetExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.sql.*;<br>
+                        <span class="keyword">import</span> java.util.Date;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">ResultSetExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String url = <span class="string">"jdbc:mysql://localhost:3306/QuanLySinhVien?useSSL=false"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String username = <span class="string">"root"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String password = <span class="string">"123456"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(url, username, password);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statement stmt = conn.createStatement()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"SELECT * FROM SinhVien"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet rs = stmt.executeQuery(sql);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"=== DANH SÁCH SINH VIÊN ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> (rs.next()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy theo tên cột</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> maSV = rs.getInt(<span class="string">"MaSV"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String hoTen = rs.getString(<span class="string">"HoTen"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date ngaySinh = rs.getDate(<span class="string">"NgaySinh"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String gioiTinh = rs.getString(<span class="string">"GioiTinh"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String diaChi = rs.getString(<span class="string">"DiaChi"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String dienThoai = rs.getString(<span class="string">"DienThoai"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String email = rs.getString(<span class="string">"Email"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Mã SV: "</span> + maSV);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Họ tên: "</span> + hoTen);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ngày sinh: "</span> + ngaySinh);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Giới tính: "</span> + gioiTinh);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Địa chỉ: "</span> + diaChi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Điện thoại: "</span> + dienThoai);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Email: "</span> + email);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"------------------------"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>Ví dụ lấy theo chỉ số cột:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">while</span> (rs.next()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> maSV = rs.getInt(<span class="number">1</span>);        <span class="comment">// Cột 1: MaSV</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;String hoTen = rs.getString(<span class="number">2</span>);  <span class="comment">// Cột 2: HoTen</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// ... các cột khác</span><br>
+                        }
+                    </div>
+
+                    <h3>2.6 BƯỚC 6: ĐÓNG KẾT NỐI</h3>
+                    
+                    <div class="note">
+                        <h4><i class="fas fa-bullseye"></i> Mục đích:</h4>
+                        <p>Giải phóng tài nguyên (kết nối, statement, result set) sau khi sử dụng.</p>
+                    </div>
+
+                    <h4>Cú pháp:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        rs.close();    <span class="comment">// Đóng ResultSet</span><br>
+                        stmt.close();  <span class="comment">// Đóng Statement</span><br>
+                        conn.close();  <span class="comment">// Đóng Connection</span>
+                    </div>
+
+                    <h4>Ví dụ với try-catch-finally:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Connection conn = <span class="keyword">null</span>;<br>
+                        Statement stmt = <span class="keyword">null</span>;<br>
+                        ResultSet rs = <span class="keyword">null</span>;<br>
+                        <br>
+                        <span class="keyword">try</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kết nối và thực thi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;conn = DriverManager.getConnection(url, username, password);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;stmt = conn.createStatement();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;rs = stmt.executeQuery(sql);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xử lý kết quả</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> (rs.next()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// ...</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        } <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        } <span class="keyword">finally</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Đóng theo thứ tự ngược lại: rs → stmt → conn</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> { <span class="keyword">if</span> (rs != <span class="keyword">null</span>) rs.close(); } <span class="keyword">catch</span> (SQLException e) {}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> { <span class="keyword">if</span> (stmt != <span class="keyword">null</span>) stmt.close(); } <span class="keyword">catch</span> (SQLException e) {}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> { <span class="keyword">if</span> (conn != <span class="keyword">null</span>) conn.close(); } <span class="keyword">catch</span> (SQLException e) {}<br>
+                        }
+                    </div>
+
+                    <h4>Ví dụ với try-with-resources (Java 7+):</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">try</span> (Connection conn = DriverManager.getConnection(url, username, password);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statement stmt = conn.createStatement();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet rs = stmt.executeQuery(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> (rs.next()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xử lý kết quả</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        } <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        }<br>
+                        <span class="comment">// Tự động đóng rs, stmt, conn</span>
+                    </div>
+
+                    <h3>2.7 VÍ DỤ TỔNG HỢP - CRUD HOÀN CHÌNH</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> SinhVien.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.sql.*;<br>
+                        <span class="keyword">import</span> java.util.ArrayList;<br>
+                        <span class="keyword">import</span> java.util.List;<br>
+                        <br>
+                        <span class="keyword">class</span> <span class="class-name">SinhVien</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> maSV;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String hoTen;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String ngaySinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String gioiTinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String diaChi;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String dienThoai;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> String email;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Constructors</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> SinhVien() {}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> SinhVien(String hoTen, String ngaySinh, String gioiTinh, <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String diaChi, String dienThoai, String email) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.hoTen = hoTen;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.ngaySinh = ngaySinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.gioiTinh = gioiTinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.diaChi = diaChi;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.dienThoai = dienThoai;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.email = email;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Getters và Setters</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> getMaSV() { <span class="keyword">return</span> maSV; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> setMaSV(<span class="keyword">int</span> maSV) { <span class="keyword">this</span>.maSV = maSV; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getHoTen() { <span class="keyword">return</span> hoTen; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> setHoTen(String hoTen) { <span class="keyword">this</span>.hoTen = hoTen; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getNgaySinh() { <span class="keyword">return</span> ngaySinh; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> setNgaySinh(String ngaySinh) { <span class="keyword">this</span>.ngaySinh = ngaySinh; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getGioiTinh() { <span class="keyword">return</span> gioiTinh; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> setGioiTinh(String gioiTinh) { <span class="keyword">this</span>.gioiTinh = gioiTinh; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getDiaChi() { <span class="keyword">return</span> diaChi; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> setDiaChi(String diaChi) { <span class="keyword">this</span>.diaChi = diaChi; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getDienThoai() { <span class="keyword">return</span> dienThoai; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> setDienThoai(String dienThoai) { <span class="keyword">this</span>.dienThoai = dienThoai; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String getEmail() { <span class="keyword">return</span> email; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> setEmail(String email) { <span class="keyword">this</span>.email = email; }<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> String toString() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> String.format(<span class="string">"%d - %s - %s - %s - %s - %s - %s"</span>, <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maSV, hoTen, ngaySinh, gioiTinh, diaChi, dienThoai, email);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">CRUDExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private static final</span> String URL = <span class="string">"jdbc:mysql://localhost:3306/QuanLySinhVien?useSSL=false&serverTimezone=UTC"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private static final</span> String USERNAME = <span class="string">"root"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private static final</span> String PASSWORD = <span class="string">"123456"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Lấy tất cả sinh viên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static</span> List&lt;SinhVien&gt; getAllStudents() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;SinhVien&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"SELECT * FROM SinhVien"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statement stmt = conn.createStatement();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet rs = stmt.executeQuery(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> (rs.next()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SinhVien sv = <span class="keyword">new</span> SinhVien();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setMaSV(rs.getInt(<span class="string">"MaSV"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setHoTen(rs.getString(<span class="string">"HoTen"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setNgaySinh(rs.getString(<span class="string">"NgaySinh"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setGioiTinh(rs.getString(<span class="string">"GioiTinh"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setDiaChi(rs.getString(<span class="string">"DiaChi"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setDienThoai(rs.getString(<span class="string">"DienThoai"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setEmail(rs.getString(<span class="string">"Email"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(sv);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> list;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Thêm sinh viên mới</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static boolean</span> addStudent(SinhVien sv) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"INSERT INTO SinhVien (HoTen, NgaySinh, GioiTinh, DiaChi, DienThoai, Email) VALUES ('"</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ sv.getHoTen() + <span class="string">"', '"</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ sv.getNgaySinh() + <span class="string">"', '"</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ sv.getGioiTinh() + <span class="string">"', '"</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ sv.getDiaChi() + <span class="string">"', '"</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ sv.getDienThoai() + <span class="string">"', '"</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ sv.getEmail() + <span class="string">"')"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statement stmt = conn.createStatement()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> rows = stmt.executeUpdate(sql);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> rows > <span class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">false</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Cập nhật sinh viên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static boolean</span> updateStudent(SinhVien sv) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"UPDATE SinhVien SET "</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="string">"HoTen = '"</span> + sv.getHoTen() + <span class="string">"', "</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="string">"NgaySinh = '"</span> + sv.getNgaySinh() + <span class="string">"', "</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="string">"GioiTinh = '"</span> + sv.getGioiTinh() + <span class="string">"', "</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="string">"DiaChi = '"</span> + sv.getDiaChi() + <span class="string">"', "</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="string">"DienThoai = '"</span> + sv.getDienThoai() + <span class="string">"', "</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="string">"Email = '"</span> + sv.getEmail() + <span class="string">"' "</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="string">"WHERE MaSV = "</span> + sv.getMaSV();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statement stmt = conn.createStatement()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> rows = stmt.executeUpdate(sql);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> rows > <span class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">false</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Xóa sinh viên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static boolean</span> deleteStudent(<span class="keyword">int</span> maSV) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"DELETE FROM SinhVien WHERE MaSV = "</span> + maSV;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statement stmt = conn.createStatement()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> rows = stmt.executeUpdate(sql);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> rows > <span class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">false</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 5. Tìm sinh viên theo mã</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static</span> SinhVien getStudentById(<span class="keyword">int</span> maSV) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"SELECT * FROM SinhVien WHERE MaSV = "</span> + maSV;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statement stmt = conn.createStatement();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet rs = stmt.executeQuery(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (rs.next()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SinhVien sv = <span class="keyword">new</span> SinhVien();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setMaSV(rs.getInt(<span class="string">"MaSV"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setHoTen(rs.getString(<span class="string">"HoTen"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setNgaySinh(rs.getString(<span class="string">"NgaySinh"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setGioiTinh(rs.getString(<span class="string">"GioiTinh"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setDiaChi(rs.getString(<span class="string">"DiaChi"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setDienThoai(rs.getString(<span class="string">"DienThoai"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setEmail(rs.getString(<span class="string">"Email"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> sv;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Main method để test</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. Hiển thị danh sách</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"=== DANH SÁCH SINH VIÊN ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;SinhVien&gt; list = getAllStudents();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (SinhVien sv : list) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(sv);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. Thêm sinh viên mới</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\n=== THÊM SINH VIÊN MỚI ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SinhVien newSV = <span class="keyword">new</span> SinhVien(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"Nguyễn Thị Mới"</span>, <span class="string">"2002-03-15"</span>, <span class="string">"Nữ"</span>, <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"Huế"</span>, <span class="string">"0911111111"</span>, <span class="string">"moi@gmail.com"</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (addStudent(newSV)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thêm thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. Tìm sinh viên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\n=== TÌM SINH VIÊN MÃ 3 ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SinhVien sv = getStudentById(<span class="number">3</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (sv != <span class="keyword">null</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(sv);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. Cập nhật</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (sv != <span class="keyword">null</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setDiaChi(<span class="string">"Đà Nẵng (Updated)"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (updateStudent(sv)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Cập nhật thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 5. Xóa</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\n=== XÓA SINH VIÊN MÃ 5 ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (deleteStudent(<span class="number">5</span>)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Xóa thành công!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 3: STATEMENT TYPES -->
+                <section id="part3" class="section">
+                    <h2><i class="fas fa-code"></i>  STATEMENT TYPES</h2>
+
+                    <h3>3.1 TỔNG QUAN VỀ CÁC LOẠI STATEMENT</h3>
+                    
+                    <div class="info-box">
+                        <p>JDBC cung cấp 3 loại Statement:</p>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Loại</th>
+                                    <th>Interface</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-statement">Statement</span></td>
+                                    <td>java.sql.Statement</td>
+                                    <td>Statement thường, dùng cho SQL tĩnh</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-prepared">PreparedStatement</span></td>
+                                    <td>java.sql.PreparedStatement</td>
+                                    <td>Statement đã biên dịch trước, có tham số</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-driver">CallableStatement</span></td>
+                                    <td>java.sql.CallableStatement</td>
+                                    <td>Gọi stored procedure</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>3.2 STATEMENT</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>Statement</strong> là loại cơ bản nhất, dùng để thực thi câu lệnh SQL tĩnh (không có tham số).</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul>
+                        <li>SQL được tạo bằng cách nối chuỗi</li>
+                        <li>Dễ bị SQL injection</li>
+                        <li>Chậm hơn PreparedStatement vì phải biên dịch lại mỗi lần</li>
+                    </ul>
+
+                    <h4>Ví dụ:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> StatementExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">StatementExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String url = <span class="string">"jdbc:mysql://localhost:3306/QuanLySinhVien?useSSL=false"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String username = <span class="string">"root"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String password = <span class="string">"123456"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(url, username, password);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Statement stmt = conn.createStatement()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// SELECT</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String selectSQL = <span class="string">"SELECT * FROM SinhVien WHERE MaSV = 1"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet rs = stmt.executeQuery(selectSQL);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// INSERT</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String insertSQL = <span class="string">"INSERT INTO SinhVien (HoTen, Email) VALUES ('Test', 'test@gmail.com')"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> rows = stmt.executeUpdate(insertSQL);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// UPDATE</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String updateSQL = <span class="string">"UPDATE SinhVien SET DiaChi = 'HCM' WHERE MaSV = 2"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rows = stmt.executeUpdate(updateSQL);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// DELETE</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String deleteSQL = <span class="string">"DELETE FROM SinhVien WHERE MaSV = 3"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rows = stmt.executeUpdate(deleteSQL);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="warning-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Nhược điểm của Statement:</h4>
+                        <div class="code-block">
+                            <span class="comment">// Dễ bị SQL injection</span><br>
+                            String userInput = <span class="string">"1 OR 1=1"</span>;<br>
+                            String sql = <span class="string">"SELECT * FROM SinhVien WHERE MaSV = "</span> + userInput;<br>
+                            <span class="comment">// Kết quả: SELECT * FROM SinhVien WHERE MaSV = 1 OR 1=1 (lấy tất cả!)</span>
+                        </div>
+                    </div>
+
+                    <h3>3.3 PREPAREDSTATEMENT</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>PreparedStatement</strong> là Statement đã được biên dịch trước, cho phép truyền tham số bằng dấu ?.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul>
+                        <li>Chống SQL injection</li>
+                        <li>Nhanh hơn khi thực thi nhiều lần</li>
+                        <li>SQL rõ ràng, dễ đọc hơn</li>
+                    </ul>
+
+                    <h4>Cú pháp:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String sql = <span class="string">"INSERT INTO table VALUES (?, ?, ?)"</span>;<br>
+                        PreparedStatement pstmt = conn.prepareStatement(sql);<br>
+                        pstmt.setString(<span class="number">1</span>, value1);<br>
+                        pstmt.setInt(<span class="number">2</span>, value2);<br>
+                        pstmt.setDate(<span class="number">3</span>, dateValue);<br>
+                        ResultSet rs = pstmt.executeQuery();  <span class="comment">// cho SELECT</span><br>
+                        <span class="keyword">int</span> rows = pstmt.executeUpdate();     <span class="comment">// cho INSERT, UPDATE, DELETE</span>
+                    </div>
+
+                    <h4>Các phương thức set:</h4>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phương thức</th>
+                                    <th>Kiểu dữ liệu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-prepared">setString(int index, String value)</span></td>
+                                    <td>String</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-prepared">setInt(int index, int value)</span></td>
+                                    <td>int</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-prepared">setLong(int index, long value)</span></td>
+                                    <td>long</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-prepared">setDouble(int index, double value)</span></td>
+                                    <td>double</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-prepared">setFloat(int index, float value)</span></td>
+                                    <td>float</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-prepared">setBoolean(int index, boolean value)</span></td>
+                                    <td>boolean</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-prepared">setDate(int index, Date value)</span></td>
+                                    <td>java.sql.Date</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-prepared">setTimestamp(int index, Timestamp value)</span></td>
+                                    <td>java.sql.Timestamp</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-prepared">setObject(int index, Object value)</span></td>
+                                    <td>Object</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>Ví dụ 1: PreparedStatement với INSERT</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> PreparedStatementInsert.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">PreparedStatementInsert</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String url = <span class="string">"jdbc:mysql://localhost:3306/QuanLySinhVien?useSSL=false"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String username = <span class="string">"root"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String password = <span class="string">"123456"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"INSERT INTO SinhVien (HoTen, NgaySinh, GioiTinh, DiaChi, DienThoai, Email) "</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="string">"VALUES (?, ?, ?, ?, ?, ?)"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(url, username, password);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PreparedStatement pstmt = conn.prepareStatement(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Set giá trị cho các tham số</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">1</span>, <span class="string">"Lê Thị Hương"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">2</span>, <span class="string">"2002-07-20"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">3</span>, <span class="string">"Nữ"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">4</span>, <span class="string">"Nha Trang"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">5</span>, <span class="string">"0922334455"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">6</span>, <span class="string">"huong@gmail.com"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> rows = pstmt.executeUpdate();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã thêm "</span> + rows + <span class="string">" hàng"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>Ví dụ 2: PreparedStatement với SELECT</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> PreparedStatementSelect.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">PreparedStatementSelect</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String url = <span class="string">"jdbc:mysql://localhost:3306/QuanLySinhVien?useSSL=false"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String username = <span class="string">"root"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String password = <span class="string">"123456"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"SELECT * FROM SinhVien WHERE GioiTinh = ? AND DiaChi = ?"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(url, username, password);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PreparedStatement pstmt = conn.prepareStatement(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">1</span>, <span class="string">"Nam"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">2</span>, <span class="string">"Hà Nội"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet rs = pstmt.executeQuery();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> (rs.next()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(rs.getString(<span class="string">"HoTen"</span>) + <span class="string">" - "</span> + rs.getString(<span class="string">"Email"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>Ví dụ 3: PreparedStatement với UPDATE</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String sql = <span class="string">"UPDATE SinhVien SET DiaChi = ?, DienThoai = ? WHERE MaSV = ?"</span>;<br>
+                        PreparedStatement pstmt = conn.prepareStatement(sql);<br>
+                        <br>
+                        pstmt.setString(<span class="number">1</span>, <span class="string">"Đà Lạt"</span>);<br>
+                        pstmt.setString(<span class="number">2</span>, <span class="string">"0999888777"</span>);<br>
+                        pstmt.setInt(<span class="number">3</span>, <span class="number">4</span>);<br>
+                        <br>
+                        <span class="keyword">int</span> rows = pstmt.executeUpdate();
+                    </div>
+
+                    <h4>Ví dụ 4: PreparedStatement với DELETE</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        String sql = <span class="string">"DELETE FROM SinhVien WHERE MaSV = ?"</span>;<br>
+                        PreparedStatement pstmt = conn.prepareStatement(sql);<br>
+                        <br>
+                        pstmt.setInt(<span class="number">1</span>, <span class="number">5</span>);<br>
+                        <span class="keyword">int</span> rows = pstmt.executeUpdate();
+                    </div>
+
+                    <h4>Ví dụ 5: Thêm nhiều bản ghi (Batch Update)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> BatchExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">BatchExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"INSERT INTO SinhVien (HoTen, Email) VALUES (?, ?)"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PreparedStatement pstmt = conn.prepareStatement(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Bản ghi 1</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">1</span>, <span class="string">"Nguyễn Văn A"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">2</span>, <span class="string">"a@gmail.com"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.addBatch();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Bản ghi 2</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">1</span>, <span class="string">"Trần Thị B"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">2</span>, <span class="string">"b@gmail.com"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.addBatch();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Bản ghi 3</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">1</span>, <span class="string">"Lê Văn C"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">2</span>, <span class="string">"c@gmail.com"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.addBatch();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thực thi batch</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span>[] results = pstmt.executeBatch();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã thêm "</span> + results.length + <span class="string">" bản ghi"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>3.4 CALLABLESTATEMENT</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>CallableStatement</strong> dùng để gọi stored procedure trong database.</p>
+                    </div>
+
+                    <h4>Cú pháp:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Stored procedure không tham số</span><br>
+                        CallableStatement cstmt = conn.prepareCall(<span class="string">"{call procedure_name}"</span>);<br>
+                        <br>
+                        <span class="comment">// Stored procedure có tham số IN</span><br>
+                        CallableStatement cstmt = conn.prepareCall(<span class="string">"{call procedure_name(?, ?)}"</span>);<br>
+                        <br>
+                        <span class="comment">// Stored procedure có tham số OUT</span><br>
+                        CallableStatement cstmt = conn.prepareCall(<span class="string">"{call procedure_name(?, ?)}"</span>);<br>
+                        cstmt.registerOutParameter(<span class="number">2</span>, Types.INTEGER);
+                    </div>
+
+                    <h4>Ví dụ: Tạo stored procedure trong MySQL</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> SQL</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">-- Stored procedure tính tổng số sinh viên</span><br>
+                        DELIMITER //<br>
+                        CREATE PROCEDURE sp_count_students(OUT total INT)<br>
+                        BEGIN<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;SELECT COUNT(*) INTO total FROM SinhVien;<br>
+                        END //<br>
+                        DELIMITER ;<br>
+                        <br>
+                        <span class="comment">-- Stored procedure tìm sinh viên theo giới tính</span><br>
+                        DELIMITER //<br>
+                        CREATE PROCEDURE sp_get_students_by_gender(IN p_gender VARCHAR(10))<br>
+                        BEGIN<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;SELECT * FROM SinhVien WHERE GioiTinh = p_gender;<br>
+                        END //<br>
+                        DELIMITER ;
+                    </div>
+
+                    <h4>Ví dụ 1: Gọi stored procedure với OUT parameter</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> CallableStatementOut.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">CallableStatementOut</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String url = <span class="string">"jdbc:mysql://localhost:3306/QuanLySinhVien?useSSL=false"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String username = <span class="string">"root"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String password = <span class="string">"123456"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"{call sp_count_students(?)}"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(url, username, password);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CallableStatement cstmt = conn.prepareCall(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Đăng ký OUT parameter</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cstmt.registerOutParameter(<span class="number">1</span>, Types.INTEGER);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thực thi</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cstmt.execute();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy giá trị OUT</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> total = cstmt.getInt(<span class="number">1</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tổng số sinh viên: "</span> + total);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>Ví dụ 2: Gọi stored procedure với IN parameter</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> CallableStatementIn.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">CallableStatementIn</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"{call sp_get_students_by_gender(?)}"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CallableStatement cstmt = conn.prepareCall(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Set IN parameter</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cstmt.setString(<span class="number">1</span>, <span class="string">"Nam"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thực thi và nhận ResultSet</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet rs = cstmt.executeQuery();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> (rs.next()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(rs.getString(<span class="string">"HoTen"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>3.5 SO SÁNH CÁC LOẠI STATEMENT</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tiêu chí</th>
+                                    <th>Statement</th>
+                                    <th>PreparedStatement</th>
+                                    <th>CallableStatement</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>SQL Injection</td>
+                                    <td>Dễ bị</td>
+                                    <td>Chống được</td>
+                                    <td>Chống được</td>
+                                </tr>
+                                <tr>
+                                    <td>Hiệu suất</td>
+                                    <td>Thấp (biên dịch lại)</td>
+                                    <td>Cao (biên dịch trước)</td>
+                                    <td>Cao</td>
+                                </tr>
+                                <tr>
+                                    <td>Tham số</td>
+                                    <td>Nối chuỗi</td>
+                                    <td>Dùng dấu ?</td>
+                                    <td>Dùng dấu ?</td>
+                                </tr>
+                                <tr>
+                                    <td>Stored Procedure</td>
+                                    <td>Không</td>
+                                    <td>Không</td>
+                                    <td>Có</td>
+                                </tr>
+                                <tr>
+                                    <td>Độ phức tạp</td>
+                                    <td>Đơn giản</td>
+                                    <td>Trung bình</td>
+                                    <td>Phức tạp</td>
+                                </tr>
+                                <tr>
+                                    <td>Nên dùng</td>
+                                    <td>Không nên</td>
+                                    <td>Hầu hết trường hợp</td>
+                                    <td>Khi cần gọi SP</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- PHẦN 4: VÍ DỤ TỔNG HỢP -->
+                <section id="part4" class="section">
+                    <h2><i class="fas fa-project-diagram"></i> VÍ DỤ TỔNG HỢP</h2>
+
+                    <h3>4.1 Lớp tiện ích kết nối</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> DatabaseUtils.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.sql.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">DatabaseUtils</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private static final</span> String URL = <span class="string">"jdbc:mysql://localhost:3306/QuanLySinhVien?useSSL=false&serverTimezone=UTC"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private static final</span> String USERNAME = <span class="string">"root"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private static final</span> String PASSWORD = <span class="string">"123456"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy kết nối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static</span> Connection getConnection() <span class="keyword">throws</span> SQLException {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> DriverManager.getConnection(URL, USERNAME, PASSWORD);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Đóng kết nối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> close(Connection conn) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> { <span class="keyword">if</span> (conn != <span class="keyword">null</span>) conn.close(); } <span class="keyword">catch</span> (SQLException e) {}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> close(Statement stmt) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> { <span class="keyword">if</span> (stmt != <span class="keyword">null</span>) stmt.close(); } <span class="keyword">catch</span> (SQLException e) {}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> close(ResultSet rs) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> { <span class="keyword">if</span> (rs != <span class="keyword">null</span>) rs.close(); } <span class="keyword">catch</span> (SQLException e) {}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> close(Connection conn, Statement stmt, ResultSet rs) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;close(rs);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;close(stmt);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;close(conn);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>4.2 DAO Pattern với PreparedStatement</h3>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> SinhVienDAO.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">import</span> java.sql.*;<br>
+                        <span class="keyword">import</span> java.util.ArrayList;<br>
+                        <span class="keyword">import</span> java.util.List;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">SinhVienDAO</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy tất cả</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> List&lt;SinhVien&gt; getAll() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;SinhVien&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"SELECT * FROM SinhVien"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DatabaseUtils.getConnection();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PreparedStatement pstmt = conn.prepareStatement(sql);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet rs = pstmt.executeQuery()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> (rs.next()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(mapResultSetToSinhVien(rs));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> list;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy theo ID</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> SinhVien getById(<span class="keyword">int</span> maSV) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"SELECT * FROM SinhVien WHERE MaSV = ?"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DatabaseUtils.getConnection();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PreparedStatement pstmt = conn.prepareStatement(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setInt(<span class="number">1</span>, maSV);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet rs = pstmt.executeQuery();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (rs.next()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> mapResultSetToSinhVien(rs);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">null</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm mới</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public boolean</span> insert(SinhVien sv) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"INSERT INTO SinhVien (HoTen, NgaySinh, GioiTinh, DiaChi, DienThoai, Email) "</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="string">"VALUES (?, ?, ?, ?, ?, ?)"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DatabaseUtils.getConnection();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PreparedStatement pstmt = conn.prepareStatement(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">1</span>, sv.getHoTen());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">2</span>, sv.getNgaySinh());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">3</span>, sv.getGioiTinh());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">4</span>, sv.getDiaChi());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">5</span>, sv.getDienThoai());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">6</span>, sv.getEmail());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> rows = pstmt.executeUpdate();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> rows > <span class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">false</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Cập nhật</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public boolean</span> update(SinhVien sv) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"UPDATE SinhVien SET HoTen=?, NgaySinh=?, GioiTinh=?, "</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="string">"DiaChi=?, DienThoai=?, Email=? WHERE MaSV=?"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DatabaseUtils.getConnection();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PreparedStatement pstmt = conn.prepareStatement(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">1</span>, sv.getHoTen());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">2</span>, sv.getNgaySinh());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">3</span>, sv.getGioiTinh());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">4</span>, sv.getDiaChi());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">5</span>, sv.getDienThoai());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">6</span>, sv.getEmail());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setInt(<span class="number">7</span>, sv.getMaSV());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> rows = pstmt.executeUpdate();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> rows > <span class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">false</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public boolean</span> delete(<span class="keyword">int</span> maSV) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"DELETE FROM SinhVien WHERE MaSV = ?"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DatabaseUtils.getConnection();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PreparedStatement pstmt = conn.prepareStatement(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setInt(<span class="number">1</span>, maSV);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> rows = pstmt.executeUpdate();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> rows > <span class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="keyword">false</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tìm kiếm theo tên</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> List&lt;SinhVien&gt; searchByName(String keyword) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;SinhVien&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sql = <span class="string">"SELECT * FROM SinhVien WHERE HoTen LIKE ?"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> (Connection conn = DatabaseUtils.getConnection();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PreparedStatement pstmt = conn.prepareStatement(sql)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pstmt.setString(<span class="number">1</span>, <span class="string">"%"</span> + keyword + <span class="string">"%"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResultSet rs = pstmt.executeQuery();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> (rs.next()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list.add(mapResultSetToSinhVien(rs));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (SQLException e) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> list;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Map ResultSet thành SinhVien object</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> SinhVien mapResultSetToSinhVien(ResultSet rs) <span class="keyword">throws</span> SQLException {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SinhVien sv = <span class="keyword">new</span> SinhVien();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setMaSV(rs.getInt(<span class="string">"MaSV"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setHoTen(rs.getString(<span class="string">"HoTen"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setNgaySinh(rs.getString(<span class="string">"NgaySinh"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setGioiTinh(rs.getString(<span class="string">"GioiTinh"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setDiaChi(rs.getString(<span class="string">"DiaChi"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setDienThoai(rs.getString(<span class="string">"DienThoai"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sv.setEmail(rs.getString(<span class="string">"Email"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> sv;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 5: TỔNG KẾT -->
+                <section id="part5" class="section">
+                    <h2><i class="fas fa-star"></i> TỔNG KẾT</h2>
+
+                    <h3>5.1 CÁC BƯỚC JDBC</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Bước</th>
+                                    <th>Mô tả</th>
+                                    <th>Code</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Load driver</td>
+                                    <td>Class.forName("com.mysql.cj.jdbc.Driver")</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Tạo kết nối</td>
+                                    <td>DriverManager.getConnection(url, user, pass)</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Tạo statement</td>
+                                    <td>conn.createStatement() hoặc conn.prepareStatement(sql)</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Thực thi SQL</td>
+                                    <td>stmt.executeQuery(sql) hoặc stmt.executeUpdate(sql)</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Xử lý kết quả</td>
+                                    <td>while(rs.next()) { ... }</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Đóng kết nối</td>
+                                    <td>rs.close(); stmt.close(); conn.close();</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>5.2 SO SÁNH CÁC LOẠI STATEMENT</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Loại</th>
+                                    <th>Cú pháp</th>
+                                    <th>Khi nào dùng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-statement">Statement</span></td>
+                                    <td>conn.createStatement()</td>
+                                    <td>SQL tĩnh, không tham số (không nên dùng)</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-prepared">PreparedStatement</span></td>
+                                    <td>conn.prepareStatement(sql)</td>
+                                    <td>Có tham số, chống SQL injection</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-driver">CallableStatement</span></td>
+                                    <td>conn.prepareCall(sql)</td>
+                                    <td>Gọi stored procedure</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="comparison-box">
+                        <h4><i class="fas fa-lightbulb"></i> Tóm tắt nhanh:</h4>
+                        <ul>
+                            <li><span class="badge badge-jdbc">JDBC</span> - Kết nối Java với Database</li>
+                            <li><span class="badge badge-statement">Statement</span> - SQL tĩnh (không nên dùng)</li>
+                            <li><span class="badge badge-prepared">PreparedStatement</span> - SQL động, chống SQL injection (nên dùng)</li>
+                            <li><span class="badge badge-driver">CallableStatement</span> - Gọi stored procedure</li>
+                        </ul>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-star"></i> Tổng kết JDBC Basics</h4>
+                        <div class="demo-box">
+                            <p style="font-size: 1.3rem;"><i class="fas fa-plug"></i> Driver → <i class="fas fa-link"></i> Connection → <i class="fas fa-code"></i> Statement → <i class="fas fa-table"></i> ResultSet</p>
+                            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap;">
+                                <span class="badge badge-jdbc">Driver</span>
+                                <span class="badge badge-driver">Connection</span>
+                                <span class="badge badge-statement">Statement</span>
+                                <span class="badge badge-prepared">PreparedStatement</span>
+                                <span class="badge badge-result">ResultSet</span>
+                            </div>
+                            <p style="margin-top: 20px;"><i class="fas fa-quote-right"></i> "JDBC là cầu nối giữa Java và cơ sở dữ liệu!"</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p><i class="fas fa-plug"></i> BUỔI 38: JDBC BASICS - GV: Nguyễn Đình Mạnh </p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng với hiệu ứng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click với hiệu ứng
+                    this.classList.add('active');
+                    
+                    // Thêm hiệu ứng rung nhẹ khi click
+                    this.style.animation = 'none';
+                    this.offsetHeight; // Trigger reflow
+                    this.style.animation = 'slideInLeft 0.3s ease';
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Cuộn lên đầu section
+                    document.querySelector('.main-content').scrollTop = 0;
+                });
+            });
+        });
+
+        // Hàm copy code với hiệu ứng
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            
+            // Hiệu ứng copy
+            button.innerHTML = '<i class="fas fa-check"></i> Đã copy!';
+            button.style.background = '#27ae60';
+            
+            navigator.clipboard.writeText(text).then(() => {
+                setTimeout(() => {
+                    button.innerHTML = '<i class="far fa-copy"></i> Copy';
+                    button.style.background = '#555';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

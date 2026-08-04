@@ -1,0 +1,2804 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUỔI 26: SET & MAP TRONG JAVA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+       <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+                overflow: hidden;
+
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            height: 80vh;
+            overflow: scroll;
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+        }
+
+        .nav-list {
+            list-style: none;
+            position: sticky;
+            top: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        h5 {
+            color: var(--dark);
+            margin: 15px 0 8px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.4;
+            border: 2px solid #444;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+.sidebar ul{
+    padding: 0;
+}
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+        }
+
+        .btn-run {
+            background: var(--success);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 1400px) {
+            body{
+                padding: 0;
+            }
+              footer {
+          
+            padding: 8px 20px;
+          
+        }
+
+        }
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+            }
+        }
+
+        .method-detail {
+            background: #f8f9fa;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .method-detail h5 {
+            color: var(--success);
+            margin-top: 0;
+        }
+
+        .tree-structure {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+        }
+
+        .tree-item {
+            margin-left: 20px;
+            padding: 2px 0;
+        }
+
+        .tree-item::before {
+            content: "├── ";
+            color: #666;
+        }
+
+        .tree-item:last-child::before {
+            content: "└── ";
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .timezone-demo {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .pattern-table {
+            font-size: 0.9rem;
+        }
+
+        .pattern-table code {
+            background: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1> BUỔI 26: SET & MAP</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#part1" class="nav-link active"><i class="fas fa-cubes"></i> <span>PHẦN 1: SET INTERFACE</span></a></li>
+                    <li class="nav-item"><a href="#part2" class="nav-link"><i class="fas fa-hashtag"></i> <span>PHẦN 2: HASH SET</span></a></li>
+                    <li class="nav-item"><a href="#part3" class="nav-link"><i class="fas fa-link"></i> <span>PHẦN 3: LINKED HASH SET</span></a></li>
+                    <li class="nav-item"><a href="#part4" class="nav-link"><i class="fas fa-tree"></i> <span>PHẦN 4: TREE SET</span></a></li>
+                    <li class="nav-item"><a href="#part5" class="nav-link"><i class="fas fa-map"></i> <span>PHẦN 5: MAP INTERFACE</span></a></li>
+                    <li class="nav-item"><a href="#part6" class="nav-link"><i class="fas fa-hashtag"></i> <span>PHẦN 6: HASH MAP</span></a></li>
+                    <li class="nav-item"><a href="#part7" class="nav-link"><i class="fas fa-link"></i> <span>PHẦN 7: LINKED HASH MAP</span></a></li>
+                    <li class="nav-item"><a href="#part8" class="nav-link"><i class="fas fa-tree"></i> <span>PHẦN 8: TREE MAP</span></a></li>
+                    <li class="nav-item"><a href="#part9" class="nav-link"><i class="fas fa-chart-pie"></i> <span>PHẦN 9: TỔNG KẾT</span></a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN 1: SET INTERFACE -->
+                <section id="part1" class="section active">
+                    <h2><i class="fas fa-cubes"></i> PHẦN 1: SET INTERFACE</h2>
+
+                    <h3>1.1 SET LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>Set</strong> là interface đại diện cho một tập hợp các phần tử không trùng lặp, giống như tập hợp trong toán học.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-check"></span> <strong>✅ Không chứa phần tử trùng lặp</strong></li>
+                        <li><span class="feature-times"></span> <strong>❌ Không đảm bảo thứ tự</strong> (tùy loại Set)</li>
+                        <li><span class="feature-times"></span> <strong>❌ Không có chỉ số index</strong></li>
+                        <li><span class="feature-exclamation"></span> <strong>⚠️ Có thể chứa null</strong> (tùy loại Set)</li>
+                    </ul>
+
+                    <h4>Ví dụ trực quan về Set:</h4>
+                    <ul>
+                        <li>Tập hợp các số nguyên tố: {2, 3, 5, 7, 11}</li>
+                        <li>Tập hợp các chữ cái: {'a', 'b', 'c'}</li>
+                        <li>Tập hợp sinh viên có điểm cao</li>
+                    </ul>
+
+                    <h3>1.2 CÚ PHÁP KHAI BÁO SET</h3>
+
+                    <h4>1.2.1 Cú pháp tổng quát</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: Dùng interface Set (khuyến nghị)</span><br>
+                        Set&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        Set&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();<br>
+                        Set&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> TreeSet&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Cách 2: Dùng class cụ thể</span><br>
+                        HashSet&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        LinkedHashSet&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();<br>
+                        TreeSet&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> TreeSet&lt;&gt;();
+                    </div>
+
+                    <h4>1.2.2 Ví dụ khai báo</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Set với kiểu String</span><br>
+                        Set&lt;String&gt; stringSet = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        Set&lt;String&gt; linkedStringSet = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();<br>
+                        Set&lt;String&gt; treeStringSet = <span class="keyword">new</span> TreeSet&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Set với kiểu Integer</span><br>
+                        Set&lt;Integer&gt; intSet = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        Set&lt;Integer&gt; linkedIntSet = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();<br>
+                        Set&lt;Integer&gt; treeIntSet = <span class="keyword">new</span> TreeSet&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Set với kiểu đối tượng tự định nghĩa</span><br>
+                        Set&lt;Student&gt; studentSet = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        Set&lt;Student&gt; linkedStudentSet = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();<br>
+                        Set&lt;Student&gt; treeStudentSet = <span class="keyword">new</span> TreeSet&lt;&gt;(); <span class="comment">// Student phải implements Comparable</span>
+                    </div>
+
+                    <h4>1.2.3 Khởi tạo Set với giá trị ban đầu</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: Dùng Arrays.asList()</span><br>
+                        Set&lt;String&gt; set1 = <span class="keyword">new</span> HashSet&lt;&gt;(Arrays.asList(<span class="string">"Java"</span>, <span class="string">"Python"</span>, <span class="string">"C++"</span>));<br>
+                        <br>
+                        <span class="comment">// Cách 2: Dùng Set.of() (Java 9+) - tạo immutable set</span><br>
+                        Set&lt;String&gt; set2 = Set.of(<span class="string">"Java"</span>, <span class="string">"Python"</span>, <span class="string">"C++"</span>);<br>
+                        <br>
+                        <span class="comment">// Cách 3: Thêm từng phần tử</span><br>
+                        Set&lt;String&gt; set3 = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        set3.add(<span class="string">"Java"</span>);<br>
+                        set3.add(<span class="string">"Python"</span>);<br>
+                        set3.add(<span class="string">"C++"</span>);<br>
+                        <br>
+                        <span class="comment">// Cách 4: Dùng double brace initialization (không khuyến nghị)</span><br>
+                        Set&lt;String&gt; set4 = <span class="keyword">new</span> HashSet&lt;&gt;() {{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;add(<span class="string">"Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;add(<span class="string">"Python"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;add(<span class="string">"C++"</span>);<br>
+                        }};
+                    </div>
+
+                    <h3>1.3 CÁC PHƯƠNG THỨC CỦA SET</h3>
+
+                    <h4>1.3.1 Phương thức add(E e)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> add(E e)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Thêm phần tử e vào Set<br>Trả về true nếu thêm thành công (phần tử chưa tồn tại)<br>Trả về false nếu phần tử đã tồn tại</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        System.out.println(set.add(<span class="string">"Java"</span>));   <span class="comment">// true</span><br>
+                        System.out.println(set.add(<span class="string">"Python"</span>)); <span class="comment">// true</span><br>
+                        System.out.println(set.add(<span class="string">"Java"</span>));   <span class="comment">// false (đã có)</span><br>
+                        System.out.println(set);                <span class="comment">// [Java, Python]</span>
+                    </div>
+
+                    <h4>1.3.2 Phương thức remove(Object o)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> remove(Object o)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Xóa phần tử o khỏi Set<br>Trả về true nếu xóa thành công<br>Trả về false nếu phần tử không tồn tại</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        set.add(<span class="string">"Java"</span>);<br>
+                        set.add(<span class="string">"Python"</span>);<br>
+                        set.add(<span class="string">"JavaScript"</span>);<br>
+                        <br>
+                        System.out.println(set.remove(<span class="string">"Python"</span>));    <span class="comment">// true</span><br>
+                        System.out.println(set.remove(<span class="string">"C++"</span>));       <span class="comment">// false</span><br>
+                        System.out.println(set);                      <span class="comment">// [Java, JavaScript]</span>
+                    </div>
+
+                    <h4>1.3.3 Phương thức contains(Object o)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> contains(Object o)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Kiểm tra phần tử o có tồn tại trong Set không<br>Trả về true nếu có, false nếu không</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        set.add(<span class="string">"Java"</span>);<br>
+                        set.add(<span class="string">"Python"</span>);<br>
+                        <br>
+                        System.out.println(set.contains(<span class="string">"Java"</span>));    <span class="comment">// true</span><br>
+                        System.out.println(set.contains(<span class="string">"C++"</span>));     <span class="comment">// false</span>
+                    </div>
+
+                    <h4>1.3.4 Phương thức size()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">int</span> size()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về số lượng phần tử hiện có trong Set</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        set.add(<span class="string">"Java"</span>);<br>
+                        set.add(<span class="string">"Python"</span>);<br>
+                        set.add(<span class="string">"JavaScript"</span>);<br>
+                        <br>
+                        System.out.println(<span class="string">"Số phần tử: "</span> + set.size()); <span class="comment">// 3</span>
+                    </div>
+
+                    <h4>1.3.5 Phương thức isEmpty()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> isEmpty()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Kiểm tra Set có rỗng không<br>Trả về true nếu không có phần tử nào</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        System.out.println(set.isEmpty()); <span class="comment">// true</span><br>
+                        <br>
+                        set.add(<span class="string">"Java"</span>);<br>
+                        System.out.println(set.isEmpty()); <span class="comment">// false</span>
+                    </div>
+
+                    <h4>1.3.6 Phương thức clear()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">void</span> clear()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Xóa tất cả phần tử trong Set</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        set.add(<span class="string">"Java"</span>);<br>
+                        set.add(<span class="string">"Python"</span>);<br>
+                        System.out.println(<span class="string">"Trước clear: "</span> + set.size()); <span class="comment">// 2</span><br>
+                        <br>
+                        set.clear();<br>
+                        System.out.println(<span class="string">"Sau clear: "</span> + set.size());    <span class="comment">// 0</span><br>
+                        System.out.println(<span class="string">"Set: "</span> + set);                  <span class="comment">// []</span>
+                    </div>
+
+                    <h4>1.3.7 Phương thức addAll(Collection c)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> addAll(Collection&lt;? extends E&gt; c)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Thêm tất cả phần tử từ Collection c vào Set<br>Trả về true nếu Set thay đổi</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        set.add(<span class="string">"Java"</span>);<br>
+                        <br>
+                        List&lt;String&gt; list = Arrays.asList(<span class="string">"Python"</span>, <span class="string">"JavaScript"</span>, <span class="string">"Java"</span>, <span class="string">"C++"</span>);<br>
+                        set.addAll(list);<br>
+                        System.out.println(set); <span class="comment">// [Java, C++, Python, JavaScript] (bỏ trùng)</span>
+                    </div>
+
+                    <h4>1.3.8 Phương thức retainAll(Collection c)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> retainAll(Collection&lt;?&gt; c)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Giữ lại các phần tử có trong Collection c<br>Xóa các phần tử không có trong c<br>Trả về true nếu Set thay đổi</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;Integer&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;(Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>));<br>
+                        Set&lt;Integer&gt; keep = <span class="keyword">new</span> HashSet&lt;&gt;(Arrays.asList(<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>));<br>
+                        <br>
+                        <span class="keyword">boolean</span> changed = set.retainAll(keep);<br>
+                        System.out.println(<span class="string">"Set thay đổi? "</span> + changed); <span class="comment">// true</span><br>
+                        System.out.println(set); <span class="comment">// [2, 4]</span>
+                    </div>
+
+                    <h4>1.3.9 Phương thức removeAll(Collection c)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> removeAll(Collection&lt;?&gt; c)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Xóa các phần tử có trong Collection c<br>Trả về true nếu Set thay đổi</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;Integer&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;(Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>));<br>
+                        Set&lt;Integer&gt; remove = <span class="keyword">new</span> HashSet&lt;&gt;(Arrays.asList(<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>));<br>
+                        <br>
+                        <span class="keyword">boolean</span> changed = set.removeAll(remove);<br>
+                        System.out.println(<span class="string">"Set thay đổi? "</span> + changed); <span class="comment">// true</span><br>
+                        System.out.println(set); <span class="comment">// [1, 3, 5]</span>
+                    </div>
+
+                    <h4>1.3.10 Phương thức toArray()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Object[] toArray()<br>
+                        &lt;T&gt; T[] toArray(T[] a)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Chuyển Set thành mảng<br>Có hai phiên bản: không tham số và có tham số để chỉ định kiểu mảng</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;(Arrays.asList(<span class="string">"Java"</span>, <span class="string">"Python"</span>, <span class="string">"C++"</span>));<br>
+                        <br>
+                        <span class="comment">// Cách 1: toArray() không tham số</span><br>
+                        Object[] arr1 = set.toArray();<br>
+                        System.out.println(Arrays.toString(arr1)); <span class="comment">// [Java, C++, Python]</span><br>
+                        <br>
+                        <span class="comment">// Cách 2: toArray(T[] a) với tham số</span><br>
+                        String[] arr2 = set.toArray(<span class="keyword">new</span> String[<span class="number">0</span>]);<br>
+                        System.out.println(Arrays.toString(arr2)); <span class="comment">// [Java, C++, Python]</span><br>
+                        <br>
+                        <span class="comment">// Cách 3: toArray(T[] a) với mảng có kích thước</span><br>
+                        String[] arr3 = set.toArray(<span class="keyword">new</span> String[set.size()]);<br>
+                        System.out.println(Arrays.toString(arr3)); <span class="comment">// [Java, C++, Python]</span>
+                    </div>
+
+                    <h4>1.3.11 Phương thức iterator()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Iterator&lt;E&gt; iterator()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Iterator để duyệt các phần tử trong Set</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;(Arrays.asList(<span class="string">"Java"</span>, <span class="string">"Python"</span>, <span class="string">"JavaScript"</span>));<br>
+                        <br>
+                        Iterator&lt;String&gt; it = set.iterator();<br>
+                        <span class="keyword">while</span> (it.hasNext()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;String element = it.next();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(element);<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 2: HASH SET -->
+                <section id="part2" class="section">
+                    <h2><i class="fas fa-hashtag"></i> PHẦN 2: HASH SET</h2>
+
+                    <h3>2.1 HASH SET LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>HashSet</strong> là class triển khai của Set interface, sử dụng bảng băm (hash table) để lưu trữ phần tử.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-check"> <strong>✅ Không trùng lặp</strong></li>
+                        <li><span class="feature-times"><strong>❌ Không đảm bảo thứ tự</strong></li>
+                        <li><span class="feature-check"><strong>✅ Cho phép 1 phần tử null</strong></li>
+                        <li><span class="feature-lightning"> <strong>⚡ Hiệu suất O(1) cho thêm/xóa/tìm</strong></li>
+                    </ul>
+
+                    <h3>2.2 CÚ PHÁP KHAI BÁO HASH SET</h3>
+
+                    <h4>2.2.1 Cú pháp tổng quát</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: Dùng interface Set (khuyến nghị)</span><br>
+                        Set&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Cách 2: Dùng class cụ thể</span><br>
+                        HashSet&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> HashSet&lt;&gt;();
+                    </div>
+
+                    <h4>2.2.2 Các constructor</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Constructor</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// 1. Constructor mặc định</span><br>
+                        HashSet&lt;String&gt; set1 = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// 2. Constructor với initial capacity</span><br>
+                        HashSet&lt;String&gt; set2 = <span class="keyword">new</span> HashSet&lt;&gt;(<span class="number">32</span>);<br>
+                        <br>
+                        <span class="comment">// 3. Constructor với initial capacity và load factor</span><br>
+                        HashSet&lt;String&gt; set3 = <span class="keyword">new</span> HashSet&lt;&gt;(<span class="number">32</span>, <span class="number">0.8f</span>);<br>
+                        <br>
+                        <span class="comment">// 4. Constructor từ Collection khác</span><br>
+                        List&lt;String&gt; list = Arrays.asList(<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>);<br>
+                        HashSet&lt;String&gt; set4 = <span class="keyword">new</span> HashSet&lt;&gt;(list);
+                    </div>
+
+                    <h4>2.2.3 Ví dụ khai báo</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// HashSet với kiểu String</span><br>
+                        Set&lt;String&gt; stringSet = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        stringSet.add(<span class="string">"Java"</span>);<br>
+                        stringSet.add(<span class="string">"Python"</span>);<br>
+                        <br>
+                        <span class="comment">// HashSet với kiểu Integer</span><br>
+                        Set&lt;Integer&gt; intSet = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        intSet.add(<span class="number">10</span>);<br>
+                        intSet.add(<span class="number">20</span>);<br>
+                        <br>
+                        <span class="comment">// HashSet với kiểu đối tượng tự định nghĩa</span><br>
+                        Set&lt;Student&gt; studentSet = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        studentSet.add(<span class="keyword">new</span> Student(<span class="number">1</span>, <span class="string">"Nguyen Van A"</span>));
+                    </div>
+
+                    <h3>2.3 CÁC PHƯƠNG THỨC CỦA HASH SET</h3>
+                    <div class="note">
+                        <p>(HashSet kế thừa tất cả phương thức từ Set interface, đã trình bày ở phần 1.3)</p>
+                    </div>
+
+                    <h4>Ví dụ tổng hợp:</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> HashSetExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> HashSetExample {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Khai báo và khởi tạo</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set&lt;String&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm phần tử</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set.add(<span class="string">"Apple"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set.add(<span class="string">"Banana"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set.add(<span class="string">"Orange"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set.add(<span class="string">"Apple"</span>); <span class="comment">// Không thêm</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Set: "</span> + set);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kiểm tra tồn tại</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (set.contains(<span class="string">"Banana"</span>)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Có Banana"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa phần tử</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set.remove(<span class="string">"Orange"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Duyệt set</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String fruit : set) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(fruit);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kích thước</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Size: "</span> + set.size());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 3: LINKED HASH SET -->
+                <section id="part3" class="section">
+                    <h2><i class="fas fa-link"></i> PHẦN 3: LINKED HASH SET</h2>
+
+                    <h3>3.1 LINKED HASH SET LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>LinkedHashSet</strong> là class triển khai Set, kết hợp HashSet và LinkedList để lưu theo thứ tự chèn.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-check"></span> <strong>✅ Giữ thứ tự chèn (insertion order)</strong></li>
+                        <li><span class="feature-check"></span> <strong>✅ Không trùng lặp</strong></li>
+                        <li><span class="feature-check"></span> <strong>✅ Cho phép 1 phần tử null</strong></li>
+                        <li><span class="feature-lightning"></span> <strong>⚡ Hiệu suất gần bằng HashSet</strong></li>
+                    </ul>
+
+                    <h3>3.2 CÚ PHÁP KHAI BÁO LINKED HASH SET</h3>
+
+                    <h4>3.2.1 Cú pháp tổng quát</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: Dùng interface Set (khuyến nghị)</span><br>
+                        Set&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Cách 2: Dùng class cụ thể</span><br>
+                        LinkedHashSet&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();
+                    </div>
+
+                    <h4>3.2.2 Các constructor</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Constructor</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// 1. Constructor mặc định</span><br>
+                        LinkedHashSet&lt;String&gt; set1 = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// 2. Constructor với initial capacity</span><br>
+                        LinkedHashSet&lt;String&gt; set2 = <span class="keyword">new</span> LinkedHashSet&lt;&gt;(<span class="number">32</span>);<br>
+                        <br>
+                        <span class="comment">// 3. Constructor với initial capacity và load factor</span><br>
+                        LinkedHashSet&lt;String&gt; set3 = <span class="keyword">new</span> LinkedHashSet&lt;&gt;(<span class="number">32</span>, <span class="number">0.8f</span>);<br>
+                        <br>
+                        <span class="comment">// 4. Constructor từ Collection khác</span><br>
+                        List&lt;String&gt; list = Arrays.asList(<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>);<br>
+                        LinkedHashSet&lt;String&gt; set4 = <span class="keyword">new</span> LinkedHashSet&lt;&gt;(list);
+                    </div>
+
+                    <h4>3.2.3 Ví dụ khai báo</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// LinkedHashSet với kiểu String</span><br>
+                        Set&lt;String&gt; stringSet = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();<br>
+                        stringSet.add(<span class="string">"Java"</span>);<br>
+                        stringSet.add(<span class="string">"Python"</span>);<br>
+                        stringSet.add(<span class="string">"JavaScript"</span>);<br>
+                        <br>
+                        <span class="comment">// LinkedHashSet với kiểu Integer</span><br>
+                        Set&lt;Integer&gt; intSet = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();<br>
+                        intSet.add(<span class="number">30</span>);<br>
+                        intSet.add(<span class="number">10</span>);<br>
+                        intSet.add(<span class="number">20</span>);
+                    </div>
+
+                    <h3>3.3 SO SÁNH HASH SET VÀ LINKED HASH SET</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> CompareHashAndLinked.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> CompareHashAndLinked {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// HashSet - không đảm bảo thứ tự</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set&lt;String&gt; hashSet = <span class="keyword">new</span> HashSet&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashSet.add(<span class="string">"One"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashSet.add(<span class="string">"Two"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashSet.add(<span class="string">"Three"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashSet.add(<span class="string">"Four"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// LinkedHashSet - giữ thứ tự chèn</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set&lt;String&gt; linkedSet = <span class="keyword">new</span> LinkedHashSet&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;linkedSet.add(<span class="string">"One"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;linkedSet.add(<span class="string">"Two"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;linkedSet.add(<span class="string">"Three"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;linkedSet.add(<span class="string">"Four"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"HashSet (không thứ tự):      "</span> + hashSet);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"LinkedHashSet (có thứ tự):   "</span> + linkedSet);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Kết quả có thể:</span>
+                        </div>
+                        HashSet (không thứ tự):      [Three, Four, One, Two]<br>
+                        LinkedHashSet (có thứ tự):   [One, Two, Three, Four]
+                    </div>
+                </section>
+
+                <!-- PHẦN 4: TREE SET -->
+                <section id="part4" class="section">
+                    <h2><i class="fas fa-tree"></i> PHẦN 4: TREE SET</h2>
+
+                    <h3>4.1 TREE SET LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>TreeSet</strong> là class triển khai Set và SortedSet, sử dụng cây đỏ-đen (Red-Black tree) để lưu theo thứ tự sắp xếp.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-check"></span> <strong>✅ Sắp xếp theo thứ tự tự nhiên hoặc Comparator</strong></li>
+                        <li><span class="feature-check"></span> <strong>✅ Không trùng lặp</strong></li>
+                        <li><span class="feature-times"></span> <strong>❌ Không chứa null (từ Java 7)</strong></li>
+                        <li><span class="feature-lightning"></span> <strong>⚡ Hiệu suất O(log n)</strong></li>
+                    </ul>
+
+                    <h3>4.2 CÚ PHÁP KHAI BÁO TREE SET</h3>
+
+                    <h4>4.2.1 Cú pháp tổng quát</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: Dùng interface Set (khuyến nghị)</span><br>
+                        Set&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> TreeSet&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Cách 2: Dùng class cụ thể</span><br>
+                        TreeSet&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> TreeSet&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Cách 3: Với Comparator tùy chỉnh</span><br>
+                        TreeSet&lt;KiểuDữLiệu&gt; tênBiến = <span class="keyword">new</span> TreeSet&lt;&gt;(comparator);
+                    </div>
+
+                    <h4>4.2.2 Các constructor</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Constructor</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// 1. Constructor mặc định (thứ tự tự nhiên)</span><br>
+                        TreeSet&lt;String&gt; set1 = <span class="keyword">new</span> TreeSet&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// 2. Constructor với Comparator</span><br>
+                        TreeSet&lt;String&gt; set2 = <span class="keyword">new</span> TreeSet&lt;&gt;(Comparator.reverseOrder());<br>
+                        <br>
+                        <span class="comment">// 3. Constructor từ Collection khác</span><br>
+                        List&lt;String&gt; list = Arrays.asList(<span class="string">"B"</span>, <span class="string">"A"</span>, <span class="string">"C"</span>);<br>
+                        TreeSet&lt;String&gt; set3 = <span class="keyword">new</span> TreeSet&lt;&gt;(list);<br>
+                        <br>
+                        <span class="comment">// 4. Constructor từ SortedSet khác</span><br>
+                        TreeSet&lt;String&gt; set4 = <span class="keyword">new</span> TreeSet&lt;&gt;(set3);
+                    </div>
+
+                    <h4>4.2.3 Ví dụ khai báo</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// TreeSet với thứ tự tự nhiên (tăng dần)</span><br>
+                        TreeSet&lt;Integer&gt; naturalOrder = <span class="keyword">new</span> TreeSet&lt;&gt;();<br>
+                        naturalOrder.add(<span class="number">5</span>);<br>
+                        naturalOrder.add(<span class="number">1</span>);<br>
+                        naturalOrder.add(<span class="number">3</span>);<br>
+                        System.out.println(naturalOrder); <span class="comment">// [1, 3, 5]</span><br>
+                        <br>
+                        <span class="comment">// TreeSet với Comparator giảm dần</span><br>
+                        TreeSet&lt;Integer&gt; reverseOrder = <span class="keyword">new</span> TreeSet&lt;&gt;((a, b) -> b - a);<br>
+                        reverseOrder.add(<span class="number">5</span>);<br>
+                        reverseOrder.add(<span class="number">1</span>);<br>
+                        reverseOrder.add(<span class="number">3</span>);<br>
+                        System.out.println(reverseOrder); <span class="comment">// [5, 3, 1]</span><br>
+                        <br>
+                        <span class="comment">// TreeSet với String (thứ tự alphabet)</span><br>
+                        TreeSet&lt;String&gt; names = <span class="keyword">new</span> TreeSet&lt;&gt;();<br>
+                        names.add(<span class="string">"John"</span>);<br>
+                        names.add(<span class="string">"Alice"</span>);<br>
+                        names.add(<span class="string">"Bob"</span>);<br>
+                        System.out.println(names); <span class="comment">// [Alice, Bob, John]</span>
+                    </div>
+
+                    <h3>4.3 CÁC PHƯƠNG THỨC ĐẶC BIỆT CỦA TREE SET</h3>
+
+                    <h4>4.3.1 Phương thức first()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E first()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về phần tử nhỏ nhất (đầu tiên) trong Set</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeSet&lt;Integer&gt; set = <span class="keyword">new</span> TreeSet&lt;&gt;(Arrays.asList(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>));<br>
+                        System.out.println(set.first()); <span class="comment">// 10</span>
+                    </div>
+
+                    <h4>4.3.2 Phương thức last()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E last()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về phần tử lớn nhất (cuối cùng) trong Set</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeSet&lt;Integer&gt; set = <span class="keyword">new</span> TreeSet&lt;&gt;(Arrays.asList(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>));<br>
+                        System.out.println(set.last()); <span class="comment">// 40</span>
+                    </div>
+
+                    <h4>4.3.3 Phương thức lower(E e)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E lower(E e)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về phần tử lớn nhất nhỏ hơn e<br>null nếu không có</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeSet&lt;Integer&gt; set = <span class="keyword">new</span> TreeSet&lt;&gt;(Arrays.asList(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>));<br>
+                        System.out.println(set.lower(<span class="number">30</span>)); <span class="comment">// 20</span><br>
+                        System.out.println(set.lower(<span class="number">10</span>)); <span class="comment">// null</span>
+                    </div>
+
+                    <h4>4.3.4 Phương thức higher(E e)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E higher(E e)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về phần tử nhỏ nhất lớn hơn e<br>null nếu không có</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeSet&lt;Integer&gt; set = <span class="keyword">new</span> TreeSet&lt;&gt;(Arrays.asList(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>));<br>
+                        System.out.println(set.higher(<span class="number">30</span>)); <span class="comment">// 40</span><br>
+                        System.out.println(set.higher(<span class="number">40</span>)); <span class="comment">// null</span>
+                    </div>
+
+                    <h4>4.3.5 Phương thức floor(E e)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E floor(E e)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về phần tử lớn nhất <= e<br>null nếu không có</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeSet&lt;Integer&gt; set = <span class="keyword">new</span> TreeSet&lt;&gt;(Arrays.asList(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>));<br>
+                        System.out.println(set.floor(<span class="number">25</span>)); <span class="comment">// 20</span><br>
+                        System.out.println(set.floor(<span class="number">30</span>)); <span class="comment">// 30</span><br>
+                        System.out.println(set.floor(<span class="number">5</span>));  <span class="comment">// null</span>
+                    </div>
+
+                    <h4>4.3.6 Phương thức ceiling(E e)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E ceiling(E e)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về phần tử nhỏ nhất >= e<br>null nếu không có</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeSet&lt;Integer&gt; set = <span class="keyword">new</span> TreeSet&lt;&gt;(Arrays.asList(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>));<br>
+                        System.out.println(set.ceiling(<span class="number">25</span>)); <span class="comment">// 30</span><br>
+                        System.out.println(set.ceiling(<span class="number">30</span>)); <span class="comment">// 30</span><br>
+                        System.out.println(set.ceiling(<span class="number">45</span>)); <span class="comment">// null</span>
+                    </div>
+
+                    <h4>4.3.7 Phương thức pollFirst()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E pollFirst()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Lấy và xóa phần tử đầu tiên (nhỏ nhất)<br>null nếu Set rỗng</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeSet&lt;Integer&gt; set = <span class="keyword">new</span> TreeSet&lt;&gt;(Arrays.asList(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>));<br>
+                        System.out.println(set.pollFirst()); <span class="comment">// 10</span><br>
+                        System.out.println(set);              <span class="comment">// [20, 30]</span>
+                    </div>
+
+                    <h4>4.3.8 Phương thức pollLast()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        E pollLast()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Lấy và xóa phần tử cuối cùng (lớn nhất)<br>null nếu Set rỗng</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeSet&lt;Integer&gt; set = <span class="keyword">new</span> TreeSet&lt;&gt;(Arrays.asList(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>));<br>
+                        System.out.println(set.pollLast()); <span class="comment">// 30</span><br>
+                        System.out.println(set);             <span class="comment">// [10, 20]</span>
+                    </div>
+
+                    <h4>4.3.9 Phương thức subSet(E from, E to)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        SortedSet&lt;E&gt; subSet(E fromElement, E toElement)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Set con từ from (bao gồm) đến to (không bao gồm)</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeSet&lt;Integer&gt; set = <span class="keyword">new</span> TreeSet&lt;&gt;(Arrays.asList(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>));<br>
+                        SortedSet&lt;Integer&gt; sub = set.subSet(<span class="number">20</span>, <span class="number">40</span>);<br>
+                        System.out.println(sub); <span class="comment">// [20, 30]</span>
+                    </div>
+
+                    <h4>4.3.10 Phương thức headSet(E to)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        SortedSet&lt;E&gt; headSet(E toElement)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Set con các phần tử nhỏ hơn to (không bao gồm to)</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeSet&lt;Integer&gt; set = <span class="keyword">new</span> TreeSet&lt;&gt;(Arrays.asList(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>));<br>
+                        SortedSet&lt;Integer&gt; head = set.headSet(<span class="number">30</span>);<br>
+                        System.out.println(head); <span class="comment">// [10, 20]</span>
+                    </div>
+
+                    <h4>4.3.11 Phương thức tailSet(E from)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        SortedSet&lt;E&gt; tailSet(E fromElement)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Set con các phần tử lớn hơn hoặc bằng from</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeSet&lt;Integer&gt; set = <span class="keyword">new</span> TreeSet&lt;&gt;(Arrays.asList(<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>));<br>
+                        SortedSet&lt;Integer&gt; tail = set.tailSet(<span class="number">30</span>);<br>
+                        System.out.println(tail); <span class="comment">// [30, 40, 50]</span>
+                    </div>
+                </section>
+
+                <!-- PHẦN 5: MAP INTERFACE -->
+                <section id="part5" class="section">
+                    <h2><i class="fas fa-map"></i> PHẦN 5: MAP INTERFACE</h2>
+
+                    <h3>5.1 MAP LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>Map</strong> là interface lưu trữ các cặp key-value, mỗi key ánh xạ đến một value.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-check"></span> <strong>✅ Key là duy nhất (không trùng)</strong></li>
+                        <li><span class="feature-check"></span> <strong>✅ Value có thể trùng nhau</strong></li>
+                        <li><span class="feature-times"></span> <strong>❌ Không phải Collection (nhưng thuộc Collection Framework)</strong></li>
+                    </ul>
+
+                    <h3>5.2 CÚ PHÁP KHAI BÁO MAP</h3>
+
+                    <h4>5.2.1 Cú pháp tổng quát</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: Dùng interface Map (khuyến nghị)</span><br>
+                        Map&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        Map&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();<br>
+                        Map&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Cách 2: Dùng class cụ thể</span><br>
+                        HashMap&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        LinkedHashMap&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();<br>
+                        TreeMap&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> TreeMap&lt;&gt;();
+                    </div>
+
+                    <h4>5.2.2 Ví dụ khai báo</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Map với key là String, value là Integer</span><br>
+                        Map&lt;String, Integer&gt; scoreMap = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        scoreMap.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        scoreMap.put(<span class="string">"Bob"</span>, <span class="number">87</span>);<br>
+                        <br>
+                        <span class="comment">// Map với key là Integer, value là String</span><br>
+                        Map&lt;Integer, String&gt; idToNameMap = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        idToNameMap.put(<span class="number">1</span>, <span class="string">"Nguyen Van A"</span>);<br>
+                        idToNameMap.put(<span class="number">2</span>, <span class="string">"Tran Thi B"</span>);<br>
+                        <br>
+                        <span class="comment">// Map với key là String, value là đối tượng Student</span><br>
+                        Map&lt;String, Student&gt; studentMap = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        studentMap.put(<span class="string">"SV001"</span>, <span class="keyword">new</span> Student(<span class="number">1</span>, <span class="string">"Nguyen Van A"</span>));
+                    </div>
+
+                    <h4>5.2.3 Khởi tạo Map với giá trị ban đầu</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: put từng phần tử</span><br>
+                        Map&lt;String, Integer&gt; map1 = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map1.put(<span class="string">"A"</span>, <span class="number">1</span>);<br>
+                        map1.put(<span class="string">"B"</span>, <span class="number">2</span>);<br>
+                        map1.put(<span class="string">"C"</span>, <span class="number">3</span>);<br>
+                        <br>
+                        <span class="comment">// Cách 2: Dùng Map.of() (Java 9+) - tối đa 10 cặp</span><br>
+                        Map&lt;String, Integer&gt; map2 = Map.of(<span class="string">"A"</span>, <span class="number">1</span>, <span class="string">"B"</span>, <span class="number">2</span>, <span class="string">"C"</span>, <span class="number">3</span>);<br>
+                        <br>
+                        <span class="comment">// Cách 3: Dùng Map.ofEntries() (Java 9+)</span><br>
+                        Map&lt;String, Integer&gt; map3 = Map.ofEntries(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Map.entry(<span class="string">"A"</span>, <span class="number">1</span>),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Map.entry(<span class="string">"B"</span>, <span class="number">2</span>),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;Map.entry(<span class="string">"C"</span>, <span class="number">3</span>)<br>
+                        );<br>
+                        <br>
+                        <span class="comment">// Cách 4: Dùng double brace (không khuyến nghị)</span><br>
+                        Map&lt;String, Integer&gt; map4 = <span class="keyword">new</span> HashMap&lt;&gt;() {{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;put(<span class="string">"A"</span>, <span class="number">1</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;put(<span class="string">"B"</span>, <span class="number">2</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;put(<span class="string">"C"</span>, <span class="number">3</span>);<br>
+                        }};
+                    </div>
+
+                    <h3>5.3 CÁC PHƯƠNG THỨC CỦA MAP</h3>
+
+                    <h4>5.3.1 Phương thức put(K key, V value)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        V put(K key, V value)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Thêm cặp key-value vào Map<br>Nếu key đã tồn tại, value cũ bị thay thế<br>Trả về value cũ (hoặc null nếu key mới)</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        map.put(<span class="string">"Bob"</span>, <span class="number">87</span>);<br>
+                        <br>
+                        Integer old = map.put(<span class="string">"Alice"</span>, <span class="number">98</span>); <span class="comment">// Ghi đè</span><br>
+                        System.out.println(<span class="string">"Value cũ: "</span> + old); <span class="comment">// 95</span><br>
+                        System.out.println(map); <span class="comment">// {Alice=98, Bob=87}</span>
+                    </div>
+
+                    <h4>5.3.2 Phương thức get(Object key)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        V get(Object key)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Lấy value theo key<br>Trả về null nếu key không tồn tại</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        map.put(<span class="string">"Bob"</span>, <span class="number">87</span>);<br>
+                        <br>
+                        System.out.println(map.get(<span class="string">"Alice"</span>));   <span class="comment">// 95</span><br>
+                        System.out.println(map.get(<span class="string">"Charlie"</span>)); <span class="comment">// null</span>
+                    </div>
+
+                    <h4>5.3.3 Phương thức remove(Object key)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        V remove(Object key)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Xóa cặp key-value theo key<br>Trả về value đã xóa (hoặc null nếu key không tồn tại)</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        map.put(<span class="string">"Bob"</span>, <span class="number">87</span>);<br>
+                        <br>
+                        Integer removed = map.remove(<span class="string">"Alice"</span>);<br>
+                        System.out.println(<span class="string">"Đã xóa: "</span> + removed); <span class="comment">// 95</span><br>
+                        System.out.println(map); <span class="comment">// {Bob=87}</span>
+                    </div>
+
+                    <h4>5.3.4 Phương thức containsKey(Object key)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> containsKey(Object key)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Kiểm tra key có tồn tại không<br>Trả về true nếu có, false nếu không</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        <br>
+                        System.out.println(map.containsKey(<span class="string">"Alice"</span>)); <span class="comment">// true</span><br>
+                        System.out.println(map.containsKey(<span class="string">"Bob"</span>));   <span class="comment">// false</span>
+                    </div>
+
+                    <h4>5.3.5 Phương thức containsValue(Object value)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> containsValue(Object value)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Kiểm tra value có tồn tại không<br>Trả về true nếu có, false nếu không</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        map.put(<span class="string">"Bob"</span>, <span class="number">87</span>);<br>
+                        <br>
+                        System.out.println(map.containsValue(<span class="number">95</span>)); <span class="comment">// true</span><br>
+                        System.out.println(map.containsValue(<span class="number">100</span>)); <span class="comment">// false</span>
+                    </div>
+
+                    <h4>5.3.6 Phương thức size()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">int</span> size()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về số lượng cặp key-value trong Map</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        map.put(<span class="string">"Bob"</span>, <span class="number">87</span>);<br>
+                        System.out.println(<span class="string">"Kích thước: "</span> + map.size()); <span class="comment">// 2</span>
+                    </div>
+
+                    <h4>5.3.7 Phương thức isEmpty()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> isEmpty()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Kiểm tra Map có rỗng không</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        System.out.println(map.isEmpty()); <span class="comment">// true</span><br>
+                        <br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        System.out.println(map.isEmpty()); <span class="comment">// false</span>
+                    </div>
+
+                    <h4>5.3.8 Phương thức clear()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">void</span> clear()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Xóa tất cả cặp key-value trong Map</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        map.put(<span class="string">"Bob"</span>, <span class="number">87</span>);<br>
+                        System.out.println(<span class="string">"Trước clear: "</span> + map.size()); <span class="comment">// 2</span><br>
+                        <br>
+                        map.clear();<br>
+                        System.out.println(<span class="string">"Sau clear: "</span> + map.size()); <span class="comment">// 0</span>
+                    </div>
+
+                    <h4>5.3.9 Phương thức keySet()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;K&gt; keySet()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Set chứa tất cả các key</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        map.put(<span class="string">"Bob"</span>, <span class="number">87</span>);<br>
+                        map.put(<span class="string">"Charlie"</span>, <span class="number">92</span>);<br>
+                        <br>
+                        Set&lt;String&gt; keys = map.keySet();<br>
+                        System.out.println(<span class="string">"Các key: "</span> + keys); <span class="comment">// [Alice, Bob, Charlie]</span><br>
+                        <br>
+                        <span class="comment">// Duyệt qua keys</span><br>
+                        <span class="keyword">for</span> (String key : keys) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(key + <span class="string">" → "</span> + map.get(key));<br>
+                        }
+                    </div>
+
+                    <h4>5.3.10 Phương thức values()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Collection&lt;V&gt; values()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Collection chứa tất cả các value</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        map.put(<span class="string">"Bob"</span>, <span class="number">87</span>);<br>
+                        map.put(<span class="string">"Charlie"</span>, <span class="number">92</span>);<br>
+                        <br>
+                        Collection&lt;Integer&gt; values = map.values();<br>
+                        System.out.println(<span class="string">"Các value: "</span> + values); <span class="comment">// [95, 87, 92]</span><br>
+                        <br>
+                        <span class="comment">// Tính tổng</span><br>
+                        <span class="keyword">int</span> sum = <span class="number">0</span>;<br>
+                        <span class="keyword">for</span> (<span class="keyword">int</span> v : values) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;sum += v;<br>
+                        }<br>
+                        System.out.println(<span class="string">"Tổng điểm: "</span> + sum); <span class="comment">// 274</span>
+                    </div>
+
+                    <h4>5.3.11 Phương thức entrySet()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Set&lt;Map.Entry&lt;K, V&gt;&gt; entrySet()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Set chứa các cặp key-value (Entry)<br>Entry có các phương thức: getKey(), getValue(), setValue()</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        map.put(<span class="string">"Bob"</span>, <span class="number">87</span>);<br>
+                        <br>
+                        Set&lt;Map.Entry&lt;String, Integer&gt;&gt; entries = map.entrySet();<br>
+                        <span class="keyword">for</span> (Map.Entry&lt;String, Integer&gt; entry : entries) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(entry.getKey() + <span class="string">" = "</span> + entry.getValue());<br>
+                        }<br>
+                        <span class="comment">// Output:</span><br>
+                        <span class="comment">// Alice = 95</span><br>
+                        <span class="comment">// Bob = 87</span>
+                    </div>
+
+                    <h4>5.3.12 Phương thức putIfAbsent(K key, V value)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        V putIfAbsent(K key, V value)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Chỉ thêm nếu key chưa tồn tại<br>Trả về value cũ (hoặc null nếu key mới)</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        <br>
+                        map.putIfAbsent(<span class="string">"Alice"</span>, <span class="number">100</span>); <span class="comment">// Không thay đổi</span><br>
+                        map.putIfAbsent(<span class="string">"Bob"</span>, <span class="number">87</span>);    <span class="comment">// Thêm mới</span><br>
+                        <br>
+                        System.out.println(map); <span class="comment">// {Alice=95, Bob=87}</span>
+                    </div>
+
+                    <h4>5.3.13 Phương thức getOrDefault(Object key, V defaultValue)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        V getOrDefault(Object key, V defaultValue)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Lấy value theo key, nếu không có trả về defaultValue</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        <br>
+                        System.out.println(map.getOrDefault(<span class="string">"Alice"</span>, <span class="number">0</span>));   <span class="comment">// 95</span><br>
+                        System.out.println(map.getOrDefault(<span class="string">"Bob"</span>, <span class="number">0</span>));     <span class="comment">// 0</span>
+                    </div>
+
+                    <h4>5.3.14 Phương thức replace(K key, V value)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        V replace(K key, V value)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Thay thế value cho key đã tồn tại<br>Trả về value cũ, null nếu key không tồn tại</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        <br>
+                        Integer old = map.replace(<span class="string">"Alice"</span>, <span class="number">100</span>);<br>
+                        System.out.println(<span class="string">"Cũ: "</span> + old); <span class="comment">// 95</span><br>
+                        System.out.println(map); <span class="comment">// {Alice=100}</span><br>
+                        <br>
+                        map.replace(<span class="string">"Bob"</span>, <span class="number">87</span>); <span class="comment">// Không làm gì</span><br>
+                        System.out.println(map); <span class="comment">// {Alice=100}</span>
+                    </div>
+
+                    <h4>5.3.15 Phương thức replace(K key, V oldValue, V newValue)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">boolean</span> replace(K key, V oldValue, V newValue)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Chỉ thay thế nếu key đang có value là oldValue<br>Trả về true nếu thay thế thành công</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        map.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        <br>
+                        <span class="keyword">boolean</span> replaced = map.replace(<span class="string">"Alice"</span>, <span class="number">95</span>, <span class="number">100</span>);<br>
+                        System.out.println(replaced); <span class="comment">// true</span><br>
+                        System.out.println(map); <span class="comment">// {Alice=100}</span><br>
+                        <br>
+                        replaced = map.replace(<span class="string">"Alice"</span>, <span class="number">95</span>, <span class="number">200</span>); <span class="comment">// false</span><br>
+                        System.out.println(map); <span class="comment">// {Alice=100} (không đổi)</span>
+                    </div>
+                </section>
+
+                <!-- PHẦN 6: HASH MAP -->
+                <section id="part6" class="section">
+                    <h2><i class="fas fa-hashtag"></i> PHẦN 6: HASH MAP</h2>
+
+                    <h3>6.1 HASH MAP LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>HashMap</strong> là class triển khai Map interface, sử dụng bảng băm (hash table) để lưu trữ các cặp key-value.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-check"></span> <strong>✅ Key duy nhất</strong></li>
+                        <li><span class="feature-check"></span> <strong>✅ Cho phép 1 key null và nhiều value null</strong></li>
+                        <li><span class="feature-times"></span> <strong>❌ Không đảm bảo thứ tự</strong></li>
+                        <li><span class="feature-lightning"></span> <strong>⚡ Hiệu suất O(1) cho thêm/xóa/tìm</strong></li>
+                    </ul>
+
+                    <h3>6.2 CÚ PHÁP KHAI BÁO HASH MAP</h3>
+
+                    <h4>6.2.1 Cú pháp tổng quát</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: Dùng interface Map (khuyến nghị)</span><br>
+                        Map&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Cách 2: Dùng class cụ thể</span><br>
+                        HashMap&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> HashMap&lt;&gt;();
+                    </div>
+
+                    <h4>6.2.2 Các constructor</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Constructor</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// 1. Constructor mặc định (capacity 16, load factor 0.75)</span><br>
+                        HashMap&lt;String, Integer&gt; map1 = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// 2. Constructor với initial capacity</span><br>
+                        HashMap&lt;String, Integer&gt; map2 = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">32</span>);<br>
+                        <br>
+                        <span class="comment">// 3. Constructor với initial capacity và load factor</span><br>
+                        HashMap&lt;String, Integer&gt; map3 = <span class="keyword">new</span> HashMap&lt;&gt;(<span class="number">32</span>, <span class="number">0.8f</span>);<br>
+                        <br>
+                        <span class="comment">// 4. Constructor từ Map khác</span><br>
+                        Map&lt;String, Integer&gt; existing = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        existing.put(<span class="string">"A"</span>, <span class="number">1</span>);<br>
+                        HashMap&lt;String, Integer&gt; map4 = <span class="keyword">new</span> HashMap&lt;&gt;(existing);
+                    </div>
+
+                    <h4>6.2.3 Ví dụ khai báo</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// HashMap với key String, value Integer</span><br>
+                        Map&lt;String, Integer&gt; scores = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        scores.put(<span class="string">"Alice"</span>, <span class="number">95</span>);<br>
+                        scores.put(<span class="string">"Bob"</span>, <span class="number">87</span>);<br>
+                        <br>
+                        <span class="comment">// HashMap với key Integer, value String</span><br>
+                        Map&lt;Integer, String&gt; idToName = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        idToName.put(<span class="number">1</span>, <span class="string">"Nguyen Van A"</span>);<br>
+                        idToName.put(<span class="number">2</span>, <span class="string">"Tran Thi B"</span>);<br>
+                        <br>
+                        <span class="comment">// HashMap với key String, value Student</span><br>
+                        Map&lt;String, Student&gt; students = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        students.put(<span class="string">"SV001"</span>, <span class="keyword">new</span> Student(<span class="number">1</span>, <span class="string">"Nguyen Van A"</span>));
+                    </div>
+
+                    <h3>6.3 VÍ DỤ TỔNG HỢP HASH MAP</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> HashMapExample.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> HashMapExample {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Khai báo và khởi tạo</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Map&lt;String, Double&gt; productPrices = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thêm sản phẩm</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productPrices.put(<span class="string">"iPhone 14"</span>, <span class="number">999.99</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productPrices.put(<span class="string">"Samsung S23"</span>, <span class="number">899.99</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productPrices.put(<span class="string">"MacBook Pro"</span>, <span class="number">1999.99</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productPrices.put(<span class="string">"iPhone 14"</span>, <span class="number">1099.99</span>); <span class="comment">// Ghi đè</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Danh sách sản phẩm: "</span> + productPrices);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy giá sản phẩm</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Double iphonePrice = productPrices.get(<span class="string">"iPhone 14"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Giá iPhone 14: $"</span> + iphonePrice);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kiểm tra tồn tại</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (productPrices.containsKey(<span class="string">"MacBook Pro"</span>)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Có MacBook Pro trong danh sách"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Duyệt qua các entry</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nTất cả sản phẩm:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (Map.Entry&lt;String, Double&gt; entry : productPrices.entrySet()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(entry.getKey() + <span class="string">": $"</span> + entry.getValue());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa sản phẩm</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productPrices.remove(<span class="string">"Samsung S23"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\nSau khi xóa: "</span> + productPrices);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kích thước</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Số sản phẩm: "</span> + productPrices.size());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 7: LINKED HASH MAP -->
+                <section id="part7" class="section">
+                    <h2><i class="fas fa-link"></i> PHẦN 7: LINKED HASH MAP</h2>
+
+                    <h3>7.1 LINKED HASH MAP LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>LinkedHashMap</strong> là class triển khai Map interface, kết hợp HashMap và LinkedList để lưu trữ các cặp key-value có thứ tự.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-check"></span> <strong>✅ Giữ thứ tự chèn (insertion order)</strong></li>
+                        <li><span class="feature-check"></span> <strong>✅ Có thể theo thứ tự truy cập (access order)</strong></li>
+                        <li><span class="feature-check"></span> <strong>✅ Cho phép 1 key null, nhiều value null</strong></li>
+                        <li><span class="feature-lightning"></span> <strong>⚡ Hiệu suất gần bằng HashMap</strong></li>
+                    </ul>
+
+                    <h3>7.2 CÚ PHÁP KHAI BÁO LINKED HASH MAP</h3>
+
+                    <h4>7.2.1 Cú pháp tổng quát</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: Dùng interface Map (khuyến nghị)</span><br>
+                        Map&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Cách 2: Dùng class cụ thể</span><br>
+                        LinkedHashMap&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();
+                    </div>
+
+                    <h4>7.2.2 Các constructor</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Constructor</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// 1. Constructor mặc định (thứ tự chèn)</span><br>
+                        LinkedHashMap&lt;String, Integer&gt; map1 = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// 2. Constructor với initial capacity</span><br>
+                        LinkedHashMap&lt;String, Integer&gt; map2 = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(<span class="number">32</span>);<br>
+                        <br>
+                        <span class="comment">// 3. Constructor với initial capacity và load factor</span><br>
+                        LinkedHashMap&lt;String, Integer&gt; map3 = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(<span class="number">32</span>, <span class="number">0.8f</span>);<br>
+                        <br>
+                        <span class="comment">// 4. Constructor với accessOrder</span><br>
+                        <span class="comment">// accessOrder = true: theo thứ tự truy cập</span><br>
+                        <span class="comment">// accessOrder = false: theo thứ tự chèn (mặc định)</span><br>
+                        LinkedHashMap&lt;String, Integer&gt; map4 = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(<span class="number">16</span>, <span class="number">0.75f</span>, <span class="keyword">true</span>);<br>
+                        <br>
+                        <span class="comment">// 5. Constructor từ Map khác</span><br>
+                        LinkedHashMap&lt;String, Integer&gt; map5 = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(existingMap);
+                    </div>
+
+                    <h4>7.2.3 Ví dụ khai báo</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// LinkedHashMap với thứ tự chèn (mặc định)</span><br>
+                        Map&lt;String, Integer&gt; insertionOrder = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();<br>
+                        insertionOrder.put(<span class="string">"One"</span>, <span class="number">1</span>);<br>
+                        insertionOrder.put(<span class="string">"Two"</span>, <span class="number">2</span>);<br>
+                        insertionOrder.put(<span class="string">"Three"</span>, <span class="number">3</span>);<br>
+                        <br>
+                        <span class="comment">// LinkedHashMap với thứ tự truy cập</span><br>
+                        Map&lt;String, Integer&gt; accessOrder = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(<span class="number">16</span>, <span class="number">0.75f</span>, <span class="keyword">true</span>);<br>
+                        accessOrder.put(<span class="string">"A"</span>, <span class="number">1</span>);<br>
+                        accessOrder.put(<span class="string">"B"</span>, <span class="number">2</span>);<br>
+                        accessOrder.put(<span class="string">"C"</span>, <span class="number">3</span>);
+                    </div>
+
+                    <h3>7.3 SO SÁNH CÁC LOẠI THỨ TỰ</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> LinkedHashMapOrder.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> LinkedHashMapOrder {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. HashMap - không thứ tự</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Map&lt;String, Integer&gt; hashMap = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashMap.put(<span class="string">"One"</span>, <span class="number">1</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashMap.put(<span class="string">"Two"</span>, <span class="number">2</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashMap.put(<span class="string">"Three"</span>, <span class="number">3</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hashMap.put(<span class="string">"Four"</span>, <span class="number">4</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. LinkedHashMap - thứ tự chèn</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Map&lt;String, Integer&gt; insertionMap = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insertionMap.put(<span class="string">"One"</span>, <span class="number">1</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insertionMap.put(<span class="string">"Two"</span>, <span class="number">2</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insertionMap.put(<span class="string">"Three"</span>, <span class="number">3</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;insertionMap.put(<span class="string">"Four"</span>, <span class="number">4</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. LinkedHashMap - thứ tự truy cập</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Map&lt;String, Integer&gt; accessMap = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(<span class="number">16</span>, <span class="number">0.75f</span>, <span class="keyword">true</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;accessMap.put(<span class="string">"One"</span>, <span class="number">1</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;accessMap.put(<span class="string">"Two"</span>, <span class="number">2</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;accessMap.put(<span class="string">"Three"</span>, <span class="number">3</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;accessMap.put(<span class="string">"Four"</span>, <span class="number">4</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"HashMap: "</span> + hashMap);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"LinkedHashMap (chèn): "</span> + insertionMap);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Truy cập một số phần tử</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;accessMap.get(<span class="string">"Two"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;accessMap.get(<span class="string">"Four"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"LinkedHashMap (truy cập): "</span> + accessMap);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Kết quả:</span>
+                        </div>
+                        HashMap: {Four=4, One=1, Three=3, Two=2}<br>
+                        LinkedHashMap (chèn): {One=1, Two=2, Three=3, Four=4}<br>
+                        LinkedHashMap (truy cập): {One=1, Three=3, Two=2, Four=4}
+                    </div>
+
+                    <h3>7.4 ỨNG DỤNG: LRU CACHE</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> LRUCache.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="keyword">class</span> LRUCache&lt;K, V&gt; <span class="keyword">extends</span> LinkedHashMap&lt;K, V&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private final int</span> capacity;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> LRUCache(<span class="keyword">int</span> capacity) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>(capacity, <span class="number">0.75f</span>, <span class="keyword">true</span>); <span class="comment">// accessOrder = true</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.capacity = capacity;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected boolean</span> removeEldestEntry(Map.Entry&lt;K, V&gt; eldest) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tự động xóa entry cũ nhất khi size > capacity</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> size() > capacity;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="keyword">public class</span> LRUCacheExample {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LRUCache&lt;Integer, String&gt; cache = <span class="keyword">new</span> LRUCache&lt;&gt;(<span class="number">3</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cache.put(<span class="number">1</span>, <span class="string">"A"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cache.put(<span class="number">2</span>, <span class="string">"B"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cache.put(<span class="number">3</span>, <span class="string">"C"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Cache: "</span> + cache); <span class="comment">// {1=A, 2=B, 3=C}</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cache.get(<span class="number">1</span>); <span class="comment">// Truy cập 1, nó sẽ được đưa lên cuối</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cache.put(<span class="number">4</span>, <span class="string">"D"</span>); <span class="comment">// Thêm 4, vượt capacity, xóa entry cũ nhất (2)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau khi thêm 4: "</span> + cache); <span class="comment">// {3=C, 1=A, 4=D}</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 8: TREE MAP -->
+                <section id="part8" class="section">
+                    <h2><i class="fas fa-tree"></i> PHẦN 8: TREE MAP</h2>
+
+                    <h3>8.1 TREE MAP LÀ GÌ?</h3>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-lightbulb"></i> Định nghĩa:</h4>
+                        <p><strong>TreeMap</strong> là class triển khai Map interface và SortedMap, sử dụng cây đỏ-đen (Red-Black tree) để lưu trữ các cặp key-value có thứ tự theo key.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul class="feature-list">
+                        <li><span class="feature-check"></span> <strong>✅ Sắp xếp theo key (thứ tự tự nhiên hoặc Comparator)</strong></li>
+                        <li><span class="feature-check"></span> <strong>✅ Key duy nhất</strong></li>
+                        <li><span class="feature-times"></span> <strong>❌ Không chấp nhận key null (từ Java 7)</strong></li>
+                        <li><span class="feature-check"></span> <strong>✅ Value có thể null</strong></li>
+                        <li><span class="feature-lightning"></span> <strong>⚡ Hiệu suất O(log n)</strong></li>
+                    </ul>
+
+                    <h3>8.2 CÚ PHÁP KHAI BÁO TREE MAP</h3>
+
+                    <h4>8.2.1 Cú pháp tổng quát</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// Cách 1: Dùng interface Map (khuyến nghị)</span><br>
+                        Map&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Cách 2: Dùng class cụ thể</span><br>
+                        TreeMap&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// Cách 3: Với Comparator tùy chỉnh</span><br>
+                        TreeMap&lt;KiểuKey, KiểuValue&gt; tênBiến = <span class="keyword">new</span> TreeMap&lt;&gt;(comparator);
+                    </div>
+
+                    <h4>8.2.2 Các constructor</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Constructor</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// 1. Constructor mặc định (thứ tự tự nhiên)</span><br>
+                        TreeMap&lt;Integer, String&gt; map1 = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        <br>
+                        <span class="comment">// 2. Constructor với Comparator</span><br>
+                        TreeMap&lt;Integer, String&gt; map2 = <span class="keyword">new</span> TreeMap&lt;&gt;(Comparator.reverseOrder());<br>
+                        <br>
+                        <span class="comment">// 3. Constructor từ Map khác</span><br>
+                        Map&lt;Integer, String&gt; existing = <span class="keyword">new</span> HashMap&lt;&gt;();<br>
+                        existing.put(<span class="number">3</span>, <span class="string">"C"</span>);<br>
+                        existing.put(<span class="number">1</span>, <span class="string">"A"</span>);<br>
+                        TreeMap&lt;Integer, String&gt; map3 = <span class="keyword">new</span> TreeMap&lt;&gt;(existing);<br>
+                        <br>
+                        <span class="comment">// 4. Constructor từ SortedMap khác</span><br>
+                        SortedMap&lt;Integer, String&gt; sorted = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        sorted.put(<span class="number">2</span>, <span class="string">"B"</span>);<br>
+                        TreeMap&lt;Integer, String&gt; map4 = <span class="keyword">new</span> TreeMap&lt;&gt;(sorted);
+                    </div>
+
+                    <h4>8.2.3 Ví dụ khai báo</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        <span class="comment">// TreeMap với thứ tự tự nhiên (tăng dần theo key)</span><br>
+                        TreeMap&lt;Integer, String&gt; naturalOrder = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        naturalOrder.put(<span class="number">5</span>, <span class="string">"Five"</span>);<br>
+                        naturalOrder.put(<span class="number">1</span>, <span class="string">"One"</span>);<br>
+                        naturalOrder.put(<span class="number">3</span>, <span class="string">"Three"</span>);<br>
+                        System.out.println(naturalOrder); <span class="comment">// {1=One, 3=Three, 5=Five}</span><br>
+                        <br>
+                        <span class="comment">// TreeMap với Comparator giảm dần</span><br>
+                        TreeMap&lt;Integer, String&gt; reverseOrder = <span class="keyword">new</span> TreeMap&lt;&gt;((a, b) -> b - a);<br>
+                        reverseOrder.put(<span class="number">5</span>, <span class="string">"Five"</span>);<br>
+                        reverseOrder.put(<span class="number">1</span>, <span class="string">"One"</span>);<br>
+                        reverseOrder.put(<span class="number">3</span>, <span class="string">"Three"</span>);<br>
+                        System.out.println(reverseOrder); <span class="comment">// {5=Five, 3=Three, 1=One}</span><br>
+                        <br>
+                        <span class="comment">// TreeMap với String key (thứ tự alphabet)</span><br>
+                        TreeMap&lt;String, Integer&gt; names = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        names.put(<span class="string">"John"</span>, <span class="number">30</span>);<br>
+                        names.put(<span class="string">"Alice"</span>, <span class="number">25</span>);<br>
+                        names.put(<span class="string">"Bob"</span>, <span class="number">35</span>);<br>
+                        System.out.println(names); <span class="comment">// {Alice=25, Bob=35, John=30}</span>
+                    </div>
+
+                    <h3>8.3 CÁC PHƯƠNG THỨC ĐẶC BIỆT CỦA TREE MAP</h3>
+
+                    <h4>8.3.1 Phương thức firstKey()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        K firstKey()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về key nhỏ nhất</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        System.out.println(map.firstKey()); <span class="comment">// 10</span>
+                    </div>
+
+                    <h4>8.3.2 Phương thức lastKey()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        K lastKey()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về key lớn nhất</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        System.out.println(map.lastKey()); <span class="comment">// 30</span>
+                    </div>
+
+                    <h4>8.3.3 Phương thức firstEntry()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map.Entry&lt;K,V&gt; firstEntry()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về entry có key nhỏ nhất</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        Map.Entry&lt;Integer, String&gt; entry = map.firstEntry();<br>
+                        System.out.println(entry.getKey() + <span class="string">"="</span> + entry.getValue()); <span class="comment">// 10=Mười</span>
+                    </div>
+
+                    <h4>8.3.4 Phương thức lastEntry()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map.Entry&lt;K,V&gt; lastEntry()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về entry có key lớn nhất</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        Map.Entry&lt;Integer, String&gt; entry = map.lastEntry();<br>
+                        System.out.println(entry.getKey() + <span class="string">"="</span> + entry.getValue()); <span class="comment">// 30=Ba mươi</span>
+                    </div>
+
+                    <h4>8.3.5 Phương thức lowerKey(K key)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        K lowerKey(K key)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về key lớn nhất nhỏ hơn key<br>null nếu không có</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        System.out.println(map.lowerKey(<span class="number">20</span>)); <span class="comment">// 10</span><br>
+                        System.out.println(map.lowerKey(<span class="number">10</span>)); <span class="comment">// null</span>
+                    </div>
+
+                    <h4>8.3.6 Phương thức higherKey(K key)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        K higherKey(K key)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về key nhỏ nhất lớn hơn key<br>null nếu không có</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        System.out.println(map.higherKey(<span class="number">20</span>)); <span class="comment">// 30</span><br>
+                        System.out.println(map.higherKey(<span class="number">30</span>)); <span class="comment">// null</span>
+                    </div>
+
+                    <h4>8.3.7 Phương thức floorKey(K key)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        K floorKey(K key)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về key lớn nhất <= key<br>null nếu không có</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        System.out.println(map.floorKey(<span class="number">25</span>)); <span class="comment">// 20</span><br>
+                        System.out.println(map.floorKey(<span class="number">20</span>)); <span class="comment">// 20</span><br>
+                        System.out.println(map.floorKey(<span class="number">5</span>));  <span class="comment">// null</span>
+                    </div>
+
+                    <h4>8.3.8 Phương thức ceilingKey(K key)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        K ceilingKey(K key)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về key nhỏ nhất >= key<br>null nếu không có</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        System.out.println(map.ceilingKey(<span class="number">25</span>)); <span class="comment">// 30</span><br>
+                        System.out.println(map.ceilingKey(<span class="number">30</span>)); <span class="comment">// 30</span><br>
+                        System.out.println(map.ceilingKey(<span class="number">35</span>)); <span class="comment">// null</span>
+                    </div>
+
+                    <h4>8.3.9 Phương thức pollFirstEntry()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map.Entry&lt;K,V&gt; pollFirstEntry()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Lấy và xóa entry có key nhỏ nhất</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        Map.Entry&lt;Integer, String&gt; entry = map.pollFirstEntry();<br>
+                        System.out.println(entry.getKey() + <span class="string">"="</span> + entry.getValue()); <span class="comment">// 10=Mười</span><br>
+                        System.out.println(map); <span class="comment">// {20=Hai mươi, 30=Ba mươi}</span>
+                    </div>
+
+                    <h4>8.3.10 Phương thức pollLastEntry()</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        Map.Entry&lt;K,V&gt; pollLastEntry()
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Lấy và xóa entry có key lớn nhất</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        Map.Entry&lt;Integer, String&gt; entry = map.pollLastEntry();<br>
+                        System.out.println(entry.getKey() + <span class="string">"="</span> + entry.getValue()); <span class="comment">// 30=Ba mươi</span><br>
+                        System.out.println(map); <span class="comment">// {10=Mười, 20=Hai mươi}</span>
+                    </div>
+
+                    <h4>8.3.11 Phương thức subMap(K from, K to)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        SortedMap&lt;K,V&gt; subMap(K fromKey, K toKey)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Map con từ from (bao gồm) đến to (không bao gồm)</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        map.put(<span class="number">40</span>, <span class="string">"Bốn mươi"</span>);<br>
+                        map.put(<span class="number">50</span>, <span class="string">"Năm mươi"</span>);<br>
+                        <br>
+                        SortedMap&lt;Integer, String&gt; sub = map.subMap(<span class="number">20</span>, <span class="number">40</span>);<br>
+                        System.out.println(sub); <span class="comment">// {20=Hai mươi, 30=Ba mươi}</span>
+                    </div>
+
+                    <h4>8.3.12 Phương thức headMap(K to)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        SortedMap&lt;K,V&gt; headMap(K toKey)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Map con các key nhỏ hơn to (không bao gồm to)</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        SortedMap&lt;Integer, String&gt; head = map.headMap(<span class="number">30</span>);<br>
+                        System.out.println(head); <span class="comment">// {10=Mười, 20=Hai mươi}</span>
+                    </div>
+
+                    <h4>8.3.13 Phương thức tailMap(K from)</h4>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Cú pháp</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        SortedMap&lt;K,V&gt; tailMap(K fromKey)
+                    </div>
+                    <div class="note">
+                        <h4><i class="fas fa-comment-dots"></i> Giải thích:</h4>
+                        <p>Trả về Map con các key lớn hơn hoặc bằng from</p>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span><i class="fas fa-code"></i> Ví dụ</span>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="far fa-copy"></i> Copy</button>
+                        </div>
+                        TreeMap&lt;Integer, String&gt; map = <span class="keyword">new</span> TreeMap&lt;&gt;();<br>
+                        map.put(<span class="number">10</span>, <span class="string">"Mười"</span>);<br>
+                        map.put(<span class="number">20</span>, <span class="string">"Hai mươi"</span>);<br>
+                        map.put(<span class="number">30</span>, <span class="string">"Ba mươi"</span>);<br>
+                        <br>
+                        SortedMap&lt;Integer, String&gt; tail = map.tailMap(<span class="number">20</span>);<br>
+                        System.out.println(tail); <span class="comment">// {20=Hai mươi, 30=Ba mươi}</span>
+                    </div>
+                </section>
+
+                <!-- PHẦN 9: TỔNG KẾT -->
+                <section id="part9" class="section">
+                    <h2><i class="fas fa-chart-pie"></i> PHẦN 9: TỔNG KẾT</h2>
+
+                    <h3>9.1 SO SÁNH CÁC LOẠI SET</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Đặc điểm</th>
+                                    <th>HashSet</th>
+                                    <th>LinkedHashSet</th>
+                                    <th>TreeSet</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Cú pháp khai báo</strong></td>
+                                    <td><code>Set&lt;T&gt; set = new HashSet&lt;&gt;()</code></td>
+                                    <td><code>Set&lt;T&gt; set = new LinkedHashSet&lt;&gt;()</code></td>
+                                    <td><code>Set&lt;T&gt; set = new TreeSet&lt;&gt;()</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Thứ tự</strong></td>
+                                    <td>Không</td>
+                                    <td>Theo thứ tự chèn</td>
+                                    <td>Theo thứ tự key</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Null</strong></td>
+                                    <td>Cho phép</td>
+                                    <td>Cho phép</td>
+                                    <td>Không cho phép</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hiệu suất</strong></td>
+                                    <td>O(1)</td>
+                                    <td>O(1)</td>
+                                    <td>O(log n)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Cấu trúc</strong></td>
+                                    <td>Hash table</td>
+                                    <td>Hash table + LinkedList</td>
+                                    <td>Red-Black tree</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Khi nào dùng</strong></td>
+                                    <td>Tốc độ cao</td>
+                                    <td>Giữ thứ tự chèn</td>
+                                    <td>Cần sắp xếp</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>9.2 SO SÁNH CÁC LOẠI MAP</h3>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Đặc điểm</th>
+                                    <th>HashMap</th>
+                                    <th>LinkedHashMap</th>
+                                    <th>TreeMap</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Cú pháp khai báo</strong></td>
+                                    <td><code>Map&lt;K,V&gt; map = new HashMap&lt;&gt;()</code></td>
+                                    <td><code>Map&lt;K,V&gt; map = new LinkedHashMap&lt;&gt;()</code></td>
+                                    <td><code>Map&lt;K,V&gt; map = new TreeMap&lt;&gt;()</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Thứ tự</strong></td>
+                                    <td>Không</td>
+                                    <td>Theo chèn/truy cập</td>
+                                    <td>Theo key</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Key null</strong></td>
+                                    <td>Cho phép 1</td>
+                                    <td>Cho phép 1</td>
+                                    <td>Không cho phép</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Value null</strong></td>
+                                    <td>Cho phép</td>
+                                    <td>Cho phép</td>
+                                    <td>Cho phép</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hiệu suất</strong></td>
+                                    <td>O(1)</td>
+                                    <td>O(1)</td>
+                                    <td>O(log n)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Khi nào dùng</strong></td>
+                                    <td>Tốc độ cao</td>
+                                    <td>Cache, LRU</td>
+                                    <td>Cần sắp xếp theo key</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="comparison-box">
+                        <h4><i class="fas fa-lightbulb"></i> Tóm tắt nhanh:</h4>
+                        <ul>
+                            <li><span class="badge badge-hash">HashSet/HashMap</span> - "Vua tốc độ" - dùng khi cần thao tác nhanh O(1), không quan tâm thứ tự</li>
+                            <li><span class="badge badge-linked">LinkedHashSet/LinkedHashMap</span> - "Giữ trật tự" - dùng khi cần duy trì thứ tự chèn</li>
+                            <li><span class="badge badge-tree">TreeSet/TreeMap</span> - "Sắp xếp tự động" - dùng khi cần dữ liệu có thứ tự</li>
+                        </ul>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-star"></i> Tổng kết Set & Map trong Java</h4>
+                        <div class="demo-box">
+                            <p style="font-size: 1.3rem;"><i class="fas fa-key"></i> Set: Không trùng lặp <i class="fas fa-arrow-right"></i> <i class="fas fa-map"></i> Map: Key-Value</p>
+                            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap;">
+                                <span class="badge badge-set">Set</span>
+                                <span class="badge badge-map">Map</span>
+                                <span class="badge badge-hash">Hash</span>
+                                <span class="badge badge-linked">Linked</span>
+                                <span class="badge badge-tree">Tree</span>
+                            </div>
+                            <p style="margin-top: 20px;"><i class="fas fa-quote-right"></i> "Chọn đúng cấu trúc dữ liệu giúp chương trình chạy nhanh và chính xác hơn!"</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p><i class="fas fa-key"></i> GV: Nguyễn Đình Mạnh</i></p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng với hiệu ứng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click với hiệu ứng
+                    this.classList.add('active');
+                    
+                    // Thêm hiệu ứng rung nhẹ khi click
+                    this.style.animation = 'none';
+                    this.offsetHeight; // Trigger reflow
+                    this.style.animation = 'slideInLeft 0.3s ease';
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Cuộn lên đầu section
+                    document.querySelector('.main-content').scrollTop = 0;
+                });
+            });
+        });
+
+        // Hàm copy code với hiệu ứng
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            
+            // Hiệu ứng copy
+            button.innerHTML = '<i class="fas fa-check"></i> Đã copy!';
+            button.style.background = '#27ae60';
+            
+            navigator.clipboard.writeText(text).then(() => {
+                setTimeout(() => {
+                    button.innerHTML = '<i class="far fa-copy"></i> Copy';
+                    button.style.background = '#555';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

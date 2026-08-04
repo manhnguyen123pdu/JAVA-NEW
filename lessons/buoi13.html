@@ -1,0 +1,2750 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abstraction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            min-height: 85vh;
+        }
+
+        .sidebar {
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+            overflow-y: auto;
+            max-height: 85vh;
+        }
+
+        .nav-list {
+            list-style: none;
+            position: sticky;
+            top: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 85vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.4;
+            border: 2px solid #444;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #666;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .method {
+            color: #dcdcaa;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 992px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+                max-height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .code-block {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .syntax {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-family: 'Consolas', monospace;
+            border-left: 4px solid var(--info);
+        }
+
+        .diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #ddd;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .example-box {
+            background: #f8f9fa;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-project-diagram"></i> ABSTRACTION</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#phan1" class="nav-link active"><i class="fas fa-question-circle"></i>
+                            Phần 1: Tổng quan</a></li>
+                    <li class="nav-item"><a href="#phan2" class="nav-link"><i class="fas fa-cube"></i> Phần 2: Abstract
+                            Class</a></li>
+                    <li class="nav-item"><a href="#phan3" class="nav-link"><i class="fas fa-cogs"></i> Phần 3: Abstract
+                            Method</a></li>
+                    <li class="nav-item"><a href="#phan4" class="nav-link"><i class="fas fa-plug"></i> Phần 4:
+                            Interface</a></li>
+                    <li class="nav-item"><a href="#phan5" class="nav-link"><i class="fas fa-balance-scale"></i> Phần 5:
+                            So sánh</a></li>
+                    <li class="nav-item"><a href="#phan6" class="nav-link"><i class="fas fa-dumbbell"></i> Phần 6: Tổng
+                            kết & Bài tập</a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN 1: TỔNG QUAN VỀ TÍNH TRỪU TƯỢNG -->
+                <section id="phan1" class="section active">
+                    <h2><i class="fas fa-question-circle"></i> PHẦN 1: TỔNG QUAN VỀ TÍNH TRỪU TƯỢNG</h2>
+
+                    <h3>1.1. LÝ THUYẾT VỀ TÍNH TRỪU TƯỢNG</h3>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Khái niệm</h4>
+                        <p>Tính trừu tượng (Abstraction) là một trong 4 tính chất cốt lõi của Lập trình hướng đối tượng
+                            (OOP), cùng với:</p>
+                        <ol>
+                            <li>Đóng gói (Encapsulation)</li>
+                            <li>Kế thừa (Inheritance)</li>
+                            <li>Đa hình (Polymorphism)</li>
+                        </ol>
+                    </div>
+
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Định nghĩa</h4>
+                        <p>Tính trừu tượng là quá trình ẩn đi những chi tiết phức tạp của hệ thống và chỉ hiển thị những
+                            tính năng thiết yếu cho người dùng.</p>
+                    </div>
+
+                    <h3>1.2. MỤC ĐÍCH CỦA TÍNH TRỪU TƯỢNG</h3>
+
+                    <div class="comparison-table">
+                        <h4>Tại sao cần tính trừu tượng?</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mục đích</th>
+                                    <th>Giải thích</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Giảm độ phức tạp</strong></td>
+                                    <td>Che giấu chi tiết triển khai phức tạp</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tăng tính bảo mật</strong></td>
+                                    <td>Ngăn truy cập trực tiếp vào dữ liệu</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tái sử dụng code</strong></td>
+                                    <td>Dễ dàng sử dụng lại ở nhiều nơi</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Dễ bảo trì</strong></td>
+                                    <td>Thay đổi bên trong không ảnh hưởng bên ngoài</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tăng tính linh hoạt</strong></td>
+                                    <td>Có thể thay đổi triển khai mà không ảnh hưởng đến code sử dụng</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>1.3. VÍ DỤ THỰC TẾ TRONG CUỘC SỐNG</h3>
+
+                    <div class="diagram">
+                        <h4>Ví dụ 1: Ô tô</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Nguyên lý trừu tượng với ô tô</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">// Người lái xe chỉ tương tác với:</span><br>
+                            - Vô lăng<br>
+                            - Bàn đạp ga<br>
+                            - Bàn đạp phanh<br>
+                            - Cần số<br>
+                            <br>
+                            <span class="comment">// Không cần biết:</span><br>
+                            - Động cơ hoạt động thế nào<br>
+                            - Hộp số truyền động ra sao<br>
+                            - Hệ thống điện phức tạp
+                        </div>
+                    </div>
+
+                    <div class="diagram">
+                        <h4>Ví dụ 2: Remote TV</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Nguyên lý trừu tượng với remote TV</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">// Người dùng chỉ cần:</span><br>
+                            - Nút nguồn<br>
+                            - Nút chuyển kênh<br>
+                            - Nút tăng/giảm âm lượng<br>
+                            <br>
+                            <span class="comment">// Không cần biết:</span><br>
+                            - Tín hiệu hồng ngoại hoạt động thế nào<br>
+                            - Mạch điện bên trong<br>
+                            - Cách TV xử lý tín hiệu
+                        </div>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm: Tư duy trừu tượng</h4>
+
+                        <div class="input-group">
+                            <label for="abstractionExample">Chọn ví dụ trừu tượng:</label>
+                            <select id="abstractionExample">
+                                <option value="car">Ô tô</option>
+                                <option value="tv">TV Remote</option>
+                                <option value="atm">Máy ATM</option>
+                                <option value="smartphone">Điện thoại thông minh</option>
+                            </select>
+                        </div>
+
+                        <button class="btn" onclick="demoAbstraction()">
+                            <i class="fas fa-eye"></i> Xem nguyên lý trừu tượng
+                        </button>
+
+                        <div class="result" id="abstractionResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="abstractionResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN 2: LỚP TRỪU TƯỢNG (ABSTRACT CLASS) -->
+                <section id="phan2" class="section">
+                    <h2><i class="fas fa-cube"></i> PHẦN 2: LỚP TRỪU TƯỢNG (ABSTRACT CLASS)</h2>
+
+                    <h3>2.1. LÝ THUYẾT</h3>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Khái niệm</h4>
+                        <p>Lớp trừu tượng là lớp không thể tạo đối tượng trực tiếp, chỉ có thể được kế thừa bởi các lớp
+                            con.</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul>
+                        <li>Chứa ít nhất một phương thức trừu tượng</li>
+                        <li>Có thể chứa phương thức thông thường</li>
+                        <li>Có thể chứa thuộc tính và constructor</li>
+                        <li>Được sử dụng làm khuôn mẫu cho các lớp con</li>
+                    </ul>
+
+                    <h3>2.2. MỤC ĐÍCH</h3>
+
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mục đích</th>
+                                    <th>Giải thích</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Tạo template/khuôn mẫu</strong></td>
+                                    <td>Định nghĩa cấu trúc chung</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bắt buộc triển khai</strong></td>
+                                    <td>Ép lớp con phải triển khai phương thức trừu tượng</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Chia sẻ code</strong></td>
+                                    <td>Phương thức thông thường có thể dùng chung</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Thiết kế có tổ chức</strong></td>
+                                    <td>Phân cấp rõ ràng trong hệ thống</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>2.3. CÚ PHÁP</h3>
+
+                    <div class="syntax">
+                        <span class="comment">// Khai báo lớp trừu tượng</span><br>
+                        [access-modifier] <span class="keyword">abstract class</span> TenLop {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thuộc tính</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;[access-modifier] kieuDuLieu tenThuocTinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Constructor</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;[access-modifier] TenLop(thamSo) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Khởi tạo</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phương thức thông thường</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;[access-modifier] kieuTraVe tenPhuongThuc() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thân phương
+                            thức</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phương thức trừu tượng (KHÔNG có
+                            thân)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;[access-modifier] <span class="keyword">abstract</span> kieuTraVe
+                        tenPhuongThucTruuTuong();<br>
+                        }
+                    </div>
+
+                    <h3>2.4. GIẢI THÍCH CÚ PHÁP</h3>
+                    <ul>
+                        <li><strong>abstract class:</strong> Từ khóa bắt buộc để khai báo lớp trừu tượng</li>
+                        <li><strong>abstract method:</strong> Phương thức không có thân, kết thúc bằng dấu
+                            <code>;</code>
+                        </li>
+                        <li><strong>access-modifier:</strong> public, protected, hoặc mặc định (package-private)</li>
+                        <li><strong>Lớp con phải triển khai</strong> tất cả phương thức trừu tượng (trừ khi nó cũng là
+                            lớp trừu tượng)</li>
+                    </ul>
+
+                    <h3>2.5. VÍ DỤ CHI TIẾT</h3>
+
+                    <div class="example-box">
+                        <h4>LÝ THUYẾT ÁP DỤNG</h4>
+                        <p>Hình học là khái niệm trừu tượng. Chúng ta biết hình có diện tích, chu vi nhưng không biết
+                            cách tính cụ thể cho từng hình.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>CÚ PHÁP THỰC HÀNH - Hinh.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Lớp trừu tượng Hinh</span><br>
+                        <span class="keyword">abstract class</span> <span class="class-name">Hinh</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// --- THUỘC TÍNH ---</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span> String mauSac;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// --- CONSTRUCTOR ---</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> Hinh(String mauSac) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.mauSac =
+                        mauSac;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// --- PHƯƠNG THỨC THÔNG THƯỜNG ---</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> hienThiMauSac() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Màu
+                            sắc: "</span> + mauSac);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// --- PHƯƠNG THỨC TRỪU TƯỢNG ---</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract</span> <span
+                            class="keyword">double</span> tinhDienTich();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract</span> <span
+                            class="keyword">double</span> tinhChuVi();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// --- PHƯƠNG THỨC THÔNG THƯỜNG KHÁC
+                            ---</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> inThongTin() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đây là
+                            một hình học"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hienThiMauSac();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>LỚP CON KẾ THỪA - HinhVuong.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// Lớp HinhVuong phải triển khai TẤT CẢ phương thức trừu tượng</span><br>
+                        <span class="keyword">class</span> <span class="class-name">HinhVuong</span> <span
+                            class="keyword">extends</span> Hinh {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> canh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> HinhVuong(String mauSac, <span
+                            class="keyword">double</span> canh) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>(mauSac);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.canh =
+                        canh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> tinhDienTich() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> canh *
+                        canh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> tinhChuVi() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> 4 *
+                        canh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> inThongTinChiTiet() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Hình
+                            vuông:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"- Cạnh:
+                            "</span> + canh);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                            class="keyword">super</span>.inThongTin();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"- Diện
+                            tích: "</span> + tinhDienTich());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"- Chu
+                            vi: "</span> + tinhChuVi());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Lớp HinhTron cũng kế thừa từ Hinh</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">class</span> <span class="class-name">HinhTron</span> <span
+                            class="keyword">extends</span> Hinh {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> banKinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> HinhTron(String mauSac, <span
+                            class="keyword">double</span> banKinh) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>(mauSac);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.banKinh =
+                        banKinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> tinhDienTich() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> Math.PI *
+                        banKinh * banKinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> tinhChuVi() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> 2 * Math.PI
+                        * banKinh;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> inThongTinChiTiet() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Hình
+                            tròn:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"- Bán
+                            kính: "</span> + banKinh);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                            class="keyword">super</span>.inThongTin();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.printf(<span class="string">"- Diện
+                            tích: %.2f\n"</span>, tinhDienTich());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.printf(<span class="string">"- Chu
+                            vi: %.2f\n"</span>, tinhChuVi());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>CHƯƠNG TRÌNH CHÍNH - DemoAbstractClass.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">DemoAbstractClass</span>
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"===
+                            DEMO LỚP TRỪU TƯỢNG TRONG JAVA ===\n"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// KHÔNG THỂ TẠO ĐỐI TƯỢNG
+                            TỪ LỚP TRỪU TƯỢNG</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Hinh h = new
+                            Hinh("Đỏ"); // LỖI! Không thể tạo đối tượng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// TẠO ĐỐI TƯỢNG TỪ LỚP
+                            CON</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HinhVuong hv = <span class="keyword">new</span>
+                        HinhVuong(<span class="string">"Xanh"</span>, 5.0);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HinhTron ht = <span class="keyword">new</span>
+                        HinhTron(<span class="string">"Đỏ"</span>, 3.0);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"===
+                            THÔNG TIN HÌNH VUÔNG ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hv.inThongTinChiTiet();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\n===
+                            THÔNG TIN HÌNH TRÒN ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ht.inThongTinChiTiet();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// DEMO ĐA HÌNH VỚI LỚP
+                            TRỪU TƯỢNG</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\n===
+                            ĐA HÌNH VỚI LỚP TRỪU TƯỢNG ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Mảng chứa các đối tượng
+                            Hinh (lớp trừu tượng)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hinh[] danhSachHinh = <span
+                            class="keyword">new</span> Hinh[2];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSachHinh[0] = hv;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;danhSachHinh[1] = ht;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span> tongDienTich
+                        = 0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">double</span> tongChuVi =
+                        0;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (Hinh h :
+                        danhSachHinh) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"\n--- Xử lý hình ---"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;h.hienThiMauSac();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//
+                            Gọi phương thức trừu tượng (đa hình tại runtime)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                            class="keyword">double</span> dienTich = h.tinhDienTich();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                            class="keyword">double</span> chuVi = h.tinhChuVi();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Diện tích: "</span> + dienTich);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+                            class="string">"Chu vi: "</span> + chuVi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tongDienTich +=
+                        dienTich;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tongChuVi += chuVi;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\n===
+                            TỔNG KẾT ==="</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tổng
+                            diện tích: "</span> + tongDienTich);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tổng
+                            chu vi: "</span> + tongChuVi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>2.6. PHÂN TÍCH VÍ DỤ</h3>
+
+                    <div class="note">
+                        <h4>1. Tại sao cần lớp trừu tượng Hinh?</h4>
+                        <ul>
+                            <li>Hình học là khái niệm chung, không cụ thể</li>
+                            <li>Các hình cụ thể (vuông, tròn) có cách tính diện tích/chu vi khác nhau</li>
+                            <li>Cần một khuôn mẫu chung để đảm bảo tất cả hình đều có diện tích và chu vi</li>
+                        </ul>
+                    </div>
+
+                    <div class="success-box">
+                        <h4>2. Điểm quan trọng trong code:</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Điểm quan trọng</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">// Lớp trừu tượng - không thể tạo đối tượng</span><br>
+                            <span class="keyword">abstract class</span> <span class="class-name">Hinh</span> {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phương thức trừu tượng - không có
+                                thân</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract double</span>
+                            tinhDienTich();<br>
+                            }<br>
+                            <br>
+                            <span class="comment">// Lớp con - phải triển khai phương thức trừu tượng</span><br>
+                            <span class="keyword">class</span> <span class="class-name">HinhVuong</span> <span
+                                class="keyword">extends</span> Hinh {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> canh;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> tinhDienTich() {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> canh *
+                            canh;<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm: Lớp trừu tượng</h4>
+
+                        <div class="input-group">
+                            <label for="shapeTypeAbstract">Chọn hình:</label>
+                            <select id="shapeTypeAbstract">
+                                <option value="square">Hình Vuông</option>
+                                <option value="circle">Hình Tròn</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="shapeColor">Màu sắc:</label>
+                            <input type="text" id="shapeColor" value="Xanh">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="shapeDimension">Kích thước (cạnh/bán kính):</label>
+                            <input type="number" id="shapeDimension" value="5" step="0.1">
+                        </div>
+
+                        <button class="btn" onclick="demoAbstractClass()">
+                            <i class="fas fa-play"></i> Tính diện tích và chu vi
+                        </button>
+
+                        <div class="result" id="abstractClassResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="abstractClassResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN 3: PHƯƠNG THỨC TRỪU TƯỢNG (ABSTRACT METHOD) -->
+                <section id="phan3" class="section">
+                    <h2><i class="fas fa-cogs"></i> PHẦN 3: PHƯƠNG THỨC TRỪU TƯỢNG (ABSTRACT METHOD)</h2>
+
+                    <h3>3.1. LÝ THUYẾT</h3>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Khái niệm</h4>
+                        <p>Phương thức trừu tượng là phương thức chỉ có khai báo, không có thân phương thức
+                            (implementation).</p>
+                    </div>
+
+                    <h4>Đặc điểm:</h4>
+                    <ul>
+                        <li>Chỉ có thể khai báo trong lớp trừu tượng hoặc interface</li>
+                        <li>Không có dấu ngoặc nhọn {}, kết thúc bằng dấu chấm phẩy ;</li>
+                        <li>Lớp con phải triển khai (override) tất cả phương thức trừu tượng</li>
+                    </ul>
+
+                    <h3>3.2. MỤC ĐÍCH</h3>
+
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mục đích</th>
+                                    <th>Giải thích</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Định nghĩa hợp đồng</strong></td>
+                                    <td>Bắt buộc lớp con phải có phương thức này</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Linh hoạt triển khai</strong></td>
+                                    <td>Mỗi lớp con có cách triển khai riêng</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Đa hình</strong></td>
+                                    <td>Cho phép gọi phương thức qua tham chiếu lớp cha</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Thiết kế mở rộng</strong></td>
+                                    <td>Dễ dàng thêm chức năng mới</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>3.3. CÚ PHÁP</h3>
+
+                    <div class="syntax">
+                        <span class="comment">// Trong lớp trừu tượng hoặc interface</span><br>
+                        [access-modifier] <span class="keyword">abstract</span> kieuTraVe
+                        tenPhuongThuc([danh-sach-tham-so]);<br>
+                        <br>
+                        <span class="comment">// Ví dụ:</span><br>
+                        <span class="keyword">public abstract void</span> diChuyen();<br>
+                        <span class="keyword">public abstract double</span> tinhToan(<span class="keyword">int</span> a,
+                        <span class="keyword">int</span> b);<br>
+                        <span class="keyword">protected abstract</span> String layThongTin();
+                    </div>
+
+                    <h3>3.4. GIẢI THÍCH CÚ PHÁP</h3>
+                    <ul>
+                        <li><strong>abstract:</strong> Từ khóa bắt buộc</li>
+                        <li><strong>Không có thân phương thức:</strong> Chỉ kết thúc bằng ;</li>
+                        <li><strong>access-modifier:</strong> Thường là public hoặc protected</li>
+                        <li><strong>Lớp con phải triển khai:</strong> Sử dụng @Override</li>
+                    </ul>
+
+                    <h3>3.5. VÍ DỤ CHI TIẾT</h3>
+
+                    <div class="example-box">
+                        <h4>LÝ THUYẾT</h4>
+                        <p>Động vật là khái niệm trừu tượng. Mọi động vật đều phải ăn, di chuyển, nhưng cách thực hiện
+                            khác nhau.</p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>LỚP TRỪU TƯỢNG VỚI PHƯƠNG THỨC TRỪU TƯỢNG - DongVat.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">abstract class</span> <span class="class-name">DongVat</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span> String ten;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected int</span> tuoi;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> DongVat(String ten, <span
+                            class="keyword">int</span> tuoi) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.ten = ten;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.tuoi =
+                        tuoi;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> hienThiThongTin() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tên:
+                            "</span> + ten);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tuổi:
+                            "</span> + tuoi);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// PHƯƠNG THỨC TRỪU TƯỢNG</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract void</span> keu();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract void</span> an(String thucAn);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract</span> String loaiDiChuyen();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected abstract int</span>
+                        tuoiThoTrungBinh();<br>
+                        }
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm: Phương thức trừu tượng</h4>
+
+                        <div class="input-group">
+                            <label for="animalType">Chọn động vật:</label>
+                            <select id="animalType">
+                                <option value="dog">Chó</option>
+                                <option value="bird">Chim</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="animalName">Tên:</label>
+                            <input type="text" id="animalName" value="Lu">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="animalAge">Tuổi:</label>
+                            <input type="number" id="animalAge" value="3">
+                        </div>
+
+                        <button class="btn" onclick="demoAbstractMethod()">
+                            <i class="fas fa-play"></i> Kiểm tra phương thức trừu tượng
+                        </button>
+
+                        <div class="result" id="abstractMethodResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="abstractMethodResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN 4: INTERFACE (GIAO DIỆN) -->
+                <section id="phan4" class="section">
+                    <h2><i class="fas fa-plug"></i> PHẦN 4: INTERFACE (GIAO DIỆN)</h2>
+
+                    <h3>4.1. LÝ THUYẾT</h3>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Khái niệm</h4>
+                        <p>Interface là một bản hợp đồng (contract) định nghĩa các phương thức mà lớp triển khai phải
+                            có.</p>
+                    </div>
+
+                    <h4>Đặc điểm của interface (Java 8+):</h4>
+                    <ul>
+                        <li><strong>Phương thức trừu tượng:</strong> Chỉ khai báo, không triển khai (trước Java 8)</li>
+                        <li><strong>Phương thức default:</strong> Có thể có thân phương thức (Java 8+)</li>
+                        <li><strong>Phương thức static:</strong> Có thể có thân phương thức (Java 8+)</li>
+                        <li><strong>Hằng số:</strong> Mặc định là public static final</li>
+                        <li><strong>Không có constructor, không có thuộc tính</strong> (trừ hằng số)</li>
+                    </ul>
+
+                    <h3>4.2. MỤC ĐÍCH</h3>
+
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Mục đích</th>
+                                    <th>Giải thích</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Định nghĩa hợp đồng</strong></td>
+                                    <td>Ép lớp phải có phương thức nhất định</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Đa kế thừa</strong></td>
+                                    <td>Một lớp có thể triển khai nhiều interface</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tách biệt interface và implementation</strong></td>
+                                    <td>Dễ thay đổi triển khai</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Loose coupling</strong></td>
+                                    <td>Giảm sự phụ thuộc giữa các lớp</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>4.3. CÚ PHÁP</h3>
+
+                    <div class="syntax">
+                        <span class="comment">// Khai báo interface</span><br>
+                        [access-modifier] <span class="keyword">interface</span> TenInterface {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// HẰNG SỐ</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Mặc định: public static final</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;kieuDuLieu TEN_HANG = giaTri;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// PHƯƠNG THỨC TRỪU TƯỢNG</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Mặc định: public abstract</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;kieuTraVe tenPhuongThuc([tham-so]);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// PHƯƠNG THỨC DEFAULT (Java 8+)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">default</span> kieuTraVe
+                        tenPhuongThucDefault([tham-so]) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thân phương
+                            thức</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// PHƯƠNG THỨC STATIC (Java 8+)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">static</span> kieuTraVe
+                        tenPhuongThucStatic([tham-so]) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thân phương
+                            thức</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Lớp triển khai interface</span><br>
+                        <span class="keyword">class</span> TenLop <span class="keyword">implements</span> TenInterface
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Phải triển khai tất cả phương thức trừu
+                            tượng</span><br>
+                        }
+                    </div>
+
+                    <div class="">
+                        <div class="">
+                            <h3>VD1- QUẢN LÝ CHẤM CÔNG NHÂN VIÊN (JAVA)</h3>
+                        </div>
+                        <p style="text-align: justify;"><b>Viết chương trình Java quản lý chấm công và tính lương nhân
+                                viên, trong đó có một khuôn mẫu chung quy định số giờ làm chuẩn trong ngày là 8 giờ và
+                                yêu cầu mọi loại nhân viên đều phải có chức năng tính ngày công và tính lương. Xây dựng
+                                hai loại nhân viên: nhân viên hành chính (tính lương theo ngày làm việc) và nhân viên
+                                theo giờ (tính ngày công dựa trên tổng số giờ làm). Cuối chương trình, viết hàm chạy thử
+                                để quản lý các nhân viên thông qua kiểu chung và in ra số ngày công, tiền lương tương
+                                ứng.</b></p>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>INTERFACE CHẤM CÔNG - ChamCong.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public interface</span> <span class="class-name">ChamCong</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// HẰNG SỐ</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static final int</span> GIO_CHUAN = <span
+                            class="number">8</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// PHƯƠNG THỨC TRỪU TƯỢNG</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract int</span> tinhNgayCong();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract double</span> tinhLuong();<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>LỚP NHÂN VIÊN HÀNH CHÍNH - NhanVienHanhChinh.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">NhanVienHanhChinh</span>
+                        <span class="keyword">implements</span> <span class="class-name">ChamCong</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> soNgayLam;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> luongNgay;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> NhanVienHanhChinh(<span
+                            class="keyword">int</span> soNgayLam,
+                        <span class="keyword">double</span> luongNgay) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.soNgayLam =
+                        soNgayLam;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.luongNgay =
+                        luongNgay;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> tinhNgayCong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>
+                        soNgayLam;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> tinhLuong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> soNgayLam *
+                        luongNgay;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>LỚP NHÂN VIÊN THEO GIỜ - NhanVienTheoGio.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">NhanVienTheoGio</span>
+                        <span class="keyword">implements</span> <span class="class-name">ChamCong</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> tongSoGio;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> luongGio;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> NhanVienTheoGio(<span
+                            class="keyword">int</span> tongSoGio,
+                        <span class="keyword">double</span> luongGio) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.tongSoGio =
+                        tongSoGio;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.luongGio =
+                        luongGio;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> tinhNgayCong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> tongSoGio /
+                        ChamCong.GIO_CHUAN;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> tinhLuong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> tongSoGio *
+                        luongGio;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>HÀM MAIN – CHẠY CHƯƠNG TRÌNH (ĐA HÌNH) - Main.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChamCong nv1 =
+                        <span class="keyword">new</span> NhanVienHanhChinh(<span class="number">22</span>, <span
+                            class="number">300000</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChamCong nv2 =
+                        <span class="keyword">new</span> NhanVienTheoGio(<span class="number">176</span>, <span
+                            class="number">40000</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ngày
+                            công NV1: "</span>
+                        + nv1.tinhNgayCong());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lương
+                            NV1: "</span>
+                        + nv1.tinhLuong());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ngày
+                            công NV2: "</span>
+                        + nv2.tinhNgayCong());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lương
+                            NV2: "</span>
+                        + nv2.tinhLuong());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+
+                    <!-- ================== ĐỀ BÀI ================== -->
+                    <div class="">
+                        <div class="">
+                            <h3>4.4 IMPLEMENTS NHIỀU INTERFACE (JAVA)</h3>
+                        </div>
+                        <p style="text-align: justify;"><b>Viết chương trình Java quản lý nhân viên FullTime với các chức năng:
+                        chấm công, tính lương, tính thưởng và tiền phạt.
+                        Mỗi chức năng được chuẩn hóa bằng một khuôn mẫu riêng.
+                        Nhân viên FullTime phải thực hiện đầy đủ các khuôn mẫu này và
+                        viết chương trình chạy thử để in ra ngày công, lương, thưởng, phạt
+                        và tổng thu nhập.</b></p>
+                    </div>
+
+                    <!-- ================== INTERFACE CHAM CONG ================== -->
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>INTERFACE CHẤM CÔNG – ChamCong.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public interface</span> <span class="class-name">ChamCong</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static final int</span> GIO_CHUAN = <span
+                            class="number">8</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract int</span> tinhNgayCong();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract double</span> tinhLuong();<br>
+                        }
+                    </div>
+
+                    <!-- ================== INTERFACE THUONG ================== -->
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>INTERFACE THƯỞNG – Thuong.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public interface</span> <span class="class-name">Thuong</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static final double</span>
+                        TIEN_THUONG_CO_BAN = <span class="number">500000</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract double</span> tinhThuong();<br>
+                        }
+                    </div>
+
+                    <!-- ================== INTERFACE PHAT ================== -->
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>INTERFACE PHẠT – Phat.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public interface</span> <span class="class-name">Phat</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static final double</span>
+                        TIEN_PHAT_MOI_LAN = <span class="number">100000</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public abstract double</span> tinhTienPhat();<br>
+                        }
+                    </div>
+
+                    <!-- ================== CLASS IMPLEMENTS NHIỀU INTERFACE ================== -->
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>LỚP IMPLEMENTS NHIỀU INTERFACE – NhanVienFullTime.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">NhanVienFullTime</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">implements</span> <span
+                            class="class-name">ChamCong</span>,
+                        <span class="class-name">Thuong</span>,
+                        <span class="class-name">Phat</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> tongSoGio;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private double</span> luongGio;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private int</span> soLanDiTre;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> NhanVienFullTime(<span
+                            class="keyword">int</span> tongSoGio,
+                        <span class="keyword">double</span> luongGio,
+                        <span class="keyword">int</span> soLanDiTre) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.tongSoGio =
+                        tongSoGio;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.luongGio =
+                        luongGio;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.soLanDiTre =
+                        soLanDiTre;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Interface ChamCong</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public int</span> tinhNgayCong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> tongSoGio /
+                        ChamCong.GIO_CHUAN;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> tinhLuong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> tongSoGio *
+                        luongGio;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Interface Thuong</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> tinhThuong() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (soLanDiTre ==
+                        <span class="number">0</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                            class="keyword">return</span> Thuong.TIEN_THUONG_CO_BAN;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span
+                            class="number">0</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Interface Phat</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> tinhTienPhat() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> soLanDiTre *
+                        Phat.TIEN_PHAT_MOI_LAN;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tổng thu nhập</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public double</span> tinhThuNhap() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> tinhLuong()
+                        + tinhThuong() - tinhTienPhat();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <!-- ================== MAIN ================== -->
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>CHẠY CHƯƠNG TRÌNH – Main.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NhanVienFullTime nv =
+                        <span class="keyword">new</span> NhanVienFullTime(<span class="number">176</span>, <span
+                            class="number">50000</span>, <span class="number">1</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ngày
+                            công: "</span> + nv.tinhNgayCong());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lương:
+                            "</span> + nv.tinhLuong());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thưởng:
+                            "</span> + nv.tinhThuong());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Phạt:
+                            "</span> + nv.tinhTienPhat());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thu
+                            nhập: "</span> + nv.tinhThuNhap());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <!-- ================== KIẾN THỨC CHỐT ================== -->
+                    <div class="">
+                        <div class="">
+                            <h3>KIẾN THỨC CHỐT </h3>
+                        </div>
+                        ✔ Java <b>KHÔNG cho</b>: class A extends B, C <br>
+                        ✔ Java <b>CHO</b>: class A implements I1, I2, I3 <br>
+                        ✔ Interface dùng để:
+                        <ul>
+                            <li>Chuẩn hóa hành vi</li>
+                            <li>Mở rộng hệ thống</li>
+                            <li>Đa hình</li>
+                            <li>Đa kế thừa</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+                <!-- PHẦN 5: SO SÁNH ABSTRACT CLASS VÀ INTERFACE -->
+                <section id="phan5" class="section">
+                    <h2><i class="fas fa-balance-scale"></i> PHẦN 5: SO SÁNH ABSTRACT CLASS VÀ INTERFACE</h2>
+
+                    <h3>5.1. BẢNG SO SÁNH CHI TIẾT</h3>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>TIÊU CHÍ</th>
+                                    <th>ABSTRACT CLASS</th>
+                                    <th>INTERFACE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Từ khóa</strong></td>
+                                    <td>abstract class</td>
+                                    <td>interface</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Kế thừa</strong></td>
+                                    <td>extends (1 lớp)</td>
+                                    <td>implements (nhiều interface)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Constructor</strong></td>
+                                    <td>Có</td>
+                                    <td>Không</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Thuộc tính</strong></td>
+                                    <td>Biến instance (có thể thay đổi)</td>
+                                    <td>Chỉ hằng số (public static final)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phương thức</strong></td>
+                                    <td>Trừu tượng + thông thường</td>
+                                    <td>Trừu tượng + default + static</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Phạm vi truy cập</strong></td>
+                                    <td>public, protected, private</td>
+                                    <td>Chỉ public (mặc định)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Tạo đối tượng</strong></td>
+                                    <td>Không thể</td>
+                                    <td>Không thể</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Mục đích</strong></td>
+                                    <td>Template, chia sẻ code</td>
+                                    <td>Contract, định nghĩa khả năng</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Khi nào dùng</strong></td>
+                                    <td>IS-A relationship</td>
+                                    <td>HAS-A/CAN-DO relationship</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                  
+                </section>
+
+                <!-- PHẦN 6: TỔNG KẾT VÀ BÀI TẬP -->
+                <section id="phan6" class="section">
+                    <h2><i class="fas fa-dumbbell"></i> PHẦN 6: TỔNG KẾT VÀ BÀI TẬP</h2>
+
+                    <h3>6.1. TÓM TẮT KIẾN THỨC</h3>
+
+                    <div class="success-box">
+                        <h4>1. Tính trừu tượng là gì?</h4>
+                        <ul>
+                            <li>Ẩn chi tiết phức tạp, chỉ hiển thị tính năng cần thiết</li>
+                            <li>Hai cách triển khai: Abstract class và Interface</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>2. Abstract Class:</h4>
+                        <ul>
+                            <li>abstract class + extends</li>
+                            <li>Có constructor, thuộc tính, phương thức</li>
+                            <li>Không thể tạo đối tượng</li>
+                            <li>Lớp con phải triển khai phương thức trừu tượng</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>3. Abstract Method:</h4>
+                        <ul>
+                            <li>Chỉ khai báo, không có thân</li>
+                            <li>Kết thúc bằng dấu ;</li>
+                            <li>Bắt buộc lớp con triển khai</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>4. Interface:</h4>
+                        <ul>
+                            <li>interface + implements</li>
+                            <li>Chỉ hằng số và phương thức</li>
+                            <li>Hỗ trợ đa kế thừa</li>
+                            <li>Java 8+: có thể có default và static methods</li>
+                        </ul>
+                    </div>
+
+                    <h3>6.2. BÀI TẬP THỰC HÀNH</h3>
+
+                    <div class="diagram">
+                        <h4>Bài tập 1: Hệ thống quản lý thư viện</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Bài tập 1 - Hệ thống thư viện</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">// Yêu cầu:</span><br>
+                            <span class="comment">// 1. Tạo interface ILibraryItem với:</span><br>
+                            <span class="comment">// - displayInfo()</span><br>
+                            <span class="comment">// - calculateLateFee(int daysLate)</span><br>
+                            <span class="comment">// - checkAvailability()</span><br>
+                            <br>
+                            <span class="comment">// 2. Tạo abstract class LibraryItem triển khai
+                                ILibraryItem</span><br>
+                            <span class="comment">// - Thuộc tính: id, title, author, isBorrowed</span><br>
+                            <span class="comment">// - Constructor và getter/setter</span><br>
+                            <br>
+                            <span class="comment">// 3. Tạo các lớp con:</span><br>
+                            <span class="comment">// - Book: thêm số trang, thể loại</span><br>
+                            <span class="comment">// - Magazine: thêm số phát hành, tháng</span><br>
+                            <span class="comment">// - DVD: thêm thời lượng, đạo diễn</span>
+                        </div>
+                        <p><strong>Yêu cầu:</strong> Hoàn thành hệ thống quản lý thư viện với cấu trúc trừu tượng như mô
+                            tả trên.</p>
+
+                        <button class="btn" onclick="showSolution(1)">
+                            <i class="fas fa-lightbulb"></i> Xem gợi ý giải
+                        </button>
+
+                        <div class="result" id="solution1">
+                            <strong>Gợi ý giải:</strong>
+                            <div class="result-content" id="solution1Content"></div>
+                        </div>
+                    </div>
+
+                    <h3>6.3. CÂU HỎI TRẮC NGHIỆM</h3>
+
+                    <div class="interactive-section">
+                        <h4>Kiểm tra kiến thức của bạn</h4>
+
+                        <div class="input-group">
+                            <label for="quizQuestion">Chọn câu hỏi:</label>
+                            <select id="quizQuestion">
+                                <option value="1">Câu 1: Lớp trừu tượng có thể chứa gì?</option>
+                                <option value="2">Câu 2: Interface có thể chứa gì?</option>
+                                <option value="3">Câu 3: Khi nào nên dùng abstract class?</option>
+                                <option value="4">Câu 4: Khi nào nên dùng interface?</option>
+                                <option value="5">Câu 5: Phương thức trừu tượng là gì?</option>
+                            </select>
+                        </div>
+
+                        <button class="btn" onclick="showQuizAnswer()">
+                            <i class="fas fa-question-circle"></i> Xem đáp án
+                        </button>
+
+                        <div class="result" id="quizResult">
+                            <strong>Đáp án:</strong>
+                            <div class="result-content" id="quizResultContent"></div>
+                        </div>
+                    </div>
+
+                    <h3>6.4. TỔNG KẾT CUỐI CÙNG</h3>
+
+                    <div class="success-box">
+                        <h4><i class="fas fa-graduation-cap"></i> Những điểm chính cần nhớ:</h4>
+                        <ol>
+                            <li><strong>Tính trừu tượng</strong> giúp ẩn chi tiết phức tạp, chỉ hiển thị cần thiết</li>
+                            <li><strong>Abstract class</strong> dùng khi có quan hệ IS-A và cần chia sẻ code</li>
+                            <li><strong>Interface</strong> dùng khi định nghĩa khả năng (CAN-DO) và cần đa kế thừa</li>
+                            <li><strong>Abstract method</strong> chỉ khai báo, lớp con phải triển khai</li>
+                            <li>Một lớp có thể vừa <strong>extends</strong> một lớp và <strong>implements</strong> nhiều
+                                interface</li>
+                        </ol>
+                    </div>
+
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p> © GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // ==================== PHẦN 1: DEMO TÍNH TRỪU TƯỢNG ====================
+        function demoAbstraction() {
+            const example = document.getElementById('abstractionExample').value;
+            let result = '';
+
+            switch (example) {
+                case 'car':
+                    result = `VÍ DỤ Ô TÔ - NGUYÊN LÝ TRỪU TƯỢNG:
+                    
+1. GIAO DIỆN CÔNG KHAI (ABSTRACTION):
+   - Vô lăng (điều khiển hướng)
+   - Bàn đạp ga (tăng tốc)
+   - Bàn đạp phanh (giảm tốc)
+   - Cần số (chọn chế độ lái)
+
+2. CHI TIẾT ẨN (IMPLEMENTATION):
+   - Động cơ đốt trong/xăng/điện
+   - Hộp số tự động/số sàn
+   - Hệ thống truyền động
+   - ECU (bộ điều khiển điện tử)
+
+3. LỢI ÍCH:
+   - Người lái không cần học cơ khí
+   - Dễ sử dụng, trực quan
+   - Có thể thay đổi động cơ mà không ảnh hưởng cách lái`;
+                    break;
+
+                case 'tv':
+                    result = `VÍ DỤ REMOTE TV - NGUYÊN LÝ TRỪU TƯỢNG:
+                    
+1. GIAO DIỆN CÔNG KHAI:
+   - Nút nguồn (bật/tắt)
+   - Nút chuyển kênh (+/-)
+   - Nút âm lượng (+/-)
+   - Nút số (0-9)
+
+2. CHI TIẾT ẨN:
+   - Tín hiệu hồng ngoại
+   - Mạch điện tử bên trong
+   - Cách mã hóa tín hiệu
+   - Giao thức truyền thông
+
+3. LỢI ÍCH:
+   - Dùng được cho nhiều loại TV
+   - Không cần biết kỹ thuật
+   - Remote hỏng có thể thay thế`;
+                    break;
+
+                case 'atm':
+                    result = `VÍ DỤ MÁY ATM - NGUYÊN LÝ TRỪU TƯỢNG:
+                    
+1. GIAO DIỆN CÔNG KHAI:
+   - Màn hình cảm ứng
+   - Bàn phím số
+   - Khe đọc thẻ
+   - Khe nhận/nhả tiền
+
+2. CHI TIẾT ẨN:
+   - Hệ thống bảo mật
+   - Kết nối ngân hàng
+   - Cơ chế đếm tiền
+   - Hệ thống camera an ninh
+
+3. LỢI ÍCH:
+   - Bảo mật thông tin khách hàng
+   - Dễ sử dụng cho mọi người
+   - Hoạt động 24/7`;
+                    break;
+
+                case 'smartphone':
+                    result = `VÍ DỤ ĐIỆN THOẠI THÔNG MINH - NGUYÊN LÝ TRỪU TƯỢNG:
+                    
+1. GIAO DIỆN CÔNG KHAI:
+   - Màn hình cảm ứng
+   - Ứng dụng (App)
+   - Nút nguồn
+   - Nút âm lượng
+
+2. CHI TIẾT ẨN:
+   - Hệ điều hành (Android/iOS)
+   - Vi xử lý (CPU)
+   - Bộ nhớ (RAM/ROM)
+   - Phần cứng camera
+
+3. LỢI ÍCH:
+   - Người dùng chỉ cần biết sử dụng app
+   - Có thể nâng cấp phần mềm
+   - Ứng dụng chạy trên nhiều thiết bị`;
+                    break;
+            }
+
+            document.getElementById('abstractionResultContent').textContent = result;
+            document.getElementById('abstractionResult').classList.add('active');
+        }
+
+        // ==================== PHẦN 2: DEMO ABSTRACT CLASS ====================
+        function demoAbstractClass() {
+            const shapeType = document.getElementById('shapeTypeAbstract').value;
+            const color = document.getElementById('shapeColor').value;
+            const dimension = parseFloat(document.getElementById('shapeDimension').value);
+
+            let area = 0;
+            let perimeter = 0;
+            let shapeName = '';
+            let formula = '';
+
+            if (shapeType === 'square') {
+                shapeName = 'Hình Vuông';
+                area = dimension * dimension;
+                perimeter = 4 * dimension;
+                formula = `Công thức:
+- Diện tích = cạnh × cạnh = ${dimension} × ${dimension}
+- Chu vi = 4 × cạnh = 4 × ${dimension}`;
+            } else {
+                shapeName = 'Hình Tròn';
+                area = Math.PI * dimension * dimension;
+                perimeter = 2 * Math.PI * dimension;
+                formula = `Công thức:
+- Diện tích = π × bán kính² = 3.1416 × ${dimension}²
+- Chu vi = 2 × π × bán kính = 2 × 3.1416 × ${dimension}`;
+            }
+
+            const result = `THÔNG TIN ${shapeName.toUpperCase()}:
+- Loại hình: ${shapeName}
+- Màu sắc: ${color}
+- Kích thước: ${dimension} (${shapeType === 'square' ? 'cạnh' : 'bán kính'})
+
+${formula}
+
+KẾT QUẢ:
+- Diện tích = ${area.toFixed(2)}
+- Chu vi = ${perimeter.toFixed(2)}
+
+THỰC HÀNH ABSTRACT CLASS:
+1. Lớp trừu tượng "Hinh" định nghĩa:
+   - Phương thức trừu tượng: tinhDienTich(), tinhChuVi()
+   - Phương thức thường: hienThiMauSac()
+
+2. Lớp con "${shapeName}" phải triển khai:
+   - @Override tinhDienTich()
+   - @Override tinhChuVi()
+
+3. Không thể: Hinh h = new Hinh("màu") // LỖI!`;
+
+            document.getElementById('abstractClassResultContent').textContent = result;
+            document.getElementById('abstractClassResult').classList.add('active');
+        }
+
+        // ==================== PHẦN 3: DEMO ABSTRACT METHOD ====================
+        function demoAbstractMethod() {
+            const animalType = document.getElementById('animalType').value;
+            const name = document.getElementById('animalName').value;
+            const age = parseInt(document.getElementById('animalAge').value);
+
+            let result = '';
+
+            if (animalType === 'dog') {
+                result = `ĐỘNG VẬT: CHÓ
+Tên: ${name}
+Tuổi: ${age}
+
+PHƯƠNG THỨC TRỪU TƯỢNG ĐÃ TRIỂN KHAI:
+
+1. keu() - KHÔNG tham số:
+   Triển khai: System.out.println("${name} sủa: Gâu gâu!")
+
+2. an(String thucAn) - CÓ tham số:
+   Triển khai: System.out.println("${name} đang ăn " + thucAn)
+
+3. loaiDiChuyen() - CÓ kiểu trả về:
+   Triển khai: return "Chạy bằng 4 chân"
+
+4. tuoiThoTrungBinh() - Protected:
+   Triển khai: return 15
+
+LỚP TRỪU TƯỢNG ĐỊNH NGHĨA:
+abstract class DongVat {
+    // Chỉ khai báo, không triển khai
+    public abstract void keu();
+    public abstract void an(String thucAn);
+    public abstract String loaiDiChuyen();
+    protected abstract int tuoiThoTrungBinh();
+}`;
+            } else {
+                result = `ĐỘNG VẬT: CHIM
+Tên: ${name}
+Tuổi: ${age}
+
+PHƯƠNG THỨC TRỪU TƯỢNG ĐÃ TRIỂN KHAI:
+
+1. keu() - KHÔNG tham số:
+   Triển khai: System.out.println("${name} hót: Chíp chíp!")
+
+2. an(String thucAn) - CÓ tham số:
+   Triển khai: System.out.println("${name} đang mổ " + thucAn)
+
+3. loaiDiChuyen() - CÓ kiểu trả về:
+   Triển khai: return "Bay trên trời"
+
+4. tuoiThoTrungBinh() - Protected:
+   Triển khai: return 10
+
+QUY TẮC PHƯƠNG THỨC TRỪU TƯỢNG:
+1. Chỉ khai báo trong abstract class/interface
+2. Không có thân phương thức, kết thúc bằng ;
+3. Lớp con PHẢI triển khai TẤT CẢ
+4. Giúp đa hình - mỗi lớp con có cách thực hiện riêng`;
+            }
+
+            document.getElementById('abstractMethodResultContent').textContent = result;
+            document.getElementById('abstractMethodResult').classList.add('active');
+        }
+
+        // ==================== PHẦN 4: DEMO INTERFACE ====================
+        function demoInterface() {
+            const interfaceType = document.getElementById('interfaceType').value;
+            let result = '';
+
+            switch (interfaceType) {
+                case 'swim':
+                    result = `INTERFACE: CÓ THỂ BƠI (CoTheBoi)
+
+CẤU TRÚC INTERFACE:
+interface CoTheBoi {
+    // HẰNG SỐ (mặc định: public static final)
+    String MOI_TRUONG = "Nước";
+    
+    // PHƯƠNG THỨC TRỪU TƯỢNG (mặc định: public abstract)
+    void boi();
+    void lap();
+    
+    // PHƯƠNG THỨC DEFAULT (Java 8+)
+    default void thoiGianBoi() {
+        System.out.println("Có thể bơi trong 30 phút");
+    }
+    
+    // PHƯƠNG THỨC STATIC (Java 8+)
+    static void gioiThieu() {
+        System.out.println("Interface cho khả năng bơi");
+    }
+}
+
+LỚP TRIỂN KHAI:
+class Vit implements CoTheBoi {
+    @Override
+    public void boi() {
+        System.out.println("Vịt đang bơi");
+    }
+    
+    @Override
+    public void lap() {
+        System.out.println("Vịt đang lặn");
+    }
+}
+
+LỢI ÍCH INTERFACE:
+1. Đa kế thừa: class Vit implements CoTheBoi, CoTheBay, CoTheChay
+2. Contract: Ép lớp phải có phương thức nhất định
+3. Loose coupling: Giảm phụ thuộc giữa các lớp`;
+                    break;
+
+                case 'fly':
+                    result = `INTERFACE: CÓ THỂ BAY (CoTheBay)
+
+CẤU TRÚC INTERFACE:
+interface CoTheBay {
+    // Hằng số
+    String MOI_TRUONG = "Không khí";
+    
+    // Phương thức trừu tượng
+    void bay();
+    void haCanh();
+    
+    // Phương thức default
+    default void tocDoBay() {
+        System.out.println("Tốc độ bay: 50 km/h");
+    }
+}
+
+TRIỂN KHAI NHIỀU INTERFACE:
+class MayBay implements CoTheBay, CoTheChay {
+    // Phải triển khai TẤT CẢ phương thức trừu tượng
+    @Override
+    public void bay() { ... }
+    
+    @Override
+    public void haCanh() { ... }
+    
+    @Override
+    public void chay() { ... }
+    
+    @Override
+    public void dungLai() { ... }
+}
+
+INTERFACE KẾ THỪA INTERFACE:
+interface DongVatCoCanh extends CoTheBay {
+    void lamTo();  // Thêm phương thức mới
+    // Kế thừa tất cả từ CoTheBay
+}`;
+                    break;
+
+                case 'run':
+                    result = `INTERFACE: CÓ THỂ CHẠY (CoTheChay)
+
+SO SÁNH INTERFACE VS ABSTRACT CLASS:
+
+ABSTRACT CLASS:
+abstract class DongVatCoVu {
+    // Có thuộc tính (không phải hằng số)
+    protected int soChan;
+    
+    // Có constructor
+    public DongVatCoVu(int soChan) {
+        this.soChan = soChan;
+    }
+    
+    // Có phương thức đã triển khai
+    public void hienThiSoChan() {
+        System.out.println("Số chân: " + soChan);
+    }
+    
+    // Có phương thức trừu tượng
+    public abstract void chay();
+}
+
+INTERFACE:
+interface CoTheChay {
+    // Chỉ hằng số
+    // Không có constructor
+    // Không có thuộc tính thường
+    
+    // Chỉ phương thức
+    void chay();
+    void dungLai();
+    
+    // Có thể có default/static method
+}
+
+KHI NÀO DÙNG INTERFACE?
+1. Khi cần đa kế thừa
+2. Khi định nghĩa "khả năng"
+3. Khi muốn lớp không liên quan có chung hành vi
+4. Khi cần contract giữa các module`;
+                    break;
+            }
+
+            document.getElementById('interfaceResultContent').textContent = result;
+            document.getElementById('interfaceResult').classList.add('active');
+        }
+
+        // ==================== PHẦN 5: DEMO COMPARISON ====================
+        function demoComparison() {
+            const comparisonType = document.getElementById('comparisonType').value;
+            let result = '';
+
+            switch (comparisonType) {
+                case 'whenToUse':
+                    result = `KHI NÀO DÙNG ABSTRACT CLASS VS INTERFACE?
+
+DÙNG ABSTRACT CLASS KHI:
+1. Quan hệ IS-A (LÀ MỘT):
+   - "Hình vuông LÀ MỘT Hình"
+   - "Chó LÀ MỘT Động vật"
+   
+2. Cần chia sẻ code:
+   - Các lớp con có code chung
+   - Cần dùng lại phương thức đã triển khai
+   
+3. Cần thuộc tính không phải hằng số:
+   - Cần biến instance
+   - Cần getter/setter
+   
+4. Cần constructor:
+   - Cần khởi tạo thuộc tính
+   - Cần logic khởi tạo
+
+DÙNG INTERFACE KHI:
+1. Quan hệ CAN-DO (CÓ THỂ):
+   - "Vịt CÓ THỂ Bơi"
+   - "Máy bay CÓ THỂ Bay"
+   
+2. Cần đa kế thừa:
+   - Một lớp cần nhiều "khả năng"
+   
+3. Cần contract/API:
+   - Định nghĩa giao diện chung
+   - Ép lớp phải có phương thức nhất định
+   
+4. Loose coupling:
+   - Giảm sự phụ thuộc giữa các lớp
+   - Dễ thay thế implementation`;
+
+                    break;
+
+                case 'syntax':
+                    result = `SO SÁNH CÚ PHÁP:
+
+ABSTRACT CLASS:                      INTERFACE:
+-----------------                    ----------------
+abstract class A {                   interface A {
+    // Có thuộc tính                     // Chỉ hằng số
+    private int x;                        int MAX = 100; // public static final
+    
+    // Có constructor                     // KHÔNG có constructor
+    public A(int x) {
+        this.x = x;
+    }
+    
+    // Phương thức thường                 // Phương thức trừu tượng
+    public void method1() {              void method1(); // public abstract
+        // triển khai
+    }
+    
+    // Phương thức trừu tượng             // Phương thức default (Java 8+)
+    public abstract void method2();      default void method2() {
+    }                                         // triển khai
+                                         }
+    
+    // Có thể có static                  // Phương thức static (Java 8+)
+    public static void method3() {       static void method3() {
+        // triển khai                         // triển khai
+    }                                     }
+}                                     }
+
+KẾ THỪA:                             TRIỂN KHAI:
+class B extends A {                   class B implements A {
+    // 1 lớp cha                        // Nhiều interface
+}                                     }
+
+ĐA KẾ THỪA:                          ĐA KẾ THỪA:
+Không hỗ trợ                         class C implements A, B, C {
+                                        // Triển khai nhiều interface
+                                     }`;
+                    break;
+
+                case 'multipleInheritance':
+                    result = `ĐA KẾ THỪA VỚI ABSTRACT CLASS VÀ INTERFACE:
+
+VẤN ĐỀ "DEADLY DIAMOND OF DEATH":
+
+ABSTRACT CLASS (KHÔNG HỖ TRỢ ĐA KẾ THỪA):
+abstract class A {
+    void method() { System.out.println("A"); }
+}
+
+abstract class B {
+    void method() { System.out.println("B"); }
+}
+
+class C extends A, B {  // LỖI! Không thể đa kế thừa class
+    // Nếu được, method() gọi từ A hay B?
+}
+
+INTERFACE (HỖ TRỢ ĐA KẾ THỪA):
+interface A {
+    default void method() { System.out.println("A"); }
+}
+
+interface B {
+    default void method() { System.out.println("B"); }
+}
+
+class C implements A, B {
+    // BẮT BUỘC phải override method()
+    @Override
+    public void method() {
+        // Chọn cái nào? Hoặc viết mới
+        A.super.method();  // Gọi từ A
+        // hoặc
+        B.super.method();  // Gọi từ B
+        // hoặc
+        System.out.println("C");  // Viết mới
+    }
+}
+
+GIẢI QUYẾT XUNG ĐỘT ĐA KẾ THỪA:
+
+1. Interface default methods có xung đột:
+   - Lớp phải override phương thức xung đột
+   - Dùng InterfaceName.super.method() để chọn
+
+2. Abstract class + Interface:
+   abstract class A {
+       public void method() { System.out.println("A"); }
+   }
+   
+   interface B {
+       default void method() { System.out.println("B"); }
+   }
+   
+   class C extends A implements B {
+       // method() dùng từ A (class ưu tiên hơn interface)
+   }`;
+                    break;
+
+                case 'constructor':
+                    result = `CONSTRUCTOR TRONG ABSTRACT CLASS VÀ INTERFACE:
+
+ABSTRACT CLASS: CÓ CONSTRUCTOR
+interface:
+abstract class Hinh {
+    protected String mauSac;
+    
+    // CÓ constructor
+    public Hinh(String mauSac) {
+        this.mauSac = mauSac;
+        System.out.println("Khởi tạo hình màu: " + mauSac);
+    }
+    
+    public abstract double tinhDienTich();
+}
+
+class HinhVuong extends Hinh {
+    private double canh;
+    
+    // Gọi constructor lớp cha
+    public HinhVuong(String mauSac, double canh) {
+        super(mauSac);  // BẮT BUỘC gọi super() đầu tiên
+        this.canh = canh;
+    }
+    
+    @Override
+    public double tinhDienTich() {
+        return canh * canh;
+    }
+}
+
+INTERFACE: KHÔNG CÓ CONSTRUCTOR
+interface CoTheBoi {
+    // KHÔNG thể có constructor
+    // Lỗi: public CoTheBoi() { }
+    
+    // Chỉ có:
+    // 1. Hằng số
+    String MOI_TRUONG = "Nước";
+    
+    // 2. Phương thức trừu tượng
+    void boi();
+    
+    // 3. Phương thức default/static
+    default void thongBao() {
+        System.out.println("Có thể bơi");
+    }
+}
+
+TẠI SAO INTERFACE KHÔNG CÓ CONSTRUCTOR?
+1. Interface không có trạng thái (state)
+   - Không có thuộc tính instance
+   - Không cần khởi tạo
+   
+2. Interface chỉ định nghĩa hành vi
+   - Contract về "có thể làm gì"
+   - Không quan tâm "là cái gì"
+   
+3. Đa kế thừa sẽ gây vấn đề
+   - Nếu 2 interface có constructor, gọi cái nào?
+   
+4. Khởi tạo interface không có ý nghĩa
+   - Chỉ tạo đối tượng từ lớp triển khai
+   - Lớp đó sẽ có constructor riêng`;
+                    break;
+            }
+
+            document.getElementById('comparisonResultContent').textContent = result;
+            document.getElementById('comparisonResult').classList.add('active');
+        }
+
+        // ==================== PHẦN 6: BÀI TẬP ====================
+        function showSolution(exerciseNum) {
+            let solution = '';
+            let resultId = '';
+
+            switch (exerciseNum) {
+                case 1:
+                    resultId = 'solution1Content';
+                    solution = `GIẢI BÀI TẬP 1: HỆ THỐNG QUẢN LÝ THƯ VIỆN
+
+// 1. INTERFACE
+interface ILibraryItem {
+    void displayInfo();
+    double calculateLateFee(int daysLate);
+    boolean checkAvailability();
+}
+
+// 2. ABSTRACT CLASS
+abstract class LibraryItem implements ILibraryItem {
+    protected String id;
+    protected String title;
+    protected String author;
+    protected boolean isBorrowed;
+    
+    public LibraryItem(String id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.isBorrowed = false;
+    }
+    
+    // Getter/Setter
+    public String getId() { return id; }
+    public String getTitle() { return title; }
+    public String getAuthor() { return author; }
+    public boolean isBorrowed() { return isBorrowed; }
+    
+    public void setBorrowed(boolean borrowed) {
+        this.isBorrowed = borrowed;
+    }
+    
+    // Triển khai từ interface
+    @Override
+    public void displayInfo() {
+        System.out.println("ID: " + id);
+        System.out.println("Title: " + title);
+        System.out.println("Author: " + author);
+        System.out.println("Status: " + (isBorrowed ? "Borrowed" : "Available"));
+    }
+    
+    @Override
+    public boolean checkAvailability() {
+        return !isBorrowed;
+    }
+    
+    // Phương thức trừu tượng (mỗi loại tính phí khác nhau)
+    public abstract double calculateLateFee(int daysLate);
+}
+
+// 3. LỚP CON: BOOK
+class Book extends LibraryItem {
+    private int pageCount;
+    private String genre;
+    private static final double LATE_FEE_PER_DAY = 5000; // 5k/ngày
+    
+    public Book(String id, String title, String author, 
+                int pageCount, String genre) {
+        super(id, title, author);
+        this.pageCount = pageCount;
+        this.genre = genre;
+    }
+    
+    @Override
+    public double calculateLateFee(int daysLate) {
+        return daysLate * LATE_FEE_PER_DAY;
+    }
+    
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("Type: Book");
+        System.out.println("Pages: " + pageCount);
+        System.out.println("Genre: " + genre);
+    }
+}
+
+// 4. LỚP CON: MAGAZINE
+class Magazine extends LibraryItem {
+    private int issueNumber;
+    private String month;
+    private static final double LATE_FEE_PER_DAY = 3000; // 3k/ngày
+    
+    public Magazine(String id, String title, String author,
+                   int issueNumber, String month) {
+        super(id, title, author);
+        this.issueNumber = issueNumber;
+        this.month = month;
+    }
+    
+    @Override
+    public double calculateLateFee(int daysLate) {
+        return daysLate * LATE_FEE_PER_DAY;
+    }
+    
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("Type: Magazine");
+        System.out.println("Issue: " + issueNumber);
+        System.out.println("Month: " + month);
+    }
+}
+
+// 5. SỬ DỤNG
+public class LibrarySystem {
+    public static void main(String[] args) {
+        Book book = new Book("B001", "Java Programming", "John Doe", 
+                           350, "Programming");
+        Magazine magazine = new Magazine("M001", "Tech Today", "Jane Smith",
+                                       15, "October 2023");
+        
+        book.displayInfo();
+        System.out.println("Late fee for 3 days: " + book.calculateLateFee(3));
+        
+        System.out.println();
+        
+        magazine.displayInfo();
+        System.out.println("Late fee for 3 days: " + magazine.calculateLateFee(3));
+    }
+}`;
+                    break;
+            }
+
+            document.getElementById(resultId).textContent = solution;
+            document.getElementById(`solution${exerciseNum}`).classList.add('active');
+        }
+
+        // ==================== PHẦN 6: CÂU HỎI TRẮC NGHIỆM ====================
+        function showQuizAnswer() {
+            const questionNum = document.getElementById('quizQuestion').value;
+            let answer = '';
+
+            switch (questionNum) {
+                case '1':
+                    answer = `CÂU 1: LỚP TRỪU TƯỢNG CÓ THỂ CHỨA GÌ?
+
+ĐÁP ÁN: TẤT CẢ CÁC THỨ SAU
+1. Thuộc tính (biến instance)
+2. Constructor
+3. Phương thức thông thường (đã triển khai)
+4. Phương thức trừu tượng (abstract method)
+5. Static methods và variables
+
+VÍ DỤ:
+abstract class Animal {
+    // 1. Thuộc tính
+    protected String name;
+    
+    // 2. Constructor
+    public Animal(String name) {
+        this.name = name;
+    }
+    
+    // 3. Phương thức thông thường
+    public void sleep() {
+        System.out.println(name + " đang ngủ");
+    }
+    
+    // 4. Phương thức trừu tượng
+    public abstract void makeSound();
+    
+    // 5. Phương thức static
+    public static void animalInfo() {
+        System.out.println("Đây là lớp động vật");
+    }
+}`;
+                    break;
+
+                case '2':
+                    answer = `CÂU 2: INTERFACE CÓ THỂ CHỨA GÌ? (JAVA 8+)
+
+ĐÁP ÁN:
+1. HẰNG SỐ (public static final)
+2. Phương thức trừu tượng (abstract methods)
+3. Phương thức default (có thân phương thức)
+4. Phương thức static (có thân phương thức)
+5. Private methods (Java 9+)
+
+VÍ DỤ:
+interface Swimmable {
+    // 1. Hằng số
+    String ENVIRONMENT = "Water";
+    
+    // 2. Phương thức trừu tượng
+    void swim();
+    
+    // 3. Phương thức default
+    default void canSwim() {
+        System.out.println("Có thể bơi");
+    }
+    
+    // 4. Phương thức static
+    static void info() {
+        System.out.println("Interface cho khả năng bơi");
+    }
+    
+    // 5. Private method (Java 9+)
+    private void log(String message) {
+        System.out.println("Log: " + message);
+    }
+}
+
+NHỮNG THỨ KHÔNG CÓ TRONG INTERFACE:
+1. Constructor
+2. Thuộc tính không phải hằng số
+3. Instance initializer blocks
+4. Non-static inner classes`;
+                    break;
+
+                case '3':
+                    answer = `CÂU 3: KHI NÀO NÊN DÙNG ABSTRACT CLASS?
+
+ĐÁP ÁN: DÙNG ABSTRACT CLASS KHI...
+
+1. QUAN HỆ "IS-A" (LÀ MỘT):
+   - HìnhVuong LÀ MỘT Hình
+   - Chó LÀ MỘT ĐộngVật
+   - NhânViênVanPhong LÀ MỘT NhânViên
+
+2. CẦN CHIA SẺ CODE GIỮA CÁC LỚP CON:
+   - Các lớp con có chung thuộc tính
+   - Các lớp con có chung phương thức
+   - Muốn tránh trùng lặp code
+
+3. CẦN CÓ TRẠNG THÁI (STATE):
+   - Cần thuộc tính instance
+   - Cần getter/setter
+   - Cần khởi tạo thuộc tính qua constructor
+
+4. CẦN ĐIỀU KHIỂN TRUY CẬP:
+   - Cần protected methods/variables
+   - Cần package-private access
+
+VÍ DỤ THỰC TẾ:
+// Dùng abstract class vì:
+// 1. Employee là khái niệm trừu tượng
+// 2. Các loại employee chia sẻ thuộc tính chung
+// 3. Cần constructor để khởi tạo thuộc tính
+abstract class Employee {
+    protected String id;
+    protected String name;
+    protected double baseSalary;
+    
+    public Employee(String id, String name, double baseSalary) {
+        this.id = id;
+        this.name = name;
+        this.baseSalary = baseSalary;
+    }
+    
+    // Phương thức chung
+    public void displayInfo() {
+        System.out.println("ID: " + id + ", Name: " + name);
+    }
+    
+    // Mỗi loại employee tính lương khác nhau
+    public abstract double calculateSalary();
+}`;
+                    break;
+
+                case '4':
+                    answer = `CÂU 4: KHI NÀO NÊN DÙNG INTERFACE?
+
+ĐÁP ÁN: DÙNG INTERFACE KHI...
+
+1. QUAN HỆ "CAN-DO" (CÓ THỂ):
+   - Vịt CÓ THỂ Bơi
+   - MáyBay CÓ THỂ Bay
+   - NhânViên CÓ THỂ TínhLương
+
+2. CẦN ĐA KẾ THỪA:
+   - Một lớp cần nhiều "khả năng"
+   - Ví dụ: Vịt implements Swimmable, Flyable, Walkable
+
+3. ĐỊNH NGHĨA CONTRACT/API:
+   - Định nghĩa giao diện chung
+   - Ép lớp phải có phương thức nhất định
+   - Tạo sự thống nhất trong hệ thống
+
+4. CẦN LOOSE COUPLING:
+   - Giảm sự phụ thuộc giữa các lớp
+   - Dễ dàng thay thế implementation
+   - Dễ test (mock interface)
+
+5. LÀM TAG/MARKER INTERFACE:
+   - Serializable (không có phương thức)
+   - Cloneable (đánh dấu có thể clone)
+
+VÍ DỤ THỰC TẾ:
+// Dùng interface vì:
+// 1. PaymentMethod là "khả năng" thanh toán
+// 2. Một Store có thể hỗ trợ nhiều phương thức
+// 3. Dễ thêm phương thức mới (Ví dụ: MomoPayment)
+interface PaymentMethod {
+    boolean pay(double amount);
+    String getPaymentDetails();
+}
+
+class CreditCard implements PaymentMethod { ... }
+class PayPal implements PaymentMethod { ... }
+class BankTransfer implements PaymentMethod { ... }
+
+// Store có thể xử lý bất kỳ PaymentMethod nào
+class Store {
+    public void processOrder(PaymentMethod method, double amount) {
+        method.pay(amount);
+    }
+}`;
+                    break;
+
+                case '5':
+                    answer = `CÂU 5: PHƯƠNG THỨC TRỪU TƯỢNG LÀ GÌ?
+
+ĐÁP ÁN ĐẦY ĐỦ:
+
+1. ĐỊNH NGHĨA:
+   - Phương thức chỉ có KHAI BÁO, không có THÂN PHƯƠNG THỨC
+   - Kết thúc bằng dấu chấm phẩy (;) thay vì dấu ngoặc nhọn {}
+
+2. CÚ PHÁP:
+   [access-modifier] abstract returnType methodName([parameters]);
+   
+   Ví dụ:
+   public abstract void makeSound();
+   protected abstract double calculateArea(int width, int height);
+
+3. NƠI KHAI BÁO:
+   - Chỉ có thể khai báo trong:
+     a) Abstract class
+     b) Interface (mặc định là abstract)
+   - KHÔNG thể khai báo trong lớp thường
+
+4. TRIỂN KHAI:
+   - Lớp con PHẢI triển khai (override) tất cả phương thức trừu tượng
+   - Trừ khi lớp con cũng là abstract class
+
+5. MỤC ĐÍCH:
+   - Định nghĩa "hợp đồng": lớp con phải có phương thức này
+   - Cho phép đa hình: mỗi lớp con triển khai khác nhau
+   - Tạo tính linh hoạt: thay đổi implementation dễ dàng
+
+VÍ DỤ:
+abstract class Shape {
+    // Phương thức trừu tượng
+    public abstract double calculateArea();
+    public abstract double calculatePerimeter();
+    
+    // Phương thức thông thường
+    public void display() {
+        System.out.println("Đây là một hình");
+    }
+}
+
+class Circle extends Shape {
+    private double radius;
+    
+    // BẮT BUỘC triển khai phương thức trừu tượng
+    @Override
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+    
+    @Override
+    public double calculatePerimeter() {
+        return 2 * Math.PI * radius;
+    }
+}
+
+LỖI THƯỜNG GẶP:
+1. Quên triển khai phương thức trừu tượng
+2. Cố gắng tạo thân phương thức cho abstract method
+3. Khai báo abstract method trong lớp không phải abstract`;
+                    break;
+            }
+
+            document.getElementById('quizResultContent').textContent = answer;
+            document.getElementById('quizResult').classList.add('active');
+        }
+
+        // ==================== PHẦN 6: FEEDBACK ====================
+        function submitFeedback() {
+            const rating = document.getElementById('feedback').value;
+            const stars = '⭐'.repeat(rating) + '☆'.repeat(5 - rating);
+
+            let message = '';
+            switch (rating) {
+                case '5':
+                    message = 'Cảm ơn bạn đã đánh giá rất tốt! Chúng tôi rất vui vì giáo trình hữu ích với bạn.';
+                    break;
+                case '4':
+                    message = 'Cảm ơn bạn đã đánh giá tốt! Chúng tôi sẽ cố gắng cải thiện hơn nữa.';
+                    break;
+                case '3':
+                    message = 'Cảm ơn phản hồi của bạn! Chúng tôi sẽ xem xét để cải thiện giáo trình.';
+                    break;
+                case '2':
+                    message = 'Cảm ơn bạn đã phản hồi! Chúng tôi sẽ sửa đổi để giáo trình tốt hơn.';
+                    break;
+                case '1':
+                    message = 'Xin lỗi vì sự không hài lòng của bạn! Vui lòng góp ý chi tiết để chúng tôi cải thiện.';
+                    break;
+            }
+
+            const result = `ĐÁNH GIÁ CỦA BẠN: ${stars}
+${message}
+
+Chúng tôi đã ghi nhận phản hồi của bạn và sẽ sử dụng để cải thiện giáo trình trong tương lai.
+
+Cảm ơn bạn đã tham gia khóa học về Tính trừu tượng trong Java!`;
+
+            document.getElementById('feedbackResultContent').textContent = result;
+            document.getElementById('feedbackResult').classList.add('active');
+        }
+
+        // ==================== CÁC HÀM HỖ TRỢ ====================
+
+        // Chuyển tab navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Remove active class from all links and sections
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+
+                // Add active class to clicked link
+                this.classList.add('active');
+
+                // Show corresponding section
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).classList.add('active');
+
+                // Scroll to top of main content
+                document.querySelector('.main-content').scrollTop = 0;
+            });
+        });
+
+        // Copy code button
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-block');
+            // Lấy nội dung text của toàn bộ code block, trừ phần header
+            let code = '';
+            const children = codeBlock.childNodes;
+            for (let i = 0; i < children.length; i++) {
+                const child = children[i];
+                if (child.nodeType === Node.TEXT_NODE) {
+                    code += child.textContent;
+                } else if (child.nodeType === Node.ELEMENT_NODE && !child.classList.contains('code-header')) {
+                    code += child.textContent;
+                }
+            }
+
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                button.style.background = '#27ae60';
+
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                button.textContent = 'Lỗi!';
+                button.style.background = '#e74c3c';
+            });
+        }
+
+     
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUAN HỆ TRONG SQL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+       <link rel="stylesheet" href="./main.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-database"></i> QUAN HỆ TRONG SQL</h1>
+         
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#phan1" class="nav-link active"><i class="fas fa-project-diagram"></i>  QUAN HỆ GIỮA CÁC BẢNG</a></li>
+                 
+                    <li class="nav-item"><a href="#phan2" class="nav-link"><i class="fas fa-link"></i>  JOIN TRONG SQL</a></li>
+
+                    <li class="nav-item"><a href="#phan4" class="nav-link"><i class="fas fa-chart-line"></i>BÀI TẬP</a></li>
+               
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN 1: QUAN HỆ GIỮA CÁC BẢNG -->
+                <section id="phan1" class="section active">
+                    <h2><i class="fas fa-project-diagram"></i>  QUAN HỆ GIỮA CÁC BẢNG (RELATIONSHIPS)</h2>
+                    
+                    <div id="phan1-1">
+                        <h3>1.1. LÝ THUYẾT VỀ CÁC LOẠI QUAN HỆ</h3>
+                        <p>Trong cơ sở dữ liệu quan hệ, có 3 loại quan hệ chính giữa các bảng:</p>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Loại quan hệ</th>
+                                        <th>Ký hiệu</th>
+                                        <th>Ý nghĩa</th>
+                                        <th>Ví dụ thực tế</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>One-to-One (1-1)</strong></td>
+                                        <td>1 ↔ 1</td>
+                                        <td>Một bản ghi của bảng A tương ứng với một và chỉ một bản ghi của bảng B</td>
+                                        <td>Mỗi người có một CMND duy nhất</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>One-to-Many (1-n)</strong></td>
+                                        <td>1 ↔ N</td>
+                                        <td>Một bản ghi của bảng A tương ứng với nhiều bản ghi của bảng B</td>
+                                        <td>Một lớp có nhiều học sinh</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Many-to-Many (n-n)</strong></td>
+                                        <td>N ↔ N</td>
+                                        <td>Nhiều bản ghi của bảng A tương ứng với nhiều bản ghi của bảng B</td>
+                                        <td>Học sinh học nhiều môn, mỗi môn có nhiều học sinh</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="phan1-2">
+                        <h3>1.2. QUAN HỆ 1-1 (ONE-TO-ONE)</h3>
+                        
+                        <h4>1.2.1. Khái niệm</h4>
+                        <p><strong>Ý tưởng:</strong> Mỗi bản ghi ở bảng A chỉ liên kết với chính xác một bản ghi ở bảng B.</p>
+                        <p><strong>Mục đích:</strong></p>
+                        <ul>
+                            <li>Chia dữ liệu thành 2 bảng để tránh dư thừa.</li>
+                            <li>Dữ liệu liên quan nhưng không phải lúc nào cũng cần truy vấn cùng.</li>
+                        </ul>
+                        <p><strong>Ví dụ thực tế:</strong></p>
+                        <ul>
+                            <li>Mỗi HocSinh có một HoKhau.</li>
+                            <li>Mỗi NhanVien có một ThongTinLuong.</li>
+                        </ul>
+
+                        <h4>1.2.2. Cú pháp và giải thích</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Tạo bảng cha (Parent table)</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">CREATE TABLE</span> BảngCha (<br>
+                            &nbsp;&nbsp;&nbsp;MaCha <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;ThuocTinh1 <span class="keyword">VARCHAR(50)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;ThuocTinh2 <span class="keyword">INT</span><br>
+                            );
+                        </div>
+                        <p><strong>Giải thích:</strong> PRIMARY KEY: Khóa chính, duy nhất mỗi bản ghi. Bảng cha là bảng chứa thông tin cơ bản, bảng con sẽ liên kết với bảng này.</p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Tạo bảng phụ (Child table) và liên kết 1-1</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">CREATE TABLE</span> BảngCon (<br>
+                            &nbsp;&nbsp;&nbsp;MaCon <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;ThuocTinh1 <span class="keyword">VARCHAR(50)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;ThuocTinh2 <span class="keyword">DATE</span>,<br>
+                            &nbsp;&nbsp;&nbsp;MaCha <span class="keyword">INT UNIQUE</span>,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">FOREIGN KEY</span> (MaCha) <span class="keyword">REFERENCES</span> BảngCha(MaCha)<br>
+                            );
+                        </div>
+
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Thành phần</th>
+                                        <th>Chức năng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>PRIMARY KEY</strong></td>
+                                        <td>Khóa chính cho bảng con, mỗi bản ghi duy nhất</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>MaCha INT UNIQUE</strong></td>
+                                        <td>Mỗi bản ghi trong bảng con chỉ liên kết với 1 bản ghi duy nhất của bảng cha</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>FOREIGN KEY (MaCha) REFERENCES BảngCha(MaCha)</strong></td>
+                                        <td>Khóa ngoại, liên kết bảng con → bảng cha</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>UNIQUE</strong></td>
+                                        <td>Quan trọng để đảm bảo tính 1-1, không bị nhiều bản ghi con cùng tham chiếu 1 bản ghi cha</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4>1.2.3. Ví dụ chi tiết</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>QuanLyNhanKhau.sql</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">-- Tạo cơ sở dữ liệu</span><br>
+                            <span class="keyword">CREATE DATABASE</span> QuanLyNhanKhau;<br>
+                            <span class="keyword">USE</span> QuanLyNhanKhau;<br>
+                            <br>
+                            <span class="comment">-- Bảng thông tin cơ bản</span><br>
+                            <span class="keyword">CREATE TABLE</span> Nguoi (<br>
+                            &nbsp;&nbsp;&nbsp;MaNguoi <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;HoTen <span class="keyword">VARCHAR(100) NOT NULL</span>,<br>
+                            &nbsp;&nbsp;&nbsp;NgaySinh <span class="keyword">DATE</span>,<br>
+                            &nbsp;&nbsp;&nbsp;DiaChi <span class="keyword">VARCHAR(200)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;SoDienThoai <span class="keyword">VARCHAR(15)</span><br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- Bảng CMND (quan hệ 1-1 với Nguoi)</span><br>
+                            <span class="keyword">CREATE TABLE</span> CMND (<br>
+                            &nbsp;&nbsp;&nbsp;MaCMND <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;SoCMND <span class="keyword">VARCHAR(12) UNIQUE NOT NULL</span>,<br>
+                            &nbsp;&nbsp;&nbsp;NgayCap <span class="keyword">DATE</span>,<br>
+                            &nbsp;&nbsp;&nbsp;NoiCap <span class="keyword">VARCHAR(100)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;MaNguoi <span class="keyword">INT UNIQUE</span>,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">FOREIGN KEY</span> (MaNguoi) <span class="keyword">REFERENCES</span> Nguoi(MaNguoi)<br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- Thêm dữ liệu</span><br>
+                            <span class="keyword">INSERT INTO</span> Nguoi (HoTen, NgaySinh, DiaChi, SoDienThoai) <span class="keyword">VALUES</span><br>
+                            ('Nguyễn Văn A', '1990-01-01', 'Hà Nội', '0123456789'),<br>
+                            ('Trần Thị B', '1995-02-02', 'TP.HCM', '0987654321');<br>
+                            <br>
+                            <span class="keyword">INSERT INTO</span> CMND (SoCMND, NgayCap, NoiCap, MaNguoi) <span class="keyword">VALUES</span><br>
+                            ('001203000001', '2010-01-01', 'Hà Nội', 1),<br>
+                            ('001203000002', '2015-02-02', 'TP.HCM', 2);<br>
+                            <br>
+                            <span class="comment">-- Truy vấn lấy thông tin kết hợp</span><br>
+                            <span class="keyword">SELECT</span> n.HoTen, n.NgaySinh, c.SoCMND, c.NgayCap<br>
+                            <span class="keyword">FROM</span> Nguoi n<br>
+                            <span class="keyword">INNER JOIN</span> CMND c <span class="keyword">ON</span> n.MaNguoi = c.MaNguoi;
+                        </div>
+                    </div>
+
+                    <div id="phan1-3">
+                        <h3>1.3. QUAN HỆ 1-n (ONE-TO-MANY)</h3>
+                        
+                        <h4>1.3.1. Khái niệm</h4>
+                        <p><strong>Ý tưởng:</strong> Một bản ghi ở bảng cha liên kết với nhiều bản ghi ở bảng con.</p>
+                        <p><strong>Mục đích:</strong></p>
+                        <ul>
+                            <li>Liên kết dữ liệu logic: ví dụ mỗi lớp có nhiều học sinh, mỗi phòng có nhiều thiết bị.</li>
+                            <li>Tránh trùng lặp dữ liệu bảng cha.</li>
+                        </ul>
+                        <p><strong>Ví dụ thực tế:</strong></p>
+                        <ul>
+                            <li>Lop – HocSinh: mỗi lớp có nhiều học sinh.</li>
+                            <li>Phong – ThietBi: mỗi phòng có nhiều thiết bị.</li>
+                        </ul>
+
+                        <h4>1.3.2. Cú pháp và giải thích</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Tạo bảng cha (Parent table)</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">CREATE TABLE</span> BảngCha (<br>
+                            &nbsp;&nbsp;&nbsp;MaCha <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;TenCha <span class="keyword">VARCHAR(50)</span><br>
+                            );
+                        </div>
+                        <p><strong>Giải thích:</strong> PRIMARY KEY: Mỗi bản ghi trong bảng cha duy nhất. Bảng cha chứa dữ liệu cơ bản, được nhiều bản ghi con tham chiếu.</p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Tạo bảng con (Child table) và liên kết 1-n</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">CREATE TABLE</span> BảngCon (<br>
+                            &nbsp;&nbsp;&nbsp;MaCon <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;TenCon <span class="keyword">VARCHAR(50)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;MaCha <span class="keyword">INT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">FOREIGN KEY</span> (MaCha) <span class="keyword">REFERENCES</span> BảngCha(MaCha)<br>
+                            );
+                        </div>
+
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Thành phần</th>
+                                        <th>Chức năng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>PRIMARY KEY</strong></td>
+                                        <td>Khóa chính bảng con, mỗi bản ghi duy nhất</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>MaCha INT</strong></td>
+                                        <td>Khóa ngoại tham chiếu đến bảng cha</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>FOREIGN KEY (MaCha) REFERENCES BảngCha(MaCha)</strong></td>
+                                        <td>Bảo đảm giá trị MaCha tồn tại trong bảng cha</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Không dùng UNIQUE</strong></td>
+                                        <td>Vì nhiều bản ghi con có thể cùng tham chiếu một bản ghi cha → đúng 1-n</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4>1.3.3. Ví dụ chi tiết</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>QuanLyTruongHoc.sql</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">-- Tạo cơ sở dữ liệu Quản lý trường học</span><br>
+                            <span class="keyword">CREATE DATABASE</span> QuanLyTruongHoc;<br>
+                            <span class="keyword">USE</span> QuanLyTruongHoc;<br>
+                            <br>
+                            <span class="comment">-- Bảng Lop (1)</span><br>
+                            <span class="keyword">CREATE TABLE</span> Lop (<br>
+                            &nbsp;&nbsp;&nbsp;MaLop <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;TenLop <span class="keyword">VARCHAR(20) NOT NULL</span>,<br>
+                            &nbsp;&nbsp;&nbsp;Khoi <span class="keyword">INT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;PhongHoc <span class="keyword">VARCHAR(10)</span><br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- Bảng HocSinh (n)</span><br>
+                            <span class="keyword">CREATE TABLE</span> HocSinh (<br>
+                            &nbsp;&nbsp;&nbsp;MaHS <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;HoTen <span class="keyword">VARCHAR(100) NOT NULL</span>,<br>
+                            &nbsp;&nbsp;&nbsp;NgaySinh <span class="keyword">DATE</span>,<br>
+                            &nbsp;&nbsp;&nbsp;GioiTinh <span class="keyword">VARCHAR(5)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;MaLop <span class="keyword">INT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">FOREIGN KEY</span> (MaLop) <span class="keyword">REFERENCES</span> Lop(MaLop)<br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- Chèn dữ liệu vào bảng Lop</span><br>
+                            <span class="keyword">INSERT INTO</span> Lop (TenLop, Khoi, PhongHoc) <span class="keyword">VALUES</span><br>
+                            ('10A1', 10, 'P101'),<br>
+                            ('10A2', 10, 'P102'),<br>
+                            ('11B1', 11, 'P201');<br>
+                            <br>
+                            <span class="comment">-- Chèn dữ liệu vào bảng HocSinh</span><br>
+                            <span class="keyword">INSERT INTO</span> HocSinh (HoTen, NgaySinh, GioiTinh, MaLop) <span class="keyword">VALUES</span><br>
+                            ('Nguyễn Văn A', '2008-01-01', 'Nam', 1),  <span class="comment">-- Thuộc lớp 10A1</span><br>
+                            ('Trần Thị B', '2008-02-02', 'Nữ', 1),      <span class="comment">-- Thuộc lớp 10A1</span><br>
+                            ('Lê Văn C', '2008-03-03', 'Nam', 2),       <span class="comment">-- Thuộc lớp 10A2</span><br>
+                            ('Phạm Thị D', '2007-04-04', 'Nữ', 3),      <span class="comment">-- Thuộc lớp 11B1</span><br>
+                            ('Hoàng Văn E', '2008-05-05', 'Nam', 1);    <span class="comment">-- Thuộc lớp 10A1</span><br>
+                            <br>
+                            <span class="comment">-- Xem dữ liệu</span><br>
+                            <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Lop;<br>
+                            <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> HocSinh;
+                        </div>
+                    </div>
+
+                    <div id="phan1-4">
+                        <h3>1.4. QUAN HỆ n-n (MANY-TO-MANY)</h3>
+                        
+                        <h4>1.4.1. Mục đích</h4>
+                        <p><strong>Ý tưởng:</strong> Nhiều bản ghi ở bảng A có thể liên kết với nhiều bản ghi ở bảng B.</p>
+                        <p><strong>Mục đích:</strong></p>
+                        <ul>
+                            <li>Liên kết các dữ liệu phức tạp: ví dụ học sinh học nhiều môn, mỗi môn có nhiều học sinh.</li>
+                            <li>Không lặp dữ liệu: bảng trung gian lưu quan hệ, không cần lặp lại thông tin bảng A hoặc B.</li>
+                        </ul>
+                        <p><strong>Ví dụ thực tế:</strong></p>
+                        <ul>
+                            <li>HocSinh – MonHoc: học sinh học nhiều môn, mỗi môn có nhiều học sinh.</li>
+                            <li>SanPham – DonHang: mỗi đơn hàng có nhiều sản phẩm, mỗi sản phẩm xuất hiện trong nhiều đơn hàng.</li>
+                        </ul>
+
+                        <h4>1.4.2. Cú pháp và giải thích</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Tạo bảng A (Parent table 1)</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">CREATE TABLE</span> BangA (<br>
+                            &nbsp;&nbsp;&nbsp;MaA <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;TenA <span class="keyword">VARCHAR(50)</span><br>
+                            );
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Tạo bảng B (Parent table 2)</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">CREATE TABLE</span> BangB (<br>
+                            &nbsp;&nbsp;&nbsp;MaB <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;TenB <span class="keyword">VARCHAR(50)</span><br>
+                            );
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Tạo bảng trung gian (Mapping table)</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">CREATE TABLE</span> BangA_BangB (<br>
+                            &nbsp;&nbsp;&nbsp;MaA <span class="keyword">INT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;MaB <span class="keyword">INT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;ThuocTinh <span class="keyword">FLOAT</span>, <span class="comment">-- ví dụ điểm, số lượng...</span><br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">PRIMARY KEY</span> (MaA, MaB),<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">FOREIGN KEY</span> (MaA) <span class="keyword">REFERENCES</span> BangA(MaA),<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">FOREIGN KEY</span> (MaB) <span class="keyword">REFERENCES</span> BangB(MaB)<br>
+                            );
+                        </div>
+
+                        <div class="table-container">
+                            </table>
+                                <thead>
+                                    <tr>
+                                        <th>Thành phần</th>
+                                        <th>Chức năng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>PRIMARY KEY(MaA, MaB)</strong></td>
+                                        <td>Khóa chính kết hợp → mỗi cặp A-B chỉ xuất hiện 1 lần</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>FOREIGN KEY(MaA)</strong></td>
+                                        <td>Liên kết bảng trung gian → bảng A</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>FOREIGN KEY(MaB)</strong></td>
+                                        <td>Liên kết bảng trung gian → bảng B</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ThuocTinh</strong></td>
+                                        <td>Lưu thông tin liên quan (ví dụ điểm, số lượng)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="note">
+                            <p><strong>Lưu ý:</strong> Không cần UNIQUE trên từng cột riêng lẻ, vì nhiều bản ghi A có thể liên kết nhiều B và ngược lại. Bảng trung gian là bắt buộc để thực hiện quan hệ n-n.</p>
+                        </div>
+
+                        <h4>1.4.3. Ví dụ chi tiết</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>QuanLyDiem.sql</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">-- Tạo cơ sở dữ liệu Quản lý điểm</span><br>
+                            <span class="keyword">CREATE DATABASE</span> QuanLyDiem;<br>
+                            <span class="keyword">USE</span> QuanLyDiem;<br>
+                            <br>
+                            <span class="comment">-- Bảng 1: HocSinh</span><br>
+                            <span class="keyword">CREATE TABLE</span> HocSinh (<br>
+                            &nbsp;&nbsp;&nbsp;MaHS <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;TenHS <span class="keyword">VARCHAR(100) NOT NULL</span>,<br>
+                            &nbsp;&nbsp;&nbsp;Lop <span class="keyword">VARCHAR(20)</span><br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- Bảng 2: MonHoc</span><br>
+                            <span class="keyword">CREATE TABLE</span> MonHoc (<br>
+                            &nbsp;&nbsp;&nbsp;MaMon <span class="keyword">INT PRIMARY KEY AUTO_INCREMENT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;TenMon <span class="keyword">VARCHAR(50) NOT NULL</span>,<br>
+                            &nbsp;&nbsp;&nbsp;SoTinChi <span class="keyword">INT</span><br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- Bảng trung gian: BangDiem (liên kết HocSinh và MonHoc)</span><br>
+                            <span class="keyword">CREATE TABLE</span> BangDiem (<br>
+                            &nbsp;&nbsp;&nbsp;MaHS <span class="keyword">INT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;MaMon <span class="keyword">INT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;Diem <span class="keyword">FLOAT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;NgayThi <span class="keyword">DATE</span>,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">PRIMARY KEY</span> (MaHS, MaMon),  <span class="comment">-- Khóa hỗn hợp</span><br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">FOREIGN KEY</span> (MaHS) <span class="keyword">REFERENCES</span> HocSinh(MaHS),<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">FOREIGN KEY</span> (MaMon) <span class="keyword">REFERENCES</span> MonHoc(MaMon)<br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- Chèn dữ liệu vào HocSinh</span><br>
+                            <span class="keyword">INSERT INTO</span> HocSinh (TenHS, Lop) <span class="keyword">VALUES</span><br>
+                            ('Nguyễn Văn A', '10A1'),<br>
+                            ('Trần Thị B', '10A1'),<br>
+                            ('Lê Văn C', '10A2');<br>
+                            <br>
+                            <span class="comment">-- Chèn dữ liệu vào MonHoc</span><br>
+                            <span class="keyword">INSERT INTO</span> MonHoc (TenMon, SoTinChi) <span class="keyword">VALUES</span><br>
+                            ('Toán', 4),<br>
+                            ('Văn', 4),<br>
+                            ('Anh', 3),<br>
+                            ('Lý', 3),<br>
+                            ('Hóa', 3);<br>
+                            <br>
+                            <span class="comment">-- Chèn dữ liệu vào BangDiem (quan hệ n-n)</span><br>
+                            <span class="comment">-- Học sinh A học 3 môn: Toán, Văn, Anh</span><br>
+                            <span class="keyword">INSERT INTO</span> BangDiem (MaHS, MaMon, Diem, NgayThi) <span class="keyword">VALUES</span><br>
+                            (1, 1, 8.5, '2024-01-15'),  <span class="comment">-- A - Toán</span><br>
+                            (1, 2, 7.5, '2024-01-16'),  <span class="comment">-- A - Văn</span><br>
+                            (1, 3, 9.0, '2024-01-17');  <span class="comment">-- A - Anh</span><br>
+                            <br>
+                            <span class="comment">-- Học sinh B học 4 môn: Toán, Văn, Lý, Hóa</span><br>
+                            <span class="keyword">INSERT INTO</span> BangDiem (MaHS, MaMon, Diem, NgayThi) <span class="keyword">VALUES</span><br>
+                            (2, 1, 9.0, '2024-01-15'),  <span class="comment">-- B - Toán</span><br>
+                            (2, 2, 8.0, '2024-01-16'),  <span class="comment">-- B - Văn</span><br>
+                            (2, 4, 7.5, '2024-01-18'),  <span class="comment">-- B - Lý</span><br>
+                            (2, 5, 8.0, '2024-01-19');  <span class="comment">-- B - Hóa</span><br>
+                            <br>
+                            <span class="comment">-- Học sinh C học 2 môn: Văn, Anh</span><br>
+                            <span class="keyword">INSERT INTO</span> BangDiem (MaHS, MaMon, Diem, NgayThi) <span class="keyword">VALUES</span><br>
+                            (3, 2, 6.5, '2024-01-16'),  <span class="comment">-- C - Văn</span><br>
+                            (3, 3, 7.0, '2024-01-17');  <span class="comment">-- C - Anh</span><br>
+                            <br>
+                            <span class="comment">-- Truy vấn: Lấy danh sách điểm của từng học sinh</span><br>
+                            <span class="keyword">SELECT</span> hs.TenHS, mh.TenMon, bd.Diem<br>
+                            <span class="keyword">FROM</span> HocSinh hs<br>
+                            <span class="keyword">INNER JOIN</span> BangDiem bd <span class="keyword">ON</span> hs.MaHS = bd.MaHS<br>
+                            <span class="keyword">INNER JOIN</span> MonHoc mh <span class="keyword">ON</span> bd.MaMon = mh.MaMon<br>
+                            <span class="keyword">ORDER BY</span> hs.TenHS, mh.TenMon;
+                        </div>
+                    </div>
+
+                    <div id="phan1-5">
+                        <h3>1.5. TỔNG KẾT VỀ CÁC LOẠI QUAN HỆ</h3>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Mối quan hệ</th>
+                                        <th>Ý nghĩa</th>
+                                        <th>Bảng tham gia</th>
+                                        <th>Cách thiết lập</th>
+                                        <th>Ví dụ</th>
+                                        <th>Lưu ý</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>1-1 (One-to-One)</strong></th>
+                                        <td>Mỗi bản ghi bảng A liên kết với 1 bản ghi duy nhất bảng B</th>
+                                        <td>BảngCha → BảngCon</th>
+                                        <td>BảngCon có MaCha INT UNIQUE, FOREIGN KEY(MaCha) REFERENCES BảngCha(MaCha)</th>
+                                        <td>HocSinh – HoKhau: mỗi học sinh có 1 hộ khẩu</th>
+                                        <td>Dùng UNIQUE trên khóa ngoại để đảm bảo 1-1</th>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>1-n (One-to-Many)</strong></th>
+                                        <td>Mỗi bản ghi bảng cha liên kết với nhiều bản ghi bảng con</th>
+                                        <td>BảngCha → BảngCon</th>
+                                        <td>BảngCon có MaCha INT, FOREIGN KEY(MaCha) REFERENCES BảngCha(MaCha)</th>
+                                        <td>Lop – HocSinh: 1 lớp có nhiều học sinh</th>
+                                        <td>Không dùng UNIQUE trên khóa ngoại vì nhiều bản ghi con liên kết cùng cha</th>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>n-n (Many-to-Many)</strong></th>
+                                        <td>Nhiều bản ghi bảng A liên kết với nhiều bản ghi bảng B</th>
+                                        <td>BảngA ↔ BảngB qua bảng trung gian</th>
+                                        <td>Tạo bảng trung gian BangA_BangB có MaA, MaB, PRIMARY KEY(MaA, MaB), FOREIGN KEY(MaA) REFERENCES BangA(MaA), FOREIGN KEY(MaB) REFERENCES BangB(MaB)</th>
+                                        <td>HocSinh – MonHoc: mỗi học sinh học nhiều môn, mỗi môn có nhiều học sinh</th>
+                                        <td>Bắt buộc bảng trung gian; khóa chính kết hợp để tránh trùng lặp</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- <img style="width: 100%;" src="../img/sql.png" alt=""> -->
+                    </div>
+                </section>
+
+                <!-- PHẦN 2: JOIN TRONG SQL -->
+                <section id="phan2" class="section">
+                    <h2><i class="fas fa-link"></i>  JOIN TRONG SQL</h2>
+
+                    <div id="phan2-1">
+                        <h3>2.1. LÝ THUYẾT VỀ JOIN</h3>
+                        <p>JOIN là phép toán dùng để kết hợp dữ liệu từ hai hoặc nhiều bảng dựa trên một điều kiện liên quan giữa chúng.</p>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Loại JOIN</th>
+                                        <th>Mô tả</th>
+                                        <th>Ví dụ minh họa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>INNER JOIN</strong></th>
+                                        <td>Chỉ lấy các dòng có dữ liệu khớp ở cả hai bảng</th>
+                                        <td>Lấy học sinh có lớp</th>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>LEFT JOIN</strong></th>
+                                        <td>Lấy TẤT CẢ dòng từ bảng bên trái + dòng khớp từ bảng phải</th>
+                                        <td>Lấy tất cả học sinh (kể cả chưa có lớp)</th>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>RIGHT JOIN</strong></th>
+                                        <td>Lấy TẤT CẢ dòng từ bảng bên phải + dòng khớp từ bảng trái</th>
+                                        <td>Lấy tất cả lớp (kể cả lớp chưa có học sinh)</th>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>CROSS JOIN</strong></th>
+                                        <td>Tích Descartes - mỗi dòng bảng A ghép với mỗi dòng bảng B</th>
+                                        <td>Mọi cặp có thể có</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="phan2-2">
+                        <h3>2.2. INNER JOIN</h3>
+                        
+                        <h4>2.2.1. Mục đích</h4>
+                        <p>Lấy những bản ghi có dữ liệu khớp nhau ở cả hai bảng.</p>
+
+                        <h4>2.2.2. Cú pháp và giải thích</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Cú pháp INNER JOIN</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">-- Cú pháp cơ bản</span><br>
+                            <span class="keyword">SELECT</span> column1, column2, ...<br>
+                            <span class="keyword">FROM</span> table1<br>
+                            <span class="keyword">INNER JOIN</span> table2 <span class="keyword">ON</span> table1.key = table2.key;<br>
+                            <br>
+                            <span class="comment">-- Hoặc viết tắt</span><br>
+                            <span class="keyword">SELECT</span> column1, column2, ...<br>
+                            <span class="keyword">FROM</span> table1<br>
+                            <span class="keyword">JOIN</span> table2 <span class="keyword">ON</span> table1.key = table2.key;
+                        </div>
+                        <p><strong>Giải thích:</strong> INNER JOIN kết hợp hai bảng. ON chỉ định điều kiện kết nối (thường là khóa chính = khóa ngoại). Chỉ lấy những dòng thỏa mãn điều kiện ở ON.</p>
+
+                        <h4>2.2.3. Ví dụ chi tiết</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>INNER JOIN Example</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">-- 1. Tạo bảng students</span><br>
+                            DROP TABLE <span class="keyword">IF EXISTS</span> students;<br>
+                            <span class="keyword">CREATE TABLE</span> students (<br>
+                            &nbsp;&nbsp;&nbsp;student_id <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;name <span class="keyword">VARCHAR(50)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;age <span class="keyword">INT</span><br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- 2. Chèn dữ liệu vào students</span><br>
+                            <span class="keyword">INSERT INTO</span> students (student_id, name, age) <span class="keyword">VALUES</span><br>
+                            (1, 'Nam', 20),<br>
+                            (2, 'Lan', 21),<br>
+                            (3, 'Hoa', 19),<br>
+                            (4, 'Huy', 22);<br>
+                            <br>
+                            <span class="comment">-- 3. Tạo bảng scores</span><br>
+                            DROP TABLE <span class="keyword">IF EXISTS</span> scores;<br>
+                            <span class="keyword">CREATE TABLE</span> scores (<br>
+                            &nbsp;&nbsp;&nbsp;score_id <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;student_id <span class="keyword">INT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;subject <span class="keyword">VARCHAR(50)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;score <span class="keyword">FLOAT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">FOREIGN KEY</span> (student_id) <span class="keyword">REFERENCES</span> students(student_id)<br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- 4. Chèn dữ liệu vào scores</span><br>
+                            <span class="keyword">INSERT INTO</span> scores (score_id, student_id, subject, score) <span class="keyword">VALUES</span><br>
+                            (1, 1, 'Math', 8),<br>
+                            (2, 1, 'English', 7.5),<br>
+                            (3, 2, 'Math', 9),<br>
+                            (4, 3, 'English', 8),<br>
+                            (5, 5, 'Math', 6); <span class="comment">-- student_id 5 không tồn tại trong students</span><br>
+                            <br>
+                            <span class="comment">-- 5. INNER JOIN: Lấy danh sách sinh viên kèm điểm</span><br>
+                            <span class="keyword">SELECT</span> s.student_id, s.name, sc.subject, sc.score<br>
+                            <span class="keyword">FROM</span> students s<br>
+                            <span class="keyword">INNER JOIN</span> scores sc <span class="keyword">ON</span> s.student_id = sc.student_id;<br>
+                            <br>
+                            <span class="comment">-- 6. INNER JOIN với điều kiện: chỉ Math >= 8</span><br>
+                            <span class="keyword">SELECT</span> s.name, sc.subject, sc.score<br>
+                            <span class="keyword">FROM</span> students s<br>
+                            <span class="keyword">INNER JOIN</span> scores sc <span class="keyword">ON</span> s.student_id = sc.student_id<br>
+                            <span class="keyword">WHERE</span> sc.subject = 'Math' <span class="keyword">AND</span> sc.score >= 8;
+                        </div>
+                        <div class="info-box">
+                            <p><strong>Giải thích:</strong> DROP TABLE IF EXISTS → xóa bảng nếu đã tồn tại, tránh lỗi khi chạy nhiều lần. FOREIGN KEY → đảm bảo student_id trong scores phải có trong students. INNER JOIN → chỉ lấy các cặp khớp giữa students và scores. Truy vấn thứ hai có WHERE để lọc môn Math ≥ 8.</p>
+                        </div>
+                    </div>
+
+                    <div id="phan2-3">
+                        <h3>2.3. LEFT JOIN (LEFT OUTER JOIN)</h3>
+                        
+                        <h4>2.3.1. Mục đích</h4>
+                        <p>Lấy tất cả bản ghi từ bảng bên trái, kể cả khi không có dữ liệu khớp ở bảng bên phải.</p>
+
+                        <h4>2.3.2. Cú pháp và giải thích</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Cú pháp LEFT JOIN</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">SELECT</span> column1, column2, ...<br>
+                            <span class="keyword">FROM</span> table1  <span class="comment">-- Bảng bên trái</span><br>
+                            <span class="keyword">LEFT JOIN</span> table2 <span class="keyword">ON</span> table1.key = table2.key;
+                        </div>
+<ul><li>table1: bảng bên trái (bảng chính, luôn được giữ lại toàn bộ dữ liệu)</li>
+
+<li>table2: bảng bên phải</li>
+
+<li>ON table1.key = table2.key: điều kiện nối</li>
+</ul>                        <p><strong>Giải thích:</strong> Bảng bên trái: Tất cả dòng đều được lấy. Bảng bên phải: Chỉ lấy dòng khớp, nếu không khớp thì giá trị là NULL.</p>
+
+                        <h4>2.3.3. Ví dụ chi tiết</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>LEFT JOIN Example</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">-- 1. Tạo bảng students</span><br>
+                            DROP TABLE <span class="keyword">IF EXISTS</span> students;<br>
+                            <span class="keyword">CREATE TABLE</span> students (<br>
+                            &nbsp;&nbsp;&nbsp;student_id <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;name <span class="keyword">VARCHAR(50)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;age <span class="keyword">INT</span><br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- 2. Chèn dữ liệu vào students</span><br>
+                            <span class="keyword">INSERT INTO</span> students (student_id, name, age) <span class="keyword">VALUES</span><br>
+                            (1, 'Nam', 20),<br>
+                            (2, 'Lan', 21),<br>
+                            (3, 'Hoa', 19),<br>
+                            (4, 'Huy', 22);<br>
+                            <br>
+                            <span class="comment">-- 3. Tạo bảng scores</span><br>
+                            DROP TABLE <span class="keyword">IF EXISTS</span> scores;<br>
+                            <span class="keyword">CREATE TABLE</span> scores (<br>
+                            &nbsp;&nbsp;&nbsp;score_id <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;student_id <span class="keyword">INT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;subject <span class="keyword">VARCHAR(50)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;score <span class="keyword">FLOAT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">FOREIGN KEY</span> (student_id) <span class="keyword">REFERENCES</span> students(student_id)<br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- 4. Chèn dữ liệu vào scores</span><br>
+                            <span class="keyword">INSERT INTO</span> scores (score_id, student_id, subject, score) <span class="keyword">VALUES</span><br>
+                            (1, 1, 'Math', 8),<br>
+                            (2, 1, 'English', 7.5),<br>
+                            (3, 2, 'Math', 9),<br>
+                            (4, 3, 'English', 8),<br>
+                            (5, 5, 'Math', 6); <span class="comment">-- student_id 5 không tồn tại trong students</span><br>
+                            <br>
+                            <span class="comment">-- 5. LEFT JOIN: Lấy tất cả sinh viên kèm điểm (nếu có)</span><br>
+                            <span class="keyword">SELECT</span> s.student_id, s.name, sc.subject, sc.score<br>
+                            <span class="keyword">FROM</span> students s<br>
+                            <span class="keyword">LEFT JOIN</span> scores sc <span class="keyword">ON</span> s.student_id = sc.student_id;
+                        </div>
+
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>student_id</th>
+                                        <th>name</th>
+                                        <th>subject</th>
+                                        <th>score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</th>
+                                        <td>Nam</th>
+                                        <td>Math</th>
+                                        <td>8</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</th>
+                                        <td>Nam</th>
+                                        <td>English</th>
+                                        <td>7.5</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2</th>
+                                        <td>Lan</th>
+                                        <td>Math</th>
+                                        <td>9</th>
+                                    </tr>
+                                    <tr>
+                                        <td>3</th>
+                                        <td>Hoa</th>
+                                        <td>English</th>
+                                        <td>8</th>
+                                    </tr>
+                                    <tr>
+                                        <td>4</th>
+                                        <td>Huy</th>
+                                        <td>NULL</th>
+                                        <td>NULL</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="info-box">
+                            <p><strong>Giải thích LEFT JOIN:</strong> LEFT JOIN sẽ lấy tất cả bản ghi bên trái (students), kể cả khi bên phải (scores) không có dữ liệu khớp. Nếu sinh viên chưa có điểm → cột subject và score sẽ là NULL. Dữ liệu student_id = 5 trong scores bị loại vì không có bên trái khớp.</p>
+                        </div>
+                    </div>
+
+                    <div id="phan2-4">
+                        <h3>2.4. RIGHT JOIN (RIGHT OUTER JOIN)</h3>
+                        
+                        <h4>2.4.1. Mục đích</h4>
+                        <p>Lấy tất cả bản ghi từ bảng bên phải, kể cả khi không có dữ liệu khớp ở bảng bên trái.</p>
+
+                        <h4>2.4.2. Cú pháp và giải thích</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Cú pháp RIGHT JOIN</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">SELECT</span> column1, column2, ...<br>
+                            <span class="keyword">FROM</span> table1<br>
+                            <span class="keyword">RIGHT JOIN</span> table2 <span class="keyword">ON</span> table1.key = table2.key;
+                        </div>
+                        <p><strong>Giải thích:</strong> Ngược với LEFT JOIN. Thường có thể thay bằng LEFT JOIN bằng cách đổi vị trí bảng.</p>
+
+                        <h4>2.4.3. Ví dụ chi tiết</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>RIGHT JOIN Example</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">-- 1. Tạo bảng students</span><br>
+                            DROP TABLE <span class="keyword">IF EXISTS</span> students;<br>
+                            <span class="keyword">CREATE TABLE</span> students (<br>
+                            &nbsp;&nbsp;&nbsp;student_id <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;name <span class="keyword">VARCHAR(50)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;age <span class="keyword">INT</span><br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- 2. Chèn dữ liệu vào students</span><br>
+                            <span class="keyword">INSERT INTO</span> students (student_id, name, age) <span class="keyword">VALUES</span><br>
+                            (1, 'Nam', 20),<br>
+                            (2, 'Lan', 21),<br>
+                            (3, 'Hoa', 19),<br>
+                            (4, 'Huy', 22);<br>
+                            <br>
+                            <span class="comment">-- 3. Tạo bảng scores</span><br>
+                            DROP TABLE <span class="keyword">IF EXISTS</span> scores;<br>
+                            <span class="keyword">CREATE TABLE</span> scores (<br>
+                            &nbsp;&nbsp;&nbsp;score_id <span class="keyword">INT PRIMARY KEY</span>,<br>
+                            &nbsp;&nbsp;&nbsp;student_id <span class="keyword">INT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;subject <span class="keyword">VARCHAR(50)</span>,<br>
+                            &nbsp;&nbsp;&nbsp;score <span class="keyword">FLOAT</span>,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">FOREIGN KEY</span> (student_id) <span class="keyword">REFERENCES</span> students(student_id)<br>
+                            );<br>
+                            <br>
+                            <span class="comment">-- 4. Chèn dữ liệu vào scores</span><br>
+                            <span class="keyword">INSERT INTO</span> scores (score_id, student_id, subject, score) <span class="keyword">VALUES</span><br>
+                            (1, 1, 'Math', 8),<br>
+                            (2, 1, 'English', 7.5),<br>
+                            (3, 2, 'Math', 9),<br>
+                            (4, 3, 'English', 8),<br>
+                            (5, 5, 'Math', 6); <span class="comment">-- student_id 5 không tồn tại trong students</span><br>
+                            <br>
+                            <span class="comment">-- 5. RIGHT JOIN: Lấy tất cả điểm kèm thông tin sinh viên nếu có</span><br>
+                            <span class="keyword">SELECT</span> s.student_id, s.name, sc.subject, sc.score<br>
+                            <span class="keyword">FROM</span> students s<br>
+                            <span class="keyword">RIGHT JOIN</span> scores sc <span class="keyword">ON</span> s.student_id = sc.student_id;
+                        </div>
+
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>student_id</th>
+                                        <th>name</th>
+                                        <th>subject</th>
+                                        <th>score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</th>
+                                        <td>Nam</th>
+                                        <td>Math</th>
+                                        <td>8</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</th>
+                                        <td>Nam</th>
+                                        <td>English</th>
+                                        <td>7.5</th>
+                                    </tr>
+                                    <tr>
+                                        <td>2</th>
+                                        <td>Lan</th>
+                                        <td>Math</th>
+                                        <td>9</th>
+                                    </tr>
+                                    <tr>
+                                        <td>3</th>
+                                        <td>Hoa</th>
+                                        <td>English</th>
+                                        <td>8</th>
+                                    </tr>
+                                    <tr>
+                                        <td>NULL</th>
+                                        <td>NULL</th>
+                                        <td>Math</th>
+                                        <td>6</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="info-box">
+                            <p><strong>Giải thích RIGHT JOIN:</strong> RIGHT JOIN lấy tất cả bản ghi bên phải (scores), kể cả khi bên trái (students) không có dữ liệu khớp. Nếu không có sinh viên tương ứng → cột student_id và name sẽ là NULL. Sinh viên không có điểm (Huy = 4) bị loại, nhưng điểm không có sinh viên (student_id = 5) vẫn hiển thị.</p>
+                        </div>
+                    </div>
+
+                    <div id="phan2-5">
+                        <h3>2.6. BẢNG TỔNG HỢP CÁC LOẠI JOIN</h3>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Loại JOIN</th>
+                                        <th>Lấy dữ liệu từ bảng</th>
+                                        <th>Điều kiện khớp</th>
+                                        <th>Dữ liệu không khớp có hiển thị?</th>
+                                        <th>Ví dụ SQL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>INNER JOIN</strong></th>
+                                        <td>Cả hai bảng</th>
+                                        <td>ON &lt;cột chung&gt;</th>
+                                        <td>Không (chỉ lấy các bản ghi khớp)</th>
+                                        <td>SELECT s.name, sc.subject, sc.score FROM students s INNER JOIN scores sc ON s.student_id = sc.student_id;</th>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>LEFT JOIN</strong></th>
+                                        <td>Bảng bên trái</th>
+                                        <td>ON &lt;cột chung&gt;</th>
+                                        <td>Có (bên trái vẫn hiển thị, bên phải NULL nếu không khớp)</th>
+                                        <td>SELECT s.name, sc.subject, sc.score FROM students s LEFT JOIN scores sc ON s.student_id = sc.student_id;</th>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>RIGHT JOIN</strong></th>
+                                        <td>Bảng bên phải</th>
+                                        <td>ON &lt;cột chung&gt;</th>
+                                        <td>Có (bên phải vẫn hiển thị, bên trái NULL nếu không khớp)</th>
+                                        <td>SELECT s.name, sc.subject, sc.score FROM students s RIGHT JOIN scores sc ON s.student_id = sc.student_id;</th>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>FULL OUTER JOIN</strong></th>
+                                        <td>Cả hai bảng</th>
+                                        <td>ON &lt;cột chung&gt;</th>
+                                        <td>Có (lấy tất cả các bản ghi, NULL nếu không khớp)</th>
+                                        <td>SELECT s.name, sc.subject, sc.score FROM students s LEFT JOIN scores sc ON s.student_id = sc.student_id UNION SELECT s.name, sc.subject, sc.score FROM students s RIGHT JOIN scores sc ON s.student_id = sc.student_id;</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN 3: CÁC LỆNH NÂNG CAO -->
+                <section id="phan3" class="section">
+                    <h2><i class="fas fa-chart-line"></i>  CÁC LỆNH NÂNG CAO</h2>
+
+                    <div id="phan3-1">
+                        <h3>3.1. GROUP BY và HAVING</h3>
+                        
+                        <h4>3.1.1. Mục đích</h4>
+                        <ul>
+                            <li><strong>GROUP BY:</strong> Nhóm các dòng có cùng giá trị thành một nhóm</li>
+                            <li><strong>HAVING:</strong> Lọc kết quả sau khi nhóm (giống WHERE nhưng áp dụng cho GROUP BY)</li>
+                        </ul>
+
+                        <h4>3.1.2. Cú pháp và giải thích</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Cú pháp GROUP BY và HAVING</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">SELECT</span> column1, aggregate_function(column2)<br>
+                            <span class="keyword">FROM</span> table<br>
+                            [<span class="keyword">WHERE</span> condition]<br>
+                            <span class="keyword">GROUP BY</span> column1<br>
+                            [<span class="keyword">HAVING</span> condition]<br>
+                            <span class="keyword">ORDER BY</span> column1;
+                        </div>
+                        <p><strong>Giải thích:</strong> aggregate_function: SUM(), AVG(), COUNT(), MAX(), MIN(). WHERE: Lọc trước khi nhóm. HAVING: Lọc sau khi nhóm.</p>
+
+                        <h4>3.1.3. Ví dụ chi tiết</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>GROUP BY và HAVING Examples</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">-- Sử dụng database QuanLyDiem</span><br>
+                            <span class="keyword">USE</span> QuanLyDiem;<br>
+                            <br>
+                            <span class="comment">-- Ví dụ 1: Đếm số học sinh theo từng lớp</span><br>
+                            <span class="keyword">SELECT</span> <br>
+                            &nbsp;&nbsp;&nbsp;Lop,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> SoHocSinh<br>
+                            <span class="keyword">FROM</span> HocSinh<br>
+                            <span class="keyword">GROUP BY</span> Lop;<br>
+                            <br>
+                            <span class="comment">-- Kết quả:</span><br>
+                            <span class="comment">-- Lop   | SoHocSinh</span><br>
+                            <span class="comment">-- 10A1  | 2</span><br>
+                            <span class="comment">-- 10A2  | 1</span><br>
+                            <br>
+                            <span class="comment">-- Ví dụ 2: Tính điểm trung bình theo môn học</span><br>
+                            <span class="keyword">SELECT</span> <br>
+                            &nbsp;&nbsp;&nbsp;mh.TenMon,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">COUNT</span>(bd.Diem) <span class="keyword">AS</span> SoBaiThi,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">ROUND</span>(<span class="keyword">AVG</span>(bd.Diem), 2) <span class="keyword">AS</span> DiemTrungBinh,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">MIN</span>(bd.Diem) <span class="keyword">AS</span> DiemThapNhat,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">MAX</span>(bd.Diem) <span class="keyword">AS</span> DiemCaoNhat<br>
+                            <span class="keyword">FROM</span> MonHoc mh<br>
+                            <span class="keyword">INNER JOIN</span> BangDiem bd <span class="keyword">ON</span> mh.MaMon = bd.MaMon<br>
+                            <span class="keyword">GROUP BY</span> mh.TenMon;<br>
+                            <br>
+                            <span class="comment">-- Ví dụ 3: HAVING - chỉ lấy lớp có số học sinh > 1</span><br>
+                            <span class="keyword">SELECT</span> <br>
+                            &nbsp;&nbsp;&nbsp;Lop,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> SoHocSinh<br>
+                            <span class="keyword">FROM</span> HocSinh<br>
+                            <span class="keyword">GROUP BY</span> Lop<br>
+                            <span class="keyword">HAVING</span> <span class="keyword">COUNT</span>(*) > 1;<br>
+                            <br>
+                            <span class="comment">-- Kết quả: Chỉ hiển thị lớp 10A1 (có 2 học sinh)</span><br>
+                            <br>
+                            <span class="comment">-- Ví dụ 4: HAVING với nhiều điều kiện</span><br>
+                            <span class="keyword">SELECT</span> <br>
+                            &nbsp;&nbsp;&nbsp;hs.Lop,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">COUNT</span>(bd.Diem) <span class="keyword">AS</span> SoBaiThi,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">ROUND</span>(<span class="keyword">AVG</span>(bd.Diem), 2) <span class="keyword">AS</span> DiemTB<br>
+                            <span class="keyword">FROM</span> HocSinh hs<br>
+                            <span class="keyword">INNER JOIN</span> BangDiem bd <span class="keyword">ON</span> hs.MaHS = bd.MaHS<br>
+                            <span class="keyword">GROUP BY</span> hs.Lop<br>
+                            <span class="keyword">HAVING</span> <span class="keyword">COUNT</span>(bd.Diem) >= 3 <span class="keyword">AND</span> <span class="keyword">AVG</span>(bd.Diem) >= 7.5<br>
+                            <span class="keyword">ORDER BY</span> DiemTB <span class="keyword">DESC</span>;<br>
+                            <br>
+                            <span class="comment">-- Ví dụ 5: Phân biệt WHERE và HAVING</span><br>
+                            <span class="comment">-- WHERE lọc trước khi group, HAVING lọc sau khi group</span><br>
+                            <span class="keyword">SELECT</span> <br>
+                            &nbsp;&nbsp;&nbsp;Lop,<br>
+                            &nbsp;&nbsp;&nbsp;<span class="keyword">COUNT</span>(*) <span class="keyword">AS</span> SoHocSinh<br>
+                            <span class="keyword">FROM</span> HocSinh<br>
+                            <span class="keyword">WHERE</span> Tuoi >= 15  <span class="comment">-- Lọc học sinh từ 15 tuổi trở lên</span><br>
+                            <span class="keyword">GROUP BY</span> Lop<br>
+                            <span class="keyword">HAVING</span> <span class="keyword">COUNT</span>(*) >= 1;  <span class="comment">-- Lọc lớp có ít nhất 1 học sinh</span>
+                        </div>
+                    </div>
+
+                    <div id="phan3-2">
+                        <h3>3.4. DISTINCT</h3>
+                        
+                        <h4>3.4.1. Mục đích</h4>
+                        <p>Loại bỏ các dòng trùng lặp trong kết quả truy vấn.</p>
+
+                        <h4>3.4.2. Cú pháp và giải thích</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>Cú pháp DISTINCT</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> column1, column2, ...<br>
+                            <span class="keyword">FROM</span> table<br>
+                            [<span class="keyword">WHERE</span> condition];
+                        </div>
+                        <p><strong>Giải thích:</strong> DISTINCT áp dụng cho tất cả các cột trong SELECT. Chỉ giữ lại một bản ghi duy nhất cho mỗi tổ hợp giá trị.</p>
+
+                        <h4>3.4.3. Ví dụ chi tiết</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>DISTINCT Examples</span>
+                                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <span class="comment">-- Ví dụ 1: Lấy danh sách các lớp (không trùng)</span><br>
+                            <span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> Lop <span class="keyword">FROM</span> HocSinh;<br>
+                            <br>
+                            <span class="comment">-- Kết quả: chỉ hiển thị 10A1, 10A2 (không hiển thị trùng)</span><br>
+                            <br>
+                            <span class="comment">-- Ví dụ 2: Lấy danh sách các cặp (Lớp, Giới tính) duy nhất</span><br>
+                            <span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> Lop, GioiTinh <span class="keyword">FROM</span> HocSinh;<br>
+                            <br>
+                            <span class="comment">-- Ví dụ 3: Đếm số lớp khác nhau</span><br>
+                            <span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(<span class="keyword">DISTINCT</span> Lop) <span class="keyword">AS</span> SoLop <span class="keyword">FROM</span> HocSinh;<br>
+                            <br>
+                            <span class="comment">-- Ví dụ 4: Lấy danh sách học sinh từng thi (không trùng tên)</span><br>
+                            <span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> hs.HoTen<br>
+                            <span class="keyword">FROM</span> HocSinh hs<br>
+                            <span class="keyword">INNER JOIN</span> BangDiem bd <span class="keyword">ON</span> hs.MaHS = bd.MaHS;<br>
+                            <br>
+                            <span class="comment">-- Ví dụ 5: DISTINCT với nhiều cột</span><br>
+                            <span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> <br>
+                            &nbsp;&nbsp;&nbsp;hs.Lop,<br>
+                            &nbsp;&nbsp;&nbsp;mh.TenMon<br>
+                            <span class="keyword">FROM</span> HocSinh hs<br>
+                            <span class="keyword">INNER JOIN</span> BangDiem bd <span class="keyword">ON</span> hs.MaHS = bd.MaHS<br>
+                            <span class="keyword">INNER JOIN</span> MonHoc mh <span class="keyword">ON</span> bd.MaMon = mh.MaMon<br>
+                            <span class="keyword">ORDER BY</span> hs.Lop, mh.TenMon;
+                        </div>
+                    </div>
+                </section>
+                 <section id="phan4" class="section">
+                    <h2>Đề bài</h2>
+<p>Quản lý Nhân viên – Thẻ nhân viên</p>
+
+<h3>Bảng</h3>
+<ul>
+    <li>NhanVien
+        <ul>
+            <li>maNV (PK)</li>
+            <li>tenNV</li>
+        </ul>
+    </li>
+    <li>TheNhanVien
+        <ul>
+            <li>maThe (PK)</li>
+            <li>ngayCap</li>
+            <li>maNV (FK, UNIQUE)</li>
+        </ul>
+    </li>
+</ul>
+
+<p>Mỗi nhân viên chỉ có 1 thẻ, mỗi thẻ thuộc 1 nhân viên</p>
+
+<h3>Yêu cầu</h3>
+<ol>
+    <li>Tạo bảng và ràng buộc 1-1</li>
+    <li>Thêm dữ liệu: 4 nhân viên, 3 thẻ</li>
+    <li>Truy vấn:
+        <ul>
+            <li>Hiển thị tên nhân viên và ngày cấp thẻ</li>
+        </ul>
+    </li>
+</ol>
+
+
+<h1>BÀI 2 – QUAN HỆ 1 - N (ONE-TO-MANY)</h1>
+
+<h2>Đề bài</h2>
+<p>Quản lý Lớp học – Sinh viên</p>
+
+<h3>Bảng</h3>
+<ul>
+    <li>LopHoc
+        <ul>
+            <li>maLop (PK)</li>
+            <li>tenLop</li>
+        </ul>
+    </li>
+    <li>SinhVien
+        <ul>
+            <li>maSV (PK)</li>
+            <li>tenSV</li>
+            <li>maLop (FK)</li>
+        </ul>
+    </li>
+</ul>
+
+<p>Một lớp có nhiều sinh viên, một sinh viên thuộc một lớp</p>
+
+<h3>Yêu cầu</h3>
+<ol>
+    <li>Tạo bảng và khóa ngoại</li>
+    <li>Thêm dữ liệu: 3 lớp, 6 sinh viên</li>
+    <li>Truy vấn:
+        <ul>
+            <li>Hiển thị tên sinh viên và tên lớp</li>
+        </ul>
+    </li>
+</ol>
+
+
+<h1>BÀI 3 – QUAN HỆ N - N (MANY-TO-MANY)</h1>
+
+<h2>Đề bài</h2>
+<p>Quản lý Sinh viên – Môn học</p>
+
+<h3>Bảng</h3>
+<ul>
+    <li>SinhVien
+        <ul>
+            <li>maSV (PK)</li>
+            <li>tenSV</li>
+        </ul>
+    </li>
+    <li>MonHoc
+        <ul>
+            <li>maMH (PK)</li>
+            <li>tenMH</li>
+        </ul>
+    </li>
+    <li>DangKy
+        <ul>
+            <li>maSV (FK)</li>
+            <li>maMH (FK)</li>
+            <li>diem</li>
+            <li>PRIMARY KEY (maSV, maMH)</li>
+        </ul>
+    </li>
+</ul>
+
+<p>Một sinh viên học nhiều môn, một môn có nhiều sinh viên</p>
+
+<h3>Yêu cầu</h3>
+<ol>
+    <li>Tạo 3 bảng và ràng buộc</li>
+    <li>Thêm dữ liệu: 5 sinh viên, 4 môn học</li>
+    <li>Truy vấn:
+        <ul>
+            <li>Hiển thị tên sinh viên, tên môn, điểm</li>
+         
+        </ul>
+    </li>
+</ol>
+
+                 </section>
+            </main>
+        </div>
+
+        <footer>
+            <p> GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    this.classList.add('active');
+
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+
+        // Hàm copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

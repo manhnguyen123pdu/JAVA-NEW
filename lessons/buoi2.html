@@ -1,0 +1,2315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LÀM QUEN VỚI JAVA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./main.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-code"></i>LÀM QUEN VỚI JAVA</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#overview" class="nav-link active"><i class="fas fa-globe"></i> Tổng quan Java</a></li>
+                    <li class="nav-item"><a href="#installation" class="nav-link"><i class="fas fa-download"></i> Cài đặt JDK</a></li>
+                    <li class="nav-item"><a href="#structure" class="nav-link"><i class="fas fa-cube"></i> Cấu trúc chương trình</a></li>
+                    <li class="nav-item"><a href="#io" class="nav-link"><i class="fas fa-terminal"></i> Nhập xuất dữ liệu</a></li>
+                    <li class="nav-item"><a href="#variables" class="nav-link"><i class="fas fa-memory"></i> Biến và kiểu dữ liệu</a></li>
+                    <li class="nav-item"><a href="#operators" class="nav-link"><i class="fas fa-calculator"></i> Toán tử</a></li>
+                    <li class="nav-item"><a href="#math" class="nav-link"><i class="fas fa-square-root-alt"></i> Thư viện Math</a></li>
+                    <li class="nav-item"><a href="#errors" class="nav-link"><i class="fas fa-bug"></i> Lỗi thường gặp</a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN 1: Tổng quan Java -->
+                <section id="overview" class="section active">
+                    <h2><i class="fas fa-globe"></i>  TỔNG QUAN VỀ JAVA</h2>
+                    
+                    <h3>1.1 Java là gì? - Giải thích chi tiết</h3>
+                    <p><strong>Định nghĩa đầy đủ:</strong> Java là ngôn ngữ lập trình hướng đối tượng (Object-Oriented), đa nền tảng (cross-platform), được phát triển bởi James Gosling và đội ngũ tại Sun Microsystems vào năm 1995.</p>
+                    
+                    <h4>Tại sao gọi là "Viết một lần, chạy mọi nơi"?</h4>
+                    <p>Cùng một file .java này có thể chạy trên: Windows, macOS, Linux, Android, mà không cần sửa đổi code</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>HelloWorld.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">HelloWorld</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chạy trên mọi hệ điều hành!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>1.2 Kiến trúc Java Platform</h3>
+                    <img src="../img/ls2.1.png" style="width: 100%;" alt="">
+                   
+
+                </section>
+
+                <!-- PHẦN 2: Cài đặt JDK -->
+                <section id="installation" class="section">
+                    <h2><i class="fas fa-download"></i>CÀI ĐẶT VÀ CẤU HÌNH CHI TIẾT</h2>
+                    
+                    <h3>2.1 Cài đặt JDK từng bước</h3>
+                    
+                    <h4>Bước 1: Tải JDK</h4>
+                    <ul>
+                        <li>Truy cập: https://www.oracle.com/java/technologies/</li>
+                        <li>Tải bản mới nhất (JDK 17 hoặc 21)</li>
+                        <li>Chọn đúng phiên bản cho hệ điều hành</li>
+                    </ul>
+
+                    <h4>Bước 2: Cài đặt</h4>
+                    <ul>
+                        <li>Windows: Chạy file .exe và làm theo hướng dẫn</li>
+                        <li>macOS: Chạy file .dmg</li>
+                    </ul>
+
+                    <h4>Bước 3: Kiểm tra cài đặt</h4>
+                    <p>Mở Command Prompt/Terminal và gõ:</p>
+                    <div class="code-block">
+                        java -version<br>
+                        javac -version
+                    </div>
+                    <p><strong>Kết quả mong đợi:</strong></p>
+                    <div class="code-block">
+                        java version "17.0.1" 2021-10-19 LTS<br>
+                        Java(TM) SE Runtime Environment (build 17.0.1+12-LTS-39)<br>
+                        Java HotSpot(TM) 64-Bit Server VM (build 17.0.1+12-LTS-39, mixed mode, sharing)
+                    </div>
+
+                    <h3>2.2 Cấu hình biến môi trường</h3>
+                    
+                    <h4>Trên Windows:</h4>
+                    <ol>
+                        <li>Click chuột phải vào This PC → Properties</li>
+                        <li>Advanced system settings → Environment Variables</li>
+                        <li>System variables → New</li>
+                        <li>Variable name: JAVA_HOME</li>
+                        <li>Variable value: C:\Program Files\Java\jdk-17</li>
+                        <li>Tìm biến Path → Edit → New</li>
+                        <li>Thêm: %JAVA_HOME%\bin</li>
+                    </ol>
+
+                    <h4>Trên macOS/Linux:</h4>
+                    <div class="code-block">
+                        <span class="comment"># Thêm vào file ~/.bash_profile hoặc ~/.zshrc</span><br>
+                        export JAVA_HOME=$(/usr/libexec/java_home)<br>
+                        export PATH=$JAVA_HOME/bin:$PATH<br>
+                        <span class="comment"># Sau đó chạy:</span><br>
+                        source ~/.bash_profile
+                    </div>
+
+                    <h3>2.3 Cài đặt và cấu hình IDE</h3>
+                    <h4>IntelliJ IDEA (Khuyến nghị):</h4>
+                    <p><strong>Ưu điểm:</strong></p>
+                    <ul>
+                        <li>Gợi ý code thông minh (IntelliSense)</li>
+                        <li>Debug dễ dàng</li>
+                        <li>Hỗ trợ nhiều plugin</li>
+                        <li>Giao diện thân thiện</li>
+                    </ul>
+                    <p><strong>Các bước:</strong></p>
+                    <ol>
+                        <li>Tải IntelliJ IDEA Community (miễn phí)</li>
+                        <li>Cài đặt</li>
+                        <li>Tạo project mới: File → New → Project</li>
+                        <li>Chọn JDK location</li>
+                        <li>Tạo class và bắt đầu code!</li>
+                    </ol>
+                </section>
+
+                <!-- PHẦN 3: Cấu trúc chương trình -->
+                <section id="structure" class="section">
+                    <h2><i class="fas fa-cube"></i> CẤU TRÚC CHƯƠNG TRÌNH JAVA CHI TIẾT</h2>
+                    <img src="../img/LS2.2.png" width="100%" alt="">
+                    <h3>3.1 Phân tích từng thành phần</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>File: HelloWorld.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// 1. KHAI BÁO PACKAGE (tùy chọn)</span><br>
+                        <span class="keyword">package</span> com.company.buoi1;<br>
+                        <br>
+                        <span class="comment">// 2. IMPORT THƯ VIỆN (tùy chọn)</span><br>
+                        <span class="keyword">import</span> java.util.Date;<br>
+                        <br>
+                        <span class="comment">// 3. KHAI BÁO LỚP (bắt buộc)</span><br>
+                        <span class="keyword">public class</span> <span class="class-name">HelloWorld</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. PHƯƠNG THỨC MAIN (bắt buộc)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 5. CÁC CÂU LỆNH THỰC THI</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Hello Java World!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thời gian hiện tại: "</span> + <span class="keyword">new</span> Date());<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>3.2 Giải thích CHI TIẾT từng phần</h3>
+                    
+                    <h4>Package (Gói):</h4>
+                    <div class="code-block">
+                        <span class="keyword">package</span> com.company.buoi1;
+                    </div>
+                    <p><strong>Giải thích từ khóa:</strong></p>
+                    <ul>
+                        <li><code>package</code>: Từ khóa khai báo gói</li>
+                        <li><code>com.company.buoi1</code>: Tên gói theo quy tắc domain ngược</li>
+                        <li><strong>Mục đích</strong>: Tổ chức code, tránh xung đột tên</li>
+                        <li><strong>Quy ước</strong>: viết thường, phân cách bằng dấu chấm</li>
+                        <li><strong>Tương ứng với thư mục</strong>: com/company/buoi1/</li>
+                    </ul>
+
+                    <h4>Import:</h4>
+                    <div class="code-block">
+                        <span class="keyword">import</span> java.util.Date;          <span class="comment">// Import lớp Date cụ thể</span><br>
+                        <span class="keyword">import</span> java.util.*;             <span class="comment">// Import toàn bộ gói util</span><br>
+                        <span class="keyword">import static</span> java.lang.Math.*; <span class="comment">// Import phương thức tĩnh</span>
+                    </div>
+
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> CÁC GÓI QUAN TRỌNG:</h4>
+                        <ul>
+                            <li><strong>java.lang</strong> - Tự động import (String, System, Math)</li>
+                            <li><strong>java.util</strong> - Công cụ tiện ích (Date, ArrayList)</li>
+                            <li><strong>java.io</strong> - Input/Output (File, Scanner)</li>
+                        </ul>
+                    </div>
+
+                    <h4>Class (Lớp):</h4>
+                    <div class="code-block">
+                        <span class="keyword">public class</span> <span class="class-name">HelloWorld</span> { … }
+                    </div>
+                    <p><strong>Giải thích từ khóa:</strong></p>
+                    <ul>
+                        <li><code>public</code>: Lớp có thể truy cập từ mọi nơi</li>
+                        <li><code>class</code>: Từ khóa khai báo lớp</li>
+                        <li><code>HelloWorld</code>: Tên lớp - VIẾT HOA CHỮ CÁI ĐẦU TỪ</li>
+                        <li><strong>QUAN TRỌNG</strong>: Tên file PHẢI TRÙNG với tên lớp public</li>
+                    </ul>
+
+                    <h4>Phương thức main:</h4>
+                    <div class="code-block">
+                        <span class="keyword">public static void</span> main(String[] args) {...}
+                    </div>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Từ khóa</th>
+                                    <th>Giải thích chi tiết</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>public</strong></td>
+                                    <td>Ai cũng có thể gọi phương thức này. JVM cần truy cập được để khởi chạy</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>static</strong></td>
+                                    <td>Thuộc về LỚP, không thuộc về ĐỐI TƯỢNG. Có thể gọi mà không cần tạo đối tượng. Ví dụ: HelloWorld.main() thay vì new HelloWorld().main()</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>void</strong></td>
+                                    <td>Phương thức KHÔNG TRẢ VỀ giá trị. Nếu có return type, phải dùng return statement</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>main</strong></td>
+                                    <td>Tên phương thức BẮT BUỘC. JVM tìm phương thức này để bắt đầu thực thi</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>String[] args</strong></td>
+                                    <td>Tham số đầu vào (command-line arguments). Mảng các chuỗi ký tự. Ví dụ: java HelloWorld arg1 arg2</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- PHẦN 4: Nhập xuất dữ liệu -->
+                <section id="io" class="section">
+                    <h2><i class="fas fa-terminal"></i> CÁC LỆNH NHẬP XUẤT TRONG JAVA</h2>
+                    
+                    <h3>3.4.1. Lệnh xuất dữ liệu (Output)</h3>
+                    <p>Sử dụng System.out.print() và System.out.println()</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lệnh</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>System.out.print()</code></td>
+                                    <td>In ra màn hình không xuống dòng sau khi in</td>
+                                </tr>
+                                <tr>
+                                    <td><code>System.out.println()</code></td>
+                                    <td>In ra màn hình và xuống dòng sau khi in</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p><strong>Giải thích từ khóa:</strong></p>
+                    <ul>
+                        <li><strong>System</strong>: Lớp final trong java.lang. Chứa các thành phần liên quan đến hệ thống. Constructor private → không thể tạo instance</li>
+                        <li><strong>out</strong>: Biến static trong lớp System. Kiểu: PrintStream. Mặc định trỏ đến stdout (console)</li>
+                        <li><strong>println()</strong>: Phương thức của PrintStream. In chuỗi và XUỐNG DÒNG. Có thể in bất kỳ kiểu dữ liệu nào</li>
+                    </ul>
+
+                    <div class="code-block">
+                        <span class="keyword">public class</span> <span class="class-name">OutputExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Xin chao "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Java!"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Hoc nhap xuat du lieu."</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <p><strong>Kết quả hiển thị:</strong></p>
+                    <div class="code-block">
+                        Xin chao Java!<br>
+                        Hoc nhap xuat du lieu.
+                    </div>
+                    <p><strong>Giải thích:</strong> Dòng đầu tiên dùng print nên "Xin chao " và "Java!" nằm trên cùng một dòng. Dòng thứ hai dùng println nên tự động xuống dòng.</p>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Chạy thử Output</h4>
+                        <button class="btn btn-run" onclick="runOutputExample()">
+                            <i class="fas fa-play"></i> Chạy Output Example
+                        </button>
+                        <div class="result" id="outputResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="outputResultContent"></div>
+                        </div>
+                    </div>
+
+                    <h3>3.4.2. Lệnh nhập dữ liệu (Input)</h3>
+                    <p>Trong Java có nhiều cách nhập dữ liệu, nhưng cách phổ biến nhất là dùng lớp Scanner.</p>
+                    
+                    <p><strong>Sử dụng lớp Scanner</strong></p>
+                    <p>Cần import lớp này trước khi sử dụng: <code>import java.util.Scanner;</code></p>
+                    <p>Sau đó tạo đối tượng: <code>Scanner sc = new Scanner(System.in);</code></p>
+
+                    <h4>Các phương thức nhập phổ biến của Scanner</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phương thức</th>
+                                    <th>Kiểu dữ liệu nhập</th>
+                                    <th>Ví dụ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>nextLine()</code></td>
+                                    <td>Chuỗi (String)</td>
+                                    <td>String name = sc.nextLine();</td>
+                                </tr>
+                                <tr>
+                                    <td><code>next()</code></td>
+                                    <td>Chuỗi (chỉ 1 từ)</td>
+                                    <td>String word = sc.next();</td>
+                                </tr>
+                                <tr>
+                                    <td><code>nextInt()</code></td>
+                                    <td>Số nguyên (int)</td>
+                                    <td>int a = sc.nextInt();</td>
+                                </tr>
+                                <tr>
+                                    <td><code>nextDouble()</code></td>
+                                    <td>Số thực (double)</td>
+                                    <td>double b = sc.nextDouble();</td>
+                                </tr>
+                                <tr>
+                                    <td><code>nextFloat()</code></td>
+                                    <td>Số thực (float)</td>
+                                    <td>float c = sc.nextFloat();</td>
+                                </tr>
+                                <tr>
+                                    <td><code>nextBoolean()</code></td>
+                                    <td>Kiểu logic (true/false)</td>
+                                    <td>boolean ok = sc.nextBoolean();</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>Ví dụ: Nhập chuỗi và số nguyên</h4>
+                    <div class="code-block">
+                        <span class="keyword">import</span> java.util.Scanner;<br>
+                        <span class="keyword">public class</span> <span class="class-name">InputExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="keyword">new</span> Scanner(System.in);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Nhap ten cua ban: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name = sc.nextLine();<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Nhap tuoi cua ban: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int age = sc.nextInt();<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chao "</span> + name + <span class="string">"! Ban "</span> + age + <span class="string">" tuoi."</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <p><strong>Kết quả khi chạy:</strong></p>
+                    <div class="code-block">
+                        Nhap ten cua ban: Minh<br>
+                        Nhap tuoi cua ban: 21<br>
+                        Chao Minh! Ban 21 tuoi.
+                    </div>
+
+                    <h4>3.4.3. Ví dụ tổng hợp nhập xuất</h4>
+                    <div class="code-block">
+                        <span class="keyword">import</span> java.util.Scanner;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">Example</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc = <span class="keyword">new</span> Scanner(System.in);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Nhap ho ten: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name = sc.nextLine();<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Nhap diem trung binh: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double score = sc.nextDouble();<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span class="string">"Nhap tuoi: "</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int age = sc.nextInt();<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\n--- Thong tin sinh vien ---"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ho ten: "</span> + name);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tuoi: "</span> + age);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Diem trung binh: "</span> + score);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <p><strong>Kết quả khi chạy:</strong></p>
+                    <div class="code-block">
+                        Nhap ho ten: Nguyen Dinh Manh<br>
+                        Nhap diem trung binh: 8.5<br>
+                        Nhap tuoi: 21<br>
+                        <br>
+                        --- Thong tin sinh vien ---<br>
+                        Ho ten: Nguyen Dinh Manh<br>
+                        Tuoi: 21<br>
+                        Diem trung binh: 8.5
+                    </div>
+
+                    <h4>3.4.4. Lưu ý khi dùng Scanner</h4>
+                    <div class="note">
+                        <p><strong>Vấn đề thường gặp:</strong> Khi dùng nextInt(), nextDouble(), ... rồi sau đó dùng nextLine() → dòng nextLine() có thể bị bỏ qua.</p>
+                        <p><strong>Nguyên nhân:</strong> ký tự Enter (\n) sau khi nhập số vẫn còn trong bộ nhớ đệm.</p>
+                        <p><strong>Cách khắc phục:</strong> Thêm một dòng sc.nextLine(); sau khi nhập số để xóa bỏ ký tự Enter.</p>
+                    </div>
+                    <div class="code-block">
+                        System.out.print(<span class="string">"Nhap tuoi: "</span>);<br>
+                        int age = sc.nextInt();<br>
+                        sc.nextLine(); <span class="comment">// xoá bỏ ký tự Enter</span><br>
+                        <br>
+                        System.out.print(<span class="string">"Nhap dia chi: "</span>);<br>
+                        String address = sc.nextLine();
+                    </div>
+
+                    <h4>3.4.5. Xuất dữ liệu định dạng (format output)</h4>
+                    <p>Dùng System.out.printf() để in theo định dạng mong muốn (giống C/C++).</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ký hiệu</th>
+                                    <th>Ý nghĩa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>%d</code></td>
+                                    <td>Số nguyên</td>
+                                </tr>
+                                <tr>
+                                    <td><code>%f</code></td>
+                                    <td>Số thực</td>
+                                </tr>
+                                <tr>
+                                    <td><code>%.2f</code></td>
+                                    <td>Số thực làm tròn 2 chữ số thập phân</td>
+                                </tr>
+                                <tr>
+                                    <td><code>%s</code></td>
+                                    <td>Chuỗi</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+                        int age = 21;<br>
+                        double score = 8.456;<br>
+                        String name = <span class="string">"Manh"</span>;<br>
+                        <br>
+                        System.out.printf(<span class="string">"Ten: %s - Tuoi: %d - Diem: %.2f\n"</span>, name, age, score);
+                    </div>
+
+                    <p><strong>Kết quả:</strong></p>
+                    <div class="code-block">
+                        Ten: Manh - Tuoi: 21 - Diem: 8.46
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-keyboard"></i> Thử nghiệm nhập liệu</h4>
+                        <div class="input-group">
+                            <label for="userName">Nhập tên của bạn:</label>
+                            <input type="text" id="userName" placeholder="Nhập tên tại đây">
+                        </div>
+                        <div class="input-group">
+                            <label for="userAge">Nhập tuổi của bạn:</label>
+                            <input type="number" id="userAge" placeholder="Nhập tuổi tại đây">
+                        </div>
+                        <div class="input-group">
+                            <label for="userScore">Nhập điểm trung bình:</label>
+                            <input type="number" id="userScore" step="0.1" placeholder="Nhập điểm tại đây">
+                        </div>
+                        <button class="btn" onclick="runInputExample()">
+                            <i class="fas fa-play"></i> Chạy Input Example
+                        </button>
+                        <div class="result" id="inputResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="inputResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PHẦN 4: Biến và kiểu dữ liệu -->
+                <section id="variables" class="section">
+                    <h2><i class="fas fa-memory"></i> BIẾN VÀ KIỂU DỮ LIỆU</h2>
+                    
+                    <h3>4.1 Khái niệm biến</h3>
+                    <p><strong>Định nghĩa kỹ thuật:</strong> Biến là vùng nhớ được đặt tên, dùng để lưu trữ dữ liệu trong chương trình.</p>
+                    
+                    <h4>Phân loại biến trong Java:</h4>
+                    <div class="code-block">
+                        <span class="keyword">public class</span> <span class="class-name">VariableTypes</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 1. BIẾN INSTANCE (Non-static field)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;int instanceVar;        <span class="comment">// Thuộc về từng đối tượng</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 2. BIẾN STATIC (Class variable)</span>  <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;static String staticVar = <span class="string">"Hello"</span>;  <span class="comment">// Thuộc về lớp, dùng chung</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 3. BIẾN LOCAL (Trong phương thức)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> method() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int localVar = 10;  <span class="comment">// Phải khởi tạo, chỉ tồn tại trong method</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 4. BIẾN THAM SỐ (Parameter)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> calculate(int paramVar) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// paramVar nhận giá trị từ tham số truyền vào</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>4.2 Cú pháp khai báo biến</h3>
+                    <div class="code-block">
+                        [access-modifier] [static] [final] data-type variable-name [= value];
+                    </div>
+
+                    <h4>ACCESS-MODIFIER - Không bắt buộc</h4>
+                    <ul>
+                        <li><strong>Là gì:</strong> Quy định ai được phép truy cập biến</li>
+                        <li><strong>Các loại:</strong></li>
+                        <ul>
+                            <li><code>public</code> - Mọi nơi đều truy cập được</li>
+                            <li><code>private</code> - Chỉ trong class hiện tại</li>
+                            <li><code>protected</code> - Trong package + class con</li>
+                            <li>(không gì) - Chỉ trong package</li>
+                        </ul>
+                    </ul>
+
+                    <h4>STATIC - Không bắt buộc</h4>
+                    <ul>
+                        <li><strong>Là gì:</strong> Biến này thuộc về class, không thuộc về đối tượng</li>
+                        <li><strong>Khi nào dùng:</strong> Khi muốn dùng chung giá trị cho mọi đối tượng</li>
+                        <li><strong>Ví dụ:</strong> <code>static int counter = 0;</code></li>
+                    </ul>
+
+                    <h4>FINAL - Không bắt buộc</h4>
+                    <ul>
+                        <li><strong>Là gì:</strong> Biến không thể thay đổi giá trị sau khi gán (hằng số)</li>
+                        <li><strong>Đặc điểm:</strong> Phải khởi tạo giá trị ngay</li>
+                        <li><strong>Ví dụ:</strong> <code>final double PI = 3.14;</code></li>
+                    </ul>
+
+                    <h4>DATA-TYPE - BẮT BUỘC</h4>
+                    <ul>
+                        <li><strong>Là gì:</strong> Kiểu dữ liệu của biến</li>
+                        <li><strong>Ví dụ:</strong> int, String, double, boolean...</li>
+                    </ul>
+
+                    <h4>VARIABLE-NAME - BẮT BUỘC</h4>
+                    <ul>
+                        <li><strong>Là gì:</strong> Tên của biến</li>
+                        <li><strong>Quy tắc:</strong> Viết thường chữ đầu, camelCase</li>
+                        <li><strong>Ví dụ:</strong> firstName, totalScore</li>
+                    </ul>
+
+                    <h4>= VALUE - Không bắt buộc</h4>
+                    <ul>
+                        <li><strong>Là gì:</strong> Gán giá trị ban đầu cho biến</li>
+                        <li><strong>Ví dụ:</strong> = 10, = "Hello", = true</li>
+                    </ul>
+
+                    <div class="note">
+                        <p><strong>QUY TẮC QUAN TRỌNG:</strong></p>
+                        <ul>
+                            <li>Phần bắt buộc: data-type và variable-name</li>
+                            <li>Phần tùy chọn: access-modifier, static, final, giá trị khởi tạo</li>
+                            <li>Thứ tự: Đúng thứ tự như cú pháp</li>
+                            <li>Dấu chấm phẩy: Kết thúc bằng ;</li>
+                        </ul>
+                    </div>
+
+                    <div class="code-block">
+                        <span class="comment">// Các cách khai báo:</span><br>
+                        int x;                      <span class="comment">// Khai báo không khởi tạo</span><br>
+                        int y = 10;                 <span class="comment">// Khai báo và khởi tạo</span><br>
+                        final double PI = 3.14;     <span class="comment">// Hằng số (không thay đổi)</span><br>
+                        public static int count;    <span class="comment">// Biến static public</span><br>
+                        <br>
+                        <span class="comment">// Khai báo nhiều biến cùng lúc:</span><br>
+                        int a = 1, b = 2, c = 3;<br>
+                        String name = <span class="string">"John"</span>, city = <span class="string">"Hanoi"</span>;<br>
+                        <br>
+                        <span class="comment">// Khai báo với giá trị mặc định:</span><br>
+                        <span class="keyword">class</span> <span class="class-name">DefaultValues</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;int number;          <span class="comment">// mặc định = 0</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;boolean flag;        <span class="comment">// mặc định = false</span>  <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;String text;         <span class="comment">// mặc định = null</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;double value;        <span class="comment">// mặc định = 0.0</span><br>
+                        }
+                    </div>
+
+                    <!-- Nội dung tiếp theo về kiểu dữ liệu sẽ được thêm ở đây -->
+                    <h3>4.3 Kiểu dữ liệu trong java</h3>
+                    <h4>4.3.1. Kiểu dữ liệu (Data Type) là gì:</h4>
+                    <p>Kiểu dữ liệu (Data Type) là loại của dữ liệu mà biến có thể lưu trữ và cho biết kích thước, phạm vi, và kiểu giá trị mà nó chứa được.</p>
+                    <p><strong>Nói đơn giản:</strong> Kiểu dữ liệu giống như "loại hộp" dùng để chứa thông tin trong chương trình.</p>
+                    
+                    <div class="code-block">
+                        <span class="comment">// Ví dụ minh họa:</span><br>
+                        int tuoi = 20;          <span class="comment">// kiểu int: lưu số nguyên</span><br>
+                        double diem = 8.5;      <span class="comment">// kiểu double: lưu số thực</span><br>
+                        char kyTu = 'A';        <span class="comment">// kiểu char: lưu ký tự</span><br>
+                        boolean hopLe = true;   <span class="comment">// kiểu boolean: lưu true/false</span><br>
+                        String ten = "Manh";    <span class="comment">// kiểu String: lưu chuỗi</span>
+                    </div>
+
+                    <h4>4.3.2. Tại sao phải học kiểu dữ liệu?</h4>
+                    <p>Có 3 lý do lớn khiến bạn bắt buộc phải hiểu rõ kiểu dữ liệu trong Java</p>
+                    
+                    <div class="info-box">
+                        <h4>1. Giúp máy tính hiểu và quản lý dữ liệu đúng cách</h4>
+                        <p>Máy tính không "hiểu" chữ hay số như con người, nó chỉ hiểu nhị phân (0 và 1). → Java dùng kiểu dữ liệu để nói cho máy biết:</p>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Dữ liệu</th>
+                                        <th>Cách hiểu</th>
+                                        <th>Kích thước</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>int a = 10;</code></td>
+                                        <td>Đây là số nguyên, lưu bằng 4 byte</td>
+                                        <td>4 byte</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>double b = 10.5;</code></td>
+                                        <td>Đây là số thực, lưu bằng 8 byte</td>
+                                        <td>8 byte</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>char c = 'A';</code></td>
+                                        <td>Đây là ký tự, lưu mã Unicode</td>
+                                        <td>2 byte</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p>Nếu không có kiểu dữ liệu, máy không biết nên dùng bao nhiêu byte để lưu giá trị hoặc xử lý phép toán.</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>2. Đảm bảo chương trình chạy đúng và tránh lỗi</h4>
+                        <div class="code-block">
+                            int so = 5;<br>
+                            String chu = "5";<br>
+                            <br>
+                            <span class="comment">// Không thể cộng trực tiếp int và String:</span><br>
+                            System.out.println(so + chu); <span class="comment">// lỗi nếu không ép kiểu</span>
+                        </div>
+                        <p>Vì Java là ngôn ngữ mạnh về kiểu dữ liệu (strongly typed), nên nó bắt bạn phải dùng đúng loại dữ liệu để tránh lỗi logic.</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>3. Giúp tối ưu bộ nhớ và hiệu suất</h4>
+                        <div class="code-block">
+                            byte tuoi = 25;       <span class="comment">// tiết kiệm hơn int</span><br>
+                            boolean hopLe = true; <span class="comment">// chỉ lưu 1 bit</span>
+                        </div>
+                        <ul>
+                            <li>Dùng byte thay vì int nếu chỉ cần lưu giá trị nhỏ (0–127) → tiết kiệm RAM.</li>
+                            <li>Dùng float thay vì double nếu độ chính xác không cần cao → chạy nhanh hơn.</li>
+                            <li>Dùng boolean khi chỉ cần 2 giá trị true/false → logic rõ ràng, dễ hiểu.</li>
+                        </ul>
+                    </div>
+
+                    <h4>4.3.3. Phân loại kiểu dữ liệu trong Java</h4>
+                    <p>Trong Java, kiểu dữ liệu (Data Types) được chia thành 2 nhóm lớn:</p>
+                    <ul>
+                        <li><strong>Kiểu dữ liệu nguyên thủy (Primitive Data Types)</strong></li>
+                        <li><strong>Kiểu dữ liệu tham chiếu (Non-Primitive / Reference Data Types)</strong></li>
+                    </ul>
+
+                    <h4>4.3.3.1. Kiểu dữ liệu nguyên thủy (Primitive Data Types)</h4>
+                    <p>Là những kiểu cơ bản nhất, được Java xây sẵn trong ngôn ngữ, lưu trực tiếp giá trị trong bộ nhớ. Java có 8 kiểu dữ liệu nguyên thủy được chia làm 4 nhóm chính</p>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nhóm</th>
+                                    <th>Kiểu dữ liệu</th>
+                                    <th>Kích thước</th>
+                                    <th>Phạm vi giá trị</th>
+                                    <th>Ví dụ</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td rowspan="4">Số nguyên (Integer)</td>
+                                    <td><code>byte</code></td>
+                                    <td>1 byte</td>
+                                    <td>-128 → 127</td>
+                                    <td><code>byte b = 10;</code></td>
+                                    <td>Dùng cho số nhỏ</td>
+                                </tr>
+                                <tr>
+                                    <td><code>short</code></td>
+                                    <td>2 byte</td>
+                                    <td>-32,768 → 32,767</td>
+                                    <td><code>short s = 1000;</code></td>
+                                    <td>Dùng khi không cần quá lớn</td>
+                                </tr>
+                                <tr>
+                                    <td><code>int</code></td>
+                                    <td>4 byte</td>
+                                    <td>-2,147,483,648 → 2,147,483,647</td>
+                                    <td><code>int i = 100000;</code></td>
+                                    <td>Kiểu số nguyên mặc định</td>
+                                </tr>
+                                <tr>
+                                    <td><code>long</code></td>
+                                    <td>8 byte</td>
+                                    <td>±9.22×10¹⁸</td>
+                                    <td><code>long l = 10000000000L;</code></td>
+                                    <td>Dùng cho số rất lớn</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">Số thực (Floating-point)</td>
+                                    <td><code>float</code></td>
+                                    <td>4 byte</td>
+                                    <td>~±3.4×10³⁸</td>
+                                    <td><code>float f = 3.14f;</code></td>
+                                    <td>Cần hậu tố f</td>
+                                </tr>
+                                <tr>
+                                    <td><code>double</code></td>
+                                    <td>8 byte</td>
+                                    <td>~±1.7×10³⁰⁸</td>
+                                    <td><code>double d = 3.14159;</code></td>
+                                    <td>Mặc định cho số thực</td>
+                                </tr>
+                                <tr>
+                                    <td>Ký tự (Character)</td>
+                                    <td><code>char</code></td>
+                                    <td>2 byte</td>
+                                    <td>0 → 65,535 (Unicode)</td>
+                                    <td><code>char c = 'A';</code></td>
+                                    <td>Lưu 1 ký tự</td>
+                                </tr>
+                                <tr>
+                                    <td>Logic (Boolean)</td>
+                                    <td><code>boolean</code></td>
+                                    <td>1 bit (thực tế 1 byte)</td>
+                                    <td>true hoặc false</td>
+                                    <td><code>boolean ok = true;</code></td>
+                                    <td>Dùng cho điều kiện logic</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+                        <span class="keyword">public class</span> <span class="class-name">PrimitiveExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte b = 100;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;short s = 2000;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int i = 50000;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long l = 9000000000L;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float f = 3.14f;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double d = 3.141592653589793;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char c = 'A';<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean isJavaFun = true;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("byte: " + b);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("short: " + s);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("int: " + i);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("long: " + l);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("float: " + f);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("double: " + d);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("char: " + c);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("boolean: " + isJavaFun);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h4>4.3.3.2. Kiểu dữ liệu tham chiếu (Reference Data Types)</h4>
+                    <p>Đây là những kiểu không lưu trực tiếp giá trị, mà lưu địa chỉ ô nhớ (vị trí) của đối tượng. Bao gồm:</p>
+                    
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Loại</th>
+                                    <th>Ví dụ</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Chuỗi (String)</td>
+                                    <td><code>String ten = "Manh";</code></td>
+                                    <td>Chuỗi ký tự, thực chất là một đối tượng của lớp String</td>
+                                </tr>
+                                <tr>
+                                    <td>Mảng (Array)</td>
+                                    <td><code>int[] arr = {1, 2, 3};</code></td>
+                                    <td>Dùng để lưu nhiều giá trị cùng kiểu</td>
+                                </tr>
+                                <tr>
+                                    <td>Lớp (Class)</td>
+                                    <td><code>Student sv = new Student();</code></td>
+                                    <td>Tạo ra đối tượng từ lớp do người dùng định nghĩa</td>
+                                </tr>
+                                <tr>
+                                    <td>Giao diện (Interface)</td>
+                                    <td><code>Runnable r = new MyRunnable();</code></td>
+                                    <td>Dùng để triển khai đa hình</td>
+                                </tr>
+                                <tr>
+                                    <td>Kiểu đặc biệt khác</td>
+                                    <td>Enum, Record, Object, ...</td>
+                                    <td>Các cấu trúc nâng cao trong Java</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+                        <span class="keyword">public class</span> <span class="class-name">ReferenceExample</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name = "Manh";<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int[] numbers = {1, 2, 3, 4};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Tên: " + name);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Phần tử đầu tiên trong mảng: " + numbers[0]);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    <p>Ở đây String và int[] không lưu trực tiếp dữ liệu, mà lưu địa chỉ vùng nhớ nơi dữ liệu thật sự tồn tại trong RAM.</p>
+
+                    <h4>4.3.3.3. So sánh nhanh hai nhóm</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tiêu chí</th>
+                                    <th>Kiểu nguyên thủy</th>
+                                    <th>Kiểu tham chiếu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Lưu trữ</td>
+                                    <td>Lưu trực tiếp giá trị</td>
+                                    <td>Lưu địa chỉ vùng nhớ</td>
+                                </tr>
+                                <tr>
+                                    <td>Kích thước</td>
+                                    <td>Cố định (1, 2, 4, 8 byte)</td>
+                                    <td>Không cố định</td>
+                                </tr>
+                                <tr>
+                                    <td>Ví dụ</td>
+                                    <td>int, double, char, boolean</td>
+                                    <td>String, Array, Class</td>
+                                </tr>
+                                <tr>
+                                    <td>Giá trị mặc định</td>
+                                    <td>0, 0.0, false, '\u0000'</td>
+                                    <td>null</td>
+                                </tr>
+                                <tr>
+                                    <td>Tạo bằng</td>
+                                    <td>Từ khóa (ví dụ int a = 5;)</td>
+                                    <td>Từ khóa new (ví dụ new String("Hi"))</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Nội dung về ép kiểu -->
+                    <h3>4.4 Ép kiểu (Type Casting)</h3>
+                    <h4>4.4.1. Khái niệm Ép kiểu (Type Casting) là gì?</h4>
+                    <p>Ép kiểu là quá trình chuyển đổi giá trị của một biến từ kiểu dữ liệu này sang kiểu dữ liệu khác.</p>
+                    <p><strong>Mục đích:</strong> để có thể thực hiện phép toán hoặc gán giá trị giữa các kiểu khác nhau.</p>
+
+                    <h4>4.4.2. Có mấy loại ép kiểu trong Java?</h4>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Loại ép kiểu</th>
+                                    <th>Tên tiếng Anh</th>
+                                    <th>Mô tả ngắn gọn</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ép kiểu ngầm định</td>
+                                    <td>Implicit (Widening) Casting</td>
+                                    <td>Tự động xảy ra khi gán kiểu nhỏ → kiểu lớn</td>
+                                </tr>
+                                <tr>
+                                    <td>Ép kiểu tường minh</td>
+                                    <td>Explicit (Narrowing) Casting</td>
+                                    <td>Cần chỉ rõ bằng cú pháp khi gán kiểu lớn → kiểu nhỏ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>4.4.3. Ép kiểu ngầm định (Widening Casting)</h4>
+                    <p>Java tự động chuyển kiểu nhỏ sang kiểu lớn, vì an toàn (không mất dữ liệu).</p>
+                    <p><strong>Thứ tự tăng dần kích thước:</strong> byte → short → int → long → float → double</p>
+                    <div class="code-block">
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int a = 10;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double b = a;  <span class="comment">// ép kiểu ngầm định: int → double</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Giá trị b: " + b);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    <p><strong>Kết quả:</strong> Giá trị b: 10.0</p>
+                    <p>Không cần ghi (double) vì Java tự hiểu.</p>
+
+                    <h4>4.4.4. Ép kiểu tường minh (Narrowing Casting)</h4>
+                    <p>Khi chuyển kiểu lớn → nhỏ, ta phải chỉ rõ bằng cú pháp: <code>(kiểu_mới) giá_trị</code></p>
+                    <p>Có thể mất dữ liệu hoặc mất phần thập phân.</p>
+                    <div class="code-block">
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x = 9.78;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int y = (int) x; <span class="comment">// ép kiểu tường minh: double → int</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Giá trị y: " + y);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    <p><strong>Kết quả:</strong> Giá trị y: 9</p>
+                    <p>Bị mất phần thập phân (.78) vì int không lưu phần lẻ.</p>
+
+                    <h4>4.4.5. Ép kiểu giữa các kiểu dữ liệu khác</h4>
+                    <p><strong>Ép giữa kiểu ký tự và số</strong></p>
+                    <div class="code-block">
+                        char c = 'A';<br>
+                        int code = (int) c;  <span class="comment">// chuyển ký tự sang mã ASCII</span><br>
+                        System.out.println(code);  <span class="comment">// 65</span><br>
+                        <br>
+                        int num = 66;<br>
+                        char letter = (char) num;  <span class="comment">// chuyển mã sang ký tự</span><br>
+                        System.out.println(letter); <span class="comment">// B</span>
+                    </div>
+
+                    <p><strong>Ép giữa các kiểu số khác nhau</strong></p>
+                    <div class="code-block">
+                        float f = 5.9f;<br>
+                        int i = (int) f; <span class="comment">// mất phần thập phân</span><br>
+                        System.out.println(i); <span class="comment">// 5</span>
+                    </div>
+
+                    <h4>4.4.6. Các hàm hỗ trợ ép kiểu (Wrapper Classes)</h4>
+                    <p>Trong Java có các lớp bao (wrapper classes) giúp chuyển đổi giữa kiểu nguyên thủy ↔ đối tượng (String, Object, ...)</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Lớp Wrapper</th>
+                                    <th>Kiểu dữ liệu</th>
+                                    <th>Hàm chuyển đổi phổ biến</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Integer</td>
+                                    <td>int</td>
+                                    <td>Integer.parseInt("123"), Integer.valueOf("123")</td>
+                                </tr>
+                                <tr>
+                                    <td>Double</td>
+                                    <td>double</td>
+                                    <td>Double.parseDouble("12.3"), Double.valueOf("12.3")</td>
+                                </tr>
+                                <tr>
+                                    <td>Float</td>
+                                    <td>float</td>
+                                    <td>Float.parseFloat("4.5")</td>
+                                </tr>
+                                <tr>
+                                    <td>Long</td>
+                                    <td>long</td>
+                                    <td>Long.parseLong("9999")</td>
+                                </tr>
+                                <tr>
+                                    <td>Boolean</td>
+                                    <td>boolean</td>
+                                    <td>Boolean.parseBoolean("true")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="code-block">
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String s = "123";<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int num = Integer.parseInt(s);  <span class="comment">// chuyển chuỗi thành số</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(num + 10);   <span class="comment">// 133</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-exchange-alt"></i> Thử nghiệm ép kiểu</h4>
+                        <div class="input-group">
+                            <label for="castValue">Nhập giá trị số thực:</label>
+                            <input type="number" id="castValue" step="0.1" value="9.78">
+                        </div>
+                        <button class="btn" onclick="testCasting()">
+                            <i class="fas fa-sync-alt"></i> Thử ép kiểu
+                        </button>
+                        <div class="result" id="castResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="castResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Các phần tiếp theo sẽ được thêm tương tự -->
+             <!-- PHẦN 5: Toán tử -->
+<section id="operators" class="section">
+    <h2><i class="fas fa-calculator"></i>  TOÁN TỬ</h2>
+    
+    <h3>5.1 Toán tử số học</h3>
+    <p>Toán tử số học (Arithmetic Operators) trong Java được dùng để thực hiện các phép tính số học trên các biến hoặc hằng số số học (như int, float, double, ...).</p>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Toán tử</th>
+                    <th>Tên gọi</th>
+                    <th>Ví dụ<br>(nếu a = 10, b = 3)</th>
+                    <th>Kết quả</th>
+                    <th>Giải thích</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>+</code></td>
+                    <td>Cộng</td>
+                    <td><code>a + b</code></td>
+                    <td>13</td>
+                    <td>Cộng hai số</td>
+                </tr>
+                <tr>
+                    <td><code>-</code></td>
+                    <td>Trừ</td>
+                    <td><code>a - b</code></td>
+                    <td>7</td>
+                    <td>Trừ b khỏi a</td>
+                </tr>
+                <tr>
+                    <td><code>*</code></td>
+                    <td>Nhân</td>
+                    <td><code>a * b</code></td>
+                    <td>30</td>
+                    <td>Nhân a với b</td>
+                </tr>
+                <tr>
+                    <td><code>/</code></td>
+                    <td>Chia</td>
+                    <td><code>a / b</code></td>
+                    <td>3</td>
+                    <td>Chia lấy phần nguyên (vì a và b là int)</td>
+                </tr>
+                <tr>
+                    <td><code>%</code></td>
+                    <td>Chia lấy dư</td>
+                    <td><code>a % b</code></td>
+                    <td>1</td>
+                    <td>Lấy phần dư khi chia a cho b</td>
+                </tr>
+                <tr>
+                    <td><code>++</code></td>
+                    <td>Tăng 1 đơn vị</td>
+                    <td><code>a++</code> hoặc <code>++a</code></td>
+                    <td>11</td>
+                    <td>Tăng giá trị của a lên 1 đơn vị.<br><code>a++</code>: tăng sau khi dùng.<br><code>++a</code>: tăng trước khi dùng.</td>
+                </tr>
+                <tr>
+                    <td><code>--</code></td>
+                    <td>Giảm 1 đơn vị</td>
+                    <td><code>a--</code> hoặc <code>--a</code></td>
+                    <td>9</td>
+                    <td>Giảm giá trị của a đi 1 đơn vị.<br><code>a--</code>: giảm sau khi dùng.<br><code>--a</code>: giảm trước khi dùng.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="note">
+        <p><strong>Lưu ý:</strong></p>
+        <ul>
+            <li>Khi chia hai số nguyên (int), Java bỏ phần thập phân.</li>
+            <li>Nếu muốn chia chính xác (có phần thập phân), hãy ép kiểu sang double.</li>
+        </ul>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>ArithmeticOperators.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">public class</span> <span class="class-name">ArithmeticOperators</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int a = 15;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int b = 4;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a = "</span> + a + <span class="string">", b = "</span> + b);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a + b = "</span> + (a + b));  <span class="comment">// 19</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a - b = "</span> + (a - b));  <span class="comment">// 11</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a * b = "</span> + (a * b));  <span class="comment">// 60</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a / b = "</span> + (a / b));  <span class="comment">// 3 (chia nguyên)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a % b = "</span> + (a % b));  <span class="comment">// 3 (số dư)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 🔹 CHIA SỐ THỰC</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x = 15.0;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double y = 4.0;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"x / y = "</span> + (x / y));  <span class="comment">// 3.75</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 🔹 TĂNG/GIẢM GIÁ TRỊ</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int counter = 5;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;counter++;  <span class="comment">// Tăng 1 → counter = 6</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;counter--;  <span class="comment">// Giảm 1 → counter = 5</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 🔹 TIỀN TỐ vs HẬU TỐ</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int pre = 5;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int post = 5;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"++pre = "</span> + (++pre));  <span class="comment">// 6 (tăng trước)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"post++ = "</span> + (post++)); <span class="comment">// 5 (tăng sau)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"post sau đó = "</span> + post); <span class="comment">// 6</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+
+    <div class="interactive-section">
+        <h4><i class="fas fa-calculator"></i> Thử nghiệm toán tử số học</h4>
+        <div class="input-group">
+            <label for="arithmeticNum1">Số thứ nhất:</label>
+            <input type="number" id="arithmeticNum1" value="15">
+        </div>
+        <div class="input-group">
+            <label for="arithmeticNum2">Số thứ hai:</label>
+            <input type="number" id="arithmeticNum2" value="4">
+        </div>
+        <button class="btn" onclick="testArithmeticOperators()">
+            <i class="fas fa-play"></i> Thử nghiệm
+        </button>
+        <div class="result" id="arithmeticResult">
+            <strong>Kết quả:</strong>
+            <div class="result-content" id="arithmeticResultContent"></div>
+        </div>
+    </div>
+
+    <h3>5.2 Toán tử gán</h3>
+    <p>Toán tử gán dùng để gán giá trị cho biến. Toán tử gán cơ bản nhất là dấu =, và Java còn hỗ trợ các toán tử gán kết hợp (như +=, -=, *=, …) để viết ngắn gọn hơn.</p>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Toán tử</th>
+                    <th>Tên gọi</th>
+                    <th>Ví dụ (nếu a = 10, b = 3)</th>
+                    <th>Kết quả</th>
+                    <th>Giải thích</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>=</code></td>
+                    <td>Gán</td>
+                    <td><code>a = b</code></td>
+                    <td>a = 3</td>
+                    <td>Gán giá trị của b cho a</td>
+                </tr>
+                <tr>
+                    <td><code>+=</code></td>
+                    <td>Cộng rồi gán</td>
+                    <td><code>a += b</code></td>
+                    <td>a = 13</td>
+                    <td>Tương đương a = a + b</td>
+                </tr>
+                <tr>
+                    <td><code>-=</code></td>
+                    <td>Trừ rồi gán</td>
+                    <td><code>a -= b</code></td>
+                    <td>a = 7</td>
+                    <td>Tương đương a = a - b</td>
+                </tr>
+                <tr>
+                    <td><code>*=</code></td>
+                    <td>Nhân rồi gán</td>
+                    <td><code>a *= b</code></td>
+                    <td>a = 30</td>
+                    <td>Tương đương a = a * b</td>
+                </tr>
+                <tr>
+                    <td><code>/=</code></td>
+                    <td>Chia rồi gán</td>
+                    <td><code>a /= b</code></td>
+                    <td>a = 3</td>
+                    <td>Tương đương a = a / b</td>
+                </tr>
+                <tr>
+                    <td><code>%=</code></td>
+                    <td>Chia lấy dư rồi gán</td>
+                    <td><code>a %= b</code></td>
+                    <td>a = 1</td>
+                    <td>Tương đương a = a % b</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>AssignmentOperators.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">public class</span> <span class="class-name">AssignmentOperators</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int x = 10;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"x = "</span> + x);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x += 5;   <span class="comment">// x = x + 5</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"x += 5 → "</span> + x);  <span class="comment">// 15</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x -= 3;   <span class="comment">// x = x - 3</span>  <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"x -= 3 → "</span> + x);  <span class="comment">// 12</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x *= 2;   <span class="comment">// x = x * 2</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"x *= 2 → "</span> + x);  <span class="comment">// 24</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x /= 4;   <span class="comment">// x = x / 4</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"x /= 4 → "</span> + x);  <span class="comment">// 6</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x %= 4;   <span class="comment">// x = x % 4</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"x %= 4 → "</span> + x);  <span class="comment">// 2</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+
+    <h3>5.3 Toán tử so sánh</h3>
+    <p>Toán tử so sánh (hay còn gọi là toán tử quan hệ) dùng để so sánh hai giá trị. Kết quả của phép so sánh luôn là giá trị boolean: true → đúng, false → sai</p>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Toán tử</th>
+                    <th>Tên gọi</th>
+                    <th>Ví dụ (nếu a = 10, b = 3)</th>
+                    <th>Kết quả</th>
+                    <th>Giải thích</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>==</code></td>
+                    <td>Bằng</td>
+                    <td><code>a == b</code></td>
+                    <td>false</td>
+                    <td>Kiểm tra xem a có bằng b hay không</td>
+                </tr>
+                <tr>
+                    <td><code>!=</code></td>
+                    <td>Khác</td>
+                    <td><code>a != b</code></td>
+                    <td>true</td>
+                    <td>Kiểm tra xem a có khác b hay không</td>
+                </tr>
+                <tr>
+                    <td><code>&gt;</code></td>
+                    <td>Lớn hơn</td>
+                    <td><code>a &gt; b</code></td>
+                    <td>true</td>
+                    <td>Đúng nếu a lớn hơn b</td>
+                </tr>
+                <tr>
+                    <td><code>&lt;</code></td>
+                    <td>Nhỏ hơn</td>
+                    <td><code>a &lt; b</code></td>
+                    <td>false</td>
+                    <td>Đúng nếu a nhỏ hơn b</td>
+                </tr>
+                <tr>
+                    <td><code>&gt;=</code></td>
+                    <td>Lớn hơn hoặc bằng</td>
+                    <td><code>a &gt;= b</code></td>
+                    <td>true</td>
+                    <td>Đúng nếu a lớn hơn hoặc bằng b</td>
+                </tr>
+                <tr>
+                    <td><code>&lt;=</code></td>
+                    <td>Nhỏ hơn hoặc bằng</td>
+                    <td><code>a &lt;= b</code></td>
+                    <td>false</td>
+                    <td>Đúng nếu a nhỏ hơn hoặc bằng b</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>ComparisonOperators.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">public class</span> <span class="class-name">ComparisonOperators</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int a = 10;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int b = 5;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int c = 10;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a = "</span> + a + <span class="string">", b = "</span> + b + <span class="string">", c = "</span> + c);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a == c: "</span> + (a == c));  <span class="comment">// true</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a == b: "</span> + (a == b));  <span class="comment">// false</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a != b: "</span> + (a != b));  <span class="comment">// true</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a &gt; b: "</span> + (a &gt; b));    <span class="comment">// true</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a &lt; b: "</span> + (a &lt; b));    <span class="comment">// false</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"a &gt;= c: "</span> + (a &gt;= c));  <span class="comment">// true</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"b &lt;= a: "</span> + (b &lt;= a));  <span class="comment">// true</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 🔹 SO SÁNH CHUỖI (QUAN TRỌNG!)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str1 = "Hello";<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str2 = "Hello";<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str3 = new String("Hello");<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"str1 == str2: "</span> + (str1 == str2));    <span class="comment">// true</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"str1 == str3: "</span> + (str1 == str3));    <span class="comment">// false</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"str1.equals(str3): "</span> + str1.equals(str3));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span class="comment">// true</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+
+    <div class="interactive-section">
+        <h4><i class="fas fa-balance-scale"></i> Thử nghiệm toán tử so sánh</h4>
+        <div class="input-group">
+            <label for="compareNum1">Số thứ nhất:</label>
+            <input type="number" id="compareNum1" value="10">
+        </div>
+        <div class="input-group">
+            <label for="compareNum2">Số thứ hai:</label>
+            <input type="number" id="compareNum2" value="5">
+        </div>
+        <button class="btn" onclick="testComparisonOperators()">
+            <i class="fas fa-play"></i> Thử nghiệm
+        </button>
+        <div class="result" id="comparisonResult">
+            <strong>Kết quả:</strong>
+            <div class="result-content" id="comparisonResultContent"></div>
+        </div>
+    </div>
+
+    <h3>5.4 Toán tử logic</h3>
+    <p>Toán tử logic dùng để kết hợp nhiều điều kiện lại với nhau.</p>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Toán tử</th>
+                    <th>Tên gọi</th>
+                    <th>Mô tả</th>
+                    <th>Ví dụ</th>
+                    <th>Kết quả</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>&&</code></td>
+                    <td>AND (Và)</td>
+                    <td>Trả về true nếu cả hai điều kiện đều đúng</td>
+                    <td><code>(5 &gt; 3) && (5 &lt; 10)</code></td>
+                    <td>true</td>
+                </tr>
+                <tr>
+                    <td><code>||</code></td>
+                    <td>OR (Hoặc)</td>
+                    <td>Trả về true nếu ít nhất một điều kiện đúng</td>
+                    <td><code>(5 &gt; 3) || (5 &lt; 2)</code></td>
+                    <td>true</td>
+                </tr>
+                <tr>
+                    <td><code>!</code></td>
+                    <td>NOT (Phủ định)</td>
+                    <td>Đảo ngược kết quả (true thành false và ngược lại)</td>
+                    <td><code>!(5 &gt; 3)</code></td>
+                    <td>false</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>LogicalOperators.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">public class</span> <span class="class-name">LogicalOperators</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int age = 20;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean hasID = true;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng AND (&&)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (age &gt;= 18 && hasID) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Được vào cửa"</span>);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Không được vào"</span>);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng OR (||)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean isWeekend = true;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean isHoliday = false;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (isWeekend || isHoliday) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Hôm nay được nghỉ"</span>);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Hôm nay đi làm"</span>);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Sử dụng NOT (!)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boolean isRaining = false;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!isRaining) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Trời không mưa, có thể đi chơi"</span>);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Trời mưa, ở nhà"</span>);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+
+    <div class="interactive-section">
+        <h4><i class="fas fa-project-diagram"></i> Thử nghiệm toán tử logic</h4>
+        <div class="input-group">
+            <label for="logicAge">Tuổi:</label>
+            <input type="number" id="logicAge" value="20">
+        </div>
+        <div class="input-group">
+            <label for="hasID">Có giấy tờ tùy thân:</label>
+            <select id="hasID">
+                <option value="true">Có</option>
+                <option value="false">Không</option>
+            </select>
+        </div>
+        <button class="btn" onclick="testLogicalOperators()">
+            <i class="fas fa-play"></i> Thử nghiệm
+        </button>
+        <div class="result" id="logicalResult">
+            <strong>Kết quả:</strong>
+            <div class="result-content" id="logicalResultContent"></div>
+        </div>
+    </div>
+</section>
+
+           <!-- PHẦN 6: Thư viện Math -->
+<section id="math" class="section">
+    <h2><i class="fas fa-square-root-alt"></i>  THƯ VIỆN MATH TRONG JAVA</h2>
+    
+    <p>Math là lớp (class) nằm trong package java.lang, vì vậy bạn không cần import khi sử dụng.</p>
+    <p>Lớp Math chứa các phương thức (method) và hằng số toán học phục vụ cho việc tính toán: căn bậc hai, lũy thừa, trị tuyệt đối, lượng giác, làm tròn, ngẫu nhiên, v.v...</p>
+
+    <h3>6.1. Một số hằng số trong lớp Math</h3>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Hằng số</th>
+                    <th>Ý nghĩa</th>
+                    <th>Giá trị</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Math.PI</code></td>
+                    <td>Số π</td>
+                    <td>3.141592653589793</td>
+                </tr>
+                <tr>
+                    <td><code>Math.E</code></td>
+                    <td>Cơ số của logarit tự nhiên</td>
+                    <td>2.718281828459045</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>MathConstants.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        System.out.println(<span class="string">"PI = "</span> + Math.PI);<br>
+        System.out.println(<span class="string">"E = "</span> + Math.E);
+    </div>
+
+    <h3>6.2. Các nhóm hàm thông dụng trong Math</h3>
+
+    <h4>6.2.1. Hàm số học cơ bản</h4>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Hàm</th>
+                    <th>Mô tả</th>
+                    <th>Ví dụ</th>
+                    <th>Kết quả</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Math.abs(x)</code></td>
+                    <td>Giá trị tuyệt đối của x</td>
+                    <td><code>Math.abs(-5)</code></td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td><code>Math.sqrt(x)</code></td>
+                    <td>Căn bậc 2 của x</td>
+                    <td><code>Math.sqrt(16)</code></td>
+                    <td>4.0</td>
+                </tr>
+                <tr>
+                    <td><code>Math.pow(a, b)</code></td>
+                    <td>Lũy thừa a^b</td>
+                    <td><code>Math.pow(2, 3)</code></td>
+                    <td>8.0</td>
+                </tr>
+                <tr>
+                    <td><code>Math.cbrt(x)</code></td>
+                    <td>Căn bậc 3 của x</td>
+                    <td><code>Math.cbrt(27)</code></td>
+                    <td>3.0</td>
+                </tr>
+                <tr>
+                    <td><code>Math.max(a, b)</code></td>
+                    <td>Lấy giá trị lớn hơn</td>
+                    <td><code>Math.max(5, 10)</code></td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td><code>Math.min(a, b)</code></td>
+                    <td>Lấy giá trị nhỏ hơn</td>
+                    <td><code>Math.min(5, 10)</code></td>
+                    <td>5</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>MathExample1.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">public class</span> <span class="class-name">MathExample1</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Giá trị tuyệt đối: "</span> + Math.abs(-7));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Căn bậc 2: "</span> + Math.sqrt(25));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lũy thừa 2^4: "</span> + Math.pow(2, 4));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lớn nhất giữa 8 và 12: "</span> + Math.max(8, 12));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+
+    <div class="interactive-section">
+        <h4><i class="fas fa-calculator"></i> Thử nghiệm hàm số học</h4>
+        <div class="input-group">
+            <label for="mathNum1">Số thứ nhất:</label>
+            <input type="number" id="mathNum1" value="25">
+        </div>
+        <div class="input-group">
+            <label for="mathNum2">Số thứ hai:</label>
+            <input type="number" id="mathNum2" value="8">
+        </div>
+        <button class="btn" onclick="testMathBasic()">
+            <i class="fas fa-play"></i> Thử nghiệm
+        </button>
+        <div class="result" id="mathBasicResult">
+            <strong>Kết quả:</strong>
+            <div class="result-content" id="mathBasicResultContent"></div>
+        </div>
+    </div>
+
+    <h4>6.2.2. Hàm làm tròn số</h4>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Hàm</th>
+                    <th>Mô tả</th>
+                    <th>Ví dụ</th>
+                    <th>Kết quả</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Math.round(x)</code></td>
+                    <td>Làm tròn gần nhất (về long hoặc int)</td>
+                    <td><code>Math.round(4.6)</code></td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td><code>Math.ceil(x)</code></td>
+                    <td>Làm tròn lên (ceil = trần)</td>
+                    <td><code>Math.ceil(4.1)</code></td>
+                    <td>5.0</td>
+                </tr>
+                <tr>
+                    <td><code>Math.floor(x)</code></td>
+                    <td>Làm tròn xuống (floor = sàn)</td>
+                    <td><code>Math.floor(4.9)</code></td>
+                    <td>4.0</td>
+                </tr>
+                <tr>
+                    <td><code>Math.rint(x)</code></td>
+                    <td>Làm tròn theo chuẩn IEEE 754 (nếu .5 thì về số chẵn gần nhất)</td>
+                    <td><code>Math.rint(2.5)</code></td>
+                    <td>2.0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>MathExample2.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">public class</span> <span class="class-name">MathExample2</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double x = 4.5;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"round: "</span> + Math.round(x));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"ceil: "</span> + Math.ceil(x));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"floor: "</span> + Math.floor(x));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+
+    <div class="interactive-section">
+        <h4><i class="fas fa-ruler-combined"></i> Thử nghiệm làm tròn số</h4>
+        <div class="input-group">
+            <label for="roundNumber">Nhập số cần làm tròn:</label>
+            <input type="number" id="roundNumber" step="0.1" value="4.5">
+        </div>
+        <button class="btn" onclick="testMathRounding()">
+            <i class="fas fa-play"></i> Thử nghiệm
+        </button>
+        <div class="result" id="mathRoundResult">
+            <strong>Kết quả:</strong>
+            <div class="result-content" id="mathRoundResultContent"></div>
+        </div>
+    </div>
+
+    <h4>6.2.3. Hàm lượng giác</h4>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Hàm</th>
+                    <th>Mô tả</th>
+                    <th>Ví dụ</th>
+                    <th>Kết quả</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Math.sin(radians)</code></td>
+                    <td>Sin của góc (radians)</td>
+                    <td><code>Math.sin(Math.PI/2)</code></td>
+                    <td>1.0</td>
+                </tr>
+                <tr>
+                    <td><code>Math.cos(radians)</code></td>
+                    <td>Cos của góc (radians)</td>
+                    <td><code>Math.cos(Math.PI)</code></td>
+                    <td>-1.0</td>
+                </tr>
+                <tr>
+                    <td><code>Math.tan(radians)</code></td>
+                    <td>Tan của góc (radians)</td>
+                    <td><code>Math.tan(Math.PI/4)</code></td>
+                    <td>1.0</td>
+                </tr>
+                <tr>
+                    <td><code>Math.toRadians(degrees)</code></td>
+                    <td>Chuyển độ sang radians</td>
+                    <td><code>Math.toRadians(180)</code></td>
+                    <td>3.14159...</td>
+                </tr>
+                <tr>
+                    <td><code>Math.toDegrees(radians)</code></td>
+                    <td>Chuyển radians sang độ</td>
+                    <td><code>Math.toDegrees(Math.PI)</code></td>
+                    <td>180.0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>MathTrigonometry.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">public class</span> <span class="class-name">MathTrigonometry</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double degrees = 45;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double radians = Math.toRadians(degrees);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Góc "</span> + degrees + <span class="string">" độ = "</span> + radians + <span class="string">" radians"</span>);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"sin(45°) = "</span> + Math.sin(radians));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"cos(45°) = "</span> + Math.cos(radians));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"tan(45°) = "</span> + Math.tan(radians));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+
+    <h4>6.2.4. Hàm ngẫu nhiên (Random)</h4>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Hàm</th>
+                    <th>Mô tả</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Math.random()</code></td>
+                    <td>Trả về giá trị ngẫu nhiên từ 0.0 → &lt;1.0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>RandomExample.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">public class</span> <span class="class-name">RandomExample</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double random = Math.random(); <span class="comment">// 0.0 <= random < 1.0</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int randomInt = (int)(Math.random() * 10); <span class="comment">// 0 → 9</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Số ngẫu nhiên [0,1): "</span> + random);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Số ngẫu nhiên từ 0-9: "</span> + randomInt);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+
+    <div class="interactive-section">
+        <h4><i class="fas fa-dice"></i> Thử nghiệm số ngẫu nhiên</h4>
+        <div class="input-group">
+            <label for="randomMax">Giá trị tối đa:</label>
+            <input type="number" id="randomMax" value="100">
+        </div>
+        <button class="btn" onclick="testMathRandom()">
+            <i class="fas fa-dice"></i> Tạo số ngẫu nhiên
+        </button>
+        <div class="result" id="mathRandomResult">
+            <strong>Kết quả:</strong>
+            <div class="result-content" id="mathRandomResultContent"></div>
+        </div>
+    </div>
+
+    <h4>6.2.5. Hàm logarit và hàm mũ</h4>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Hàm</th>
+                    <th>Mô tả</th>
+                    <th>Ví dụ</th>
+                    <th>Kết quả</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Math.log(x)</code></td>
+                    <td>Logarit tự nhiên (cơ số e)</td>
+                    <td><code>Math.log(Math.E)</code></td>
+                    <td>1.0</td>
+                </tr>
+                <tr>
+                    <td><code>Math.log10(x)</code></td>
+                    <td>Logarit cơ số 10</td>
+                    <td><code>Math.log10(100)</code></td>
+                    <td>2.0</td>
+                </tr>
+                <tr>
+                    <td><code>Math.exp(x)</code></td>
+                    <td>e mũ x</td>
+                    <td><code>Math.exp(1)</code></td>
+                    <td>2.718...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>MathLogExp.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">public class</span> <span class="class-name">MathLogExp</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"ln(e) = "</span> + Math.log(Math.E));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"log10(100) = "</span> + Math.log10(100));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"e^1 = "</span> + Math.exp(1));<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+
+    <div class="info-box">
+        <h4><i class="fas fa-lightbulb"></i> Mẹo sử dụng Math.random()</h4>
+        <p><strong>Công thức tổng quát để tạo số ngẫu nhiên trong khoảng [min, max]:</strong></p>
+        <div class="code-block">
+            <span class="comment">// Tạo số ngẫu nhiên từ min đến max (bao gồm cả min và max)</span><br>
+            int randomNum = (int)(Math.random() * (max - min + 1)) + min;<br>
+            <br>
+            <span class="comment">// Ví dụ: tạo số từ 1 đến 6 (xúc xắc)</span><br>
+            int dice = (int)(Math.random() * 6) + 1;<br>
+            <br>
+            <span class="comment">// Ví dụ: tạo số từ 10 đến 20</span><br>
+            int randomInRange = (int)(Math.random() * 11) + 10;
+        </div>
+    </div>
+</section>
+
+ <!-- PHẦN 7: LỖI THƯỜNG GẶP VÀ CÁCH KHẮC PHỤC -->
+<section id="errors" class="section">
+    <h2><i class="fas fa-bug"></i> LỖI THƯỜNG GẶP VÀ CÁCH KHẮC PHỤC</h2>
+
+    <h3>7.1 Lỗi biên dịch (Compile-time Errors)</h3>
+    
+    <div class="code-block">
+        <div class="code-header">
+            <span>Lỗi 1: Thiếu dấu chấm phẩy</span>
+        </div>
+        <span class="comment">// ❌ LỖI 1: Thiếu dấu chấm phẩy</span><br>
+        int x = 5  <span class="comment">// Lỗi: ';' expected</span><br>
+        <span class="comment">// ✅ SỬA: </span><br>
+        int x = 5;
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>Lỗi 2: Tên biến sai</span>
+        </div>
+        <span class="comment">// ❌ LỖI 2: Tên biến sai</span><br>
+        String firstName = "John";<br>
+        System.out.println(Firstname); <span class="comment">// Lỗi: cannot find symbol</span><br>
+        <span class="comment">// ✅ SỬA:</span><br>
+        System.out.println(firstName);
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>Lỗi 3: Ép kiểu sai</span>
+        </div>
+        <span class="comment">// ❌ LỖI 3: Ép kiểu sai</span><br>
+        int number = "123"; <span class="comment">// Lỗi: incompatible types</span><br>
+        <span class="comment">// ✅ SỬA:</span><br>
+        int number = 123;<br>
+        <span class="comment">// hoặc</span><br>
+        int number = Integer.parseInt("123");
+    </div>
+
+    <h3>7.2 Lỗi thời gian chạy (Runtime Errors)</h3>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>Lỗi 4: Chia cho 0</span>
+        </div>
+        <span class="comment">// ❌ LỖI 4: Chia cho 0</span><br>
+        int result = 10 / 0; <span class="comment">// ArithmeticException</span><br>
+        <span class="comment">// ✅ SỬA:</span><br>
+        if (divisor != 0) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;result = dividend / divisor;<br>
+        }
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>Lỗi 5: Truy cập biến chưa khởi tạo</span>
+        </div>
+        <span class="comment">// ❌ LỖI 5: Truy cập biến chưa khởi tạo</span><br>
+        int count;<br>
+        System.out.println(count); <span class="comment">// Variable might not have been initialized</span><br>
+        <span class="comment">// ✅ SỬA:</span><br>
+        int count = 0;<br>
+        System.out.println(count);
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>Lỗi 6: NullPointerException</span>
+        </div>
+        <span class="comment">// ❌ LỖI 6: NullPointerException</span><br>
+        String text = null;<br>
+        System.out.println(text.length()); <span class="comment">// NullPointerException</span><br>
+        <span class="comment">// ✅ SỬA:</span><br>
+        String text = "Hello";<br>
+        System.out.println(text.length());<br>
+        <span class="comment">// hoặc kiểm tra null</span><br>
+        if (text != null) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(text.length());<br>
+        }
+    </div>
+
+    <div class="code-block">
+        <div class="code-header">
+            <span>Lỗi 7: ArrayIndexOutOfBoundsException</span>
+        </div>
+        <span class="comment">// ❌ LỖI 7: ArrayIndexOutOfBoundsException</span><br>
+        int[] numbers = {1, 2, 3};<br>
+        System.out.println(numbers[5]); <span class="comment">// ArrayIndexOutOfBoundsException</span><br>
+        <span class="comment">// ✅ SỬA:</span><br>
+        int[] numbers = {1, 2, 3};<br>
+        if (5 < numbers.length) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(numbers[5]);<br>
+        } else {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Chỉ số vượt quá giới hạn");<br>
+        }
+    </div>
+
+    <h3>7.3 Các lưu ý quan trọng</h3>
+
+    <div class="info-box">
+        <h4><i class="fas fa-lightbulb"></i> Quy tắc đặt tên:</h4>
+        <ul>
+            <li><strong>Lớp:</strong> PascalCase - <code>StudentManager</code></li>
+            <li><strong>Biến:</strong> camelCase - <code>studentName</code></li>
+            <li><strong>Hằng:</strong> UPPER_CASE - <code>MAX_SIZE</code></li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h4><i class="fas fa-code"></i> Quy ước code:</h4>
+        <ul>
+            <li>Mỗi câu lệnh một dòng</li>
+            <li>Thụt lề 4 spaces</li>
+            <li>Comment rõ ràng</li>
+            <li>Đặt tên có ý nghĩa</li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h4><i class="fas fa-bug"></i> Debug cơ bản:</h4>
+        <ul>
+            <li>Sử dụng <code>System.out.println()</code> để in giá trị</li>
+            <li>Kiểm tra từng bước thực thi</li>
+            <li>Đọc kỹ thông báo lỗi</li>
+            <li>Sử dụng breakpoint trong IDE</li>
+        </ul>
+    </div>
+
+    <h3>7.4 Các lỗi phổ biến khác</h3>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Lỗi</th>
+                    <th>Nguyên nhân</th>
+                    <th>Cách khắc phục</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>ClassNotFoundException</code></td>
+                    <td>Không tìm thấy class</td>
+                    <td>Kiểm tra classpath và tên class</td>
+                </tr>
+                <tr>
+                    <td><code>NumberFormatException</code></td>
+                    <td>Ép kiểu chuỗi không phải số</td>
+                    <td>Kiểm tra định dạng trước khi ép kiểu</td>
+                </tr>
+                <tr>
+                    <td><code>FileNotFoundException</code></td>
+                    <td>File không tồn tại</td>
+                    <td>Kiểm tra đường dẫn file</td>
+                </tr>
+                <tr>
+                    <td><code>StringIndexOutOfBoundsException</code></td>
+                    <td>Truy cập ký tự ngoài phạm vi</td>
+                    <td>Kiểm tra độ dài chuỗi trước khi truy cập</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="interactive-section">
+        <h4><i class="fas fa-search"></i> Tìm và sửa lỗi</h4>
+        <div class="code-block">
+            <div class="code-header">
+                <span>Code có lỗi - Hãy tìm và sửa</span>
+            </div>
+            <span class="keyword">public class</span> <span class="class-name">BuggyCode</span> {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int x = 10<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name = null;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int[] numbers = {1, 2, 3};<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(x);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(name.length());<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(numbers[5]);<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            }
+        </div>
+        
+        <button class="btn" onclick="showBugSolution()">
+            <i class="fas fa-wrench"></i> Xem giải pháp
+        </button>
+        
+        <div class="result" id="bugSolution">
+            <strong>Giải pháp sửa lỗi:</strong>
+            <div class="result-content" id="bugSolutionContent"></div>
+        </div>
+    </div>
+
+    <div class="note">
+        <h4><i class="fas fa-exclamation-triangle"></i> Mẹo phòng tránh lỗi:</h4>
+        <ul>
+            <li>Luôn khởi tạo biến trước khi sử dụng</li>
+            <li>Kiểm tra null trước khi gọi phương thức</li>
+            <li>Kiểm tra giới hạn mảng trước khi truy cập</li>
+            <li>Sử dụng try-catch để xử lý ngoại lệ</li>
+            <li>Viết unit test để kiểm tra code</li>
+        </ul>
+    </div>
+</section>
+            </main>
+        </div>
+
+        <footer>
+            <p>&copy; GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+
+        // Hàm copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Chạy ví dụ Output
+        function runOutputExample() {
+            const result = document.getElementById('outputResult');
+            const output = document.getElementById('outputResultContent');
+            
+            result.classList.add('active');
+            output.textContent = `Xin chao Java!\nHoc nhap xuat du lieu.`;
+        }
+
+        // Chạy ví dụ Input
+        function runInputExample() {
+            const userName = document.getElementById('userName').value || "Người dùng";
+            const userAge = document.getElementById('userAge').value || "0";
+            const userScore = document.getElementById('userScore').value || "0.0";
+            
+            const result = document.getElementById('inputResult');
+            const output = document.getElementById('inputResultContent');
+            
+            result.classList.add('active');
+            output.textContent = `--- Thong tin sinh vien ---\nHo ten: ${userName}\nTuoi: ${userAge}\nDiem trung binh: ${userScore}`;
+        }
+
+        // Thử nghiệm ép kiểu
+        function testCasting() {
+            const value = parseFloat(document.getElementById('castValue').value) || 9.78;
+            const intValue = Math.floor(value);
+            
+            const result = document.getElementById('castResult');
+            const output = document.getElementById('castResultContent');
+            
+            result.classList.add('active');
+            output.textContent = `Giá trị gốc: ${value}\nSau khi ép kiểu (int): ${intValue}\nMất phần thập phân: ${value - intValue}`;
+        }
+        // Thử nghiệm toán tử số học
+function testArithmeticOperators() {
+    const num1 = parseInt(document.getElementById('arithmeticNum1').value) || 15;
+    const num2 = parseInt(document.getElementById('arithmeticNum2').value) || 4;
+    
+    const result = document.getElementById('arithmeticResult');
+    const output = document.getElementById('arithmeticResultContent');
+    
+    result.classList.add('active');
+    output.textContent = 
+`a = ${num1}, b = ${num2}
+a + b = ${num1 + num2}
+a - b = ${num1 - num2}
+a * b = ${num1 * num2}
+a / b = ${Math.floor(num1 / num2)} (chia nguyên)
+a % b = ${num1 % num2} (số dư)
+
+Chia số thực:
+${num1}.0 / ${num2}.0 = ${(num1 / num2).toFixed(2)}`;
+}
+
+// Thử nghiệm toán tử so sánh
+function testComparisonOperators() {
+    const num1 = parseInt(document.getElementById('compareNum1').value) || 10;
+    const num2 = parseInt(document.getElementById('compareNum2').value) || 5;
+    
+    const result = document.getElementById('comparisonResult');
+    const output = document.getElementById('comparisonResultContent');
+    
+    result.classList.add('active');
+    output.textContent = 
+`a = ${num1}, b = ${num2}
+a == b: ${num1 == num2}
+a != b: ${num1 != num2}
+a > b: ${num1 > num2}
+a < b: ${num1 < num2}
+a >= b: ${num1 >= num2}
+a <= b: ${num1 <= num2}`;
+}
+
+// Thử nghiệm toán tử logic
+function testLogicalOperators() {
+    const age = parseInt(document.getElementById('logicAge').value) || 20;
+    const hasID = document.getElementById('hasID').value === 'true';
+    
+    const result = document.getElementById('logicalResult');
+    const output = document.getElementById('logicalResultContent');
+    
+    result.classList.add('active');
+    
+    let logicOutput = `Tuổi: ${age}, Có giấy tờ: ${hasID}\n\n`;
+    
+    // Kiểm tra điều kiện vào cửa
+    if (age >= 18 && hasID) {
+        logicOutput += "✅ Được vào cửa (age >= 18 && hasID = true)\n";
+    } else {
+        logicOutput += "❌ Không được vào (age >= 18 && hasID = false)\n";
+    }
+    
+    // Kiểm tra điều kiện nghỉ
+    const isWeekend = true;
+    const isHoliday = false;
+    logicOutput += `\nCuối tuần: ${isWeekend}, Ngày lễ: ${isHoliday}\n`;
+    
+    if (isWeekend || isHoliday) {
+        logicOutput += "🎉 Hôm nay được nghỉ (isWeekend || isHoliday = true)\n";
+    } else {
+        logicOutput += "💼 Hôm nay đi làm (isWeekend || isHoliday = false)\n";
+    }
+    
+    // Kiểm tra điều kiện thời tiết
+    const isRaining = false;
+    logicOutput += `\nTrời mưa: ${isRaining}\n`;
+    
+    if (!isRaining) {
+        logicOutput += "☀️ Trời không mưa, có thể đi chơi (!isRaining = true)\n";
+    } else {
+        logicOutput += "🌧️ Trời mưa, ở nhà (!isRaining = false)\n";
+    }
+    
+    output.textContent = logicOutput;
+}
+// Thử nghiệm hàm số học cơ bản
+function testMathBasic() {
+    const num1 = parseInt(document.getElementById('mathNum1').value) || 25;
+    const num2 = parseInt(document.getElementById('mathNum2').value) || 8;
+    
+    const result = document.getElementById('mathBasicResult');
+    const output = document.getElementById('mathBasicResultContent');
+    
+    result.classList.add('active');
+    output.textContent = 
+`Số thứ nhất: ${num1}, Số thứ hai: ${num2}
+
+Hàm số học cơ bản:
+Math.abs(${num1}) = ${Math.abs(num1)}
+Math.sqrt(${num1}) = ${Math.sqrt(num1)}
+Math.pow(${num1}, 2) = ${Math.pow(num1, 2)}
+Math.max(${num1}, ${num2}) = ${Math.max(num1, num2)}
+Math.min(${num1}, ${num2}) = ${Math.min(num1, num2)}
+
+Hằng số:
+Math.PI = ${Math.PI}
+Math.E = ${Math.E}`;
+}
+
+// Thử nghiệm hàm làm tròn
+function testMathRounding() {
+    const number = parseFloat(document.getElementById('roundNumber').value) || 4.5;
+    
+    const result = document.getElementById('mathRoundResult');
+    const output = document.getElementById('mathRoundResultContent');
+    
+    result.classList.add('active');
+    output.textContent = 
+`Số gốc: ${number}
+
+Các hàm làm tròn:
+Math.round(${number}) = ${Math.round(number)}
+Math.ceil(${number}) = ${Math.ceil(number)}
+Math.floor(${number}) = ${Math.floor(number)}
+Math.rint(${number}) = ${Math.rint(number)}`;
+}
+
+// Thử nghiệm số ngẫu nhiên
+function testMathRandom() {
+    const max = parseInt(document.getElementById('randomMax').value) || 100;
+    
+    const result = document.getElementById('mathRandomResult');
+    const output = document.getElementById('mathRandomResultContent');
+    
+    result.classList.add('active');
+    
+    let randomOutput = `Tạo số ngẫu nhiên từ 0 đến ${max}:\n\n`;
+    
+    // Tạo 5 số ngẫu nhiên
+    for (let i = 1; i <= 5; i++) {
+        const randomNum = Math.floor(Math.random() * (max + 1));
+        randomOutput += `Lần ${i}: ${randomNum}\n`;
+    }
+    
+    randomOutput += `\nMath.random() trả về: ${Math.random()}`;
+    randomOutput += `\n\nCông thức: Math.floor(Math.random() * ${max + 1})`;
+    
+    output.textContent = randomOutput;
+}
+// Hiển thị giải pháp sửa lỗi - FIXED VERSION
+function showBugSolution() {
+    const result = document.getElementById('bugSolution');
+    const output = document.getElementById('bugSolutionContent');
+    
+    if (result && output) {
+        result.classList.add('active');
+        output.textContent = `Code đã sửa:
+
+public class BuggyCode {
+    public static void main(String[] args) {
+        int x = 10;  // ✅ Thêm dấu chấm phẩy
+        String name = "Hello";  // ✅ Khởi tạo giá trị, không để null
+        int[] numbers = {1, 2, 3};
+        
+        System.out.println(x);
+        System.out.println(name.length());  // ✅ Không còn NullPointerException
+        
+        // ✅ Kiểm tra giới hạn mảng trước khi truy cập
+        if (5 < numbers.length) {
+            System.out.println(numbers[5]);
+        } else {
+            System.out.println("Chỉ số vượt quá giới hạn mảng");
+        }
+    }
+}
+
+Các lỗi đã sửa:
+1. Thiếu dấu chấm phẩy ở dòng khai báo biến x
+2. NullPointerException do biến name chưa được khởi tạo
+3. ArrayIndexOutOfBoundsException do truy cập phần tử ngoài mảng`;
+    }
+}
+    </script>
+</body>
+</html>

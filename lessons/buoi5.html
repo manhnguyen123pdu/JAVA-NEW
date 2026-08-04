@@ -1,0 +1,2719 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> JAVA STRING</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./main.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-code"></i>  JAVA STRING</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#chapter1" class="nav-link active"><i class="fas fa-book"></i> Tổng quan về chuỗi</a></li>
+                    <li class="nav-item"><a href="#chapter2" class="nav-link"><i class="fas fa-plus-circle"></i>Các cách tạo String</a></li>
+                    <li class="nav-item"><a href="#chapter3-1" class="nav-link"><i class="fas fa-ruler"></i>  Phương thức cơ bản</a></li>
+                    <li class="nav-item"><a href="#chapter3-2" class="nav-link"><i class="fas fa-search"></i> Tìm kiếm & cắt chuỗi</a></li>
+                    <li class="nav-item"><a href="#chapter3-3" class="nav-link"><i class="fas fa-exchange-alt"></i> Chuyển đổi & cắt</a></li>
+                    <li class="nav-item"><a href="#chapter3-4" class="nav-link"><i class="fas fa-retweet"></i>Thay thế chuỗi</a></li>
+                    <li class="nav-item"><a href="#chapter3-5" class="nav-link"><i class="fas fa-check-circle"></i> Kiểm tra chuỗi</a></li>
+                    <li class="nav-item"><a href="#chapter4" class="nav-link"><i class="fas fa-balance-scale"></i>  So sánh chuỗi</a></li>
+                    <li class="nav-item"><a href="#chapter5" class="nav-link"><i class="fas fa-link"></i>  Nối & định dạng chuỗi</a></li>
+                    <li class="nav-item"><a href="#practice" class="nav-link"><i class="fas fa-dumbbell"></i> Bài tập thực hành</a></li>
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!--  1: TỔNG QUAN -->
+                <section id="chapter1" class="section active">
+                    <h2><i class="fas fa-book"></i>  1: TỔNG QUAN VỀ CHUỖI TRONG JAVA</h2>
+                    
+                    <h3>1.1. Định nghĩa</h3>
+                    <p>Chuỗi (String) trong Java là một đối tượng đại diện cho một chuỗi các ký tự (sequence of characters). Lớp String thuộc gói java.lang và được sử dụng để tạo, thao tác và xử lý các chuỗi ký tự.</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Khái niệm cơ bản</span>
+                        </div>
+                        // Chuỗi là đối tượng trong Java<br>
+                        String message = "Hello Java";<br>
+                        System.out.println(message);  <span class="comment">// Output: Hello Java</span>
+                    </div>
+                    
+                    <h3>1.2. Đặc điểm quan trọng</h3>
+                    
+                    <div class="method-list">
+                        <div class="method-card">
+                            <div class="method-name"><i class="fas fa-lock"></i> Immutable (Bất biến)</div>
+                            <p class="method-desc">Đối tượng String không thể thay đổi sau khi tạo. Mọi thao tác tạo ra chuỗi mới.</p>
+                        </div>
+                        
+                        <div class="method-card">
+                            <div class="method-name"><i class="fas fa-database"></i> String Pool</div>
+                            <p class="method-desc">Cơ chế lưu trữ đặc biệt trong bộ nhớ Heap để tối ưu bộ nhớ.</p>
+                        </div>
+                        
+                        <div class="method-card">
+                            <div class="method-name"><i class="fas fa-users"></i> Thread-safe</div>
+                            <p class="method-desc">An toàn trong môi trường đa luồng do tính bất biến.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Tại sao String là Immutable?</h4>
+                        <ul>
+                            <li><strong>Bảo mật:</strong> Ngăn chặn thay đổi giá trị chuỗi quan trọng</li>
+                            <li><strong>Thread-safe:</strong> Có thể chia sẻ an toàn giữa các thread</li>
+                            <li><strong>Tối ưu bộ nhớ:</strong> String Pool hoạt động hiệu quả</li>
+                            <li><strong>Hiệu suất:</strong> Bộ nhớ cache hashcode</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Lưu ý quan trọng</h4>
+                        <p>String là immutable, nhưng biến tham chiếu đến String có thể thay đổi. Điều này có thể gây nhầm lẫn cho người mới học.</p>
+                    </div>
+                </section>
+
+                <!--  2: CÁC CÁCH TẠO STRING -->
+                <section id="chapter2" class="section">
+                    <h2><i class="fas fa-plus-circle"></i>  2: CÁC CÁCH TẠO ĐỐI TƯỢNG STRING</h2>
+                    
+                    <h3>2.1. Tạo chuỗi bằng String Literal</h3>
+                    <p>Tạo chuỗi bằng cách gán trực tiếp giá trị chuỗi trong dấu nháy kép. Chuỗi này sẽ được lưu trong String Pool.</p>
+                    
+                    <div class="syntax">
+                        <span class="keyword">Cú pháp:</span> String tenBien = "giá trị chuỗi";
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ViDuStringLiteral.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ViDuStringLiteral</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo chuỗi bằng String literal</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str1 = <span class="string">"Hello Java"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str2 = <span class="string">"Hello Java"</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kiểm tra vì cả hai cùng trỏ đến một đối tượng trong String Pool</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"str1 == str2: "</span> + (str1 == str2)); <span class="comment">// true</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"str1.equals(str2): "</span> + str1.equals(str2)); <span class="comment">// true</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm String Literal</h4>
+                        <div class="input-group">
+                            <label for="literal1">Chuỗi 1:</label>
+                            <input type="text" id="literal1" value="Hello Java" placeholder="Nhập chuỗi">
+                        </div>
+                        <div class="input-group">
+                            <label for="literal2">Chuỗi 2:</label>
+                            <input type="text" id="literal2" value="Hello Java" placeholder="Nhập chuỗi">
+                        </div>
+                        <button class="btn" onclick="testStringLiteral()">
+                            <i class="fas fa-play"></i> So sánh chuỗi
+                        </button>
+                        <div class="result" id="literalResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="literalResultContent"></div>
+                        </div>
+                    </div>
+                    
+                    <h3>2.2. Tạo chuỗi bằng từ khóa new</h3>
+                    <p>Tạo đối tượng String mới bằng từ khóa new. Mỗi lần tạo sẽ tạo ra đối tượng mới trong heap memory.</p>
+                    
+                    <div class="syntax">
+                        <span class="keyword">Cú pháp:</span> String tenBien = new String("giá trị chuỗi");
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ViDuStringNew.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ViDuStringNew</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo chuỗi bằng từ khóa new</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str1 = <span class="keyword">new</span> String(<span class="string">"Hello Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str2 = <span class="keyword">new</span> String(<span class="string">"Hello Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kiểm tra (khác đối tượng nhưng cùng nội dung)</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"str1 == str2: "</span> + (str1 == str2)); <span class="comment">// false</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"str1.equals(str2): "</span> + str1.equals(str2)); <span class="comment">// true</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    
+                    <div class="comparison-table">
+                        <h4>So sánh String Literal và new String()</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tiêu chí</th>
+                                    <th>String Literal</th>
+                                    <th>new String()</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Bộ nhớ</strong></td>
+                                    <td>String Pool</td>
+                                    <td>Heap Memory</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hiệu suất</strong></td>
+                                    <td>Tốt hơn (tái sử dụng)</td>
+                                    <td>Kém hơn (tạo mới)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Số lượng object</strong></td>
+                                    <td>1 (nếu cùng giá trị)</td>
+                                    <td>Nhiều object</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>So sánh ==</strong></td>
+                                    <td>true (cùng tham chiếu)</td>
+                                    <td>false (khác tham chiếu)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>So sánh equals()</strong></td>
+                                    <td>true (cùng nội dung)</td>
+                                    <td>true (cùng nội dung)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <h3>2.3. Tạo chuỗi từ mảng ký tự</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>ViDuStringTuMang.java</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="keyword">public class</span> <span class="class-name">ViDuStringTuMang</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo chuỗi từ mảng ký tự đầy đủ</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">char</span>[] mang1 = {<span class="string">'H'</span>, <span class="string">'e'</span>, <span class="string">'l'</span>, <span class="string">'l'</span>, <span class="string">'o'</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str1 = <span class="keyword">new</span> String(mang1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chuỗi từ mảng đầy đủ: "</span> + str1);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tạo chuỗi từ một phần mảng ký tự</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">char</span>[] mang2 = {<span class="string">'J'</span>, <span class="string">'a'</span>, <span class="string">'v'</span>, <span class="string">'a'</span>, <span class="string">'P'</span>, <span class="string">'r'</span>, <span class="string">'o'</span>, <span class="string">'g'</span>, <span class="string">'r'</span>, <span class="string">'a'</span>, <span class="string">'m'</span>};<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str2 = <span class="keyword">new</span> String(mang2, 0, 4); <span class="comment">// từ vị trí 0, lấy 4 ký tự</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chuỗi từ phần mảng: "</span> + str2); <span class="comment">// Java</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!--  3.1: PHƯƠNG THỨC CƠ BẢN -->
+                <section id="chapter3-1" class="section">
+                    <h2><i class="fas fa-ruler"></i>  3.1: CÁC PHƯƠNG THỨC CƠ BẢN CỦA STRING</h2>
+                    
+                    <h3>3.1. Phương thức length()</h3>
+                    <p>Trả về độ dài của chuỗi (số lượng ký tự).</p>
+                    
+                    <div class="syntax">
+                        <span class="keyword">Cú pháp:</span> <span class="method">int</span> doDai = chuoi.<span class="method">length()</span>;
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Ví dụ length()</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        String str1 = <span class="string">"Hello Java"</span>;<br>
+                        String str2 = <span class="string">""</span>;<br>
+                        String str3 = <span class="string">"   "</span>;<br>
+                        String str4 = <span class="string">"Chào bạn!"</span>;<br>
+                        <br>
+                        System.out.println(<span class="string">"Độ dài của '"</span> + str1 + <span class="string">"': "</span> + str1.length()); <span class="comment">// 10</span><br>
+                        System.out.println(<span class="string">"Độ dài của chuỗi rỗng: "</span> + str2.length()); <span class="comment">// 0</span><br>
+                        System.out.println(<span class="string">"Độ dài của chuỗi 3 khoảng trắng: "</span> + str3.length()); <span class="comment">// 3</span><br>
+                        System.out.println(<span class="string">"Độ dài của '"</span> + str4 + <span class="string">"': "</span> + str4.length()); <span class="comment">// 9</span>
+                    </div>
+                    
+                    <h3>3.2. Phương thức isEmpty()</h3>
+                    <p>Kiểm tra xem chuỗi có rỗng (có độ dài bằng 0) hay không.</p>
+                    
+                    <div class="syntax">
+                        <span class="keyword">Cú pháp:</span> <span class="method">boolean</span> rong = chuoi.<span class="method">isEmpty()</span>;
+                    </div>
+                    <div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ isEmpty()</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <span class="keyword">public class</span> ViDuIsEmpty {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str1 = <span class="string">""</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str2 = <span class="string">"Java"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str3 = <span class="string">"   "</span>;<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"str1 có rỗng không? "</span> + str1.isEmpty()); 
+    <span class="comment">// true</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"str2 có rỗng không? "</span> + str2.isEmpty()); 
+    <span class="comment">// false</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"str3 có rỗng không? "</span> + str3.isEmpty()); 
+    <span class="comment">// false</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Kiểm tra dữ liệu đầu vào</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String username = <span class="string">""</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (username.isEmpty()) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tên đăng nhập không được để trống!"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">else</span> {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Xin chào "</span> + username);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kết hợp với trim()</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String input = <span class="string">"   "</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (input.trim().isEmpty()) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chuỗi chỉ chứa khoảng trắng!"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    }
+</div>
+
+                    <h3>3.3. Phương thức isBlank() (Java 11+)</h3>
+                    <p>Kiểm tra chuỗi có trống hay không (rỗng hoặc chỉ chứa khoảng trắng).</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>So sánh isEmpty() và isBlank()</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        String str1 = <span class="string">""</span>;<br>
+                        String str2 = <span class="string">"   "</span>;<br>
+                        String str3 = <span class="string">"\t\n   "</span>;<br>
+                        String str4 = <span class="string">"Java"</span>;<br>
+                        <br>
+                        System.out.println(<span class="string">"str1 isBlank? "</span> + str1.isBlank()); <span class="comment">// true</span><br>
+                        System.out.println(<span class="string">"str2 isBlank? "</span> + str2.isBlank()); <span class="comment">// true</span><br>
+                        System.out.println(<span class="string">"str3 isBlank? "</span> + str3.isBlank()); <span class="comment">// true</span><br>
+                        System.out.println(<span class="string">"str4 isBlank? "</span> + str4.isBlank()); <span class="comment">// false</span><br>
+                        <br>
+                        System.out.println(<span class="string">"\nSo sánh với isEmpty():"</span>);<br>
+                        System.out.println(<span class="string">"str1 isEmpty? "</span> + str1.isEmpty()); <span class="comment">// true</span><br>
+                        System.out.println(<span class="string">"str2 isEmpty? "</span> + str2.isEmpty()); <span class="comment">// false</span><br>
+                        System.out.println(<span class="string">"str3 isEmpty? "</span> + str3.isEmpty()); <span class="comment">// false</span><br>
+                        System.out.println(<span class="string">"str4 isEmpty? "</span> + str4.isEmpty()); <span class="comment">// false</span>
+                    </div>
+                    
+                    <h3>3.4. Phương thức charAt()</h3>
+                    <p>Trả về ký tự tại vị trí chỉ định trong chuỗi.</p>
+                    
+                    <div class="syntax">
+                        <span class="keyword">Cú pháp:</span> <span class="method">char</span> kyTu = chuoi.<span class="method">charAt</span>(<span class="param">viTri</span>);
+                    </div>
+                    <div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ charAt()</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <span class="keyword">public class</span> ViDuCharAt {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str = <span class="string">"Java Programming"</span>;<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy ký tự tại các vị trí khác nhau</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ký tự tại vị trí 0: "</span> + str.charAt(<span class="number">0</span>)); 
+    <span class="comment">// J</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ký tự tại vị trí 5: "</span> + str.charAt(<span class="number">5</span>)); 
+    <span class="comment">// P</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ký tự tại vị trí 10: "</span> + str.charAt(<span class="number">10</span>)); 
+    <span class="comment">// m</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Duyệt qua tất cả ký tự trong chuỗi</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nDuyệt từ đầu đến cuối:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; str.length(); i++) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Vị trí "</span> + i + <span class="string">": "</span> + str.charAt(i));<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Duyệt ngược từ cuối lên đầu</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nDuyệt từ cuối lên đầu:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = str.length() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Vị trí "</span> + i + <span class="string">": "</span> + str.charAt(i));<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Đếm số lần xuất hiện của một ký tự</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">char</span> timKyTu = <span class="string">'a'</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> dem = <span class="number">0</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; str.length(); i++) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (str.charAt(i) == timKyTu) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dem++;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nKý tự '"</span> + timKyTu + <span class="string">"' xuất hiện "</span> + dem + <span class="string">" lần"</span>);<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xử lý ngoại lệ</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thử lấy vị trí 100: "</span> + str.charAt(<span class="number">100</span>));<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (StringIndexOutOfBoundsException e) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Lỗi: Vị trí không hợp lệ!"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    }
+</div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm phương thức cơ bản</h4>
+                        <div class="input-group">
+                            <label for="basicString">Nhập chuỗi:</label>
+                            <input type="text" id="basicString" value="Hello Java" placeholder="Nhập chuỗi để kiểm tra">
+                        </div>
+                        <div class="example-nav">
+                            <button class="example-btn active" onclick="showBasicMethod('length')">length()</button>
+                            <button class="example-btn" onclick="showBasicMethod('isEmpty')">isEmpty()</button>
+                            <button class="example-btn" onclick="showBasicMethod('isBlank')">isBlank()</button>
+                            <button class="example-btn" onclick="showBasicMethod('charAt')">charAt()</button>
+                        </div>
+                        <div class="input-group" id="charAtInput" style="display: none;">
+                            <label for="charIndex">Vị trí ký tự (0-based):</label>
+                            <input type="number" id="charIndex" value="0" min="0" max="20">
+                        </div>
+                        <button class="btn" onclick="testBasicMethods()">
+                            <i class="fas fa-play"></i> Thực thi
+                        </button>
+                        <div class="result" id="basicResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="basicResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!--  3.2: TÌM KIẾM VÀ CẮT CHUỖI -->
+                <section id="chapter3-2" class="section">
+                    <h2><i class="fas fa-search"></i>  3.2: PHƯƠNG THỨC TÌM KIẾM VÀ CẮT CHUỖI</h2>
+                    
+                    <h3>3.5. Phương thức indexOf()</h3>
+                    <p>Tìm vị trí xuất hiện đầu tiên của một ký tự hoặc chuỗi con.</p>
+                    
+                    <div class="syntax">
+                        <span class="keyword">Cú pháp:</span><br>
+                        <span class="method">int</span> viTri = chuoi.<span class="method">indexOf</span>(<span class="param">kyTu</span>);<br>
+                        <span class="method">int</span> viTri = chuoi.<span class="method">indexOf</span>(<span class="param">chuoiCon</span>);<br>
+                        <span class="method">int</span> viTri = chuoi.<span class="method">indexOf</span>(<span class="param">kyTu, viTriBatDau</span>);<br>
+                        <span class="method">int</span> viTri = chuoi.<span class="method">indexOf</span>(<span class="param">chuoiCon, viTriBatDau</span>);
+                    </div>
+                    <div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ indexOf()</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <span class="keyword">public class</span> ViDuIndexOf {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str = <span class="string">"Java Programming Language, Java is fun"</span>;<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tìm ký tự đầu tiên</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Vị trí của 'a' đầu tiên: "</span> + str.indexOf(<span class="string">'a'</span>)); 
+    <span class="comment">// 1</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tìm chuỗi con đầu tiên</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Vị trí của 'Java' đầu tiên: "</span> + str.indexOf(<span class="string">"Java"</span>)); 
+    <span class="comment">// 0</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tìm từ vị trí chỉ định</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Vị trí của 'a' từ vị trí 2: "</span> + str.indexOf(<span class="string">'a'</span>, <span class="number">2</span>)); 
+    <span class="comment">// 3</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Vị trí của 'Java' từ vị trí 1: "</span> + str.indexOf(<span class="string">"Java"</span>, <span class="number">1</span>)); 
+    <span class="comment">// 24</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Không tìm thấy (trả về -1)</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tìm 'Python': "</span> + str.indexOf(<span class="string">"Python"</span>)); 
+    <span class="comment">// -1</span><br>
+    <br>
+   
+    }
+</div>
+
+                    <h3>3.6. Phương thức lastIndexOf()</h3>
+                    <p>Tìm vị trí xuất hiện cuối cùng của một ký tự hoặc chuỗi con.</p>
+                    
+                    <h3>3.7. Phương thức substring()</h3>
+                    <p>Trích xuất một phần của chuỗi thành chuỗi con mới.</p>
+                    <div class="syntax">
+    <span class="keyword">Cú pháp:</span><br>
+    <span class="method">String</span> chuoiCon = chuoi.<span class="method">substring</span>(<span class="param">viTriBatDau</span>);<br>
+    <span class="method">String</span> chuoiCon = chuoi.<span class="method">substring</span>(<span class="param">viTriBatDau, viTriKetThuc</span>);
+</div>
+<div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ substring()</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <span class="keyword">public class</span> ViDuSubstring {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str = <span class="string">"Java Programming Language"</span>;<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy từ vị trí 5 đến hết</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sub1 = str.substring(<span class="number">5</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Từ vị trí 5: '"</span> + sub1 + <span class="string">"'"</span>); 
+    <span class="comment">// Programming Language</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy từ vị trí 0 đến 4 (không bao gồm 4)</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sub2 = str.substring(<span class="number">0</span>, <span class="number">4</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Từ 0 đến 4: '"</span> + sub2 + <span class="string">"'"</span>); 
+    <span class="comment">// Java</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Lấy từ vị trí 5 đến 16</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sub3 = str.substring(<span class="number">5</span>, <span class="number">16</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Từ 5 đến 16: '"</span> + sub3 + <span class="string">"'"</span>); 
+    <span class="comment">// Programming</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Tách ngày tháng năm</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String date = <span class="string">"2024-03-15"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String year = date.substring(<span class="number">0</span>, <span class="number">4</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String month = date.substring(<span class="number">5</span>, <span class="number">7</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String day = date.substring(<span class="number">8</span>, <span class="number">10</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nNgày: "</span> + day + 
+    <span class="string">", Tháng: "</span> + month + 
+    <span class="string">", Năm: "</span> + year);<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Lấy tên từ email</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String email = <span class="string">"john.doe@company.com"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> atIndex = email.indexOf(<span class="string">'@'</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (atIndex != <span class="number">-1</span>) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String username = email.substring(<span class="number">0</span>, atIndex);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Username: "</span> + username);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Ẩn một phần số điện thoại</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String phone = <span class="string">"0912345678"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (phone.length() >= <span class="number">7</span>) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String hidden = phone.substring(<span class="number">0</span>, <span class="number">3</span>) 
+    + <span class="string">"****"</span> + phone.substring(<span class="number">7</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Số điện thoại ẩn: "</span> + hidden);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xử lý ngoại lệ</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span> {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String error = str.substring(<span class="number">100</span>, <span class="number">200</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword">catch</span> (StringIndexOutOfBoundsException e) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nLỗi: Vị trí không hợp lệ!"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Cắt từ cuối chuỗi</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String last5 = str.substring(str.length() - <span class="number">5</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"5 ký tự cuối: "</span> + last5);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    }
+</div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm tìm kiếm và cắt chuỗi</h4>
+                        <div class="input-group">
+                            <label for="searchString">Chuỗi gốc:</label>
+                            <textarea id="searchString" rows="2">Java Programming Language, Java is fun</textarea>
+                        </div>
+                        <div class="input-group">
+                            <label for="searchTarget">Tìm kiếm:</label>
+                            <input type="text" id="searchTarget" value="Java" placeholder="Nhập ký tự hoặc chuỗi con">
+                        </div>
+                        <div class="example-nav">
+                            <button class="example-btn active" onclick="showSearchMethod('indexOf')">indexOf()</button>
+                            <button class="example-btn" onclick="showSearchMethod('lastIndexOf')">lastIndexOf()</button>
+                            <button class="example-btn" onclick="showSearchMethod('substring')">substring()</button>
+                        </div>
+                        <div class="input-group" id="substringInput" style="display: none;">
+                            <label for="subStart">Vị trí bắt đầu:</label>
+                            <input type="number" id="subStart" value="0" min="0" max="50">
+                            <label for="subEnd">Vị trí kết thúc (tùy chọn):</label>
+                            <input type="number" id="subEnd" placeholder="Để trống nếu lấy đến hết">
+                        </div>
+                        <button class="btn" onclick="testSearchMethods()">
+                            <i class="fas fa-play"></i> Thực thi
+                        </button>
+                        <div class="result" id="searchResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="searchResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!--  3.3: CHUYỂN ĐỔI & CẮT -->
+                <section id="chapter3-3" class="section">
+                    <h2><i class="fas fa-exchange-alt"></i>  3.3: PHƯƠNG THỨC CHUYỂN ĐỔI & CẮT CHUỖI</h2>
+                    
+                    <h3>3.8. Phương thức split()</h3>
+                    <p>Tách chuỗi thành mảng các chuỗi con dựa trên biểu thức chính quy (regex).</p>
+                    
+                    <div class="syntax">
+                        <span class="keyword">Cú pháp:</span><br>
+                        String[] mangChuoi = chuoi.<span class="method">split</span>(<span class="param">regex</span>);<br>
+                        String[] mangChuoi = chuoi.<span class="method">split</span>(<span class="param">regex, gioiHan</span>);
+                    </div>
+                    <div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ split()</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <span class="keyword">public class</span> ViDuSplit {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tách theo dấu phẩy</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str1 = <span class="string">"apple,banana,orange,grape"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] fruits = str1.split(<span class="string">","</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tách theo dấu phẩy:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String fruit : fruits) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"- "</span> + fruit);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tách theo khoảng trắng</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str2 = <span class="string">"Java is a programming language"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] words = str2.split(<span class="string">" "</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nTách theo khoảng trắng:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String word : words) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"- "</span> + word);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tách với giới hạn số phần tử</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str3 = <span class="string">"one:two:three:four:five"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] parts = str3.split(<span class="string">":"</span>, <span class="number">3</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nTách với giới hạn 3 phần:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String part : parts) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"- "</span> + part);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tách theo nhiều ký tự</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str4 = <span class="string">"apple, banana; orange.grape"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] fruits2 = str4.split(<span class="string">"[,;. ]+"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nTách theo nhiều ký tự phân cách:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String fruit : fruits2) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"- "</span> + fruit);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Phân tích CSV</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String csv = <span class="string">"John,Doe,30,Developer"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] data = csv.split(<span class="string">","</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nPhân tích CSV:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"First Name: "</span> + data[<span class="number">0</span>]);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Last Name: "</span> + data[<span class="number">1</span>]);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Age: "</span> + data[<span class="number">2</span>]);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Job: "</span> + data[<span class="number">3</span>]);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Tách đường dẫn</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String path = <span class="string">"/usr/local/bin/java"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] directories = path.split(<span class="string">"/"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nCác thư mục trong đường dẫn:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String dir : directories) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!dir.isEmpty()) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"- "</span> + dir);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tách từng ký tự</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str5 = <span class="string">"Hello"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] chars = str5.split(<span class="string">""</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nTách từng ký tự:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String ch : chars) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(ch + <span class="string">" "</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Regex đặc biệt: dấu chấm</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str6 = <span class="string">"a.b.c"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] parts2 = str6.split(<span class="string">"\\\\."</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\n\\nTách theo dấu chấm:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String part : parts2) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"- "</span> + part);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    }
+</div>
+
+                    <h3>3.9. Phương thức toUpperCase() và toLowerCase()</h3>
+                    <p>Chuyển đổi tất cả ký tự trong chuỗi thành chữ hoa (toUpperCase) hoặc chữ thường (toLowerCase).</p>
+                    <div class="syntax">
+    <span class="keyword">Cú pháp:</span><br>
+    <span class="method">String</span> chuoiHoa = chuoi.<span class="method">toUpperCase</span>();<br>
+    <span class="method">String</span> chuoiThuong = chuoi.<span class="method">toLowerCase</span>();
+</div>
+<div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ toUpperCase() & toLowerCase()</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <span class="keyword">public class</span> ViDuChuHoaThuong {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String original = <span class="string">"Java Programming Language"</span>;<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Chuyển thành chữ hoa</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String upper = original.toUpperCase();<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chữ hoa: "</span> + upper); 
+    <span class="comment">// JAVA PROGRAMMING LANGUAGE</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Chuyển thành chữ thường</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String lower = original.toLowerCase();<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Chữ thường: "</span> + lower); 
+    <span class="comment">// java programming language</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: So sánh không phân biệt hoa thường</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String input1 = <span class="string">"JAVA"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String input2 = <span class="string">"java"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nSo sánh phân biệt hoa thường: "</span> 
+    + input1.equals(input2)); 
+    <span class="comment">// false</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"So sánh không phân biệt: "</span> 
+    + input1.equalsIgnoreCase(input2)); 
+    <span class="comment">// true</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"So sánh qua chuyển đổi: "</span> 
+    + input1.toLowerCase().equals(input2.toLowerCase())); 
+    <span class="comment">// true</span><br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Chuẩn hóa dữ liệu nhập</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String userInput = <span class="string">"  ADMIN  "</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String normalized = userInput.trim().toLowerCase();<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nDữ liệu chuẩn hóa: '"</span> 
+    + normalized + <span class="string">"'"</span>);<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (normalized.equals(<span class="string">"admin"</span>)) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đăng nhập với quyền admin"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Tạo mã hóa đơn</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String customerName = <span class="string">"Nguyễn Văn A"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String date = <span class="string">"20240315"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String invoiceCode = customerName.toUpperCase().replace(<span class="string">" "</span>, <span class="string">""</span>) 
+    + date;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Mã hóa đơn: "</span> + invoiceCode);<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Kiểm tra mật khẩu có chữ hoa và chữ thường</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String password = <span class="string">"Pass123"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">boolean</span> hasUpperCase = !password.equals(password.toLowerCase());<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">boolean</span> hasLowerCase = !password.equals(password.toUpperCase());<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nKiểm tra mật khẩu:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Có chữ hoa: "</span> + hasUpperCase);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Có chữ thường: "</span> + hasLowerCase);<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Chuẩn hóa chữ cái đầu mỗi từ</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name = <span class="string">"john doe"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] nameParts = name.split(<span class="string">" "</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;StringBuilder capitalized = <span class="keyword">new</span> StringBuilder();<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String part : nameParts) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (!part.isEmpty()) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;capitalized.append(Character.toUpperCase(part.charAt(<span class="number">0</span>)))<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.append(part.substring(<span class="number">1</span>).toLowerCase())<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.append(<span class="string">" "</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Tên đã chuẩn hóa: "</span> 
+    + capitalized.toString().trim());<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    }
+</div>
+
+                    <h3>3.10. Phương thức trim()</h3>
+                    <p>Loại bỏ các khoảng trắng (space, tab, newline) ở đầu và cuối chuỗi.</p>
+                    <div class="syntax">
+    <span class="keyword">Cú pháp:</span><br>
+    <span class="method">String</span> chuoiDaTrim = chuoi.<span class="method">trim</span>();
+</div>
+
+                   <div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ trim()</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <span class="keyword">public class</span> ViDuTrim {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Các trường hợp có khoảng trắng</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] testCases = {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"  Hello Java  "</span>,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"\tTab ở đầu và cuối\t"</span>,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"\nDòng mới\n"</span>,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"   Nhiều khoảng trắng   "</span>,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"Không có khoảng trắng"</span>,<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"     "</span> <span class="comment">// Chỉ có khoảng trắng</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (String str : testCases) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String trimmed = str.trim();<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Gốc: '"</span> + str + <span class="string">"'"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Sau trim: '"</span> + trimmed + <span class="string">"'"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Độ dài gốc: "</span> + str.length() + 
+    <span class="string">", sau trim: "</span> + trimmed.length());<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"---"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Xử lý input người dùng</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nỨng dụng xử lý input:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String usernameInput = <span class="string">"  admin  "</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String passwordInput = <span class="string">" pass123 "</span>;<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String username = usernameInput.trim();<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String password = passwordInput.trim();<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Username: '"</span> + username + <span class="string">"'"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Password: '"</span> + password + <span class="string">"'"</span>);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Chuẩn hóa câu</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String sentence = <span class="string">"   Java    là   ngôn ngữ   lập trình   "</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] words = sentence.trim().split(<span class="string">"\\s+"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String normalized = String.join(<span class="string">" "</span>, words);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nCâu chuẩn hóa: '"</span> + normalized + <span class="string">"'"</span>);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Đọc file CSV</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String csvLine = <span class="string">"  John Doe  ,  30  ,  Developer  "</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] fields = csvLine.split(<span class="string">","</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nDữ liệu CSV đã làm sạch:"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < fields.length; i++) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fields[i] = fields[i].trim();<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Field "</span> + (i + <span class="number">1</span>) + <span class="string">": '"</span> + fields[i] + <span class="string">"'"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// So sánh có và không có trim</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str1 = <span class="string">"hello"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str2 = <span class="string">"  hello  "</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nSo sánh không trim: "</span> + str1.equals(str2)); 
+    <span class="comment">// false</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"So sánh có trim: "</span> + str1.equals(str2.trim())); 
+    <span class="comment">// true</span><br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Kết hợp với isEmpty()</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String emptyCheck = <span class="string">"   "</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nisEmpty() không trim: "</span> + emptyCheck.isEmpty()); 
+    <span class="comment">// false</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"isEmpty() có trim: "</span> + emptyCheck.trim().isEmpty()); 
+    <span class="comment">// true</span><br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    }
+</div>
+
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm chuyển đổi chuỗi</h4>
+                        <div class="input-group">
+                            <label for="convertString">Chuỗi gốc:</label>
+                            <textarea id="convertString" rows="2">  Java Programming is FUN!  </textarea>
+                        </div>
+                        <div class="example-nav">
+                            <button class="example-btn active" onclick="showConvertMethod('split')">split()</button>
+                            <button class="example-btn" onclick="showConvertMethod('upper')">toUpperCase()</button>
+                            <button class="example-btn" onclick="showConvertMethod('lower')">toLowerCase()</button>
+                            <button class="example-btn" onclick="showConvertMethod('trim')">trim()</button>
+                        </div>
+                        <div class="input-group" id="splitInput" style="display: block;">
+                            <label for="splitRegex">Biểu thức tách (regex):</label>
+                            <input type="text" id="splitRegex" value=" " placeholder="Ví dụ: , hoặc khoảng trắng">
+                        </div>
+                        <button class="btn" onclick="testConvertMethods()">
+                            <i class="fas fa-play"></i> Thực thi
+                        </button>
+                        <div class="result" id="convertResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="convertResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!--  3.4: THAY THẾ CHUỖI -->
+                <section id="chapter3-4" class="section">
+                    <h2><i class="fas fa-retweet"></i>  3.4: PHƯƠNG THỨC THAY THẾ CHUỖI</h2>
+                    
+                    <h3>3.12. Phương thức replace()</h3>
+                    <p>Thay thế tất cả các ký tự hoặc chuỗi con cũ bằng ký tự hoặc chuỗi mới.</p>
+                    
+                    <div class="syntax">
+                        <span class="keyword">Cú pháp:</span><br>
+                        String chuoiMoi = chuoi.<span class="method">replace</span>(<span class="param">kyTuCu, kyTuMoi</span>);<br>
+                        String chuoiMoi = chuoi.<span class="method">replace</span>(<span class="param">chuoiCu, chuoiMoi</span>);
+                    </div>
+                    <div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ replace()</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <span class="keyword">public class</span> ViDuReplace {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thay thế ký tự</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str1 = <span class="string">"Hello Java"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String replaced1 = str1.replace(<span class="string">'a'</span>, <span class="string">'o'</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thay 'a' bằng 'o': "</span> + replaced1); 
+    <span class="comment">// Hello Jovo</span><br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thay thế chuỗi</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str2 = <span class="string">"Java is fun. Java is powerful."</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String replaced2 = str2.replace(<span class="string">"Java"</span>, <span class="string">"Python"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nThay 'Java' bằng 'Python': "</span> + replaced2);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thay thế nhiều lần</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str3 = <span class="string">"aabbaabb"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String replaced3 = str3.replace(<span class="string">"aa"</span>, <span class="string">"xx"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nThay 'aa' bằng 'xx': "</span> + replaced3); 
+    <span class="comment">// xxbbxxbb</span><br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Loại bỏ khoảng trắng</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str4 = <span class="string">"Hello   World   !"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String noSpaces = str4.replace(<span class="string">" "</span>, <span class="string">""</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nLoại bỏ tất cả khoảng trắng: "</span> + noSpaces);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Thay thế ký tự đặc biệt</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str5 = <span class="string">"apple,banana;orange"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String normalized = str5.replace(<span class="string">','</span>, <span class="string">';'</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nChuẩn hóa dấu phân cách: "</span> + normalized);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Ẩn thông tin nhạy cảm</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String creditCard = <span class="string">"1234-5678-9012-3456"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String masked = creditCard.replaceAll(<span class="string">"\\d{4}-\\d{4}-\\d{4}"</span>, 
+    <span class="string">"****-****-****"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nThẻ tín dụng đã ẩn: "</span> + masked);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Chuyển đổi định dạng ngày</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String dateUS = <span class="string">"03/15/2024"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String dateEU = dateUS.replace(<span class="string">"/"</span>, <span class="string">"-"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nNgày US: "</span> + dateUS);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ngày EU: "</span> + dateEU);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Sửa lỗi chính tả</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String text = <span class="string">"I recieved the package. Recieved with thanks."</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String corrected = text.replace(<span class="string">"recieved"</span>, <span class="string">"received"</span>)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.replace(<span class="string">"Recieved"</span>, <span class="string">"Received"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nĐã sửa lỗi chính tả: "</span> + corrected);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// So sánh replace() với replaceAll()</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str6 = <span class="string">"123abc456def"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String rep1 = str6.replace(<span class="string">"\\d+"</span>, <span class="string">"*"</span>); 
+    <span class="comment">// Không dùng regex</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String rep2 = str6.replaceAll(<span class="string">"\\d+"</span>, <span class="string">"*"</span>); 
+    <span class="comment">// Dùng regex</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nSo sánh replace() và replaceAll():"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"replace(): "</span> + rep1);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"replaceAll(): "</span> + rep2);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thay thế ký tự Unicode</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str7 = <span class="string">"café"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String ascii = str7.replace(<span class="string">'é'</span>, <span class="string">'e'</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nChuyển ký tự Unicode: "</span> + ascii);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ứng dụng: Tạo slug URL</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String title = <span class="string">"Java Programming Tutorial - Part 1"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String slug = title.toLowerCase()<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.replace(<span class="string">" "</span>, <span class="string">"-"</span>)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.replace(<span class="string">"---"</span>, <span class="string">"-"</span>)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.replace(<span class="string">"--"</span>, <span class="string">"-"</span>)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.replace(<span class="string">"[^a-z0-9-]"</span>, <span class="string">""</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nSlug URL: "</span> + slug);<br>
+    <br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    }
+</div>
+
+                    <h3>3.13. Phương thức replaceAll()</h3>
+                    <p>Thay thế tất cả các phần của chuỗi khớp với biểu thức chính quy (regex) bằng chuỗi thay thế.</p>
+                    <div class="syntax">
+    <span class="keyword">Cú pháp:</span><br>
+    <span class="method">String</span> chuoiMoi = chuoi.<span class="method">replaceAll</span>(<span class="param">regex, thayThe</span>);
+</div>
+<div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ replaceAll()</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <span class="keyword">import</span> java.util.regex.Pattern;<br>
+    <span class="keyword">import</span> java.util.regex.Matcher;<br><br>
+
+    <span class="keyword">public class</span> ViDuReplaceAll {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Thay thế tất cả chữ số</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str1 = <span class="string">"abc123def456ghi789"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String result1 = str1.replaceAll(<span class="string">"\\d+"</span>, <span class="string">"###"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thay số bằng ###: "</span> + result1);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Chuẩn hóa nhiều khoảng trắng</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str2 = <span class="string">"Hello     World   !"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String result2 = str2.replaceAll(<span class="string">"\\s+"</span>, <span class="string">" "</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nChuẩn hóa khoảng trắng: '"</span> + result2 + <span class="string">"'"</span>);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa ký tự không phải chữ cái</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String str3 = <span class="string">"Hello123 World!@#"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String result3 = str3.replaceAll(<span class="string">"[^a-zA-Z ]"</span>, <span class="string">""</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nChỉ giữ chữ cái và khoảng trắng: '"</span> + result3 + <span class="string">"'"</span>);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Định dạng số điện thoại</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String phone = <span class="string">"0912345678"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String formatted = phone.replaceAll(<span class="string">"(\\d{3})(\\d{3})(\\d{4})"</span>, 
+    <span class="string">"($1) $2-$3"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nSố điện thoại định dạng: "</span> + formatted);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Ẩn email</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String email = <span class="string">"john.doe@example.com"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String hiddenEmail = email.replaceAll(<span class="string">"(\\w{3})[\\w.-]*@(\\w{3})[\\w.-]*"</span>, 
+    <span class="string">"$1***@$2***"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nEmail đã ẩn: "</span> + hiddenEmail);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Tách số từ chuỗi</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String mixed = <span class="string">"Order 123: 5 items at $10.50 each"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String numbersOnly = mixed.replaceAll(<span class="string">"[^\\d.]+"</span>, <span class="string">" "</span>).trim();<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nCác số trong chuỗi: "</span> + numbersOnly);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Snake_case → camelCase (Java 9+)</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String snake = <span class="string">"first_name_last_name"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String camel = snake.replaceAll(<span class="string">"_([a-z])"</span>, 
+    match -> match.group(1).toUpperCase());<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nSnake to Camel: "</span> + camel);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa thẻ HTML</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String html = <span class="string">"&lt;p&gt;Hello &lt;b&gt;World&lt;/b&gt;!&lt;/p&gt;"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String textOnly = html.replaceAll(<span class="string">"&lt;[^&gt;]*&gt;"</span>, <span class="string">""</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nVăn bản sau khi xóa HTML: "</span> + textOnly);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Chuyển http → https</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String url = <span class="string">"http://example.com/path/to/file"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String secureUrl = url.replaceAll(<span class="string">"^http://"</span>, <span class="string">"https://"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nURL bảo mật: "</span> + secureUrl);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Xóa ký tự trùng lặp</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String duplicate = <span class="string">"Helloooo Wooorld!!"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String deduplicated = duplicate.replaceAll(<span class="string">"(.)\\1+"</span>, <span class="string">"$1"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nSau khi xóa trùng lặp: "</span> + deduplicated);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Dùng Pattern & Matcher</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pattern pattern = Pattern.compile(<span class="string">"\\bJava\\b"</span>, Pattern.CASE_INSENSITIVE);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Matcher matcher = pattern.matcher(<span class="string">"I love java and Java programming"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String replaced = matcher.replaceAll(<span class="string">"Python"</span>);<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\nThay thế với Pattern: "</span> + replaced);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    }<br>
+</div>
+
+                    <h3>3.14. Phương thức replaceFirst()</h3>
+                    <p>Thay thế phần đầu tiên khớp với biểu thức chính quy.</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Ví dụ thay thế chuỗi</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// replace()</span><br>
+                        String str1 = <span class="string">"Hello Java"</span>;<br>
+                        String replaced1 = str1.replace(<span class="string">'a'</span>, <span class="string">'o'</span>);<br>
+                        System.out.println(replaced1); <span class="comment">// Hello Jovo</span><br>
+                        <br>
+                        <span class="comment">// replaceAll() với regex</span><br>
+                        String str2 = <span class="string">"abc123def456ghi789"</span>;<br>
+                        String result2 = str2.replaceAll(<span class="string">"\\d+"</span>, <span class="string">"###"</span>);<br>
+                        System.out.println(result2); <span class="comment">// abc###def###ghi###</span><br>
+                        <br>
+                        <span class="comment">// replaceFirst()</span><br>
+                        String str3 = <span class="string">"Java Java Java"</span>;<br>
+                        String result3 = str3.replaceFirst(<span class="string">"Java"</span>, <span class="string">"Python"</span>);<br>
+                        System.out.println(result3); <span class="comment">// Python Java Java</span>
+                    </div>
+                    
+                    <div class="note">
+                        <h4><i class="fas fa-lightbulb"></i> Sự khác biệt giữa replace() và replaceAll()</h4>
+                        <ul>
+                            <li><strong>replace():</strong> Thay thế chuỗi/ký tự đơn giản, không dùng regex</li>
+                            <li><strong>replaceAll():</strong> Thay thế sử dụng biểu thức chính quy (regex)</li>
+                            <li><strong>replaceFirst():</strong> Chỉ thay thế kết quả đầu tiên tìm thấy</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm thay thế chuỗi</h4>
+                        <div class="input-group">
+                            <label for="replaceString">Chuỗi gốc:</label>
+                            <textarea id="replaceString" rows="2">Java is fun. Java is powerful. Java 123.</textarea>
+                        </div>
+                        <div class="input-group">
+                            <label for="replaceTarget">Mục tiêu thay thế:</label>
+                            <input type="text" id="replaceTarget" value="Java" placeholder="Chuỗi cần thay thế">
+                        </div>
+                        <div class="input-group">
+                            <label for="replaceWith">Thay thế bằng:</label>
+                            <input type="text" id="replaceWith" value="Python" placeholder="Chuỗi thay thế">
+                        </div>
+                        <div class="example-nav">
+                            <button class="example-btn active" onclick="showReplaceMethod('replace')">replace()</button>
+                            <button class="example-btn" onclick="showReplaceMethod('replaceAll')">replaceAll()</button>
+                            <button class="example-btn" onclick="showReplaceMethod('replaceFirst')">replaceFirst()</button>
+                        </div>
+                        <button class="btn" onclick="testReplaceMethods()">
+                            <i class="fas fa-play"></i> Thực thi
+                        </button>
+                        <div class="result" id="replaceResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="replaceResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!--  3.5: KIỂM TRA CHUỖI -->
+                <section id="chapter3-5" class="section">
+                    <h2><i class="fas fa-check-circle"></i>  3.5: PHƯƠNG THỨC KIỂM TRA CHUỖI</h2>
+                    
+                    <h3>3.15. Phương thức startsWith() và endsWith()</h3>
+                    <p>Kiểm tra chuỗi bắt đầu hoặc kết thúc bằng chuỗi chỉ định.</p>
+                    
+                    <div class="syntax">
+                        <span class="keyword">Cú pháp:</span><br>
+                        <span class="method">boolean</span> batDau = chuoi.<span class="method">startsWith</span>(<span class="param">tienTo</span>);<br>
+                        <span class="method">boolean</span> ketThuc = chuoi.<span class="method">endsWith</span>(<span class="param">hauTo</span>);<br>
+                        <span class="method">boolean</span> batDauTuViTri = chuoi.<span class="method">startsWith</span>(<span class="param">tienTo, viTri</span>);
+                    </div>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Ví dụ startsWith() và endsWith()</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        String str1 = <span class="string">"Hello World"</span>;<br>
+                        System.out.println(<span class="string">"startsWith 'Hello': "</span> + str1.startsWith(<span class="string">"Hello"</span>)); <span class="comment">// true</span><br>
+                        System.out.println(<span class="string">"startsWith 'World': "</span> + str1.startsWith(<span class="string">"World"</span>)); <span class="comment">// false</span><br>
+                        System.out.println(<span class="string">"endsWith 'World': "</span> + str1.endsWith(<span class="string">"World"</span>)); <span class="comment">// true</span><br>
+                        System.out.println(<span class="string">"endsWith 'Hello': "</span> + str1.endsWith(<span class="string">"Hello"</span>)); <span class="comment">// false</span><br>
+                        <br>
+                        <span class="comment">// Ứng dụng: Kiểm tra loại file</span><br>
+                        String file = <span class="string">"document.pdf"</span>;<br>
+                        <span class="keyword">if</span> (file.endsWith(<span class="string">".pdf"</span>)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đây là file PDF"</span>);<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Ứng dụng: Kiểm tra URL</span><br>
+                        String url = <span class="string">"https://example.com"</span>;<br>
+                        <span class="keyword">if</span> (url.startsWith(<span class="string">"https://"</span>)) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"URL bảo mật"</span>);<br>
+                        }
+                    </div>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm kiểm tra chuỗi</h4>
+                        <div class="input-group">
+                            <label for="checkString">Chuỗi cần kiểm tra:</label>
+                            <input type="text" id="checkString" value="https://example.com/document.pdf" placeholder="Nhập chuỗi">
+                        </div>
+                        <div class="input-group">
+                            <label for="checkPrefix">Tiền tố (startsWith):</label>
+                            <input type="text" id="checkPrefix" value="https://" placeholder="Chuỗi bắt đầu">
+                        </div>
+                        <div class="input-group">
+                            <label for="checkSuffix">Hậu tố (endsWith):</label>
+                            <input type="text" id="checkSuffix" value=".pdf" placeholder="Chuỗi kết thúc">
+                        </div>
+                        <button class="btn" onclick="testCheckMethods()">
+                            <i class="fas fa-play"></i> Kiểm tra
+                        </button>
+                        <div class="result" id="checkResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="checkResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!--  4: SO SÁNH CHUỖI -->
+                <section id="chapter4" class="section">
+                    <h2><i class="fas fa-balance-scale"></i>  4: SO SÁNH VÀ SẮP XẾP CHUỖI</h2>
+                    
+                    <h3>4.1. Phương thức equals() và equalsIgnoreCase()</h3>
+                    <p>So sánh nội dung của hai chuỗi (phân biệt và không phân biệt hoa thường).</p>
+                    
+                    <div class="syntax">
+                        <span class="keyword">Cú pháp:</span><br>
+                        <span class="method">boolean</span> bangNhau = chuoi1.<span class="method">equals</span>(<span class="param">chuoi2</span>);<br>
+                        <span class="method">boolean</span> bangNhauKhongPhanBiet = chuoi1.<span class="method">equalsIgnoreCase</span>(<span class="param">chuoi2</span>);
+                    </div>
+                    <div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ equals() và equalsIgnoreCase()</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <span class="keyword">public class</span> ViDuEquals {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// equals() phân biệt hoa thường</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String s1 = <span class="string">"Java"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String s2 = <span class="string">"java"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String s3 = <span class="string">"Java"</span>;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String s4 = <span class="keyword">new</span> String(<span class="string">"Java"</span>);<br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"s1.equals(s2): "</span> + s1.equals(s2)); 
+    <span class="comment">// false</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"s1.equals(s3): "</span> + s1.equals(s3)); 
+    <span class="comment">// true</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"s1.equals(s4): "</span> + s1.equals(s4)); 
+    <span class="comment">// true</span><br><br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// equalsIgnoreCase() không phân biệt hoa thường</span><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"\\ns1.equalsIgnoreCase(s2): "</span> 
+    + s1.equalsIgnoreCase(s2)); 
+    <span class="comment">// true</span><br><br>
+
+    }
+    }<br>
+</div>
+
+                    <h3>4.2. Phương thức compareTo() và compareToIgnoreCase()</h3>
+                    <p>So sánh thứ tự từ điển giữa hai chuỗi.</p>
+                    <!-- Thêm vào sau tiêu đề h3 "4.2. Phương thức compareTo() và compareToIgnoreCase()" -->
+
+<div class="info-box">
+    <h4><i class="fas fa-bullseye"></i> 1. Mục đích</h4>
+    <p>Hai phương thức này dùng để: <strong>So sánh thứ tự từ điển (lexicographical order) giữa hai chuỗi</strong></p>
+    
+    <p><strong>Thường dùng trong:</strong></p>
+    <ul>
+        <li><strong>Sắp xếp danh sách chuỗi</strong> - Dùng cho các thuật toán sắp xếp như Arrays.sort()</li>
+        <li><strong>So sánh tên, mã, ký hiệu</strong> - Để xác định thứ tự trong từ điển</li>
+        <li><strong>Điều kiện if, sort</strong> - Kiểm tra và phân loại chuỗi</li>
+    </ul>
+</div>
+
+<h4>2. Phương thức compareTo()</h4>
+
+<h5>2.1. Cú pháp</h5>
+<div class="syntax">
+    <span class="keyword">Cú pháp:</span> <span class="method">int</span> result = str1.<span class="method">compareTo</span>(<span class="param">str2</span>);
+</div>
+
+<h5>2.2. Nguyên tắc so sánh</h5>
+<p>Java so sánh từng ký tự một, dựa trên mã Unicode (ASCII mở rộng):</p>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Kết quả trả về</th>
+                <th>Ý nghĩa</th>
+                <th>Ví dụ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>0</strong></td>
+                <td>Hai chuỗi bằng nhau</td>
+                <td>"Java" == "Java"</td>
+            </tr>
+            <tr>
+                <td><strong>&lt; 0</strong> (số âm)</td>
+                <td>str1 nhỏ hơn str2</td>
+                <td>"Apple" &lt; "Banana"</td>
+            </tr>
+            <tr>
+                <td><strong>&gt; 0</strong> (số dương)</td>
+                <td>str1 lớn hơn str2</td>
+                <td>"Zebra" &gt; "Apple"</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<p class="warning-box">
+    <i class="fas fa-exclamation-triangle"></i> <strong>Lưu ý:</strong> So sánh phân biệt <strong>CHỮ HOA - chữ thường</strong>
+</p>
+
+<h5>2.3. Ví dụ 1: Chuỗi giống nhau</h5>
+<div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ compareTo() - Chuỗi giống nhau</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    String a = <span class="string">"Java"</span>;<br>
+    String b = <span class="string">"Java"</span>;<br>
+    System.out.println(a.compareTo(b));
+</div>
+<p><strong>Kết quả:</strong> <code class="highlight">0</code> (hai chuỗi bằng nhau)</p>
+
+<h5>2.4. Ví dụ 2: So sánh khác chữ hoa - thường</h5>
+<div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ compareTo() - Khác chữ hoa thường</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    String a = <span class="string">"Java"</span>;<br>
+    String b = <span class="string">"java"</span>;<br>
+    System.out.println(a.compareTo(b));
+</div>
+<p><strong>Giải thích:</strong> 'J' (74) &lt; 'j' (106)</p>
+<p><strong>Kết quả:</strong> <code class="highlight">-32</code></p>
+
+<div class="note">
+    <h4><i class="fas fa-lightbulb"></i> Quy tắc nhớ kết quả compareTo()</h4>
+    <p>Số -32 là hiệu mã Unicode, không cần nhớ chính xác, chỉ cần nhớ:</p>
+    <ul>
+        <li><strong>Âm (negative)</strong> → str1 nhỏ hơn str2</li>
+        <li><strong>0</strong> → hai chuỗi bằng nhau</li>
+        <li><strong>Dương (positive)</strong> → str1 lớn hơn str2</li>
+    </ul>
+</div>
+
+<h5>2.5. Ví dụ 3: So sánh nhiều trường hợp</h5>
+<div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ compareTo() - Nhiều trường hợp</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    System.out.println(<span class="string">"apple".compareTo("banana")</span>); <span class="comment">// âm (a < b)</span><br>
+    System.out.println(<span class="string">"banana".compareTo("apple")</span>); <span class="comment">// dương (b > a)</span><br>
+    System.out.println(<span class="string">"apple".compareTo("apple")</span>); <span class="comment">// 0 (bằng nhau)</span><br>
+    System.out.println(<span class="string">"apple".compareTo("Apple")</span>); <span class="comment">// dương (a > A)</span><br>
+    System.out.println(<span class="string">"10".compareTo("2")</span>); <span class="comment">// âm (1 < 2)</span>
+</div>
+
+<h4>3. Phương thức compareToIgnoreCase()</h4>
+
+<h5>3.1. Cú pháp</h5>
+<div class="syntax">
+    <span class="keyword">Cú pháp:</span> <span class="method">int</span> result = str1.<span class="method">compareToIgnoreCase</span>(<span class="param">str2</span>);
+</div>
+
+<h5>3.2. Nguyên tắc</h5>
+<p>Tương tự compareTo() nhưng <strong>KHÔNG phân biệt chữ hoa chữ thường</strong>.</p>
+
+<div class="code-block">
+    <div class="code-header">
+        <span>Ví dụ compareToIgnoreCase()</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    String a = <span class="string">"Java"</span>;<br>
+    String b = <span class="string">"java"</span>;<br>
+    String c = <span class="string">"JAVA"</span>;<br>
+    <br>
+    System.out.println(<span class="string">"a.compareTo(b): "</span> + a.compareTo(b)); <span class="comment">// -32</span><br>
+    System.out.println(<span class="string">"a.compareToIgnoreCase(b): "</span> + a.compareToIgnoreCase(b)); <span class="comment">// 0</span><br>
+    System.out.println(<span class="string">"a.compareToIgnoreCase(c): "</span> + a.compareToIgnoreCase(c)); <span class="comment">// 0</span><br>
+    System.out.println(<span class="string">"apple".compareToIgnoreCase("APPLE")</span>); <span class="comment">// 0</span>
+</div>
+
+<div class="comparison-table">
+    <h4>So sánh compareTo() và compareToIgnoreCase()</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Tiêu chí</th>
+                <th>compareTo()</th>
+                <th>compareToIgnoreCase()</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Phân biệt hoa thường</strong></td>
+                <td>Có</td>
+                <td>Không</td>
+            </tr>
+            <tr>
+                <td><strong>Kết quả "Java" vs "java"</strong></td>
+                <td>-32 (khác nhau)</td>
+                <td>0 (bằng nhau)</td>
+            </tr>
+            <tr>
+                <td><strong>Dùng khi nào</strong></td>
+                <td>Sắp xếp chính xác</td>
+                <td>Sắp xếp không phân biệt hoa thường</td>
+            </tr>
+            <tr>
+                <td><strong>Tốc độ</strong></td>
+                <td>Nhanh hơn</td>
+                <td>Chậm hơn (cần chuyển đổi)</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<h5>4.2. Tìm chuỗi nhỏ nhất/lớn nhất</h5>
+<div class="code-block">
+    <div class="code-header">
+        <span>Ứng dụng: Tìm chuỗi nhỏ nhất</span>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    String[] words = {<span class="string">"Java"</span>, <span class="string">"Python"</span>, <span class="string">"C++"</span>, <span class="string">"JavaScript"</span>};<br>
+    String smallest = words[0];<br>
+    String largest = words[0];<br>
+    <br>
+    <span class="keyword">for</span> (String word : words) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (word.compareTo(smallest) < 0) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;smallest = word;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (word.compareTo(largest) > 0) {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;largest = word;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+    }<br>
+    <br>
+    System.out.println(<span class="string">"Chuỗi nhỏ nhất: "</span> + smallest); <span class="comment">// C++</span><br>
+    System.out.println(<span class="string">"Chuỗi lớn nhất: "</span> + largest); <span class="comment">// Python</span>
+</div>
+
+
+                    <h3>4.3. Toán tử == so với phương thức equals()</h3>
+                    <p>So sánh tham chiếu (==) so với so sánh nội dung (equals()).</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Ví dụ so sánh chuỗi</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <span class="comment">// equals() và equalsIgnoreCase()</span><br>
+                        String s1 = <span class="string">"Java"</span>;<br>
+                        String s2 = <span class="string">"java"</span>;<br>
+                        System.out.println(<span class="string">"s1.equals(s2): "</span> + s1.equals(s2)); <span class="comment">// false</span><br>
+                        System.out.println(<span class="string">"s1.equalsIgnoreCase(s2): "</span> + s1.equalsIgnoreCase(s2)); <span class="comment">// true</span><br>
+                        <br>
+                        <span class="comment">// compareTo()</span><br>
+                        System.out.println(<span class="string">"s1.compareTo(s2): "</span> + s1.compareTo(s2)); <span class="comment">// âm (J < j)</span><br>
+                        System.out.println(<span class="string">"s1.compareToIgnoreCase(s2): "</span> + s1.compareToIgnoreCase(s2)); <span class="comment">// 0</span><br>
+                        <br>
+                        <span class="comment">// == vs equals()</span><br>
+                        String s3 = <span class="string">"Java"</span>;<br>
+                        String s4 = <span class="string">"Java"</span>;<br>
+                        String s5 = <span class="keyword">new</span> String(<span class="string">"Java"</span>);<br>
+                        System.out.println(<span class="string">"s3 == s4: "</span> + (s3 == s4)); <span class="comment">// true (cùng String Pool)</span><br>
+                        System.out.println(<span class="string">"s3 == s5: "</span> + (s3 == s5)); <span class="comment">// false (khác object)</span><br>
+                        System.out.println(<span class="string">"s3.equals(s5): "</span> + s3.equals(s5)); <span class="comment">// true (cùng nội dung)</span>
+                    </div>
+                    
+                    <div class="comparison-table">
+                        <h4>So sánh các phương thức so sánh</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Phương thức</th>
+                                    <th>Mục đích</th>
+                                    <th>Phân biệt hoa thường</th>
+                                    <th>Trả về</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>equals()</strong></td>
+                                    <td>So sánh nội dung</td>
+                                    <td>Có</td>
+                                    <td>boolean</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>equalsIgnoreCase()</strong></td>
+                                    <td>So sánh nội dung</td>
+                                    <td>Không</td>
+                                    <td>boolean</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>compareTo()</strong></td>
+                                    <td>So sánh thứ tự</td>
+                                    <td>Có</td>
+                                    <td>int (0, âm, dương)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>compareToIgnoreCase()</strong></td>
+                                    <td>So sánh thứ tự</td>
+                                    <td>Không</td>
+                                    <td>int (0, âm, dương)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>==</strong></td>
+                                    <td>So sánh tham chiếu</td>
+                                    <td>Không áp dụng</td>
+                                    <td>boolean</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm so sánh chuỗi</h4>
+                        <div class="input-group">
+                            <label for="compareString1">Chuỗi 1:</label>
+                            <input type="text" id="compareString1" value="Java" placeholder="Nhập chuỗi thứ nhất">
+                        </div>
+                        <div class="input-group">
+                            <label for="compareString2">Chuỗi 2:</label>
+                            <input type="text" id="compareString2" value="java" placeholder="Nhập chuỗi thứ hai">
+                        </div>
+                        <div class="example-nav">
+                            <button class="example-btn active" onclick="showCompareMethod('equals')">equals()</button>
+                            <button class="example-btn" onclick="showCompareMethod('equalsIgnore')">equalsIgnoreCase()</button>
+                            <button class="example-btn" onclick="showCompareMethod('compareTo')">compareTo()</button>
+                            <button class="example-btn" onclick="showCompareMethod('operator')">== Operator</button>
+                        </div>
+                        <button class="btn" onclick="testCompareMethods()">
+                            <i class="fas fa-play"></i> So sánh
+                        </button>
+                        <div class="result" id="compareResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="compareResultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!--  5: NỐI & ĐỊNH DẠNG -->
+                <!-- Thêm vào sau phần  4 -->
+
+<section id="chapter5" class="section">
+    <h2><i class="fas fa-link"></i>  5: NỐI CHUỖI VÀ ĐỊNH DẠNG</h2>
+    
+    <h3>5.1. Nối chuỗi với toán tử +</h3>
+    <p><strong>Định nghĩa:</strong> Nối các chuỗi lại với nhau bằng toán tử +.</p>
+    
+    <div class="code-block">
+        <div class="code-header">
+            <span>ViDuNoiChuoi.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">public class</span> <span class="class-name">ViDuNoiChuoi</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Nối chuỗi cơ bản</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String s1 = <span class="string">"Hello"</span> + <span class="string">" "</span> + <span class="string">"World"</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Nối cơ bản: "</span> + s1);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Nối với biến</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String firstName = <span class="string">"John"</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String lastName = <span class="string">"Doe"</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String fullName = firstName + <span class="string">" "</span> + lastName;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Họ tên: "</span> + fullName);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Nối với số</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> age = 25;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String info = <span class="string">"Tuổi: "</span> + age;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Thông tin: "</span> + info);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+    
+    <div class="interactive-section">
+        <h4><i class="fas fa-play-circle"></i> Thử nghiệm nối chuỗi với +</h4>
+        <div class="input-group">
+            <label for="plusStr1">Chuỗi 1:</label>
+            <input type="text" id="plusStr1" value="Hello" placeholder="Nhập chuỗi đầu tiên">
+        </div>
+        <div class="input-group">
+            <label for="plusStr2">Chuỗi 2:</label>
+            <input type="text" id="plusStr2" value="World" placeholder="Nhập chuỗi thứ hai">
+        </div>
+        <button class="btn" onclick="testPlusOperator()">
+            <i class="fas fa-play"></i> Nối chuỗi
+        </button>
+        <div class="result" id="plusResult">
+            <strong>Kết quả:</strong>
+            <div class="result-content" id="plusResultContent"></div>
+        </div>
+    </div>
+    
+    <h4>Đặc điểm của toán tử +:</h4>
+    <ul>
+        <li><strong>Tự động chuyển đổi kiểu:</strong> Có thể nối số, boolean với chuỗi</li>
+        <li><strong>Xử lý null an toàn:</strong> null được chuyển thành chuỗi "null"</li>
+        <li><strong>Thứ tự thực hiện:</strong> Thực hiện từ trái sang phải</li>
+        <li><strong>Hiệu năng:</strong> Kém khi nối nhiều lần trong vòng lặp</li>
+    </ul>
+    
+    <div class="code-block">
+        <div class="code-header">
+            <span>Thứ tự thực hiện và hiệu năng</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="comment">// Thứ tự thực hiện</span><br>
+        String test = 10 + 20 + <span class="string">" = Sum"</span>;<br>
+        System.out.println(test); <span class="comment">// "30 = Sum" (tính toán trước, nối sau)</span><br>
+        <br>
+        test = <span class="string">"Sum = "</span> + 10 + 20;<br>
+        System.out.println(test); <span class="comment">// "Sum = 1020" (nối từ trái sang phải)</span><br>
+        <br>
+        test = <span class="string">"Sum = "</span> + (10 + 20);<br>
+        System.out.println(test); <span class="comment">// "Sum = 30" (dùng ngoặc để tính toán trước)</span><br>
+        <br>
+        <span class="comment">// Xử lý null</span><br>
+        String nullStr = null;<br>
+        String combined = <span class="string">"Value: "</span> + nullStr;<br>
+        System.out.println(combined); <span class="comment">// "Value: null"</span>
+    </div>
+    
+    <h3>5.2. Phương thức concat()</h3>
+    <p><strong>Định nghĩa:</strong> Nối chuỗi chỉ định vào cuối chuỗi gốc.</p>
+    
+    <div class="syntax">
+        <span class="keyword">Cú pháp:</span> String ketQua = chuoiGoc.<span class="method">concat</span>(<span class="param">chuoiThem</span>);
+    </div>
+    
+    <div class="code-block">
+        <div class="code-header">
+            <span>ViDuConcat.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">public class</span> <span class="class-name">ViDuConcat</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// concat() cơ bản</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String s1 = <span class="string">"Hello"</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String s2 = <span class="string">" World"</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String s3 = s1.concat(s2);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"concat(): "</span> + s3);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Nối nhiều lần (method chaining)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String result = <span class="string">"Java"</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.concat(<span class="string">" is"</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.concat(<span class="string">" a"</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.concat(<span class="string">" programming"</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.concat(<span class="string">" language"</span>);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Nối chuỗi: "</span> + result);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+    
+    <div class="comparison-table">
+        <h4>So sánh concat() và toán tử +</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tiêu chí</th>
+                    <th>concat()</th>
+                    <th>Toán tử +</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Kiểu tham số</strong></td>
+                    <td>Chỉ nhận String</td>
+                    <td>Nhận mọi kiểu (tự động chuyển đổi)</td>
+                </tr>
+                <tr>
+                    <td><strong>Xử lý null</strong></td>
+                    <td>Ném NullPointerException</td>
+                    <td>Chuyển thành "null"</td>
+                </tr>
+                <tr>
+                    <td><strong>Hiệu năng</strong></td>
+                    <td>Tốt hơn cho nối đơn lẻ</td>
+                    <td>Tốt cho nối ít, kém cho vòng lặp</td>
+                </tr>
+                <tr>
+                    <td><strong>Khả năng nối nhiều</strong></td>
+                    <td>Phải gọi nhiều lần</td>
+                    <td>Nối nhiều trong 1 biểu thức</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <h3>5.3. Phương thức join()</h3>
+    <p><strong>Định nghĩa:</strong> Nối các chuỗi với nhau bằng dấu phân cách.</p>
+    
+    <div class="syntax">
+        <span class="keyword">Cú pháp:</span><br>
+        String ketQua = String.<span class="method">join</span>(<span class="param">delimiter, elements...</span>);<br>
+        String ketQua = String.<span class="method">join</span>(<span class="param">delimiter, Iterable</span>);
+    </div>
+    
+    <div class="code-block">
+        <div class="code-header">
+            <span>ViDuJoin.java</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="keyword">import</span> java.util.Arrays;<br>
+        <span class="keyword">import</span> java.util.List;<br>
+        <br>
+        <span class="keyword">public class</span> <span class="class-name">ViDuJoin</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// join() cơ bản</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String joined1 = String.join(<span class="string">"-"</span>, <span class="string">"2024"</span>, <span class="string">"03"</span>, <span class="string">"15"</span>);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Ngày tháng: "</span> + joined1);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// join() với mảng</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String[] fruits = {<span class="string">"Apple"</span>, <span class="string">"Banana"</span>, <span class="string">"Orange"</span>};<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String joined2 = String.join(<span class="string">" | "</span>, fruits);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Trái cây: "</span> + joined2);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+    </div>
+    
+    <div class="interactive-section">
+        <h4><i class="fas fa-play-circle"></i> Thử nghiệm phương thức join()</h4>
+        <div class="input-group">
+            <label for="joinElements">Các phần tử (phân cách bằng dấu phẩy):</label>
+            <input type="text" id="joinElements" value="Java,Python,C++,JavaScript" placeholder="Ví dụ: A,B,C">
+        </div>
+        <div class="input-group">
+            <label for="joinDelimiter2">Dấu phân cách:</label>
+            <input type="text" id="joinDelimiter2" value=", " placeholder="Ví dụ: , hoặc -">
+        </div>
+        <button class="btn" onclick="testJoinMethod()">
+            <i class="fas fa-play"></i> Join chuỗi
+        </button>
+        <div class="result" id="joinResult">
+            <strong>Kết quả:</strong>
+            <div class="result-content" id="joinResultContent"></div>
+        </div>
+    </div>
+    
+    <h4>Ứng dụng thực tế của join():</h4>
+    <ul>
+        <li><strong>Tạo đường dẫn file:</strong> String.join("/", "home", "user", "file.txt")</li>
+        <li><strong>Tạo CSV:</strong> String.join(",", name, age, address)</li>
+        <li><strong>Tạo URL query:</strong> String.join("&", "q=java", "page=1", "sort=asc")</li>
+        <li><strong>Tạo danh sách HTML:</strong> "&lt;li&gt;" + String.join("&lt;/li&gt;&lt;li&gt;", items) + "&lt;/li&gt;"</li>
+    </ul>
+    
+    <h3>5.4. Phương thức format()</h3>
+    
+    <div class="info-box">
+        <h4><i class="fas fa-info-circle"></i> 1. Khái niệm</h4>
+        <p>String.format() là phương thức tĩnh của lớp String, dùng để:</p>
+        <ul>
+            <li><strong>Tạo chuỗi có định dạng</strong></li>
+            <li><strong>Chèn dữ liệu vào chuỗi theo mẫu (template)</strong></li>
+            <li><strong>Giúp code dễ đọc, dễ bảo trì hơn so với nối chuỗi +</strong></li>
+        </ul>
+        <p>➡ Tương tự hàm printf() trong C/C++.</p>
+    </div>
+    
+    <h4>2. Cú pháp tổng quát</h4>
+    <div class="syntax">
+        String result = String.<span class="method">format</span>(<span class="param">formatString, arg1, arg2, ...</span>);
+    </div>
+    
+    <div class="table-container">
+        <h4>3. Các ký hiệu định dạng thường dùng</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ký hiệu</th>
+                    <th>Kiểu dữ liệu</th>
+                    <th>Ví dụ</th>
+                    <th>Kết quả</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>%s</strong></td>
+                    <td>Chuỗi (String)</td>
+                    <td>"Java"</td>
+                    <td>Java</td>
+                </tr>
+                <tr>
+                    <td><strong>%d</strong></td>
+                    <td>Số nguyên</td>
+                    <td>10</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td><strong>%f</strong></td>
+                    <td>Số thực</td>
+                    <td>3.14159</td>
+                    <td>3.141590</td>
+                </tr>
+                <tr>
+                    <td><strong>%.2f</strong></td>
+                    <td>Số thực 2 chữ số</td>
+                    <td>3.14159</td>
+                    <td>3.14</td>
+                </tr>
+                <tr>
+                    <td><strong>%c</strong></td>
+                    <td>Ký tự</td>
+                    <td>'A'</td>
+                    <td>A</td>
+                </tr>
+                <tr>
+                    <td><strong>%b</strong></td>
+                    <td>Boolean</td>
+                    <td>true</td>
+                    <td>true</td>
+                </tr>
+                <tr>
+                    <td><strong>%n</strong></td>
+                    <td>Xuống dòng</td>
+                    <td>%n</td>
+                    <td>\n</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <h4>4. Ví dụ cơ bản</h4>
+    <div class="code-block">
+        <div class="code-header">
+            <span>Ví dụ format() cơ bản</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="comment">// Định dạng đơn giản</span><br>
+        String s = String.format(<span class="string">"Hello, %s!"</span>, <span class="string">"World"</span>);<br>
+        System.out.println(s); <span class="comment">// Hello, World!</span><br>
+        <br>
+        <span class="comment">// Với số nguyên</span><br>
+        <span class="keyword">int</span> age = 20;<br>
+        String s1 = String.format(<span class="string">"Tuổi của bạn là %d"</span>, age);<br>
+        System.out.println(s1); <span class="comment">// Tuổi của bạn là 20</span><br>
+        <br>
+        <span class="comment">// Với số thực</span><br>
+        <span class="keyword">double</span> score = 8.56789;<br>
+        String s2 = String.format(<span class="string">"Điểm: %.2f"</span>, score);<br>
+        System.out.println(s2); <span class="comment">// Điểm: 8.57</span>
+    </div>
+    
+    <h4>5. Chèn nhiều giá trị</h4>
+    <div class="code-block">
+        <div class="code-header">
+            <span>Chèn nhiều giá trị</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        String name = <span class="string">"An"</span>;<br>
+        <span class="keyword">int</span> age = 21;<br>
+        <span class="keyword">double</span> gpa = 3.75;<br>
+        <br>
+        String info = String.format(<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"Tên: %s | Tuổi: %d | GPA: %.2f"</span>,<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;name, age, gpa<br>
+        );<br>
+        <br>
+        System.out.println(info); <span class="comment">// Tên: An | Tuổi: 21 | GPA: 3.75</span>
+    </div>
+    
+    <h4>6. Định dạng độ rộng (canh lề)</h4>
+    <div class="code-block">
+        <div class="code-header">
+            <span>Định dạng độ rộng</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <span class="comment">// Canh phải (width 10)</span><br>
+        String s1 = String.format(<span class="string">"|%10s|"</span>, <span class="string">"Java"</span>);<br>
+        System.out.println(s1); <span class="comment">// |      Java|</span><br>
+        <br>
+        <span class="comment">// Canh trái (width 10)</span><br>
+        String s2 = String.format(<span class="string">"|%-10s|"</span>, <span class="string">"Java"</span>);<br>
+        System.out.println(s2); <span class="comment">// |Java      |</span><br>
+        <br>
+        <span class="comment">// Định dạng số với độ rộng</span><br>
+        <span class="keyword">int</span> num = 123;<br>
+        String s3 = String.format(<span class="string">"|%8d|"</span>, num);<br>
+        System.out.println(s3); <span class="comment">// |     123|</span><br>
+        <br>
+        <span class="comment">// Định dạng số thực với độ rộng và số chữ số</span><br>
+        <span class="keyword">double</span> price = 19.99;<br>
+        String s4 = String.format(<span class="string">"|%10.2f|"</span>, price);<br>
+        System.out.println(s4); <span class="comment">// |     19.99|</span>
+    </div>
+    
+    <div class="interactive-section">
+        <h4><i class="fas fa-play-circle"></i> Thử nghiệm phương thức format()</h4>
+        <div class="input-group">
+            <label for="formatPattern">Mẫu định dạng:</label>
+            <input type="text" id="formatPattern" value="Tên: %s, Tuổi: %d, Điểm: %.2f" placeholder="Ví dụ: %s - %d điểm">
+        </div>
+        <div class="input-group">
+            <label for="formatValues">Giá trị (phân cách bằng dấu phẩy):</label>
+            <input type="text" id="formatValues" value="Nguyễn Văn A,20,8.75" placeholder="Ví dụ: John,25,3.5">
+        </div>
+        <button class="btn" onclick="testFormatMethod()">
+            <i class="fas fa-play"></i> Định dạng
+        </button>
+        <div class="result" id="formatResult">
+            <strong>Kết quả:</strong>
+            <div class="result-content" id="formatResultContent"></div>
+        </div>
+    </div>
+    
+    <div class="comparison-table">
+        <h4>Tổng hợp các phương pháp nối chuỗi</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Phương pháp</th>
+                    <th>Ưu điểm</th>
+                    <th>Nhược điểm</th>
+                    <th>Khi nào dùng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Toán tử +</strong></td>
+                    <td>Đơn giản, tự động chuyển đổi</td>
+                    <td>Hiệu năng kém trong vòng lặp</td>
+                    <td>Nối ít, đơn giản</td>
+                </tr>
+                <tr>
+                    <td><strong>concat()</strong></td>
+                    <td>Tốc độ nhanh cho nối đơn</td>
+                    <td>Chỉ nhận String, không chain nhiều</td>
+                    <td>Nối 2 chuỗi cố định</td>
+                </tr>
+                <tr>
+                    <td><strong>join()</strong></td>
+                    <td>Hiệu quả cho danh sách</td>
+                    <td>Chỉ cho mảng/collection</td>
+                    <td>Nối nhiều chuỗi có phân cách</td>
+                </tr>
+                <tr>
+                    <td><strong>format()</strong></td>
+                    <td>Định dạng phức tạp, dễ đọc</td>
+                    <td>Hiệu năng chậm hơn</td>
+                    <td>Tạo chuỗi có định dạng</td>
+                </tr>
+                <tr>
+                    <td><strong>StringBuilder</strong></td>
+                    <td>Hiệu năng cao trong vòng lặp</td>
+                    <td>Cú pháp dài hơn</td>
+                    <td>Nối nhiều trong vòng lặp</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script>
+// Hàm xử lý cho  5
+
+// Test toán tử +
+function testPlusOperator() {
+    const str1 = document.getElementById('plusStr1').value;
+    const str2 = document.getElementById('plusStr2').value;
+    const result = document.getElementById('plusResult');
+    const output = document.getElementById('plusResultContent');
+    
+    result.classList.add('active');
+    
+    let outputText = `Chuỗi 1: "${str1}"\n`;
+    outputText += `Chuỗi 2: "${str2}"\n\n`;
+    outputText += `Kết quả nối (+): "${str1 + str2}"\n\n`;
+    
+    // Demo các tính năng khác
+    outputText += `Demo thêm:\n`;
+    outputText += `  - Với số: "${str1 + 123}"\n`;
+    outputText += `  - Với null: "${str1 + null}"\n`;
+    outputText += `  - Thứ tự: "${10 + 20 + str1}" vs "${str1 + 10 + 20}"`;
+    
+    output.textContent = outputText;
+}
+
+// Test phương thức join()
+function testJoinMethod() {
+    const elements = document.getElementById('joinElements').value;
+    const delimiter = document.getElementById('joinDelimiter2').value;
+    const result = document.getElementById('joinResult');
+    const output = document.getElementById('joinResultContent');
+    
+    result.classList.add('active');
+    
+    const elementArray = elements.split(',').map(e => e.trim());
+    
+    let outputText = `Các phần tử: ${JSON.stringify(elementArray)}\n`;
+    outputText += `Dấu phân cách: "${delimiter}"\n\n`;
+    outputText += `Kết quả join(): "${elementArray.join(delimiter)}"\n\n`;
+    
+    // Demo các trường hợp khác
+    outputText += `Ứng dụng:\n`;
+    outputText += `  - Đường dẫn: ${['home', 'user', 'doc.txt'].join('/')}\n`;
+    outputText += `  - CSV: ${['Name', 'Age', 'City'].join(',')}\n`;
+    outputText += `  - Query string: ${['q=java', 'page=1', 'sort=desc'].join('&')}`;
+    
+    output.textContent = outputText;
+}
+
+// Test phương thức format()
+function testFormatMethod() {
+    const pattern = document.getElementById('formatPattern').value;
+    const valuesStr = document.getElementById('formatValues').value;
+    const result = document.getElementById('formatResult');
+    const output = document.getElementById('formatResultContent');
+    
+    result.classList.add('active');
+    
+    const values = valuesStr.split(',').map(v => v.trim());
+    
+    let outputText = `Mẫu: "${pattern}"\n`;
+    outputText += `Giá trị: ${JSON.stringify(values)}\n\n`;
+    
+    try {
+        // Đơn giản hóa: chỉ xử lý %s, %d, %f cơ bản
+        let formatted = pattern;
+        let valueIndex = 0;
+        
+        // Xử lý các placeholder cơ bản
+        formatted = formatted.replace(/%s/g, () => {
+            if (valueIndex < values.length) {
+                return values[valueIndex++];
+            }
+            return "%s";
+        });
+        
+        formatted = formatted.replace(/%d/g, () => {
+            if (valueIndex < values.length) {
+                const val = values[valueIndex++];
+                return parseInt(val) || 0;
+            }
+            return "%d";
+        });
+        
+        formatted = formatted.replace(/%.(\d+)f/g, (match, decimals) => {
+            if (valueIndex < values.length) {
+                const val = parseFloat(values[valueIndex++]) || 0;
+                return val.toFixed(parseInt(decimals));
+            }
+            return match;
+        });
+        
+        formatted = formatted.replace(/%f/g, () => {
+            if (valueIndex < values.length) {
+                const val = parseFloat(values[valueIndex++]) || 0;
+                return val.toString();
+            }
+            return "%f";
+        });
+        
+        outputText += `Kết quả: "${formatted}"\n\n`;
+        
+        // Thêm giải thích
+        outputText += `Các định dạng phổ biến:\n`;
+        outputText += `  %s - Chuỗi\n`;
+        outputText += `  %d - Số nguyên\n`;
+        outputText += `  %f - Số thực\n`;
+        outputText += `  %.2f - Số thực 2 chữ số\n`;
+        outputText += `  %10s - Chuỗi width 10, canh phải\n`;
+        outputText += `  %-10s - Chuỗi width 10, canh trái`;
+        
+    } catch (e) {
+        outputText += `Lỗi: ${e.message}`;
+    }
+    
+    output.textContent = outputText;
+}
+</script>
+
+                <!-- BÀI TẬP THỰC HÀNH -->
+                <section id="practice" class="section">
+                    <h2><i class="fas fa-dumbbell"></i> BÀI TẬP THỰC HÀNH</h2>
+                    
+                    <div class="info-box">
+                        <h4><i class="fas fa-info-circle"></i> Hướng dẫn làm bài tập</h4>
+                        <p>Các bài tập dưới đây giúp bạn củng cố kiến thức về xử lý chuỗi trong Java. Hãy thử giải quyết từng bài tập trước khi xem đáp án.</p>
+                    </div>
+                    
+                    <h3>Bài tập 1: Đảo ngược chuỗi</h3>
+                    <p>Viết  trình đảo ngược một chuỗi nhập vào từ người dùng.</p>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm đảo ngược chuỗi</h4>
+                        <div class="input-group">
+                            <label for="reverseInput">Nhập chuỗi:</label>
+                            <input type="text" id="reverseInput" value="Hello Java" placeholder="Nhập chuỗi cần đảo ngược">
+                        </div>
+                        <button class="btn" onclick="reverseString()">
+                            <i class="fas fa-play"></i> Đảo ngược
+                        </button>
+                        <div class="result" id="reverseResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="reverseResultContent"></div>
+                        </div>
+                    </div>
+                    
+                    <h3>Bài tập 2: Đếm số từ trong chuỗi</h3>
+                    <p>Viết  trình đếm số từ trong một chuỗi (từ được phân cách bởi khoảng trắng).</p>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm đếm từ</h4>
+                        <div class="input-group">
+                            <label for="countInput">Nhập chuỗi:</label>
+                            <textarea id="countInput" rows="3" placeholder="Nhập văn bản cần đếm từ">Java is a powerful programming language</textarea>
+                        </div>
+                        <button class="btn" onclick="countWords()">
+                            <i class="fas fa-play"></i> Đếm từ
+                        </button>
+                        <div class="result" id="countResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="countResultContent"></div>
+                        </div>
+                    </div>
+                    
+                    <h3>Bài tập 3: Kiểm tra chuỗi Palindrome</h3>
+                    <p>Viết  trình kiểm tra xem một chuỗi có phải là palindrome không (chuỗi đọc xuôi ngược đều giống nhau).</p>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm kiểm tra Palindrome</h4>
+                        <div class="input-group">
+                            <label for="palindromeInput">Nhập chuỗi:</label>
+                            <input type="text" id="palindromeInput" value="radar" placeholder="Nhập chuỗi cần kiểm tra">
+                        </div>
+                        <button class="btn" onclick="checkPalindrome()">
+                            <i class="fas fa-play"></i> Kiểm tra
+                        </button>
+                        <div class="result" id="palindromeResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="palindromeResultContent"></div>
+                        </div>
+                    </div>
+                    
+                    <h3>Bài tập 4: Chuyển đổi chuỗi thành mã hóa đơn giản</h3>
+                    <p>Viết  trình chuyển đổi chuỗi thành mã bằng cách thay thế mỗi ký tự bằng ký tự tiếp theo trong bảng chữ cái.</p>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-play-circle"></i> Thử nghiệm mã hóa chuỗi</h4>
+                        <div class="input-group">
+                            <label for="encodeInput">Nhập chuỗi:</label>
+                            <input type="text" id="encodeInput" value="hello" placeholder="Nhập chuỗi cần mã hóa">
+                        </div>
+                        <button class="btn" onclick="encodeString()">
+                            <i class="fas fa-play"></i> Mã hóa
+                        </button>
+                        <div class="result" id="encodeResult">
+                            <strong>Kết quả:</strong>
+                            <div class="result-content" id="encodeResultContent"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4><i class="fas fa-check-circle"></i> Mẹo thực hành hiệu quả</h4>
+                        <ul>
+                            <li>Luôn kiểm tra đầu vào (null, rỗng)</li>
+                            <li>Sử dụng try-catch để xử lý ngoại lệ</li>
+                            <li>Viết phương thức nhỏ, tái sử dụng được</li>
+                            <li>Test với nhiều trường hợp khác nhau</li>
+                            <li>Ưu tiên sử dụng StringBuilder khi thao tác nhiều với chuỗi</li>
+                        </ul>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p>&copy; GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            
+            // Kích hoạt section đầu tiên
+            sections[0].classList.add('active');
+            navLinks[0].classList.add('active');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    // Xóa class active từ tất cả
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Thêm class active cho link được click
+                    this.classList.add('active');
+                    
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Cuộn lên đầu section
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+        });
+        
+        // Hàm copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                button.style.background = '#27ae60';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+        
+        // Biến lưu phương thức hiện tại cho từng section
+        let currentBasicMethod = 'length';
+        let currentSearchMethod = 'indexOf';
+        let currentConvertMethod = 'split';
+        let currentReplaceMethod = 'replace';
+        let currentCompareMethod = 'equals';
+        let currentConcatMethod = 'plus';
+        
+        // Hiển thị phương thức cơ bản
+        function showBasicMethod(method) {
+            currentBasicMethod = method;
+            document.querySelectorAll('#chapter3-1 .example-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const charAtInput = document.getElementById('charAtInput');
+            if (method === 'charAt') {
+                charAtInput.style.display = 'block';
+            } else {
+                charAtInput.style.display = 'none';
+            }
+        }
+        
+        // Thử nghiệm phương thức cơ bản
+        function testBasicMethods() {
+            const str = document.getElementById('basicString').value;
+            const result = document.getElementById('basicResult');
+            const output = document.getElementById('basicResultContent');
+            
+            result.classList.add('active');
+            
+            let outputText = `Chuỗi: "${str}"\n\n`;
+            
+            switch (currentBasicMethod) {
+                case 'length':
+                    outputText += `Độ dài: ${str.length}`;
+                    break;
+                case 'isEmpty':
+                    outputText += `isEmpty(): ${str.isEmpty()}`;
+                    break;
+                case 'isBlank':
+                    outputText += `isBlank(): ${str.isBlank ? str.isBlank() : 'Không hỗ trợ (Java 11+)'}`;
+                    break;
+                case 'charAt':
+                    const index = parseInt(document.getElementById('charIndex').value) || 0;
+                    if (index >= 0 && index < str.length) {
+                        outputText += `charAt(${index}): '${str.charAt(index)}'`;
+                    } else {
+                        outputText += `Lỗi: Vị trí ${index} nằm ngoài phạm vi (0-${str.length-1})`;
+                    }
+                    break;
+            }
+            
+            output.textContent = outputText;
+        }
+        
+        // Hiển thị phương thức tìm kiếm
+        function showSearchMethod(method) {
+            currentSearchMethod = method;
+            document.querySelectorAll('#chapter3-2 .example-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const substringInput = document.getElementById('substringInput');
+            if (method === 'substring') {
+                substringInput.style.display = 'block';
+            } else {
+                substringInput.style.display = 'none';
+            }
+        }
+        
+        // Thử nghiệm phương thức tìm kiếm
+        function testSearchMethods() {
+            const str = document.getElementById('searchString').value;
+            const target = document.getElementById('searchTarget').value;
+            const result = document.getElementById('searchResult');
+            const output = document.getElementById('searchResultContent');
+            
+            result.classList.add('active');
+            
+            let outputText = `Chuỗi gốc: "${str}"\n`;
+            outputText += `Mục tiêu: "${target}"\n\n`;
+            
+            switch (currentSearchMethod) {
+                case 'indexOf':
+                    const index = str.indexOf(target);
+                    outputText += `indexOf("${target}"): ${index}`;
+                    if (index !== -1) {
+                        outputText += ` (tìm thấy tại vị trí ${index})`;
+                    } else {
+                        outputText += ` (không tìm thấy)`;
+                    }
+                    break;
+                case 'lastIndexOf':
+                    const lastIndex = str.lastIndexOf(target);
+                    outputText += `lastIndexOf("${target}"): ${lastIndex}`;
+                    if (lastIndex !== -1) {
+                        outputText += ` (tìm thấy tại vị trí ${lastIndex})`;
+                    } else {
+                        outputText += ` (không tìm thấy)`;
+                    }
+                    break;
+                case 'substring':
+                    const start = parseInt(document.getElementById('subStart').value) || 0;
+                    const end = document.getElementById('subEnd').value;
+                    
+                    if (start < 0 || start >= str.length) {
+                        outputText += `Lỗi: Vị trí bắt đầu ${start} nằm ngoài phạm vi (0-${str.length-1})`;
+                    } else if (end && (parseInt(end) <= start || parseInt(end) > str.length)) {
+                        outputText += `Lỗi: Vị trí kết thúc không hợp lệ`;
+                    } else {
+                        try {
+                            const substring = end ? str.substring(start, parseInt(end)) : str.substring(start);
+                            outputText += `substring(${start}${end ? `, ${end}` : ''}): "${substring}"`;
+                        } catch (e) {
+                            outputText += `Lỗi: ${e.message}`;
+                        }
+                    }
+                    break;
+            }
+            
+            output.textContent = outputText;
+        }
+        
+        // Hiển thị phương thức chuyển đổi
+        function showConvertMethod(method) {
+            currentConvertMethod = method;
+            document.querySelectorAll('#chapter3-3 .example-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const splitInput = document.getElementById('splitInput');
+            if (method === 'split') {
+                splitInput.style.display = 'block';
+            } else {
+                splitInput.style.display = 'none';
+            }
+        }
+        
+        // Thử nghiệm phương thức chuyển đổi
+        function testConvertMethods() {
+            const str = document.getElementById('convertString').value;
+            const result = document.getElementById('convertResult');
+            const output = document.getElementById('convertResultContent');
+            
+            result.classList.add('active');
+            
+            let outputText = `Chuỗi gốc: "${str}"\n\n`;
+            
+            switch (currentConvertMethod) {
+                case 'split':
+                    const regex = document.getElementById('splitRegex').value || ' ';
+                    const parts = str.split(new RegExp(regex));
+                    outputText += `split("${regex}"):\n`;
+                    parts.forEach((part, i) => {
+                        outputText += `  [${i}] "${part}"\n`;
+                    });
+                    outputText += `Tổng cộng: ${parts.length} phần`;
+                    break;
+                case 'upper':
+                    outputText += `toUpperCase(): "${str.toUpperCase()}"`;
+                    break;
+                case 'lower':
+                    outputText += `toLowerCase(): "${str.toLowerCase()}"`;
+                    break;
+                case 'trim':
+                    outputText += `trim(): "${str.trim()}"`;
+                    outputText += `\nĐộ dài trước trim: ${str.length}`;
+                    outputText += `\nĐộ dài sau trim: ${str.trim().length}`;
+                    break;
+            }
+            
+            output.textContent = outputText;
+        }
+        
+        // Hiển thị phương thức thay thế
+        function showReplaceMethod(method) {
+            currentReplaceMethod = method;
+            document.querySelectorAll('#chapter3-4 .example-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        // Thử nghiệm phương thức thay thế
+        function testReplaceMethods() {
+            const str = document.getElementById('replaceString').value;
+            const target = document.getElementById('replaceTarget').value;
+            const replacement = document.getElementById('replaceWith').value;
+            const result = document.getElementById('replaceResult');
+            const output = document.getElementById('replaceResultContent');
+            
+            result.classList.add('active');
+            
+            let outputText = `Chuỗi gốc: "${str}"\n`;
+            outputText += `Thay thế: "${target}" -> "${replacement}"\n\n`;
+            
+            try {
+                switch (currentReplaceMethod) {
+                    case 'replace':
+                        const replaced = str.replace(target, replacement);
+                        outputText += `replace("${target}", "${replacement}"):\n"${replaced}"`;
+                        break;
+                    case 'replaceAll':
+                        const replacedAll = str.replaceAll(target, replacement);
+                        outputText += `replaceAll("${target}", "${replacement}"):\n"${replacedAll}"`;
+                        break;
+                    case 'replaceFirst':
+                        const replacedFirst = str.replace(new RegExp(target), replacement);
+                        outputText += `replaceFirst("${target}", "${replacement}"):\n"${replacedFirst}"`;
+                        break;
+                }
+            } catch (e) {
+                outputText += `Lỗi: ${e.message}`;
+            }
+            
+            output.textContent = outputText;
+        }
+        
+        // Thử nghiệm kiểm tra chuỗi
+        function testCheckMethods() {
+            const str = document.getElementById('checkString').value;
+            const prefix = document.getElementById('checkPrefix').value;
+            const suffix = document.getElementById('checkSuffix').value;
+            const result = document.getElementById('checkResult');
+            const output = document.getElementById('checkResultContent');
+            
+            result.classList.add('active');
+            
+            let outputText = `Chuỗi: "${str}"\n\n`;
+            outputText += `startsWith("${prefix}"): ${str.startsWith(prefix)}\n`;
+            outputText += `endsWith("${suffix}"): ${str.endsWith(suffix)}\n\n`;
+            
+            // Ứng dụng thực tế
+            if (str.startsWith('https://')) {
+                outputText += `✓ URL bảo mật (HTTPS)\n`;
+            }
+            
+            if (str.endsWith('.pdf')) {
+                outputText += `✓ Đây là file PDF\n`;
+            } else if (str.endsWith('.jpg') || str.endsWith('.png')) {
+                outputText += `✓ Đây là file ảnh\n`;
+            }
+            
+            output.textContent = outputText;
+        }
+        
+        // Hiển thị phương thức so sánh
+        function showCompareMethod(method) {
+            currentCompareMethod = method;
+            document.querySelectorAll('#chapter4 .example-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        // Thử nghiệm so sánh chuỗi
+        function testCompareMethods() {
+            const str1 = document.getElementById('compareString1').value;
+            const str2 = document.getElementById('compareString2').value;
+            const result = document.getElementById('compareResult');
+            const output = document.getElementById('compareResultContent');
+            
+            result.classList.add('active');
+            
+            let outputText = `Chuỗi 1: "${str1}"\n`;
+            outputText += `Chuỗi 2: "${str2}"\n\n`;
+            
+            switch (currentCompareMethod) {
+                case 'equals':
+                    outputText += `equals(): ${str1 === str2}\n`;
+                    outputText += `Giải thích: So sánh nội dung phân biệt hoa thường`;
+                    break;
+                case 'equalsIgnore':
+                    outputText += `equalsIgnoreCase(): ${str1.toLowerCase() === str2.toLowerCase()}\n`;
+                    outputText += `Giải thích: So sánh nội dung không phân biệt hoa thường`;
+                    break;
+                case 'compareTo':
+                    const compareResult = str1.localeCompare(str2);
+                    outputText += `compareTo(): ${compareResult}\n`;
+                    if (compareResult < 0) {
+                        outputText += `Giải thích: "${str1}" < "${str2}" (theo thứ tự từ điển)`;
+                    } else if (compareResult > 0) {
+                        outputText += `Giải thích: "${str1}" > "${str2}" (theo thứ tự từ điển)`;
+                    } else {
+                        outputText += `Giải thích: Hai chuỗi bằng nhau`;
+                    }
+                    break;
+                case 'operator':
+                    outputText += `==: ${str1 === str2}\n`;
+                    outputText += `Giải thích: So sánh tham chiếu (cùng object trong bộ nhớ)`;
+                    outputText += `\n\nLưu ý: Trong Java thực tế, == so sánh tham chiếu,`;
+                    outputText += `\nkhông phải nội dung. Dùng equals() để so sánh nội dung.`;
+                    break;
+            }
+            
+            output.textContent = outputText;
+        }
+        
+        // Hiển thị phương thức nối chuỗi
+        function showConcatMethod(method) {
+            currentConcatMethod = method;
+            document.querySelectorAll('#chapter5 .example-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const joinInput = document.getElementById('joinInput');
+            const formatInput = document.getElementById('formatInput');
+            
+            joinInput.style.display = 'none';
+            formatInput.style.display = 'none';
+            
+            if (method === 'join') {
+                joinInput.style.display = 'block';
+            } else if (method === 'format') {
+                formatInput.style.display = 'block';
+            }
+        }
+        
+        // Thử nghiệm nối chuỗi
+        function testConcatMethods() {
+            const str1 = document.getElementById('concatString1').value;
+            const str2 = document.getElementById('concatString2').value;
+            const result = document.getElementById('concatResult');
+            const output = document.getElementById('concatResultContent');
+            
+            result.classList.add('active');
+            
+            let outputText = `Chuỗi 1: "${str1}"\n`;
+            outputText += `Chuỗi 2: "${str2}"\n\n`;
+            
+            switch (currentConcatMethod) {
+                case 'plus':
+                    outputText += `Toán tử +: "${str1 + " " + str2}"`;
+                    break;
+                case 'concat':
+                    outputText += `concat(): "${str1.concat(" ").concat(str2)}"`;
+                    break;
+                case 'join':
+                    const delimiter = document.getElementById('joinDelimiter').value || '-';
+                    outputText += `join("${delimiter}"): "${[str1, str2].join(delimiter)}"`;
+                    break;
+                case 'format':
+                    const pattern = document.getElementById('formatPattern').value || '%s %s';
+                    outputText += `format("${pattern}"): "${pattern.replace('%s', str1).replace('%s', str2)}"`;
+                    outputText += `\n\nCác định dạng phổ biến:`;
+                    outputText += `\n  %s: Chuỗi`;
+                    outputText += `\n  %d: Số nguyên`;
+                    outputText += `\n  %f: Số thực`;
+                    outputText += `\n  %.2f: Số thực 2 chữ số`;
+                    break;
+            }
+            
+            output.textContent = outputText;
+        }
+        
+        // Bài tập 1: Đảo ngược chuỗi
+        function reverseString() {
+            const input = document.getElementById('reverseInput').value;
+            const result = document.getElementById('reverseResult');
+            const output = document.getElementById('reverseResultContent');
+            
+            result.classList.add('active');
+            
+            // Cách 1: Dùng vòng lặp
+            let reversed = '';
+            for (let i = input.length - 1; i >= 0; i--) {
+                reversed += input.charAt(i);
+            }
+            
+            // Cách 2: Dùng mảng
+            const reversedArray = input.split('').reverse().join('');
+            
+            let outputText = `Chuỗi gốc: "${input}"\n\n`;
+            outputText += `Đảo ngược (vòng lặp): "${reversed}"\n`;
+            outputText += `Đảo ngược (split/reverse/join): "${reversedArray}"\n\n`;
+            
+            // Kiểm tra palindrome
+            if (input.toLowerCase() === reversed.toLowerCase()) {
+                outputText += `✨ Đây là chuỗi Palindrome!`;
+            }
+            
+            output.textContent = outputText;
+        }
+        
+        // Bài tập 2: Đếm số từ
+        function countWords() {
+            const input = document.getElementById('countInput').value;
+            const result = document.getElementById('countResult');
+            const output = document.getElementById('countResultContent');
+            
+            result.classList.add('active');
+            
+            // Loại bỏ khoảng trắng đầu cuối
+            const trimmed = input.trim();
+            
+            // Kiểm tra chuỗi rỗng
+            if (!trimmed) {
+                output.textContent = `Chuỗi rỗng, số từ: 0`;
+                return;
+            }
+            
+            // Tách từ (xử lý nhiều khoảng trắng)
+            const words = trimmed.split(/\s+/);
+            const wordCount = words.length;
+            
+            let outputText = `Văn bản: "${input}"\n\n`;
+            outputText += `Số từ: ${wordCount}\n`;
+            outputText += `Các từ:\n`;
+            
+            words.forEach((word, index) => {
+                outputText += `  ${index + 1}. "${word}" (${word.length} ký tự)\n`;
+            });
+            
+            // Thống kê thêm
+            const charCount = input.length;
+            const charNoSpaces = input.replace(/\s/g, '').length;
+            
+            outputText += `\nThống kê:\n`;
+            outputText += `  - Tổng ký tự: ${charCount}\n`;
+            outputText += `  - Ký tự (không tính khoảng trắng): ${charNoSpaces}\n`;
+            outputText += `  - Từ dài nhất: "${words.reduce((a, b) => a.length > b.length ? a : b)}"`;
+            
+            output.textContent = outputText;
+        }
+        
+        // Bài tập 3: Kiểm tra Palindrome
+        function checkPalindrome() {
+            const input = document.getElementById('palindromeInput').value;
+            const result = document.getElementById('palindromeResult');
+            const output = document.getElementById('palindromeResultContent');
+            
+            result.classList.add('active');
+            
+            // Chuẩn hóa: bỏ khoảng trắng, chữ thường, bỏ dấu
+            const normalized = input.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const reversed = normalized.split('').reverse().join('');
+            const isPalindrome = normalized === reversed;
+            
+            let outputText = `Chuỗi gốc: "${input}"\n`;
+            outputText += `Chuẩn hóa: "${normalized}"\n`;
+            outputText += `Đảo ngược: "${reversed}"\n\n`;
+            
+            if (isPalindrome) {
+                outputText += `✅ Đây là chuỗi Palindrome!\n`;
+                outputText += `Giải thích: "${normalized}" đọc xuôi ngược đều giống nhau`;
+            } else {
+                outputText += `❌ Không phải chuỗi Palindrome\n`;
+                outputText += `Giải thích: "${normalized}" ≠ "${reversed}"`;
+            }
+            
+            // Ví dụ thêm
+            outputText += `\n\nVí dụ về Palindrome:`;
+            outputText += `\n  - "radar"`;
+            outputText += `\n  - "A man a plan a canal Panama"`;
+            outputText += `\n  - "Madam, I'm Adam"`;
+            outputText += `\n  - "12321"`;
+            
+            output.textContent = outputText;
+        }
+        
+        // Bài tập 4: Mã hóa chuỗi
+        function encodeString() {
+            const input = document.getElementById('encodeInput').value;
+            const result = document.getElementById('encodeResult');
+            const output = document.getElementById('encodeResultContent');
+            
+            result.classList.add('active');
+            
+            // Mã hóa Caesar đơn giản (dịch 1 ký tự)
+            let encoded = '';
+            for (let i = 0; i < input.length; i++) {
+                const char = input.charAt(i);
+                if (char >= 'a' && char <= 'z') {
+                    // Chữ thường
+                    const nextChar = char === 'z' ? 'a' : String.fromCharCode(char.charCodeAt(0) + 1);
+                    encoded += nextChar;
+                } else if (char >= 'A' && char <= 'Z') {
+                    // Chữ hoa
+                    const nextChar = char === 'Z' ? 'A' : String.fromCharCode(char.charCodeAt(0) + 1);
+                    encoded += nextChar;
+                } else if (char >= '0' && char <= '9') {
+                    // Số
+                    const nextChar = char === '9' ? '0' : String.fromCharCode(char.charCodeAt(0) + 1);
+                    encoded += nextChar;
+                } else {
+                    // Giữ nguyên ký tự khác
+                    encoded += char;
+                }
+            }
+            
+            let outputText = `Chuỗi gốc: "${input}"\n`;
+            outputText += `Mã hóa: "${encoded}"\n\n`;
+            outputText += `Giải thích mã hóa:\n`;
+            outputText += `  - Mỗi chữ cái được thay bằng chữ tiếp theo\n`;
+            outputText += `  - 'z' thành 'a', 'Z' thành 'A', '9' thành '0'\n`;
+            outputText += `  - Ký tự đặc biệt giữ nguyên\n\n`;
+            
+            // Giải mã
+            let decoded = '';
+            for (let i = 0; i < encoded.length; i++) {
+                const char = encoded.charAt(i);
+                if (char >= 'a' && char <= 'z') {
+                    const prevChar = char === 'a' ? 'z' : String.fromCharCode(char.charCodeAt(0) - 1);
+                    decoded += prevChar;
+                } else if (char >= 'A' && char <= 'Z') {
+                    const prevChar = char === 'A' ? 'Z' : String.fromCharCode(char.charCodeAt(0) - 1);
+                    decoded += prevChar;
+                } else if (char >= '0' && char <= '9') {
+                    const prevChar = char === '0' ? '9' : String.fromCharCode(char.charCodeAt(0) - 1);
+                    decoded += prevChar;
+                } else {
+                    decoded += char;
+                }
+            }
+            
+            outputText += `Giải mã: "${decoded}"\n`;
+            outputText += `Kết quả: ${decoded === input ? '✅ Giải mã thành công' : '❌ Lỗi giải mã'}`;
+            
+            output.textContent = outputText;
+        }
+        
+        // Thử nghiệm String Literal
+        function testStringLiteral() {
+            const str1 = document.getElementById('literal1').value;
+            const str2 = document.getElementById('literal2').value;
+            const result = document.getElementById('literalResult');
+            const output = document.getElementById('literalResultContent');
+            
+            result.classList.add('active');
+            
+            // Trong JavaScript, không có String Pool như Java
+            // Nhưng chúng ta có thể mô phỏng
+            const isSameReference = str1 === str2; // Trong JS, so sánh giá trị
+            const isSameContent = str1 === str2;
+            
+            let outputText = `Chuỗi 1: "${str1}"\n`;
+            outputText += `Chuỗi 2: "${str2}"\n\n`;
+            outputText += `So sánh ==: ${isSameReference}\n`;
+            outputText += `So sánh equals(): ${isSameContent}\n\n`;
+            
+            if (str1 === str2) {
+                outputText += `Trong Java (String Literal):\n`;
+                outputText += `  - Cả hai cùng trỏ đến một object trong String Pool\n`;
+                outputText += `  - == trả về true (cùng tham chiếu)\n`;
+                outputText += `  - equals() trả về true (cùng nội dung)`;
+            } else {
+                outputText += `Trong Java (String Literal):\n`;
+                outputText += `  - Hai object khác nhau trong String Pool\n`;
+                outputText += `  - == trả về false (khác tham chiếu)\n`;
+                outputText += `  - equals() trả về true/false tùy nội dung`;
+            }
+            
+            output.textContent = outputText;
+        }
+    </script>
+</body>
+
+</html>
