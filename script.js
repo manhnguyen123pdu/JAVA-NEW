@@ -242,3 +242,37 @@ search?.addEventListener("keyup", function () {
     renderLessons(result);
 
 });
+
+const openBtn = document.getElementById("openBtn");
+const closeBtn = document.getElementById("closeBtn");
+const closeBtn2 = document.getElementById("closeBtn2");
+const modalOverlay = document.getElementById("modalOverlay");
+
+// Mở popup
+openBtn.addEventListener("click", function () {
+    modalOverlay.classList.add("active");
+});
+
+// Đóng popup bằng nút X
+closeBtn.addEventListener("click", function () {
+    modalOverlay.classList.remove("active");
+});
+
+// Đóng popup bằng nút Đóng
+closeBtn2.addEventListener("click", function () {
+    modalOverlay.classList.remove("active");
+});
+
+// Click ra ngoài khung popup thì đóng
+modalOverlay.addEventListener("click", function (event) {
+    if (event.target === modalOverlay) {
+        modalOverlay.classList.remove("active");
+    }
+});
+
+// Nhấn ESC để đóng
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+        modalOverlay.classList.remove("active");
+    }
+});

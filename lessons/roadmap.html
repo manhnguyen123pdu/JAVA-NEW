@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Java Roadmap</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family:
+        Inter,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: #172033;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f7faff 0%,
+            #ffffff 35%,
+            #f6f9ff 100%
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.bg {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.bg::before {
+    content: "";
+
+    position: absolute;
+
+    width: 700px;
+    height: 700px;
+
+    top: -300px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(59,130,246,.13),
+            transparent 70%
+        );
+
+    filter: blur(20px);
+}
+
+.bg::after {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    right: -200px;
+    top: 45%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(139,92,246,.08),
+            transparent 70%
+        );
+}
+
+
+/* =========================================================
+   FLOATING DOTS
+========================================================= */
+
+.dot {
+    position: absolute;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #60a5fa;
+
+    opacity: .35;
+
+    animation:
+        floating
+        5s
+        ease-in-out
+        infinite;
+}
+
+.dot:nth-child(1) {
+    left: 10%;
+    top: 20%;
+}
+
+.dot:nth-child(2) {
+    left: 85%;
+    top: 30%;
+    animation-delay: 1s;
+}
+
+.dot:nth-child(3) {
+    left: 15%;
+    top: 70%;
+    animation-delay: 2s;
+}
+
+.dot:nth-child(4) {
+    left: 80%;
+    top: 80%;
+    animation-delay: 3s;
+}
+
+@keyframes floating {
+
+    50% {
+        transform: translateY(-25px);
+        opacity: .7;
+    }
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    text-align: center;
+
+    padding:
+        75px
+        20px
+        60px;
+}
+
+.badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        8px
+        16px;
+
+    border-radius: 50px;
+
+    background: rgba(255,255,255,.8);
+
+    border:
+        1px solid #e2e8f0;
+
+    box-shadow:
+        0 10px 30px
+        rgba(37,99,235,.06);
+
+    color: #64748b;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.badge i {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #3b82f6;
+
+    box-shadow:
+        0 0 15px
+        rgba(59,130,246,.7);
+
+    animation:
+        pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    50% {
+        transform: scale(1.4);
+    }
+
+}
+
+.hero h1 {
+    margin-top: 23px;
+
+    font-size:
+        clamp(
+            45px,
+            7vw,
+            76px
+        );
+
+    line-height: .95;
+
+    letter-spacing: -4px;
+
+    font-weight: 950;
+
+    color: #111827;
+}
+
+.hero h1 span {
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #6366f1,
+            #8b5cf6
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+
+    background-size: 200%;
+
+    animation:
+        gradient 5s infinite;
+}
+
+@keyframes gradient {
+
+    50% {
+        background-position: 100%;
+    }
+
+}
+
+.hero p {
+    margin-top: 20px;
+
+    color: #94a3b8;
+
+    font-size: 14px;
+}
+
+.hero-line {
+    width: 80px;
+    height: 4px;
+
+    margin:
+        27px
+        auto
+        0;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #8b5cf6
+        );
+
+    box-shadow:
+        0 0 20px
+        rgba(59,130,246,.25);
+}
+
+
+/* =========================================================
+   ROADMAP
+========================================================= */
+
+.roadmap {
+
+    width:
+        min(
+            1200px,
+            94%
+        );
+
+    margin: auto;
+
+    position: relative;
+}
+
+
+/* =========================================================
+   CONTENT BLOCK
+========================================================= */
+
+.block {
+
+    position: relative;
+
+    min-height: 1050px;
+
+    margin-bottom: 100px;
+
+    padding-top: 20px;
+}
+
+
+/* =========================================================
+   BLOCK HEADER
+========================================================= */
+
+.block-header {
+
+    position: relative;
+
+    z-index: 20;
+
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.block-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    border:
+        1px solid #dbe3ee;
+
+    color: #2563eb;
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+    box-shadow:
+        0 10px 30px
+        rgba(37,99,235,.08);
+}
+
+.block-header h2 {
+
+    margin-top: 13px;
+
+    font-size: 22px;
+
+    color: #1e293b;
+}
+
+.block-header p {
+
+    margin-top: 6px;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   ROAD SVG
+========================================================= */
+
+.block-road {
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    overflow: visible;
+}
+
+
+/* glow */
+
+.road-glow {
+
+    fill: none;
+
+    stroke:
+        rgba(59,130,246,.14);
+
+    stroke-width: 82;
+
+    stroke-linecap: round;
+
+    filter: blur(15px);
+
+    animation:
+        glow 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+
+    50% {
+        opacity: .5;
+    }
+
+}
+
+
+/* shadow */
+
+.road-shadow {
+
+    fill: none;
+
+    stroke:
+        rgba(15,23,42,.12);
+
+    stroke-width: 70;
+
+    stroke-linecap: round;
+
+    filter: blur(8px);
+
+    transform:
+        translateY(7px);
+}
+
+
+/* outer road */
+
+.road-border {
+
+    fill: none;
+
+    stroke:
+        #cbd5e1;
+
+    stroke-width: 66;
+
+    stroke-linecap: round;
+
+}
+
+
+/* road */
+
+.road {
+
+    fill: none;
+
+    stroke:
+        #edf1f6;
+
+    stroke-width: 58;
+
+    stroke-linecap: round;
+}
+
+
+/* road highlight */
+
+.road-inner {
+
+    fill: none;
+
+    stroke:
+        rgba(255,255,255,.95);
+
+    stroke-width: 50;
+
+    stroke-linecap: round;
+}
+
+
+/* yellow line */
+
+.road-center {
+
+    fill: none;
+
+    stroke:
+        #f59e0b;
+
+    stroke-width: 3;
+
+    stroke-linecap: round;
+
+    stroke-dasharray:
+        13 15;
+
+    animation:
+        roadMove
+        1s
+        linear
+        infinite;
+}
+
+@keyframes roadMove {
+
+    to {
+        stroke-dashoffset: -56;
+    }
+
+}
+
+
+/* moving light */
+
+.road-light {
+
+    fill: none;
+
+    stroke:
+        #60a5fa;
+
+    stroke-width: 5;
+
+    stroke-linecap: round;
+
+    stroke-dasharray:
+        2 130;
+
+    animation:
+        light
+        3s
+        linear
+        infinite;
+
+    filter:
+        drop-shadow(
+            0 0 8px
+            rgba(59,130,246,.9)
+        );
+}
+
+@keyframes light {
+
+    to {
+        stroke-dashoffset: -700;
+    }
+
+}
+
+
+/* =========================================================
+   LESSON
+========================================================= */
+
+.lesson {
+
+    position: absolute;
+
+    width: 100%;
+
+    height: 125px;
+
+    z-index: 10;
+
+    opacity: 0;
+
+    transform: translateY(25px);
+
+    transition:
+        .7s ease;
+}
+
+.lesson.show {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.lesson-card {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 350px;
+
+    padding:
+        20px
+        23px;
+
+    border-radius: 19px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .92
+        );
+
+    border:
+        1px solid
+        #e2e8f0;
+
+    box-shadow:
+        0 15px 40px
+        rgba(
+            15,
+            23,
+            42,
+            .07
+        );
+
+    backdrop-filter:
+        blur(15px);
+
+    overflow: hidden;
+
+    transition:
+        .35s ease;
+}
+
+
+/* shine */
+
+.lesson-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -130%;
+
+    width: 80%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.8),
+            transparent
+        );
+
+    transform:
+        skewX(-20deg);
+
+    transition:
+        .7s;
+}
+
+.lesson-card:hover::before {
+
+    left: 140%;
+}
+
+
+.lesson-card:hover {
+
+    transform:
+        translateY(-50%)
+        translateY(-7px)
+        scale(1.025);
+
+    border-color:
+        #bfdbfe;
+
+    box-shadow:
+        0 25px 55px
+        rgba(
+            37,
+            99,
+            235,
+            .13
+        );
+}
+
+
+/* =========================================================
+   LEFT / RIGHT
+========================================================= */
+
+.lesson.left .lesson-card {
+
+    right:
+        calc(
+            50% + 105px
+        );
+}
+
+.lesson.right .lesson-card {
+
+    left:
+        calc(
+            50% + 105px
+        );
+}
+
+
+/* =========================================================
+   CONNECTOR
+========================================================= */
+
+.connector {
+
+    position: absolute;
+
+    top: 50%;
+
+    width: 105px;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #bfdbfe
+        );
+}
+
+.lesson.left .connector {
+
+    right: -105px;
+}
+
+.lesson.right .connector {
+
+    left: -105px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #bfdbfe,
+            transparent
+        );
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.lesson-label {
+
+    margin-bottom: 8px;
+
+    color: #94a3b8;
+
+    font-size: 9px;
+
+    font-weight: 850;
+
+    letter-spacing: 1.7px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.lesson-title {
+
+    display: block;
+
+    color: #1e293b;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 750;
+
+    line-height: 1.45;
+
+    transition:
+        .25s;
+}
+
+.lesson-title:hover {
+
+    color:
+        #2563eb;
+}
+
+
+/* =========================================================
+   NODE
+========================================================= */
+
+.node {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    width: 58px;
+    height: 58px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #6366f1,
+            #8b5cf6
+        );
+
+    border:
+        5px solid white;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: white;
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+    box-shadow:
+        0 10px 30px
+        rgba(37,99,235,.3);
+
+    z-index: 20;
+
+    transition:
+        .35s;
+}
+
+.lesson:hover .node {
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        )
+        scale(1.18);
+
+    box-shadow:
+        0 15px 40px
+        rgba(37,99,235,.45);
+}
+
+
+/* ring */
+
+.node::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -9px;
+
+    border:
+        1px solid
+        rgba(59,130,246,.25);
+
+    border-radius: 50%;
+
+    animation:
+        ring
+        2.5s
+        infinite;
+}
+
+@keyframes ring {
+
+    from {
+        transform: scale(.8);
+        opacity: .8;
+    }
+
+    to {
+        transform: scale(1.35);
+        opacity: 0;
+    }
+
+}
+
+
+/* =========================================================
+   BLOCK TRANSITION
+========================================================= */
+
+.block:not(:first-child)::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -100px;
+
+    left: 50%;
+
+    width: 1px;
+
+    height: 100px;
+
+    background:
+        linear-gradient(
+            transparent,
+            #cbd5e1
+        );
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    text-align: center;
+
+    padding:
+        20px
+        20px
+        80px;
+
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+}
+
+footer strong {
+
+    color: #475569;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px) {
+
+    .hero {
+
+        padding:
+            55px
+            15px
+            40px;
+    }
+
+    .hero h1 {
+
+        font-size:
+            48px;
+
+        letter-spacing:
+            -3px;
+    }
+
+
+    .block {
+
+        min-height:
+            1200px;
+
+        margin-bottom:
+            80px;
+    }
+
+
+    .block-header {
+
+        padding-left:
+            25px;
+
+        padding-right:
+            25px;
+    }
+
+
+    .block-road {
+
+        left:
+            20px;
+
+        width:
+            100px;
+    }
+
+
+    .node {
+
+        left:
+            50px;
+
+        width:
+            50px;
+
+        height:
+            50px;
+    }
+
+
+    .lesson {
+
+        height:
+            130px;
+    }
+
+
+    .lesson-card,
+    .lesson.left .lesson-card,
+    .lesson.right .lesson-card {
+
+        left:
+            110px;
+
+        right:
+            auto;
+
+        width:
+            calc(
+                100% - 130px
+            );
+
+        padding:
+            17px
+            18px;
+    }
+
+
+    .connector,
+    .lesson.left .connector,
+    .lesson.right .connector {
+
+        left:
+            -60px;
+
+        right:
+            auto;
+
+        width:
+            60px;
+
+        background:
+            linear-gradient(
+                90deg,
+                #bfdbfe,
+                transparent
+            );
+    }
+
+
+    .lesson-title {
+
+        font-size:
+            13px;
+    }
+
+
+    .lesson-label {
+
+        font-size:
+            8px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media(max-width:420px) {
+
+    .block-road {
+
+        left:
+            12px;
+
+        width:
+            80px;
+    }
+
+
+    .node {
+
+        left:
+            40px;
+
+        width:
+            46px;
+
+        height:
+            46px;
+
+        font-size:
+            10px;
+    }
+
+
+    .lesson-card,
+    .lesson.left .lesson-card,
+    .lesson.right .lesson-card {
+
+        left:
+            85px;
+
+        width:
+            calc(
+                100% - 100px
+            );
+    }
+
+
+    .connector,
+    .lesson.left .connector,
+    .lesson.right .connector {
+
+        left:
+            -45px;
+
+        width:
+            45px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BACKGROUND
+===================================================== -->
+
+<div class="bg">
+
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+
+</div>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<header class="hero">
+
+    <div class="badge">
+
+        <i></i>
+
+        JAVA LEARNING PATH
+
+    </div>
+
+
+    <h1>
+
+        JAVA
+
+        <span>
+            ROADMAP
+        </span>
+
+    </h1>
+
+
+    <p>
+        From fundamentals to database development
+    </p>
+
+
+    <div class="hero-line"></div>
+
+</header>
+
+
+<!-- =====================================================
+     ROADMAP
+===================================================== -->
+
+<main
+    class="roadmap"
+    id="roadmap">
+</main>
+
+
+<footer>
+
+    <strong>
+        JAVA LEARNING ROADMAP
+    </strong>
+
+    <br><br>
+
+    34 LESSONS · LEARN · PRACTICE · BUILD
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   LESSON DATA
+========================================================= */
+
+const groups = [
+
+    {
+        number: "01",
+        title: "Java Fundamentals",
+        description: "BUILD YOUR FOUNDATION",
+
+        lessons: [
+
+            "Development Environment & Programming Mindset",
+
+            "Variables, Data Types & Operators",
+
+            "Control Flow",
+
+            "Loops",
+
+            "Java Strings",
+
+            "Methods & One-Dimensional Arrays",
+
+            "Array Algorithms",
+
+            "Review & Mini Challenge"
+
+        ]
+    },
+
+
+    {
+        number: "02",
+        title: "Object-Oriented Programming",
+        description: "THINK IN OBJECTS",
+
+        lessons: [
+
+            "Classes, Objects & Constructors",
+
+            "Encapsulation & Static Members",
+
+            "Inheritance",
+
+            "Polymorphism",
+
+            "Abstract Classes & Interfaces",
+
+            "OOP Practice"
+
+        ]
+    },
+
+
+    {
+        number: "03",
+        title: "Collections & Modern Java",
+        description: "WORK WITH REAL DATA",
+
+        lessons: [
+
+            "ArrayList & LinkedList",
+
+            "HashMap & HashSet",
+
+            "Comparable & Comparator",
+
+            "Date & Time API",
+
+            "Practice",
+
+            "Exception Handling (try/catch/finally)",
+
+            "Stream API",
+
+            "Collections & Exception Lab"
+
+        ]
+    },
+
+
+    {
+        number: "04",
+        title: "File I/O & Desktop GUI",
+        description: "PERSIST & DISPLAY DATA",
+
+        lessons: [
+
+            "File I/O",
+
+            "CSV & Java NIO",
+
+            "File I/O Lab - Data Persistence",
+
+            "Java Swing Basics",
+
+            "Event Handling",
+
+            "JTable - Displaying Data"
+
+        ]
+    },
+
+
+    {
+        number: "05",
+        title: "Database & JDBC",
+        description: "CONNECT JAVA TO DATABASE",
+
+        lessons: [
+
+            "SQL Fundamentals for Java",
+
+            "Database Relationships",
+
+            "JDBC Basics",
+
+            "JDBC Advanced",
+
+            "Database CRUD with DAO & Service Layer",
+
+            "Advanced CRUD with DAO & Service Layer"
+
+        ]
+    }
+
+];
+
+
+/* =========================================================
+   ROADMAP
+========================================================= */
+
+const roadmap =
+    document.getElementById(
+        "roadmap"
+    );
+
+
+/* =========================================================
+   CREATE BLOCKS
+========================================================= */
+
+let globalLesson = 0;
+
+
+groups.forEach(
+    (group, groupIndex) => {
+
+        const block =
+            document.createElement(
+                "section"
+            );
+
+        block.className =
+            "block";
+
+
+        /* ---------------------------------------------
+           HEADER
+        --------------------------------------------- */
+
+        const header =
+            document.createElement(
+                "div"
+            );
+
+        header.className =
+            "block-header";
+
+
+        header.innerHTML = `
+
+            <div class="block-badge">
+
+                ${group.number}
+
+            </div>
+
+            <h2>
+                ${group.title}
+            </h2>
+
+            <p>
+                ${group.description}
+            </p>
+
+        `;
+
+
+        block.appendChild(
+            header
+        );
+
+
+        /* ---------------------------------------------
+           LESSONS
+        --------------------------------------------- */
+
+        const count =
+            group.lessons.length;
+
+
+        group.lessons.forEach(
+            (title, index) => {
+
+                const lesson =
+                    document.createElement(
+                        "div"
+                    );
+
+                lesson.className =
+                    "lesson";
+
+
+                /*
+                    LESSON POSITION
+
+                    Từ đầu block xuống cuối block.
+                */
+
+                const top =
+                    125 +
+                    index *
+                    (
+                        850 /
+                        count
+                    );
+
+
+                lesson.style.top =
+                    `${top}px`;
+
+
+                /*
+                    Card luân phiên
+                */
+
+                if (index % 2 === 0) {
+
+                    lesson.classList
+                        .add("left");
+
+                } else {
+
+                    lesson.classList
+                        .add("right");
+
+                }
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "lesson-card";
+
+
+                const label =
+                    document.createElement(
+                        "div"
+                    );
+
+                label.className =
+                    "lesson-label";
+
+                globalLesson++;
+
+
+                label.textContent =
+                    `Lesson ${String(globalLesson).padStart(2,"0")}`;
+
+
+                const link =
+                    document.createElement(
+                        "a"
+                    );
+
+                link.className =
+                    "lesson-title";
+
+
+                link.href =
+                    `https://marvelous-liger-0a9d9d.netlify.app/lessons/buoi${globalLesson}.html`;
+
+
+                link.textContent =
+                    title;
+
+
+                const connector =
+                    document.createElement(
+                        "span"
+                    );
+
+                connector.className =
+                    "connector";
+
+
+                const node =
+                    document.createElement(
+                        "div"
+                    );
+
+                node.className =
+                    "node";
+
+
+                node.textContent =
+                    String(globalLesson)
+                        .padStart(2,"0");
+
+
+                card.appendChild(
+                    label
+                );
+
+                card.appendChild(
+                    link
+                );
+
+                card.appendChild(
+                    connector
+                );
+
+
+                lesson.appendChild(
+                    card
+                );
+
+                lesson.appendChild(
+                    node
+                );
+
+
+                block.appendChild(
+                    lesson
+                );
+
+            }
+        );
+
+
+        roadmap.appendChild(
+            block
+        );
+
+
+        /* ---------------------------------------------
+           ROAD
+        --------------------------------------------- */
+
+        createBlockRoad(
+            block,
+            groupIndex
+        );
+
+    }
+);
+
+
+/* =========================================================
+   CREATE CURVED ROAD FOR EACH BLOCK
+========================================================= */
+
+function createBlockRoad(
+    block,
+    index
+) {
+
+    const width =
+        roadmap.clientWidth;
+
+    const height =
+        block.offsetHeight;
+
+
+    const center =
+        width / 2;
+
+
+    /*
+        Độ cong lớn.
+
+        0.12 = khá cong
+
+        0.15 = cong rõ
+
+        0.18 = rất cong
+
+        Ở đây dùng 14%.
+    */
+
+    const curve =
+        Math.min(
+            150,
+            width * .14
+        );
+
+
+    /*
+        Mỗi block cua theo
+        hướng khác nhau.
+    */
+
+    const direction =
+        index % 2 === 0
+            ? 1
+            : -1;
+
+
+    const c =
+        curve *
+        direction;
+
+
+    /*
+        ROAD PATH
+
+        Block 1:
+
+             │
+              ╲
+               ╲
+                │
+                │
+               ╱
+              ╱
+             │
+
+        Block 2 đảo chiều.
+    */
+
+    const path = `
+
+        M ${center} 70
+
+
+        C
+        ${center} 180,
+        ${center + c} 230,
+        ${center + c} 350
+
+
+        C
+        ${center + c} 470,
+        ${center - c} 500,
+        ${center - c} 620
+
+
+        C
+        ${center - c} 740,
+        ${center + c * .55} 800,
+        ${center + c * .55} ${height + 80}
+
+    `;
+
+
+    const svg =
+        document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "svg"
+        );
+
+
+    svg.classList.add(
+        "block-road"
+    );
+
+
+    svg.setAttribute(
+        "viewBox",
+        `0 0 ${width} ${height}`
+    );
+
+
+    svg.setAttribute(
+        "preserveAspectRatio",
+        "none"
+    );
+
+
+    svg.appendChild(
+        makePath(
+            path,
+            "road-glow"
+        )
+    );
+
+
+    svg.appendChild(
+        makePath(
+            path,
+            "road-shadow"
+        )
+    );
+
+
+    svg.appendChild(
+        makePath(
+            path,
+            "road-border"
+        )
+    );
+
+
+    svg.appendChild(
+        makePath(
+            path,
+            "road"
+        )
+    );
+
+
+    svg.appendChild(
+        makePath(
+            path,
+            "road-inner"
+        )
+    );
+
+
+    svg.appendChild(
+        makePath(
+            path,
+            "road-center"
+        )
+    );
+
+
+    svg.appendChild(
+        makePath(
+            path,
+            "road-light"
+        )
+    );
+
+
+    block.prepend(
+        svg
+    );
+
+}
+
+
+/* =========================================================
+   SVG PATH HELPER
+========================================================= */
+
+function makePath(
+    d,
+    className
+) {
+
+    const path =
+        document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path"
+        );
+
+
+    path.setAttribute(
+        "d",
+        d
+    );
+
+
+    path.classList.add(
+        className
+    );
+
+
+    return path;
+
+}
+
+
+/* =========================================================
+   SCROLL ANIMATION
+========================================================= */
+
+const observer =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(
+                entry => {
+
+                    if (
+                        entry.isIntersecting
+                    ) {
+
+                        entry.target
+                            .classList
+                            .add(
+                                "show"
+                            );
+
+                    }
+
+                }
+            );
+
+        },
+        {
+            threshold:
+                .15
+        }
+    );
+
+
+document
+    .querySelectorAll(
+        ".lesson"
+    )
+    .forEach(
+        lesson => {
+
+            observer.observe(
+                lesson
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   CARD 3D EFFECT
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".lesson-card"
+    )
+    .forEach(
+        card => {
+
+            card.addEventListener(
+                "mousemove",
+                e => {
+
+                    const rect =
+                        card.getBoundingClientRect();
+
+
+                    const x =
+                        e.clientX -
+                        rect.left;
+
+
+                    const y =
+                        e.clientY -
+                        rect.top;
+
+
+                    const rotateX =
+                        -(
+                            y -
+                            rect.height / 2
+                        ) / 35;
+
+
+                    const rotateY =
+                        (
+                            x -
+                            rect.width / 2
+                        ) / 35;
+
+
+                    card.style.transform =
+                        `
+                        translateY(-50%)
+                        translateY(-7px)
+                        scale(1.025)
+                        perspective(800px)
+                        rotateX(${rotateX}deg)
+                        rotateY(${rotateY}deg)
+                        `;
+
+                }
+            );
+
+
+            card.addEventListener(
+                "mouseleave",
+                () => {
+
+                    card.style.transform =
+                        "";
+
+                }
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        location.reload();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
