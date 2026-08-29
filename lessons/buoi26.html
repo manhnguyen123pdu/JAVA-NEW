@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Swing Basics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            min-height: 85vh;
+        }
+
+        .sidebar {
+            background: var(--light);
+            padding: 20px;
+            border-right: 3px solid var(--secondary);
+            overflow-y: auto;
+            max-height: 85vh;
+        }
+
+        .nav-list {
+            list-style: none;
+            position: sticky;
+            top: 20px;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--secondary);
+        }
+
+        .main-content {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 85vh;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 25px 0 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent);
+        }
+
+        h4 {
+            color: var(--info);
+            margin: 20px 0 10px;
+        }
+
+        h5 {
+            color: var(--dark);
+            margin: 15px 0 8px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.4;
+            border: 2px solid #444;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #666;
+        }
+
+        .keyword {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .class-name {
+            color: #4ec9b0;
+        }
+
+        .method {
+            color: #dcdcaa;
+        }
+
+        .annotation {
+            color: #c586c0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid var(--success);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .interactive-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--warning);
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-content {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 992px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+                max-height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .code-block {
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .syntax {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-family: 'Consolas', monospace;
+            border-left: 4px solid var(--info);
+        }
+
+        .diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #ddd;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        pre {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-desktop"></i>Java Swing Basics</h1>
+        </header>
+
+        <div class="content-wrapper">
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#phan1" class="nav-link active"><i class="fas fa-window-restore"></i>
+                            Cơ bản Swing</a></li>
+                    <li class="nav-item"><a href="#phan2" class="nav-link"><i class="fas fa-puzzle-piece"></i> Component
+                            cơ bản</a></li>
+                    <li class="nav-item"><a href="#phan3" class="nav-link"><i class="fas fa-th-large"></i> Layout
+                            Manager</a></li>
+                    <!-- <li class="nav-item"><a href="#phan4" class="nav-link"><i class="fas fa-bolt"></i> Phần 4: Event Handling</a></li> -->
+                    <li class="nav-item"><a href="#phan5" class="nav-link"><i class="fas fa-table"></i> JTable và hiển
+                            thị dữ liệu</a></li>
+                    <li class="nav-item"><a href="#baitap" class="nav-link"><i class="fas fa-tasks"></i> Bài tập </a>
+                    </li>
+                    <!-- <li class="nav-item"><a href="#tongket" class="nav-link"><i class="fas fa-check-double"></i> Kiến thức đã đạt được</a></li> -->
+                </ul>
+            </nav>
+
+            <main class="main-content">
+                <!-- PHẦN 1 -->
+                <section id="phan1" class="section active">
+                    <h2><i class="fas fa-window-restore"></i> PHẦN 1. CƠ BẢN JAVA SWING</h2>
+
+                    <h3>1.1. Java Swing là gì?</h3>
+                    <p>Java Swing là thư viện giao diện đồ họa của Java, cho phép chúng ta xây dựng các ứng dụng desktop
+                        có giao diện trực quan.</p>
+                    <p>Ví dụ, thay vì chạy chương trình trên Console:</p>
+                    <pre>===== QUẢN LÝ SINH VIÊN =====
+
+Nhập mã sinh viên: SV01
+Nhập họ tên: Nguyễn Văn An
+Nhập tuổi: 20</pre>
+                    <p>Swing cho phép xây dựng giao diện:</p>
+                    <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw1.PNG" width="60%" alt="">
+                    </div>
+                    <p>Như vậy: Swing cung cấp các thành phần để xây dựng giao diện đồ họa cho ứng dụng Java Desktop.
+                    </p>
+
+                    <h3>1.2. Swing nằm ở đâu trong Java?</h3>
+                    <p>Một chương trình Java có thể xây dựng nhiều loại ứng dụng:</p>
+                    <pre>Java
+│
+├── Console Application
+│
+├── Desktop Application
+│      └── Swing
+│
+├── Web Application
+│      ├── Servlet/JSP
+│      └── Spring Boot
+│
+└── Các loại ứng dụng khác</pre>
+                    <p>Swing chủ yếu được sử dụng để xây dựng ứng dụng Desktop.</p>
+
+                    <h3>1.3. Một số thành phần quan trọng của Swing</h3>
+                    <p>Swing cung cấp rất nhiều component. Một số component quan trọng:</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Công dụng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>JFrame</td>
+                                    <td>Cửa sổ ứng dụng</td>
+                                </tr>
+                                <tr>
+                                    <td>JPanel</td>
+                                    <td>Khu vực chứa component</td>
+                                </tr>
+                                <tr>
+                                    <td>JLabel</td>
+                                    <td>Hiển thị chữ</td>
+                                </tr>
+                                <tr>
+                                    <td>JButton</td>
+                                    <td>Nút bấm</td>
+                                </tr>
+                                <tr>
+                                    <td>JTextField</td>
+                                    <td>Nhập một dòng</td>
+                                </tr>
+                                <tr>
+                                    <td>JPasswordField</td>
+                                    <td>Nhập mật khẩu</td>
+                                </tr>
+                                <tr>
+                                    <td>JTextArea</td>
+                                    <td>Nhập nhiều dòng</td>
+                                </tr>
+                                <tr>
+                                    <td>JCheckBox</td>
+                                    <td>Ô lựa chọn</td>
+                                </tr>
+                                <tr>
+                                    <td>JRadioButton</td>
+                                    <td>Lựa chọn một trong nhiều</td>
+                                </tr>
+                                <tr>
+                                    <td>JComboBox</td>
+                                    <td>Danh sách dropdown</td>
+                                </tr>
+                                <tr>
+                                    <td>JTable</td>
+                                    <td>Hiển thị dữ liệu dạng bảng</td>
+                                </tr>
+                                <tr>
+                                    <td>JScrollPane</td>
+                                    <td>Thanh cuộn</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>1.4. Mô hình tư duy khi học Swing</h3>
+                    <p>Khi xây dựng giao diện Swing, cần tư duy theo cấu trúc:</p>
+                    <pre>JFrame
+   │
+   ├── JPanel
+   │     ├── JLabel
+   │     ├── JTextField
+   │     └── JButton
+   │
+   └── JPanel
+         └── JTable</pre>
+                    <p>Có thể hình dung:</p>
+                    <ul>
+                        <li><strong>JFrame</strong> = Cửa sổ</li>
+                        <li><strong>JPanel</strong> = Khu vực/container</li>
+                        <li><strong>Component</strong> = Thành phần giao diện</li>
+                    </ul>
+                    <p>Ví dụ một phần mềm:</p>
+                    <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw2.png" width="60%" alt="">
+                    </div>
+                    <p>Đây là tư duy rất quan trọng xuyên suốt toàn bộ Swing.</p>
+
+                    <h3>1.5. Tạo chương trình Swing đầu tiên</h3>
+                    <p>Tạo class:</p>
+                    <div class="code-block">
+                        <span class="keyword">import</span> javax.swing.JFrame;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JFrame frame = <span class="keyword">new</span>
+                        JFrame();<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setVisible(<span
+                            class="keyword">true</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    <p>Chạy chương trình sẽ xuất hiện một cửa sổ. Tuy nhiên cửa sổ chưa có kích thước phù hợp.</p>
+
+                    <h3>1.6. Thiết lập kích thước</h3>
+                    <p>Sử dụng: <code>frame.setSize(width, height);</code></p>
+                    <p>Ví dụ: <code>frame.setSize(800, 600);</code></p>
+                    <p>Trong đó: 800 = chiều rộng, 600 = chiều cao</p>
+
+                    <h3>1.7. Đặt tiêu đề</h3>
+                    <p>Có thể đặt ngay khi tạo: <code>JFrame frame = new JFrame("Quản lý sinh viên");</code></p>
+                    <p>Hoặc: <code>frame.setTitle("Quản lý sinh viên");</code></p>
+
+                    <h3>1.8. Xử lý khi đóng cửa sổ</h3>
+                    <p>Sử dụng: <code>frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</code></p>
+                    <div class="code-block">
+                        <span class="keyword">import</span> javax.swing.JFrame;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JFrame frame = <span class="keyword">new</span>
+                        JFrame(<span class="string">"Quản lý sinh viên"</span>);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setSize(800, 600);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setVisible(<span
+                            class="keyword">true</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+
+                    <h3>1.9. Đưa cửa sổ ra giữa màn hình</h3>
+                    <p><code>frame.setLocationRelativeTo(null);</code></p>
+                    <p>Thông thường nên dùng sau khi thiết lập kích thước.</p>
+
+                    <h3>1.10. Thứ tự xây dựng JFrame</h3>
+                    <pre>1. Tạo JFrame
+       ↓
+2. Đặt title
+       ↓
+3. Đặt size
+       ↓
+4. Đặt close operation
+       ↓
+5. Đặt vị trí
+       ↓
+6. Thêm component
+       ↓
+7. Hiển thị</pre>
+                    <div class="code-block">
+                        <span class="keyword">import</span> javax.swing.JFrame;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JFrame frame = <span class="keyword">new</span>
+                        JFrame(<span class="string">"Quản lý sinh viên"</span>);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setSize(800, 600);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setLocationRelativeTo(<span
+                            class="keyword">null</span>);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setVisible(<span
+                            class="keyword">true</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 2 -->
+                <section id="phan2" class="section">
+                    <h2><i class="fas fa-puzzle-piece"></i> PHẦN 2. CÁC COMPONENT CƠ BẢN</h2>
+
+                    <h3>2.1. JPanel</h3>
+                    <p><strong>JPanel là gì?</strong> JPanel là một container dùng để chứa và nhóm các component.</p>
+                    <p>Ví dụ: <code>JPanel panel = new JPanel();</code></p>
+                    <p>Thêm component: <code>panel.add(new JButton("Thêm"));</code></p>
+                    <p>Sau đó đưa panel vào JFrame: <code>frame.add(panel);</code></p>
+
+                    <h3>2.2. Ví dụ JFrame + JPanel</h3>
+                    <div class="code-block">
+                        <span class="keyword">import</span> javax.swing.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JFrame frame = <span class="keyword">new</span>
+                        JFrame(<span class="string">"Demo"</span>);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setSize(500, 300);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JPanel panel = <span class="keyword">new</span>
+                        JPanel();<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panel.add(<span class="keyword">new</span>
+                        JButton(<span class="string">"Thêm"</span>));<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panel.add(<span class="keyword">new</span>
+                        JButton(<span class="string">"Xóa"</span>));<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.add(panel);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setLocationRelativeTo(<span
+                            class="keyword">null</span>);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setVisible(<span
+                            class="keyword">true</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    <p>Giao diện:</p>
+                    <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw3.png" width="60%" alt="">
+                    </div>
+
+                    <h3>2.3. Tại sao phải dùng JPanel?</h3>
+                    <p>Không nên xây dựng một giao diện lớn bằng cách đưa tất cả component trực tiếp vào JFrame. Thay
+                        vào đó chia thành các khu vực.</p>
+                    <pre>JFrame
+│
+├── panelForm
+│
+├── panelButton
+│
+└── panelTable</pre>
+                    <p>Ví dụ phần mềm quản lý:</p>
+                    <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw6.png" width="60%" alt="">
+                    </div>
+                    <p>Đây là cách tổ chức giao diện dễ bảo trì hơn.</p>
+
+                    <h3>2.4. JLabel</h3>
+                    <p>JLabel dùng để hiển thị văn bản.</p>
+                    <div class="code-block">
+                        JLabel label = <span class="keyword">new</span> JLabel(<span class="string">"Họ tên:"</span>);
+                    </div>
+                    <p>Thêm vào panel: <code>panel.add(label);</code></p>
+                    <div class="code-block">
+                        JLabel nameLabel = <span class="keyword">new</span> JLabel(<span class="string">"Họ
+                            tên:"</span>);<br>
+                        JTextField nameField = <span class="keyword">new</span> JTextField(20);<br>
+                        panel.add(nameLabel);<br>
+                        panel.add(nameField);
+                    </div>
+                    <p>Kết quả: <code>Họ tên: [____________________]</code></p>
+
+                    <h3>2.5. JButton</h3>
+                    <p>JButton tạo nút bấm.</p>
+                    <div class="code-block">
+                        JButton button = <span class="keyword">new</span> JButton(<span class="string">"Thêm"</span>);
+                    </div>
+                    <div class="code-block">
+                        JButton btnAdd = <span class="keyword">new</span> JButton(<span
+                            class="string">"Thêm"</span>);<br>
+                        JButton btnEdit = <span class="keyword">new</span> JButton(<span
+                            class="string">"Sửa"</span>);<br>
+                        JButton btnDelete = <span class="keyword">new</span> JButton(<span
+                            class="string">"Xóa"</span>);<br>
+                        <br>
+                        panel.add(btnAdd);<br>
+                        panel.add(btnEdit);<br>
+                        panel.add(btnDelete);
+                    </div>
+
+                    <h3>2.6. JTextField</h3>
+                    <p>JTextField dùng để nhập dữ liệu một dòng.</p>
+                    <div class="code-block">
+                        JTextField txtName = <span class="keyword">new</span> JTextField();
+                    </div>
+                    <p>Thiết lập độ rộng: <code>JTextField txtName = new JTextField(20);</code></p>
+                    <p><strong>Lấy dữ liệu</strong></p>
+                    <div class="code-block">
+                        String name = txtName.getText();
+                    </div>
+                    <p><strong>Gán dữ liệu</strong></p>
+                    <div class="code-block">
+                        txtName.setText(<span class="string">"Nguyễn Văn An"</span>);
+                    </div>
+                    <p><strong>Xóa dữ liệu</strong></p>
+                    <div class="code-block">
+                        txtName.setText(<span class="string">""</span>);
+                    </div>
+
+                    <h3>2.7. JPasswordField</h3>
+                    <p>Dùng để nhập password.</p>
+                    <div class="code-block">
+                        JPasswordField txtPassword = <span class="keyword">new</span> JPasswordField(20);
+                    </div>
+                    <p>Lấy password:</p>
+                    <div class="code-block">
+                        String password = <span class="keyword">new</span> String(txtPassword.getPassword());
+                    </div>
+                    <div class="code-block">
+                        JLabel lblPassword = <span class="keyword">new</span> JLabel(<span class="string">"Mật
+                            khẩu:"</span>);<br>
+                        JPasswordField txtPassword = <span class="keyword">new</span> JPasswordField(20);<br>
+                        panel.add(lblPassword);<br>
+                        panel.add(txtPassword);
+                    </div>
+
+                    <h3>2.8. JTextArea</h3>
+                    <p>JTextArea dùng nhập dữ liệu nhiều dòng.</p>
+                    <div class="code-block">
+                        JTextArea txtDescription = <span class="keyword">new</span> JTextArea(5, 30);
+                    </div>
+                    <p>Ví dụ:</p>
+                    <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw7.png" width="60%" alt="">
+                    </div>
+                    <p>Lấy dữ liệu: <code>String description = txtDescription.getText();</code></p>
+
+                    <h3>2.9. JCheckBox</h3>
+                    <p>Dùng để lựa chọn dạng checkbox.</p>
+                    <div class="code-block">
+                        JCheckBox cbJava = <span class="keyword">new</span> JCheckBox(<span
+                            class="string">"Java"</span>);
+                    </div>
+                    <p>Có thể chọn nhiều:</p>
+                    <div class="code-block">
+                        JCheckBox cbJava = <span class="keyword">new</span> JCheckBox(<span
+                            class="string">"Java"</span>);<br>
+                        JCheckBox cbPython = <span class="keyword">new</span> JCheckBox(<span
+                            class="string">"Python"</span>);<br>
+                        JCheckBox cbJs = <span class="keyword">new</span> JCheckBox(<span
+                            class="string">"JavaScript"</span>);
+                    </div>
+                    <p>Giao diện:</p>
+                    <pre>☐ Java
+☐ Python
+☐ JavaScript</pre>
+                    <p>Kiểm tra:</p>
+                    <div class="code-block">
+                        <span class="keyword">if</span> (cbJava.isSelected()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Đã chọn Java"</span>);<br>
+                        }
+                    </div>
+
+                    <h3>2.10. JRadioButton</h3>
+                    <p>Dùng khi người dùng cần chọn một trong nhiều lựa chọn.</p>
+                    <div class="code-block">
+                        JRadioButton male = <span class="keyword">new</span> JRadioButton(<span
+                            class="string">"Nam"</span>);<br>
+                        JRadioButton female = <span class="keyword">new</span> JRadioButton(<span
+                            class="string">"Nữ"</span>);
+                    </div>
+                    <p>Cần ButtonGroup:</p>
+                    <div class="code-block">
+                        ButtonGroup group = <span class="keyword">new</span> ButtonGroup();<br>
+                        group.add(male);<br>
+                        group.add(female);
+                    </div>
+                    <p>Khi đó: <code>○ Nam ○ Nữ</code> chỉ có thể chọn một.</p>
+
+                    <h3>2.11. JComboBox</h3>
+                    <p>JComboBox tạo danh sách dropdown.</p>
+                    <div class="code-block">
+                        JComboBox&lt;String&gt; combo = <span class="keyword">new</span> JComboBox&lt;&gt;();
+                    </div>
+                    <p>Thêm dữ liệu:</p>
+                    <div class="code-block">
+                        combo.addItem(<span class="string">"Nam"</span>);<br>
+                        combo.addItem(<span class="string">"Nữ"</span>);
+                    </div>
+                    <p>Hoặc:</p>
+                    <div class="code-block">
+                        String[] genders = { <span class="string">"Nam"</span>, <span class="string">"Nữ"</span> };<br>
+                        JComboBox&lt;String&gt; combo = <span class="keyword">new</span> JComboBox&lt;&gt;(genders);
+                    </div>
+                    <p>Lấy giá trị: <code>String gender = combo.getSelectedItem().toString();</code></p>
+                </section>
+
+                <!-- PHẦN 3 -->
+                <section id="phan3" class="section">
+                    <h2><i class="fas fa-th-large"></i> PHẦN 3. LAYOUT MANAGER</h2>
+                    <p>Đây là phần cực kỳ quan trọng khi học Swing.</p>
+
+                    <h3>3.1. Layout Manager là gì?</h3>
+                    <p>Layout Manager chịu trách nhiệm sắp xếp vị trí các component trong container.</p>
+                    <p>Ví dụ: <code>panel.setLayout(new FlowLayout());</code></p>
+                    <p>Thay vì tự tính toán vị trí, Layout Manager sẽ tự sắp xếp.</p>
+
+                    <h3>3.2. FlowLayout</h3>
+                    <p>FlowLayout sắp xếp component theo hàng ngang.</p>
+                    <div class="code-block">
+                        panel.setLayout(<span class="keyword">new</span> FlowLayout());
+                    </div>
+                    <p>Ví dụ:</p>
+                    <div class="code-block">
+                        panel.add(<span class="keyword">new</span> JButton(<span class="string">"Thêm"</span>));<br>
+                        panel.add(<span class="keyword">new</span> JButton(<span class="string">"Sửa"</span>));<br>
+                        panel.add(<span class="keyword">new</span> JButton(<span class="string">"Xóa"</span>));
+                    </div>
+                    <p>Kết quả: <code>[Thêm] [Sửa] [Xóa]</code></p>
+                    <p>Khi không còn đủ chỗ, component có thể xuống dòng.</p>
+
+                    <h3>3.3. Căn giữa</h3>
+                    <p>Có thể chỉ định căn lề:</p>
+                    <div class="code-block">
+                        panel.setLayout(<span class="keyword">new</span> FlowLayout(FlowLayout.CENTER));
+                    </div>
+                    <p>Các lựa chọn: <code>FlowLayout.LEFT</code>, <code>FlowLayout.CENTER</code>,
+                        <code>FlowLayout.RIGHT</code>.
+                    </p>
+
+                    <h3>3.4. BorderLayout</h3>
+                    <p>BorderLayout chia container thành 5 khu vực:</p>
+                    <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw14.png" width="60%" alt="">
+                    </div>
+                    <p>Các vị trí: <code>BorderLayout.NORTH</code>, <code>BorderLayout.SOUTH</code>,
+                        <code>BorderLayout.WEST</code>, <code>BorderLayout.EAST</code>,
+                        <code>BorderLayout.CENTER</code>.
+                    </p>
+
+                    <h3>3.5. Ví dụ BorderLayout</h3>
+                    <div class="code-block">
+                        frame.setLayout(<span class="keyword">new</span> BorderLayout());<br>
+                        <br>
+                        frame.add(<span class="keyword">new</span> JButton(<span class="string">"TOP"</span>),
+                        BorderLayout.NORTH);<br>
+                        frame.add(<span class="keyword">new</span> JButton(<span class="string">"BOTTOM"</span>),
+                        BorderLayout.SOUTH);<br>
+                        frame.add(<span class="keyword">new</span> JButton(<span class="string">"LEFT"</span>),
+                        BorderLayout.WEST);<br>
+                        frame.add(<span class="keyword">new</span> JButton(<span class="string">"RIGHT"</span>),
+                        BorderLayout.EAST);<br>
+                        frame.add(<span class="keyword">new</span> JButton(<span class="string">"CENTER"</span>),
+                        BorderLayout.CENTER);
+                    </div>
+
+                    <h3>3.6. Tại sao BorderLayout quan trọng?</h3>
+                    <p>Nó rất phù hợp để xây dựng giao diện quản lý.</p>
+                    <pre>+------------------------------------------+
+|               HEADER                     |
++------------------------------------------+
+|                                          |
+|               CONTENT                    |
+|                                          |
++------------------------------------------+
+|                FOOTER                    |
++------------------------------------------+</pre>
+                    <p>Có thể thiết kế: NORTH → Tiêu đề, CENTER → Form + JTable, SOUTH → Các button.</p>
+
+                    <h3>3.7. GridLayout</h3>
+                    <p>GridLayout chia container thành lưới.</p>
+                    <div class="code-block">
+                        panel.setLayout(<span class="keyword">new</span> GridLayout(3, 2));
+                    </div>
+                    <p>Nghĩa là: 3 hàng, 2 cột.</p>
+                   <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw111.png" width="60%" alt="">
+                    </div>
+                    <div class="code-block">
+                        <pre>
+package JW;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class Demo extends JFrame {
+
+    public Demo() {
+
+        setTitle("GridLayout");
+        setSize(400, 250);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // GridLayout: 3 dòng, 2 cột
+        JPanel panel = new JPanel(
+                new GridLayout(3, 2, 10, 10)
+        );
+
+        // Dòng 1
+        panel.add(new JLabel("Họ tên:"));
+        panel.add(new JTextField());
+
+        // Dòng 2
+        panel.add(new JLabel("Tuổi:"));
+        panel.add(new JTextField());
+
+        // Dòng 3
+        panel.add(new JLabel("Email:"));
+        panel.add(new JTextField());
+
+        add(panel);
+
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new Demo();
+    }
+}
+                        </pre>
+                    </div>
+
+                    <!-- <h3>3.8. GridBagLayout</h3>
+                    <p>GridBagLayout dùng khi cần thiết kế giao diện phức tạp hơn. Nó cho phép kiểm soát vị trí
+                        component, số cột/hàng chiếm, khoảng cách, kích thước, căn chỉnh.</p>
+                    <pre>+---------------------------------------+
+| Họ tên:  [________________________]   |
+| Email:   [________________________]   |
+| Địa chỉ: [________________________]   |
+|          [________________________]   |
+|                                       |
+|          [Lưu] [Hủy]                 |
++---------------------------------------+</pre>
+                    <p>Đây là Layout nên học sau khi đã hiểu FlowLayout, BorderLayout và GridLayout.</p>
+
+                    <h3>3.9. Kết hợp nhiều Layout</h3>
+                    <p>Trong project thực tế, không nên cố dùng một Layout cho toàn bộ JFrame. Thường sẽ kết hợp:</p>
+                    <pre>JFrame
+│
+├── JPanel Header
+│      └── FlowLayout
+│
+├── JPanel Content
+│      └── BorderLayout
+│
+└── JPanel Footer
+       └── FlowLayout</pre>
+                    <div class="code-block">
+                        JPanel header = <span class="keyword">new</span> JPanel(<span class="keyword">new</span>
+                        FlowLayout());<br>
+                        JPanel content = <span class="keyword">new</span> JPanel(<span class="keyword">new</span>
+                        BorderLayout());<br>
+                        JPanel footer = <span class="keyword">new</span> JPanel(<span class="keyword">new</span>
+                        FlowLayout());
+                    </div>
+                    <p>Đây là tư duy thiết kế rất quan trọng.</p> -->
+                </section>
+
+                <!-- PHẦN 4 -->
+                <section id="phan4" class="section">
+                    <h2><i class="fas fa-bolt"></i> PHẦN 4. EVENT HANDLING</h2>
+
+                    <h3>4.1. Event là gì?</h3>
+                    <p>Event là sự kiện xảy ra khi người dùng tương tác với chương trình.</p>
+                    <p>Ví dụ: Click button, chọn checkbox, chọn dropdown, nhập dữ liệu, đóng cửa sổ.</p>
+                    <pre>User
+ ↓
+Click "Thêm"
+ ↓
+Event
+ ↓
+Chương trình xử lý
+ ↓
+Thêm dữ liệu</pre>
+
+                    <h3>4.2. ActionListener</h3>
+                    <p>Đối với button, thường sử dụng ActionListener.</p>
+                    <div class="code-block">
+                        JButton btnHello = <span class="keyword">new</span> JButton(<span
+                            class="string">"Hello"</span>);<br>
+                        <br>
+                        btnHello.addActionListener(e -> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Hello"</span>);<br>
+                        });
+                    </div>
+                    <p>Khi click: <code>[Hello] → Hello</code></p>
+
+                    <h3>4.3. Xử lý button bằng lambda</h3>
+                    <div class="code-block">
+                        btnAdd.addActionListener(e -> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Click Thêm"</span>);<br>
+                        });
+                    </div>
+                    <p>Cũng có thể viết cách truyền thống:</p>
+                    <div class="code-block">
+                        btnAdd.addActionListener(<span class="keyword">new</span> ActionListener() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> actionPerformed(ActionEvent e)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Click
+                            Thêm"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        });
+                    </div>
+                    <p>Khi dạy học viên nên giới thiệu cả hai, nhưng trong code thực tế có thể ưu tiên lambda cho đoạn
+                        xử lý ngắn.</p>
+
+                    <h3>4.4. Button + JTextField</h3>
+                    <p>Đây là bài tập rất quan trọng.</p>
+                    <div class="code-block">
+                        JTextField txtName = <span class="keyword">new</span> JTextField(20);<br>
+                        JButton btnShow = <span class="keyword">new</span> JButton(<span class="string">"Hiển
+                            thị"</span>);<br>
+                        <br>
+                        btnShow.addActionListener(e -> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;String name = txtName.getText();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(name);<br>
+                        });
+                    </div>
+                    <pre>Nhập: Nguyễn Văn An → Click [Hiển thị] → txtName.getText() → "Nguyễn Văn An"</pre>
+
+                    <h3>4.5. Hiển thị bằng JOptionPane</h3>
+                    <p>Thay vì System.out.println:</p>
+                    <div class="code-block">
+                        btnShow.addActionListener(e -> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;String name = txtName.getText();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;JOptionPane.showMessageDialog(<span class="keyword">null</span>, <span
+                            class="string">"Xin chào "</span> + name);<br>
+                        });
+                    </div>
+
+                    <h3>4.6. Kiểm tra dữ liệu nhập</h3>
+                    <div class="code-block">
+                        btnAdd.addActionListener(e -> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;String name = txtName.getText();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (name.isEmpty()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JOptionPane.showMessageDialog(<span
+                            class="keyword">null</span>, <span class="string">"Vui lòng nhập họ tên"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;JOptionPane.showMessageDialog(<span class="keyword">null</span>, <span
+                            class="string">"Thêm thành công"</span>);<br>
+                        });
+                    </div>
+                    <p>Đây là kỹ thuật sẽ được sử dụng rất nhiều trong form CRUD.</p>
+
+                    <h3>4.7. Xử lý nút Làm mới</h3>
+                    <div class="code-block">
+                        JButton btnReset = <span class="keyword">new</span> JButton(<span class="string">"Làm
+                            mới"</span>);<br>
+                        <br>
+                        btnReset.addActionListener(e -> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;txtName.setText(<span class="string">""</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;txtAge.setText(<span class="string">""</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;txtEmail.setText(<span class="string">""</span>);<br>
+                        });
+                    </div>
+                    <pre>Click Làm mới → Xóa dữ liệu trên Form → Form trở về trạng thái ban đầu</pre>
+
+                    <h3>4.8. Xử lý JCheckBox</h3>
+                    <div class="code-block">
+                        JCheckBox cbJava = <span class="keyword">new</span> JCheckBox(<span
+                            class="string">"Java"</span>);<br>
+                        JButton btnCheck = <span class="keyword">new</span> JButton(<span class="string">"Kiểm
+                            tra"</span>);<br>
+                        <br>
+                        btnCheck.addActionListener(e -> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (cbJava.isSelected()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JOptionPane.showMessageDialog(<span
+                            class="keyword">null</span>, <span class="string">"Bạn đã chọn Java"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        });
+                    </div>
+
+                    <h3>4.9. Xử lý JComboBox</h3>
+                    <div class="code-block">
+                        JComboBox&lt;String&gt; combo = <span class="keyword">new</span> JComboBox&lt;&gt;(<span
+                            class="keyword">new</span> String[]{ <span class="string">"Nam"</span>, <span
+                            class="string">"Nữ"</span> });<br>
+                        <br>
+                        <span class="comment">// Khi click:</span><br>
+                        String gender = combo.getSelectedItem().toString();
+                    </div>
+
+                    <h3>4.10. Xử lý RadioButton</h3>
+                    <div class="code-block">
+                        <span class="keyword">if</span> (male.isSelected()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Nam"</span>);<br>
+                        } <span class="keyword">else if</span> (female.isSelected()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Nữ"</span>);<br>
+                        }
+                    </div>
+
+                    <h3>4.11. Bài thực hành Form đăng nhập</h3>
+                    <p>Đây là bài thực hành tổng hợp đầu tiên.</p>
+                    <pre>+--------------------------------+
+|          ĐĂNG NHẬP             |
+|                                |
+| Username: [______________]     |
+| Password: [______________]     |
+|                                |
+|       [Đăng nhập]              |
++--------------------------------+</pre>
+                    <div class="code-block">
+                        <span class="keyword">import</span> javax.swing.*;<br>
+                        <br>
+                        <span class="keyword">public class</span> <span class="class-name">LoginFrame</span> <span
+                            class="keyword">extends</span> JFrame {<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> JTextField txtUsername;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> JPasswordField txtPassword;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> JButton btnLogin;<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> LoginFrame() {<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setTitle(<span class="string">"Đăng
+                            nhập"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setSize(400, 250);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setLocationRelativeTo(<span
+                            class="keyword">null</span>);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JPanel panel = <span class="keyword">new</span>
+                        JPanel();<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JLabel lblUsername = <span
+                            class="keyword">new</span> JLabel(<span class="string">"Username:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txtUsername = <span class="keyword">new</span>
+                        JTextField(20);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JLabel lblPassword = <span
+                            class="keyword">new</span> JLabel(<span class="string">"Password:"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txtPassword = <span class="keyword">new</span>
+                        JPasswordField(20);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;btnLogin = <span class="keyword">new</span>
+                        JButton(<span class="string">"Đăng nhập"</span>);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panel.add(lblUsername);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panel.add(txtUsername);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panel.add(lblPassword);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panel.add(txtPassword);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;panel.add(btnLogin);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add(panel);<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;btnLogin.addActionListener(e -> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String username =
+                        txtUsername.getText();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String password = <span
+                            class="keyword">new</span> String(txtPassword.getPassword());<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                            class="keyword">if</span> (username.isEmpty() || password.isEmpty()) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JOptionPane.showMessageDialog(<span
+                            class="keyword">this</span>, <span class="string">"Vui lòng nhập đầy đủ thông
+                            tin"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                            class="keyword">return</span>;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JOptionPane.showMessageDialog(<span
+                            class="keyword">this</span>, <span class="string">"Đăng nhập thành công"</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                    <div class="code-block">
+                        <span class="keyword">public class</span> <span class="class-name">Main</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LoginFrame frame = <span
+                            class="keyword">new</span> LoginFrame();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame.setVisible(<span
+                            class="keyword">true</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </section>
+
+                <!-- PHẦN 5 -->
+                <section id="phan5" class="section">
+                    <h2><i class="fas fa-table"></i> PHẦN 5. JTABLE VÀ HIỂN THỊ DỮ LIỆU</h2>
+
+                    <h3>5.1. JTable là gì?</h3>
+                    <p>JTable là component dùng để hiển thị dữ liệu dưới dạng bảng.</p>
+                    <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw9.png" width="60%" alt="">
+                    </div>
+                    <p>JTable cực kỳ quan trọng khi xây dựng: Quản lý sinh viên, sản phẩm, nhân viên, khách hàng, hóa
+                        đơn.</p>
+
+                    <h3>5.2. Tạo JTable đơn giản</h3>
+                    <p>Khai báo tên cột:</p>
+                    <div class="code-block">
+                        String[] columns = { <span class="string">"ID"</span>, <span class="string">"Họ tên"</span>,
+                        <span class="string">"Tuổi"</span> };
+                    </div>
+                    <p>Dữ liệu:</p>
+                    <div class="code-block">
+                        Object[][] data = {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{1, <span class="string">"Nguyễn Văn An"</span>, 20},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{2, <span class="string">"Trần Văn Bình"</span>, 21},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{3, <span class="string">"Lê Văn Cường"</span>, 22}<br>
+                        };
+                    </div>
+                    <p>Tạo JTable:</p>
+                    <div class="code-block">
+                        JTable table = <span class="keyword">new</span> JTable(data, columns);
+                    </div>
+
+                    <h3>5.3. Đưa JTable vào JPanel</h3>
+                    <div class="code-block">
+                        JPanel panel = <span class="keyword">new</span> JPanel();<br>
+                        panel.add(<span class="keyword">new</span> JScrollPane(table));
+                    </div>
+
+                    <h3>5.4. JScrollPane</h3>
+                    <p>Nếu JTable có nhiều dòng, cần có thanh cuộn.</p>
+                    <div class="code-block">
+                        JScrollPane scrollPane = <span class="keyword">new</span> JScrollPane(table);<br>
+                        frame.add(scrollPane);
+                    </div>
+                    <pre>
+package JW;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+
+public class Demo extends JFrame {
+
+    public Demo() {
+
+        setTitle("Danh sách sinh viên");
+        setSize(500, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        // Tên cột
+        String[] columns = {
+                "ID",
+                "Họ tên",
+                "Tuổi"
+        };
+
+        // Dữ liệu
+        Object[][] data = {
+                {1, "Nguyễn Văn An", 20},
+                {2, "Trần Văn Bình", 21},
+                {3, "Lê Văn Cường", 22},
+                {4, "Phạm Văn Dũng", 23},
+                {5, "Hoàng Văn Em", 24},
+                {6, "Đỗ Văn Nam", 25},
+                {7, "Nguyễn Văn Hải", 26},
+                {8, "Trần Văn Long", 27}
+        };
+
+        // Tạo JTable
+        JTable table = new JTable(
+                new DefaultTableModel(data, columns)
+        );
+
+        // Đặt chiều cao mỗi dòng
+        table.setRowHeight(30);
+
+        // Đưa JTable vào JScrollPane
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        // Thêm vào JFrame
+        add(scrollPane, BorderLayout.CENTER);
+
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new Demo();
+    }
+}
+                    </pre>
+                    <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw10.png" width="60%" alt="">
+                    </div>
+
+                    <h3>5.5. JTable + BorderLayout</h3>
+                    <div class="code-block">
+                        JPanel tablePanel = <span class="keyword">new</span> JPanel(<span class="keyword">new</span>
+                        BorderLayout());<br>
+                        tablePanel.add(<span class="keyword">new</span> JScrollPane(table), BorderLayout.CENTER);
+                    </div>
+
+                    <!-- <h3>5.6. Lấy dòng đang được chọn</h3>
+                    <p>Khi người dùng click vào một dòng:</p>
+                    <div class="code-block">
+                        <span class="keyword">int</span> row = table.getSelectedRow();
+                    </div>
+                    <p>Nếu click dòng đầu tiên: row = 0; dòng thứ hai: row = 1 (Java sử dụng index bắt đầu từ 0).</p>
+
+                    <h3>5.7. Lấy dữ liệu từ dòng</h3>
+                    <pre>ID | Họ tên        | Tuổi
+---|---------------|----
+1  | Nguyễn Văn A  | 20</pre>
+                    <div class="code-block">
+                        <span class="keyword">int</span> row = table.getSelectedRow();<br>
+                        String name = table.getValueAt(row, 1).toString();
+                    </div>
+                    <p>Trong đó: <code>row</code> là dòng được chọn, <code>1</code> là cột Họ tên.</p>
+
+                    <h3>5.8. Xử lý khi người dùng click JTable</h3>
+                    <div class="code-block">
+                        table.addMouseListener(<span class="keyword">new</span> MouseAdapter() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> mouseClicked(MouseEvent e)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> row =
+                        table.getSelectedRow();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name = table.getValueAt(row,
+                        1).toString();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(name);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        });
+                    </div>
+
+                    <h3>5.9. JTable + Form</h3>
+                    <p>Đây là bước rất quan trọng.</p>
+             <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw11.png" width="60%" alt="">
+                    </div>
+
+                    <p>Khi click dòng:</p>
+                    <pre>Click dòng 2 → Lấy row = 1 → Lấy ID, Họ tên, Tuổi → Đổ vào Form</pre>
+                    <div class="code-block">
+                        table.addMouseListener(<span class="keyword">new</span> MouseAdapter() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">@Override</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> mouseClicked(MouseEvent e)
+                        {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> row =
+                        table.getSelectedRow();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String id = table.getValueAt(row,
+                        0).toString();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name = table.getValueAt(row,
+                        1).toString();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String age = table.getValueAt(row,
+                        2).toString();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txtId.setText(id);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txtName.setText(name);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;txtAge.setText(age);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        });
+                    </div>
+
+                    <h3>5.10. Mô hình giao diện CRUD</h3>
+                    <p>Đến cuối Phần 5, học viên cần xây được giao diện dạng:</p>
+                    <pre>+------------------------------------------------------+
+|                  QUẢN LÝ SINH VIÊN                  |
++------------------------------------------------------+
+| Mã SV:       [____________________]                  |
+| Họ tên:      [____________________]                  |
+| Tuổi:        [________]                             |
+| Giới tính:   [Nam ▼]                                |
+|                                                      |
+|        [Thêm] [Sửa] [Xóa] [Làm mới]                 |
++------------------------------------------------------+
+|                                                      |
+| ID | Họ tên              | Tuổi | Giới tính          |
+|----|---------------------|------|--------------------|
+| 1  | Nguyễn Văn An       | 20   | Nam                |
+| 2  | Trần Thị Bình       | 21   | Nữ                 |
+| 3  | Lê Văn Cường        | 22   | Nam                |
+|                                                      |
++------------------------------------------------------+</pre>
+                    <p>Và hiểu được luồng:</p>
+                    <pre>             JFrame
+                 ↓
+              JPanel
+           ↙     ↓      ↘
+        Form   Button   JTable
+          ↓      ↓        ↓
+     JTextField  Event   Data
+                    ↘     ↓
+                    Xử lý</pre> -->
+                </section>
+
+                <!-- BÀI TẬP -->
+                <section id="baitap" class="section">
+                    <h2><i class="fas fa-tasks"></i> BÀI TẬP SAU PHẦN 5</h2>
+
+                    <h3>Bài 1</h3>
+                    <p>Tạo giao diện:</p>
+                    <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw11.png" width="60%" alt="">
+                    </div>
+                    <h3>Bài 2
+                    </h3>
+                    <p>Tạo giao diện:</p>
+
+                    <div style="display: flex; justify-content: center;">
+                        <img src="../img/sw13.png" width="60%" alt="">
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            <p>GV:Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Điều hướng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            // Active section đầu tiên
+            sections[0].classList.add('active');
+            navLinks[0].classList.add('active');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    this.classList.add('active');
+
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+        });
+
+        // Copy code
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Đã copy!';
+                button.style.background = '#27ae60';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

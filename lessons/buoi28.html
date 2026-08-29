@@ -1,0 +1,3978 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Java Swing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="stylesheet" href="./main.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1><i class="fas fa-desktop"></i> QUẢN LÝ DỮ LIỆU VÀ DỰ ÁN SWING</h1>
+        <!-- <p>Giáo trình tự học chi tiết từ A đến Z</p> -->
+    </header>
+    <div class="content-wrapper">
+        <nav class="sidebar">
+            <ul class="sidebar">
+               <!-- <li class="nav-item"><a class="nav-link" href="#jtable"><i class="fas fa-table"></i> 1. JTable – Hiển thị dữ liệu dạng bảng</a></li>
+                <li class="nav-item"><a class="nav-link" href="#xu-ly"><i class="fas fa-edit"></i> 2. Xử lý dữ liệu trên JTable</a></li>
+                <li class="nav-item"><a class="nav-link" href="#giao-dien"><i class="fas fa-window-restore"></i> 3. Giao diện nâng cao</a></li>
+                <li class="nav-item"><a class="nav-link" href="#quan-ly"><i class="fas fa-database"></i> 4. Quản lý dữ liệu trong chương trình</a></li>
+                <li class="nav-item"><a class="nav-link" href="#to-chuc"><i class="fas fa-sitemap"></i> 5. Tổ chức chương trình</a></li> -->
+            </ul>
+        </nav>
+        <main class="main-content ">
+   <section id="jtable" class="section active">
+    <h2><i class="fas fa-table"></i> 1. JTable – Hiển thị dữ liệu dạng bảng</h2>
+    <p>JTable là một trong những component quan trọng khi xây dựng ứng dụng quản lý bằng Java Swing. Nếu JList thường được sử dụng để hiển thị một danh sách, thì JTable phù hợp hơn khi cần hiển thị dữ liệu gồm nhiều dòng và nhiều cột.</p>
+    <div class="info-box">
+        <pre>┌─────────┬────────────────────┬─────┬───────────────┐
+│ Mã SV   │ Họ tên             │ Tuổi│ Ngành         │
+├─────────┼────────────────────┼─────┼───────────────┤
+│ SV001   │ Nguyễn Văn An      │ 20  │ CNTT          │
+│ SV002   │ Trần Thị Bình      │ 21  │ Kế toán       │
+│ SV003   │ Lê Văn Cường       │ 20  │ Điện tử       │
+└─────────┴────────────────────┴─────┴───────────────┘</pre>
+    </div>
+    <p>Trong các chương trình quản lý sinh viên, sản phẩm, nhân viên..., JTable thường được dùng để hiển thị danh sách dữ liệu và cho phép người dùng chọn một dòng để xem, sửa hoặc xóa.</p>
+
+    <h3>1.1. Khái niệm JTable</h3>
+
+    <h4>1.1.1. Khái niệm JTable</h4>
+    <p>JTable là component của Java Swing dùng để hiển thị dữ liệu dưới dạng bảng, gồm các hàng (row) và cột (column).</p>
+    <p><strong>Cấu trúc cơ bản:</strong></p>
+    <div class="info-box">
+        <pre>                 Cột
+          ↓        ↓        ↓
+       ┌────────┬────────┬────────┐
+       │ Mã SV  │ Họ tên │ Tuổi   │ ← Hàng
+       ├────────┼────────┼────────┤
+       │ SV001  │ An     │ 20     │
+       ├────────┼────────┼────────┤
+       │ SV002  │ Bình   │ 21     │
+       ├────────┼────────┼────────┤
+       │ SV003  │ Cường  │ 20     │
+       └────────┴────────┴────────┘</pre>
+    </div>
+    <ul>
+        <li><strong>Column</strong>: cột dữ liệu.</li>
+        <li><strong>Row</strong>: dòng dữ liệu.</li>
+        <li><strong>Cell</strong>: ô giao nhau giữa một dòng và một cột.</li>
+    </ul>
+    <p>Ví dụ: <strong>SV001</strong> là dữ liệu trong một ô.</p>
+
+    <h4>1.1.2. Vai trò của JTable trong ứng dụng quản lý</h4>
+    <p>Trong ứng dụng quản lý, JTable thường được sử dụng để:</p>
+    <ul>
+        <li>Hiển thị danh sách sinh viên.</li>
+        <li>Hiển thị danh sách sản phẩm.</li>
+        <li>Hiển thị danh sách nhân viên.</li>
+        <li>Hiển thị danh sách hóa đơn.</li>
+        <li>Hiển thị kết quả tìm kiếm.</li>
+        <li>Cho phép người dùng chọn một dòng dữ liệu.</li>
+        <li>Kết hợp với form để sửa hoặc xóa dữ liệu.</li>
+    </ul>
+    <p><strong>Ví dụ ứng dụng quản lý sinh viên:</strong></p>
+    <div class="info-box">
+        <pre>┌────────────────────────────────────────────────────┐
+│                 QUẢN LÝ SINH VIÊN                  │
+├────────────────────────────────────────────────────┤
+│ Mã SV:  [____________]                             │
+│ Họ tên: [____________]                             │
+│ Tuổi:   [____________]                             │
+│                                                    │
+│ [Thêm] [Sửa] [Xóa]                                │
+│                                                    │
+│ ┌──────────────────────────────────────────────┐   │
+│ │ Mã SV │ Họ tên          │ Tuổi │ Ngành      │   │
+│ ├───────┼─────────────────┼──────┼────────────┤   │
+│ │ SV001 │ Nguyễn Văn An   │ 20   │ CNTT       │   │
+│ │ SV002 │ Trần Thị Bình   │ 21   │ Kế toán    │   │
+│ └──────────────────────────────────────────────┘   │
+└────────────────────────────────────────────────────┘</pre>
+    </div>
+    <p>Khi người dùng chọn SV002, chương trình có thể lấy dữ liệu dòng đó và đưa lên các ô nhập để chỉnh sửa.</p>
+
+    <h4>1.1.3. Cấu trúc hàng và cột</h4>
+    <p>Một JTable được tổ chức theo hai chiều:</p>
+    <ul>
+        <li><strong>Hàng – Row</strong>: Mỗi hàng thường biểu diễn một đối tượng hoặc một bản ghi. Ví dụ: <code>SV001 | Nguyễn Văn An | 20 | CNTT</code> là thông tin của một sinh viên.</li>
+        <li><strong>Cột – Column</strong>: Mỗi cột biểu diễn một thuộc tính. Ví dụ: Mã SV, Họ tên, Tuổi, Ngành.</li>
+    </ul>
+    <div class="info-box">
+        <pre>              Column
+        ↓         ↓          ↓
+     Mã SV      Họ tên      Tuổi
+        │          │           │
+Row 0 ──┼──────────┼───────────┤
+        │ SV001    │ An        │ 20
+        │          │           │
+Row 1 ──┼──────────┼───────────┤
+        │ SV002    │ Bình      │ 21</pre>
+    </div>
+    <p><strong>Cell – Ô</strong>: Mỗi ô được xác định bởi <strong>row + column</strong>. Ví dụ: Hàng 0, Cột 1 có thể chứa <strong>Nguyễn Văn An</strong>.</p>
+
+    <h4>1.1.4. Model và View trong JTable</h4>
+    <p>Đây là khái niệm quan trọng khi học JTable. JTable chủ yếu đảm nhiệm việc hiển thị dữ liệu, còn dữ liệu được quản lý bởi TableModel.</p>
+    <div class="info-box">
+        <pre>                 JTable
+                   │
+                View
+                   │
+          Hiển thị dữ liệu
+                   ↑
+                   │
+              TableModel
+                   │
+              Quản lý dữ liệu</pre>
+    </div>
+    <ul>
+        <li><strong>View</strong>: Là phần giao diện mà người dùng nhìn thấy.
+            <div class="info-box">
+                <pre>┌────────┬──────────────┬──────┐
+│ Mã SV  │ Họ tên       │ Tuổi │
+├────────┼──────────────┼──────┤
+│ SV001  │ Nguyễn An    │ 20   │
+└────────┴──────────────┴──────┘</pre>
+            </div>
+        </li>
+        <li><strong>Model</strong>: Là nơi chứa dữ liệu của bảng. Trong các bài học cơ bản, ta thường sử dụng: <strong>DefaultTableModel</strong>.</li>
+    </ul>
+
+    <h3>1.2. DefaultTableModel</h3>
+
+    <h4>1.2.1. Khái niệm DefaultTableModel</h4>
+    <p>DefaultTableModel là một lớp có sẵn trong Swing, được sử dụng để quản lý dữ liệu cho JTable.</p>
+    <p>Model quản lý:</p>
+    <ul>
+        <li>Tên cột.</li>
+        <li>Số lượng dòng.</li>
+        <li>Dữ liệu từng ô.</li>
+        <li>Thêm dòng.</li>
+        <li>Xóa dòng.</li>
+        <li>Thay đổi dữ liệu.</li>
+    </ul>
+    <div class="info-box">
+        <pre>DefaultTableModel
+│
+├── Tên cột
+│   ├── Mã SV
+│   ├── Họ tên
+│   ├── Tuổi
+│   └── Ngành
+│
+└── Dữ liệu
+    ├── SV001 | An    | 20 | CNTT
+    ├── SV002 | Bình  | 21 | Kế toán
+    └── SV003 | Cường | 20 | Điện tử</pre>
+    </div>
+    <p>Sau đó JTable lấy dữ liệu từ Model để hiển thị.</p>
+
+    <h4>1.2.2. Khởi tạo DefaultTableModel</h4>
+    <p><strong>Import:</strong> <code>import javax.swing.table.DefaultTableModel;</code></p>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>DefaultTableModel model = new DefaultTableModel();</pre></div>
+    <p>Sau khi tạo model, có thể thêm tên cột.</p>
+
+    <h4>1.2.3. Khai báo tên cột</h4>
+    <p>Có thể khai báo mảng tên cột:</p>
+    <div class="code-block"><div class="code-header"><span>Khai báo tên cột</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String[] columns = {
+    "Mã SV",
+    "Họ tên",
+    "Tuổi",
+    "Ngành"
+};</pre></div>
+    <p>Sau đó tạo model:</p>
+    <div class="code-block"><div class="code-header"><span>Tạo model</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>DefaultTableModel model = new DefaultTableModel(columns, 0);</pre></div>
+    <ul>
+        <li><strong>columns</strong> → tên các cột</li>
+        <li><strong>0</strong> → số dòng ban đầu</li>
+    </ul>
+    <p><strong>Kết quả lúc này:</strong></p>
+    <div class="info-box">
+        <pre>┌─────────┬──────────────┬──────┬──────────┐
+│ Mã SV   │ Họ tên       │ Tuổi │ Ngành    │
+├─────────┼──────────────┼──────┼──────────┤
+│         │              │      │          │
+└─────────┴──────────────┴──────┴──────────┘</pre>
+    </div>
+    <p>Chưa có dữ liệu.</p>
+
+    <h4>1.2.4. Tạo JTable từ DefaultTableModel</h4>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Tạo JTable</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JTable table = new JTable(model);</pre></div>
+    <p><strong>Mối quan hệ:</strong></p>
+    <div class="info-box">
+        <pre>DefaultTableModel → JTable → Hiển thị thành bảng</pre>
+    </div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String[] columns = {
+    "Mã SV",
+    "Họ tên",
+    "Tuổi",
+    "Ngành"
+};
+
+DefaultTableModel model = new DefaultTableModel(columns, 0);
+JTable table = new JTable(model);</pre></div>
+
+    <h4>1.2.5. Thêm Model vào JTable</h4>
+    <p>Cách phổ biến nhất là truyền model ngay khi tạo JTable:</p>
+    <div class="code-block"><div class="code-header"><span>Cách 1</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JTable table = new JTable(model);</pre></div>
+    <p>Ngoài ra có thể tạo JTable trước: <code>JTable table = new JTable();</code> sau đó thiết lập model: <code>table.setModel(model);</code></p>
+    <p>Đối với bài học cơ bản, nên ưu tiên <strong>cách 1</strong> vì ngắn gọn và dễ hiểu.</p>
+
+    <h3>1.3. Thiết lập JTable</h3>
+    <p>Sau khi tạo bảng, có thể thiết lập nhiều thuộc tính để bảng dễ sử dụng hơn.</p>
+
+    <h4>1.3.1. Thiết lập tiêu đề cột</h4>
+    <p>Tên cột được khai báo trong DefaultTableModel:</p>
+    <div class="code-block"><div class="code-header"><span>Tên cột</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String[] columns = {
+    "Mã SV",
+    "Họ tên",
+    "Tuổi",
+    "Ngành"
+};</pre></div>
+    <div class="info-box">
+        <pre>┌─────────┬────────────────┬──────┬──────────────┐
+│ Mã SV   │ Họ tên         │ Tuổi │ Ngành        │
+└─────────┴────────────────┴──────┴──────────────┘</pre>
+    </div>
+
+    <h4>1.3.2. Thiết lập chiều rộng cột</h4>
+    <p>Mỗi cột có thể có chiều rộng khác nhau. Ví dụ cột Mã SV ngắn, cột Họ tên dài hơn.</p>
+    <div class="code-block"><div class="code-header"><span>Chiều rộng cột</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>table.getColumnModel().getColumn(0).setPreferredWidth(80);
+table.getColumnModel().getColumn(1).setPreferredWidth(180);</pre></div>
+    <ul>
+        <li><strong>getColumn(0)</strong> → lấy cột đầu tiên</li>
+        <li><strong>getColumn(1)</strong> → lấy cột thứ hai</li>
+    </ul>
+    <p><strong>Lưu ý:</strong> chỉ số cột bắt đầu từ 0.</p>
+    <ul>
+        <li>Cột 0 → Mã SV</li>
+        <li>Cột 1 → Họ tên</li>
+        <li>Cột 2 → Tuổi</li>
+        <li>Cột 3 → Ngành</li>
+    </ul>
+
+    <h4>1.3.3. Thiết lập chiều cao dòng</h4>
+    <p>Có thể thay đổi chiều cao của các dòng:</p>
+    <div class="code-block"><div class="code-header"><span>Chiều cao dòng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>table.setRowHeight(30);</pre></div>
+    <p>Giá trị 30 là chiều cao dòng tính theo pixel.</p>
+
+    <h4>1.3.4. Cho phép/không cho phép chỉnh sửa ô</h4>
+    <p>Mặc định, JTable có thể cho phép người dùng chỉnh sửa dữ liệu trực tiếp trong ô tùy theo model. Trong ứng dụng quản lý cơ bản, ta thường muốn: Người dùng chỉ chọn dòng, còn việc sửa dữ liệu được thực hiện thông qua Form và nút Sửa. Khi đó nên không cho phép chỉnh sửa trực tiếp ô.</p>
+    <div class="code-block"><div class="code-header"><span>Không cho phép chỉnh sửa</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>DefaultTableModel model = new DefaultTableModel(columns, 0) {
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+};</pre></div>
+    <ul>
+        <li><strong>return false;</strong> → Không cho phép chỉnh sửa.</li>
+        <li><strong>return true;</strong> → Cho phép chỉnh sửa.</li>
+    </ul>
+
+    <h4>1.3.5. Thiết lập chế độ chọn dòng</h4>
+    <p>Có thể cho phép người dùng chọn một dòng:</p>
+    <div class="code-block"><div class="code-header"><span>Chế độ chọn</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);</pre></div>
+    <p>Cần import: <code>import javax.swing.ListSelectionModel;</code></p>
+    <p>Điều này rất phù hợp với các thao tác: Sửa, Xóa, Xem chi tiết.</p>
+
+    <h4>1.3.6. Đặt JTable trong JScrollPane</h4>
+    <p>JTable thường được đặt trong JScrollPane.</p>
+    <div class="code-block"><div class="code-header"><span>JScrollPane</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JScrollPane scrollPane = new JScrollPane(table);</pre></div>
+    <p>Sau đó thêm scrollPane vào giao diện thay vì thêm trực tiếp table.</p>
+    <div class="info-box">
+        <pre>JScrollPane → JTable</pre>
+    </div>
+    <p>Khi bảng có nhiều dữ liệu, thanh cuộn giúp người dùng xem được toàn bộ dữ liệu.</p>
+
+    <h3>1.4. Thêm dữ liệu vào JTable</h3>
+    <p>Dữ liệu của JTable được thêm thông qua DefaultTableModel. Phương thức quan trọng: <strong>addRow()</strong></p>
+
+    <h4>1.4.1. Thêm một dòng dữ liệu</h4>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Thêm dòng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.addRow(new Object[] { value1, value2, value3 });</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.addRow(new Object[] {
+    "SV001",
+    "Nguyễn Văn An",
+    20,
+    "CNTT"
+});</pre></div>
+    <div class="info-box">
+        <pre>┌─────────┬─────────────────┬──────┬────────┐
+│ Mã SV   │ Họ tên          │ Tuổi │ Ngành  │
+├─────────┼─────────────────┼──────┼────────┤
+│ SV001   │ Nguyễn Văn An   │ 20   │ CNTT   │
+└─────────┴─────────────────┴──────┴────────┘</pre>
+    </div>
+
+    <h4>1.4.2. Thêm nhiều dòng dữ liệu</h4>
+    <p>Chỉ cần gọi addRow() nhiều lần:</p>
+    <div class="code-block"><div class="code-header"><span>Thêm nhiều dòng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.addRow(new Object[] { "SV001", "Nguyễn Văn An", 20, "CNTT" });
+model.addRow(new Object[] { "SV002", "Trần Thị Bình", 21, "Kế toán" });
+model.addRow(new Object[] { "SV003", "Lê Văn Cường", 20, "Điện tử" });</pre></div>
+    <div class="info-box">
+        <pre>┌─────────┬─────────────────┬──────┬──────────┐
+│ Mã SV   │ Họ tên          │ Tuổi │ Ngành    │
+├─────────┼─────────────────┼──────┼──────────┤
+│ SV001   │ Nguyễn Văn An   │ 20   │ CNTT     │
+│ SV002   │ Trần Thị Bình   │ 21   │ Kế toán  │
+│ SV003   │ Lê Văn Cường    │ 20   │ Điện tử  │
+└─────────┴─────────────────┴──────┴──────────┘</pre>
+    </div>
+
+    <h4>1.4.3. Xóa toàn bộ dữ liệu trong bảng</h4>
+    <p><strong>Phương thức:</strong> <code>model.setRowCount(0);</code></p>
+    <p>Ý nghĩa: Số dòng = 0 → Toàn bộ dữ liệu sẽ được xóa.</p>
+    <div class="warning-box">
+        <p><strong>Lưu ý:</strong> <code>model.setRowCount(0);</code> → Xóa các dòng dữ liệu, <strong>không xóa tên cột</strong>.</p>
+    </div>
+
+    <h3>1.5. Lấy dữ liệu từ JTable</h3>
+    <p>Trong ứng dụng quản lý, việc lấy dữ liệu từ JTable rất quan trọng. Ví dụ người dùng chọn <strong>SV002 | Trần Thị Bình | 21 | Kế toán</strong>, chương trình cần lấy dữ liệu đó để: Hiển thị lên Form, Sửa, Xóa, Xem chi tiết.</p>
+
+    <h4>1.5.1. Lấy dòng đang được chọn</h4>
+    <p><strong>Phương thức:</strong> <code>table.getSelectedRow();</code></p>
+    <div class="code-block"><div class="code-header"><span>Lấy dòng chọn</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int row = table.getSelectedRow();</pre></div>
+    <p>Nếu người dùng chọn dòng thứ 2 (SV002), thì <strong>row = 1</strong> (vì chỉ số dòng bắt đầu từ 0).</p>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Dòng hiển thị</th><th>Chỉ số</th></tr></thead>
+            <tbody>
+                <tr><td>Dòng 1</td><td>0</td></tr>
+                <tr><td>Dòng 2</td><td>1</td></tr>
+                <tr><td>Dòng 3</td><td>2</td></tr>
+                <tr><td>Dòng 4</td><td>3</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>1.5.2. Kiểm tra có dòng được chọn hay không</h4>
+    <p>Nếu không có dòng nào được chọn, <code>table.getSelectedRow()</code> sẽ trả về <strong>-1</strong>.</p>
+    <div class="code-block"><div class="code-header"><span>Kiểm tra</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int row = table.getSelectedRow();
+
+if (row == -1) {
+    JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng!");
+    return;
+}</pre></div>
+
+    <h4>1.5.3. Lấy giá trị của một ô</h4>
+    <p><strong>Cú pháp:</strong> <code>table.getValueAt(row, column);</code></p>
+    <p>Trong đó: <strong>row</strong> – chỉ số dòng, <strong>column</strong> – chỉ số cột.</p>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>Object value = table.getValueAt(1, 1);</pre></div>
+    <p>Có nghĩa: Dòng 1, Cột 1 → <strong>Trần Bình</strong></p>
+    <div class="info-box">
+        <pre>          0          1              2
+       Mã SV      Họ tên          Tuổi
+0      SV001      Nguyễn An       20
+1      SV002      Trần Bình       21
+2      SV003      Lê Cường       20</pre>
+    </div>
+
+    <h4>1.5.4. Chuyển giá trị về String</h4>
+    <p>getValueAt() trả về kiểu Object. Có thể chuyển sang String:</p>
+    <div class="code-block"><div class="code-header"><span>Chuyển sang String</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String value = table.getValueAt(row, column).toString();</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String maSV = table.getValueAt(row, 0).toString();
+String hoTen = table.getValueAt(row, 1).toString();</pre></div>
+
+    <h4>1.5.5. Lấy toàn bộ dữ liệu của dòng được chọn</h4>
+    <p>Giả sử có: <strong>SV001 | Nguyễn Văn An | 20 | CNTT</strong></p>
+    <p>Sau khi lấy row:</p>
+    <div class="code-block"><div class="code-header"><span>Lấy toàn bộ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int row = table.getSelectedRow();
+
+String maSV = table.getValueAt(row, 0).toString();
+String hoTen = table.getValueAt(row, 1).toString();
+String tuoi = table.getValueAt(row, 2).toString();
+String nganh = table.getValueAt(row, 3).toString();</pre></div>
+    <p>Sau đó đưa lên Form:</p>
+    <div class="code-block"><div class="code-header"><span>Đưa lên Form</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>txtMaSV.setText(maSV);
+txtHoTen.setText(hoTen);
+txtTuoi.setText(tuoi);</pre></div>
+    <div class="info-box">
+        <pre>┌─────────────────────────────┐
+│ Mã SV:  [SV001            ] │
+│ Họ tên: [Nguyễn Văn An    ] │
+│ Tuổi:   [20               ] │
+└─────────────────────────────┘</pre>
+    </div>
+    <p>Đây chính là cách xây dựng chức năng <strong>chọn dòng → hiển thị lên Form</strong>.</p>
+
+    <h3>1.6. Sự kiện trên JTable</h3>
+    <p>Khi người dùng thao tác với JTable, chương trình có thể cần phản ứng lại.</p>
+    <div class="info-box">
+        <pre>Người dùng click vào một dòng
+             ↓
+       Chương trình nhận sự kiện
+             ↓
+       Xác định dòng được chọn
+             ↓
+       Lấy dữ liệu
+             ↓
+       Hiển thị lên Form</pre>
+    </div>
+    <p>Có hai hướng thường gặp: <strong>MouseListener</strong> và <strong>ListSelectionListener</strong>. Trong phần này tập trung vào MouseListener và sự kiện chọn dòng.</p>
+
+    <h4>1.6.1. MouseListener</h4>
+    <p>MouseListener dùng để xử lý các thao tác chuột như: Nhấn chuột, Nhả chuột, Click chuột, Chuột đi vào component, Chuột rời component.</p>
+    <p>Cần import: <code>import java.awt.event.MouseListener;</code></p>
+    <div class="code-block"><div class="code-header"><span>MouseListener</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>table.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Xử lý khi click JTable
+    }
+});</pre></div>
+    <p>Cần import: <code>import java.awt.event.MouseAdapter;</code> và <code>import java.awt.event.MouseEvent;</code></p>
+
+    <h4>1.6.2. Sự kiện chọn dòng</h4>
+    <p><strong>Ví dụ khi click vào dòng:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>table.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int row = table.getSelectedRow();
+        System.out.println(row);
+    }
+});</pre></div>
+    <ul>
+        <li>Click dòng đầu tiên → <strong>row = 0</strong></li>
+        <li>Click dòng thứ hai → <strong>row = 1</strong></li>
+    </ul>
+
+    <h4>1.6.3. Hiển thị dữ liệu dòng được chọn lên Form</h4>
+    <p>Đây là ví dụ quan trọng nhất của phần JTable.</p>
+    <p>Giả sử Form có: Mã SV, Họ tên, Tuổi. Bảng hiển thị danh sách sinh viên. Khi click vào một dòng, Form sẽ hiển thị dữ liệu của dòng đó.</p>
+    <div class="code-block"><div class="code-header"><span>Hiển thị lên Form</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>table.addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int row = table.getSelectedRow();
+
+        if (row != -1) {
+            txtMaSV.setText(table.getValueAt(row, 0).toString());
+            txtHoTen.setText(table.getValueAt(row, 1).toString());
+            txtTuoi.setText(table.getValueAt(row, 2).toString());
+        }
+    }
+});</pre></div>
+
+    <h4>1.6.4. Phân tích ví dụ</h4>
+    <p>Khi người dùng click: <strong>SV002 | Trần Thị Bình | 21</strong></p>
+    <ul>
+        <li><strong>Bước 1:</strong> Lấy dòng: <code>int row = table.getSelectedRow();</code> → <strong>row = 1</strong></li>
+        <li><strong>Bước 2:</strong> Lấy mã: <code>table.getValueAt(1, 0)</code> → <strong>SV002</strong></li>
+        <li><strong>Bước 3:</strong> Lấy họ tên: <code>table.getValueAt(1, 1)</code> → <strong>Trần Thị Bình</strong></li>
+        <li><strong>Bước 4:</strong> Lấy tuổi: <code>table.getValueAt(1, 2)</code> → <strong>21</strong></li>
+        <li><strong>Bước 5:</strong> Đưa lên Form: Mã SV: SV002, Họ tên: Trần Thị Bình, Tuổi: 21</li>
+    </ul>
+
+    <h4>1.6.5. Mối quan hệ giữa JTable và Form</h4>
+    <p>Trong chương trình quản lý, mô hình thường là:</p>
+    <div class="info-box">
+        <pre>                 JTable
+                   │
+             Chọn một dòng
+                   ↓
+             getSelectedRow()
+                   ↓
+              getValueAt()
+                   ↓
+             Lấy dữ liệu
+                   ↓
+              JTextField</pre>
+    </div>
+    <p>Ngược lại khi thêm dữ liệu:</p>
+    <div class="info-box">
+        <pre>             JTextField
+                  │
+             getText()
+                  ↓
+          Kiểm tra dữ liệu
+                  ↓
+           DefaultTableModel
+                  ↓
+              addRow()
+                  ↓
+                JTable</pre>
+    </div>
+    <p>Đây là mô hình rất quan trọng để học viên hiểu cách xây dựng ứng dụng quản lý.</p>
+
+    <h3>Bài tập: Tạo bảng danh sách sinh viên và hiển thị dữ liệu mẫu</h3>
+
+    <div class="success-box">
+        <h5>Yêu cầu</h5>
+        <p>Tạo chương trình có JTable hiển thị danh sách sinh viên.</p>
+        <p><strong>Các cột:</strong> Mã SV, Họ tên, Tuổi, Ngành</p>
+        <p><strong>Dữ liệu mẫu:</strong></p>
+        <div class="info-box">
+            <pre>SV001 | Nguyễn Văn An  | 20 | Công nghệ thông tin
+SV002 | Trần Thị Bình  | 21 | Kế toán
+SV003 | Lê Văn Cường   | 20 | Điện tử
+SV004 | Phạm Văn Dũng  | 22 | Công nghệ thông tin</pre>
+        </div>
+    </div>
+
+    <p><strong>1. Tạo Model</strong></p>
+    <div class="code-block"><div class="code-header"><span>Model</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String[] columns = {
+    "Mã SV",
+    "Họ tên",
+    "Tuổi",
+    "Ngành"
+};
+
+DefaultTableModel model = new DefaultTableModel(columns, 0);</pre></div>
+
+    <p><strong>2. Tạo JTable</strong></p>
+    <div class="code-block"><div class="code-header"><span>JTable</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JTable table = new JTable(model);</pre></div>
+
+    <p><strong>3. Thiết lập bảng</strong></p>
+    <div class="code-block"><div class="code-header"><span>Thiết lập</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>table.setRowHeight(30);
+table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);</pre></div>
+
+    <p><strong>4. Thêm dữ liệu mẫu</strong></p>
+    <div class="code-block"><div class="code-header"><span>Thêm dữ liệu</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.addRow(new Object[] { "SV001", "Nguyễn Văn An", 20, "Công nghệ thông tin" });
+model.addRow(new Object[] { "SV002", "Trần Thị Bình", 21, "Kế toán" });
+model.addRow(new Object[] { "SV003", "Lê Văn Cường", 20, "Điện tử" });
+model.addRow(new Object[] { "SV004", "Phạm Văn Dũng", 22, "Công nghệ thông tin" });</pre></div>
+
+    <p><strong>5. Đưa JTable vào JScrollPane</strong></p>
+    <div class="code-block"><div class="code-header"><span>JScrollPane</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JScrollPane scrollPane = new JScrollPane(table);
+panel.add(scrollPane);</pre></div>
+
+    <div class="info-box">
+        <pre>┌─────────────────────────────────────────────────────────────┐
+│ Mã SV   │ Họ tên             │ Tuổi │ Ngành                 │
+├─────────┼────────────────────┼──────┼───────────────────────┤
+│ SV001   │ Nguyễn Văn An      │ 20   │ Công nghệ thông tin   │
+│ SV002   │ Trần Thị Bình      │ 21   │ Kế toán               │
+│ SV003   │ Lê Văn Cường       │ 20   │ Điện tử               │
+│ SV004   │ Phạm Văn Dũng      │ 22   │ Công nghệ thông tin   │
+└─────────────────────────────────────────────────────────────┘</pre>
+    </div>
+
+    <h4>Bài tập mở rộng</h4>
+    <div class="success-box">
+        <h5>Mức 1 – Thao tác với bảng</h5>
+        <ul>
+            <li>Chọn một dòng.</li>
+            <li>Lấy chỉ số dòng.</li>
+            <li>Hiển thị dữ liệu dòng được chọn bằng JOptionPane.</li>
+        </ul>
+        <div class="info-box">
+            <pre>Bạn đã chọn:
+
+Mã SV: SV002
+Họ tên: Trần Thị Bình
+Tuổi: 21
+Ngành: Kế toán</pre>
+        </div>
+    </div>
+
+    <div class="success-box">
+        <h5>Mức 2 – Kết hợp Form</h5>
+        <p>Tạo Form với các trường: Mã SV, Họ tên, Tuổi, Ngành và các nút [Thêm] [Sửa] [Xóa].</p>
+        <p>Khi chọn dòng trong JTable, dữ liệu được đưa lên Form.</p>
+    </div>
+
+    <div class="success-box">
+        <h5>Mức 3 – Quản lý dữ liệu</h5>
+        <ul>
+            <li><strong>Thêm:</strong> <code>DefaultTableModel.addRow()</code></li>
+            <li><strong>Sửa:</strong> <code>DefaultTableModel.setValueAt()</code></li>
+            <li><strong>Xóa:</strong> <code>DefaultTableModel.removeRow()</code></li>
+            <li><strong>Xóa tất cả:</strong> <code>DefaultTableModel.setRowCount(0)</code></li>
+        </ul>
+    </div>
+
+    <h3>Các cú pháp cần nhớ</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Nội dung</th><th>Cú pháp</th></tr></thead>
+            <tbody>
+                <tr><td>Tạo model</td><td>new DefaultTableModel(columns, 0)</td></tr>
+                <tr><td>Tạo JTable</td><td>new JTable(model)</td></tr>
+                <tr><td>Đặt model</td><td>table.setModel(model)</td></tr>
+                <tr><td>Thêm dòng</td><td>model.addRow(...)</td></tr>
+                <tr><td>Xóa tất cả</td><td>model.setRowCount(0)</td></tr>
+                <tr><td>Lấy dòng chọn</td><td>table.getSelectedRow()</td></tr>
+                <tr><td>Lấy dữ liệu ô</td><td>table.getValueAt(row, column)</td></tr>
+                <tr><td>Xóa dòng</td><td>model.removeRow(row)</td></tr>
+                <tr><td>Sửa ô</td><td>model.setValueAt(value, row, column)</td></tr>
+                <tr><td>Chọn một dòng</td><td>SINGLE_SELECTION</td></tr>
+                <tr><td>Tạo thanh cuộn</td><td>new JScrollPane(table)</td></tr>
+                <tr><td>Chiều cao dòng</td><td>table.setRowHeight(30)</td></tr>
+                <tr><td>Chiều rộng cột</td><td>getColumn(...).setPreferredWidth(...)</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Kiến thức trọng tâm</h3>
+    <p>Sau phần này, học viên cần hiểu được chuỗi xử lý:</p>
+    <div class="info-box">
+        <pre>                    DefaultTableModel
+                           │
+                    Quản lý dữ liệu
+                           │
+                           ↓
+                         JTable
+                           │
+                    Hiển thị dữ liệu
+                           │
+             ┌─────────────┴─────────────┐
+             ↓                           ↓
+       Người dùng chọn                Người dùng xem
+             │
+             ↓
+    getSelectedRow()
+             │
+             ↓
+      getValueAt()
+             │
+             ↓
+       Lấy dữ liệu dòng
+             │
+             ↓
+        Hiển thị Form</pre>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Ghi nhớ trọng tâm:</strong> JTable là component hiển thị dữ liệu dạng bảng, kết hợp với DefaultTableModel để quản lý dữ liệu. Sử dụng <code>addRow()</code> để thêm dữ liệu, <code>getSelectedRow()</code> để lấy dòng được chọn, <code>getValueAt()</code> để lấy dữ liệu ô. JTable thường được đặt trong JScrollPane để có thanh cuộn. Sự kiện trên JTable thường dùng MouseAdapter để xử lý click chọn dòng. Mô hình JTable + DefaultTableModel + JScrollPane là nền tảng cho các ứng dụng quản lý dữ liệu trong Swing.</p>
+    </div>
+</section>
+
+<section id="xu-ly" class="section">
+    <h2><i class="fas fa-edit"></i> 2. Xử lý dữ liệu trên JTable</h2>
+    <p>Sau khi đã biết cách tạo JTable, DefaultTableModel, thêm dữ liệu và lấy dữ liệu từ bảng, bước tiếp theo là xây dựng các chức năng quản lý dữ liệu.</p>
+    <p>Một chương trình quản lý sinh viên cơ bản thường có các chức năng:</p>
+    <div class="info-box">
+        <pre>┌─────────────────────────────────────────────┐
+│           QUẢN LÝ SINH VIÊN                 │
+├─────────────────────────────────────────────┤
+│ Mã SV:   [______________]                   │
+│ Họ tên:  [______________]                   │
+│ Tuổi:    [______________]                   │
+│                                             │
+│ [Thêm] [Sửa] [Xóa] [Tìm kiếm] [Làm mới]    │
+├─────────────────────────────────────────────┤
+│ Mã SV │ Họ tên          │ Tuổi │ Ngành      │
+│ SV001 │ Nguyễn Văn An   │ 20   │ CNTT       │
+│ SV002 │ Trần Thị Bình   │ 21   │ Kế toán    │
+└─────────────────────────────────────────────┘</pre>
+    </div>
+    <p><strong>Quy trình tổng quát:</strong></p>
+    <div class="info-box">
+        <pre>JTextField
+    ↓
+Kiểm tra dữ liệu
+    ↓
+DefaultTableModel
+    ↓
+JTable
+    ↓
+Chọn / sửa / xóa / tìm kiếm</pre>
+    </div>
+
+    <h3>2.1. Chức năng thêm dữ liệu</h3>
+    <p>Chức năng Thêm cho phép người dùng nhập thông tin sinh viên trên Form và đưa một dòng mới vào JTable.</p>
+    <p><strong>Quy trình:</strong></p>
+    <div class="info-box">
+        <pre>Nhập dữ liệu
+     ↓
+Kiểm tra dữ liệu
+     ↓
+Tạo dòng dữ liệu
+     ↓
+addRow()
+     ↓
+Hiển thị trên JTable
+     ↓
+Xóa dữ liệu trên Form</pre>
+    </div>
+
+    <h4>2.1.1. Nhập dữ liệu từ JTextField</h4>
+    <p>Giả sử Form có:</p>
+    <div class="info-box">
+        <pre>Mã SV:   [____________]
+Họ tên:  [____________]
+Tuổi:    [____________]</pre>
+    </div>
+    <p>Các component:</p>
+    <div class="code-block"><div class="code-header"><span>Component</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JTextField txtMaSV;
+JTextField txtHoTen;
+JTextField txtTuoi;</pre></div>
+    <p>Để lấy dữ liệu từ JTextField, sử dụng:</p>
+    <div class="code-block"><div class="code-header"><span>Lấy dữ liệu</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String maSV = txtMaSV.getText();
+String hoTen = txtHoTen.getText();
+String tuoi = txtTuoi.getText();</pre></div>
+    <p>Ví dụ người dùng nhập:</p>
+    <div class="info-box">
+        <pre>Mã SV:   SV001
+Họ tên:  Nguyễn Văn An
+Tuổi:    20</pre>
+    </div>
+    <p>thì:</p>
+    <ul>
+        <li><code>maSV</code> → "SV001"</li>
+        <li><code>hoTen</code> → "Nguyễn Văn An"</li>
+        <li><code>tuoi</code> → "20"</li>
+    </ul>
+    <p><strong>Cú pháp cần nhớ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String value = textField.getText();</pre></div>
+    <p><code>getText()</code> trả về dữ liệu người dùng đang nhập dưới dạng String.</p>
+
+    <h4>2.1.2. Kiểm tra dữ liệu trước khi thêm</h4>
+    <p>Không nên đưa dữ liệu trực tiếp vào bảng mà chưa kiểm tra.</p>
+    <p>Ví dụ cần kiểm tra:</p>
+    <ul>
+        <li>Mã sinh viên có rỗng không?</li>
+        <li>Họ tên có rỗng không?</li>
+        <li>Tuổi có rỗng không?</li>
+        <li>Tuổi có phải số không?</li>
+    </ul>
+    <p><strong>Kiểm tra dữ liệu rỗng</strong></p>
+    <div class="code-block"><div class="code-header"><span>Kiểm tra rỗng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>if (maSV.trim().isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Mã sinh viên không được để trống!");
+    return;
+}</pre></div>
+    <p>Tương tự:</p>
+    <div class="code-block"><div class="code-header"><span>Tương tự</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>if (hoTen.trim().isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Họ tên không được để trống!");
+    return;
+}</pre></div>
+    <div class="warning-box">
+        <h5>Vì sao dùng trim()?</h5>
+        <p>Ví dụ người dùng nhập: <code>"     "</code></p>
+        <p>Nếu chỉ kiểm tra <code>isEmpty()</code> thì chuỗi này không được xem là rỗng. Khi dùng <code>trim()</code> nó sẽ trở thành <code>""</code>. Do đó <code>trim().isEmpty()</code> phù hợp để kiểm tra dữ liệu nhập.</p>
+    </div>
+
+    <h4>2.1.3. Kiểm tra tuổi là số</h4>
+    <p>Dữ liệu lấy từ JTextField luôn là String. Muốn chuyển sang số nguyên:</p>
+    <div class="code-block"><div class="code-header"><span>Chuyển số</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int tuoi;
+try {
+    tuoi = Integer.parseInt(tuoiText);
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(null, "Tuổi phải là số!");
+    return;
+}</pre></div>
+    <p><strong>Cú pháp cần nhớ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int number = Integer.parseInt(string);</pre></div>
+    <p>Nếu chuỗi không phải số (ví dụ: "abc") thì <code>parseInt()</code> phát sinh <strong>NumberFormatException</strong>. Vì vậy cần xử lý bằng <strong>try...catch</strong>.</p>
+
+    <h4>2.1.4. Tạo một dòng dữ liệu</h4>
+    <p>Sau khi dữ liệu hợp lệ, tạo một dòng:</p>
+    <div class="code-block"><div class="code-header"><span>Tạo dòng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>Object[] row = {
+    maSV,
+    hoTen,
+    tuoi,
+    "Công nghệ thông tin"
+};</pre></div>
+    <p>Có thể hiểu: <strong>Object[]</strong> → Một dòng dữ liệu. Ví dụ: <code>SV001 | Nguyễn Văn An | 20 | CNTT</code></p>
+
+    <h4>2.1.5. Thêm dòng vào JTable</h4>
+    <p>Sử dụng:</p>
+    <div class="code-block"><div class="code-header"><span>addRow()</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.addRow(row);</pre></div>
+    <p>Hoặc viết trực tiếp:</p>
+    <div class="code-block"><div class="code-header"><span>Trực tiếp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.addRow(new Object[] { maSV, hoTen, tuoi });</pre></div>
+    <p>Ví dụ:</p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.addRow(new Object[] { "SV001", "Nguyễn Văn An", 20 });</pre></div>
+    <div class="info-box">
+        <pre>┌─────────┬─────────────────┬──────┐
+│ Mã SV   │ Họ tên          │ Tuổi │
+├─────────┼─────────────────┼──────┤
+│ SV001   │ Nguyễn Văn An   │ 20   │
+└─────────┴─────────────────┴──────┘</pre>
+    </div>
+
+    <h4>2.1.6. Xóa dữ liệu trên Form sau khi thêm</h4>
+    <p>Sau khi thêm thành công, nên xóa dữ liệu cũ trên Form để chuẩn bị nhập sinh viên tiếp theo.</p>
+    <div class="code-block"><div class="code-header"><span>Xóa Form</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>txtMaSV.setText("");
+txtHoTen.setText("");
+txtTuoi.setText("");
+txtMaSV.requestFocus();</pre></div>
+    <p><code>requestFocus()</code> đưa con trỏ trở lại ô Mã SV.</p>
+    <div class="info-box">
+        <p><strong>Kết quả:</strong></p>
+        <p>Trước khi thêm:</p>
+        <pre>Mã SV:   [SV001          ]
+Họ tên:  [Nguyễn Văn An  ]
+Tuổi:    [20             ]</pre>
+        <p>Sau khi thêm:</p>
+        <pre>Mã SV:   [               ]
+Họ tên:  [               ]
+Tuổi:    [               ]</pre>
+    </div>
+
+    <h4>2.1.7. Ví dụ hoàn chỉnh chức năng Thêm</h4>
+    <div class="code-block"><div class="code-header"><span>Thêm</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>private void btnThemActionPerformed(ActionEvent evt) {
+    String maSV = txtMaSV.getText().trim();
+    String hoTen = txtHoTen.getText().trim();
+    String tuoiText = txtTuoi.getText().trim();
+
+    if (maSV.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mã sinh viên không được để trống!");
+        return;
+    }
+
+    if (hoTen.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Họ tên không được để trống!");
+        return;
+    }
+
+    int tuoi;
+    try {
+        tuoi = Integer.parseInt(tuoiText);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Tuổi phải là số!");
+        return;
+    }
+
+    model.addRow(new Object[] { maSV, hoTen, tuoi });
+
+    txtMaSV.setText("");
+    txtHoTen.setText("");
+    txtTuoi.setText("");
+    txtMaSV.requestFocus();
+}</pre></div>
+    <p><strong>Kết quả:</strong></p>
+    <p>Người dùng nhập: <code>SV001, Nguyễn Văn An, 20</code> → Nhấn Thêm:</p>
+    <div class="info-box">
+        <pre>┌─────────┬─────────────────┬──────┐
+│ Mã SV   │ Họ tên          │ Tuổi │
+├─────────┼─────────────────┼──────┤
+│ SV001   │ Nguyễn Văn An   │ 20   │
+└─────────┴─────────────────┴──────┘</pre>
+    </div>
+    <p>Form được xóa để nhập dữ liệu mới.</p>
+
+    <h3>2.2. Chức năng sửa dữ liệu</h3>
+    <p>Chức năng Sửa cho phép người dùng:</p>
+    <ul>
+        <li>Chọn một dòng trong JTable.</li>
+        <li>Đưa dữ liệu lên Form.</li>
+        <li>Chỉnh sửa.</li>
+        <li>Cập nhật lại dòng trong bảng.</li>
+    </ul>
+    <p><strong>Quy trình:</strong></p>
+    <div class="info-box">
+        <pre>Chọn dòng
+    ↓
+getSelectedRow()
+    ↓
+getValueAt()
+    ↓
+Đưa dữ liệu lên Form
+    ↓
+Người dùng chỉnh sửa
+    ↓
+setValueAt()
+    ↓
+Cập nhật JTable</pre>
+    </div>
+
+    <h4>2.2.1. Chọn dòng cần sửa</h4>
+    <p>Ví dụ:</p>
+    <div class="info-box">
+        <pre>┌─────────┬─────────────────┬──────┐
+│ Mã SV   │ Họ tên          │ Tuổi │
+├─────────┼─────────────────┼──────┤
+│ SV001   │ Nguyễn Văn An   │ 20   │
+│ SV002   │ Trần Thị Bình   │ 21   │ ← Chọn
+│ SV003   │ Lê Văn Cường    │ 20   │
+└─────────┴─────────────────┴──────┘</pre>
+    </div>
+    <p>Lấy dòng:</p>
+    <div class="code-block"><div class="code-header"><span>Lấy dòng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int row = table.getSelectedRow();
+
+if (row == -1) {
+    JOptionPane.showMessageDialog(this, "Vui lòng chọn sinh viên cần sửa!");
+    return;
+}</pre></div>
+
+    <h4>2.2.2. Đưa dữ liệu từ JTable lên Form</h4>
+    <p>Giả sử chọn dòng SV002.</p>
+    <div class="code-block"><div class="code-header"><span>Đưa lên Form</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String maSV = table.getValueAt(row, 0).toString();
+String hoTen = table.getValueAt(row, 1).toString();
+String tuoi = table.getValueAt(row, 2).toString();
+
+txtMaSV.setText(maSV);
+txtHoTen.setText(hoTen);
+txtTuoi.setText(tuoi);</pre></div>
+    <div class="info-box">
+        <pre>Mã SV:   [SV002          ]
+Họ tên:  [Trần Thị Bình  ]
+Tuổi:    [21             ]</pre>
+    </div>
+
+    <h4>2.2.3. Cho phép chỉnh sửa</h4>
+    <p>Người dùng thay đổi: <code>Họ tên: [Trần Thị Bình] → [Trần Thị Bích]</code></p>
+    <p>Các dữ liệu mới được lấy lại:</p>
+    <div class="code-block"><div class="code-header"><span>Lấy lại dữ liệu</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String maSV = txtMaSV.getText().trim();
+String hoTen = txtHoTen.getText().trim();
+String tuoi = txtTuoi.getText().trim();</pre></div>
+    <p>Sau đó kiểm tra dữ liệu tương tự chức năng Thêm.</p>
+
+    <h4>2.2.4. Cập nhật dữ liệu bằng setValueAt()</h4>
+    <p><strong>Phương thức:</strong></p>
+    <div class="code-block"><div class="code-header"><span>setValueAt()</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.setValueAt(value, row, column);</pre></div>
+    <p>Trong đó:</p>
+    <ul>
+        <li><strong>value</strong>: giá trị mới.</li>
+        <li><strong>row</strong>: dòng cần sửa.</li>
+        <li><strong>column</strong>: cột cần sửa.</li>
+    </ul>
+    <p>Ví dụ:</p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.setValueAt(hoTen, row, 1);</pre></div>
+    <p>Nghĩa là: Cập nhật cột Họ tên của dòng row.</p>
+    <p>Có thể cập nhật nhiều cột:</p>
+    <div class="code-block"><div class="code-header"><span>Nhiều cột</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.setValueAt(maSV, row, 0);
+model.setValueAt(hoTen, row, 1);
+model.setValueAt(tuoi, row, 2);</pre></div>
+
+    <h4>2.2.5. Ví dụ hoàn chỉnh chức năng Sửa</h4>
+    <div class="code-block"><div class="code-header"><span>Sửa</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>private void btnSuaActionPerformed(ActionEvent evt) {
+    int row = table.getSelectedRow();
+
+    if (row == -1) {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần sửa!");
+        return;
+    }
+
+    String maSV = txtMaSV.getText().trim();
+    String hoTen = txtHoTen.getText().trim();
+    String tuoiText = txtTuoi.getText().trim();
+
+    if (maSV.isEmpty() || hoTen.isEmpty() || tuoiText.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ dữ liệu!");
+        return;
+    }
+
+    int tuoi;
+    try {
+        tuoi = Integer.parseInt(tuoiText);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Tuổi phải là số!");
+        return;
+    }
+
+    model.setValueAt(maSV, row, 0);
+    model.setValueAt(hoTen, row, 1);
+    model.setValueAt(tuoi, row, 2);
+
+    JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+}</pre></div>
+    <p><strong>Kết quả:</strong></p>
+    <p>Trước: <code>SV002 | Trần Thị Bình | 21</code></p>
+    <p>Sau khi sửa: <code>SV002 | Trần Thị Bích | 21</code></p>
+
+    <h3>2.3. Chức năng xóa dữ liệu</h3>
+    <p>Chức năng Xóa cho phép người dùng xóa một dòng khỏi JTable.</p>
+    <p><strong>Quy trình:</strong></p>
+    <div class="info-box">
+        <pre>Chọn dòng
+    ↓
+Kiểm tra dòng
+    ↓
+Xác nhận
+    ↓
+removeRow()
+    ↓
+Dữ liệu được cập nhật</pre>
+    </div>
+
+    <h4>2.3.1. Chọn dòng cần xóa</h4>
+    <div class="code-block"><div class="code-header"><span>Chọn dòng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int row = table.getSelectedRow();</pre></div>
+
+    <h4>2.3.2. Kiểm tra dòng được chọn</h4>
+    <div class="code-block"><div class="code-header"><span>Kiểm tra</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>if (row == -1) {
+    JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa!");
+    return;
+}</pre></div>
+    <ul>
+        <li>Nếu không chọn dòng: <code>row = -1</code></li>
+        <li>Nếu chọn dòng đầu tiên: <code>row = 0</code></li>
+    </ul>
+
+    <h4>2.3.3. Xác nhận trước khi xóa</h4>
+    <p>Không nên xóa ngay mà nên hỏi người dùng.</p>
+    <div class="code-block"><div class="code-header"><span>Xác nhận</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int result = JOptionPane.showConfirmDialog(
+    this,
+    "Bạn có chắc muốn xóa không?",
+    "Xác nhận",
+    JOptionPane.YES_NO_OPTION
+);
+
+if (result != JOptionPane.YES_OPTION) {
+    return;
+}</pre></div>
+
+    <h4>2.3.4. Xóa dòng bằng removeRow()</h4>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>removeRow()</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.removeRow(row);</pre></div>
+    <p>Ví dụ bảng: <code>SV001 | Nguyễn An</code>, <code>SV002 | Trần Bình</code> ← chọn, <code>SV003 | Lê Cường</code></p>
+    <p>Sau <code>model.removeRow(1);</code> kết quả: <code>SV001 | Nguyễn An</code>, <code>SV003 | Lê Cường</code></p>
+
+    <h4>2.3.5. Ví dụ hoàn chỉnh chức năng Xóa</h4>
+    <div class="code-block"><div class="code-header"><span>Xóa</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>private void btnXoaActionPerformed(ActionEvent evt) {
+    int row = table.getSelectedRow();
+
+    if (row == -1) {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn sinh viên cần xóa!");
+        return;
+    }
+
+    int result = JOptionPane.showConfirmDialog(
+        this,
+        "Bạn có chắc muốn xóa không?",
+        "Xác nhận xóa",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (result == JOptionPane.YES_OPTION) {
+        model.removeRow(row);
+        JOptionPane.showMessageDialog(this, "Xóa thành công!");
+    }
+}</pre></div>
+
+    <h3>2.4. Chức năng tìm kiếm</h3>
+    <p>Tìm kiếm giúp người dùng nhanh chóng tìm sinh viên trong danh sách.</p>
+    <div class="info-box">
+        <pre>Từ khóa: [SV002____________] [Tìm kiếm]</pre>
+    </div>
+    <p>Người dùng nhập <strong>SV002</strong> → Kết quả:</p>
+    <div class="info-box">
+        <pre>┌─────────┬─────────────────┬──────┐
+│ Mã SV   │ Họ tên          │ Tuổi │
+├─────────┼─────────────────┼──────┤
+│ SV002   │ Trần Thị Bình   │ 21   │
+└─────────┴─────────────────┴──────┘</pre>
+    </div>
+
+    <h4>2.4.1. Nhập từ khóa tìm kiếm</h4>
+    <p>Giả sử: <code>JTextField txtTimKiem;</code></p>
+    <div class="code-block"><div class="code-header"><span>Lấy từ khóa</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String keyword = txtTimKiem.getText().trim();</pre></div>
+
+    <h4>2.4.2. Tìm kiếm theo mã</h4>
+    <p>Có thể duyệt từng dòng:</p>
+    <div class="code-block"><div class="code-header"><span>Duyệt mã</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>for (int i = 0; i < model.getRowCount(); i++) {
+    String maSV = model.getValueAt(i, 0).toString();
+    if (maSV.equals(keyword)) {
+        // Tìm thấy
+    }
+}</pre></div>
+
+    <h4>2.4.3. Tìm kiếm theo tên</h4>
+    <p>Lấy tên và kiểm tra có chứa từ khóa:</p>
+    <div class="code-block"><div class="code-header"><span>Chứa từ khóa</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String hoTen = model.getValueAt(i, 1).toString();
+if (hoTen.contains(keyword)) {
+    // Tìm thấy
+}</pre></div>
+    <p>Ví dụ: Danh sách: <code>Nguyễn Văn An</code>, <code>Trần Thị Bình</code>, <code>Nguyễn Văn Nam</code>. Từ khóa <strong>Nguyễn</strong> → Kết quả: <code>Nguyễn Văn An</code>, <code>Nguyễn Văn Nam</code></p>
+
+    <h4>2.4.4. Tìm kiếm không phân biệt chữ hoa/chữ thường</h4>
+    <p>Nếu người dùng nhập <strong>nguyễn</strong> vẫn tìm được <strong>Nguyễn Văn An</strong>.</p>
+    <div class="code-block"><div class="code-header"><span>Không phân biệt hoa thường</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String keyword = txtTimKiem.getText().trim().toLowerCase();
+String hoTen = model.getValueAt(i, 1).toString().toLowerCase();
+if (hoTen.contains(keyword)) {
+    // Tìm thấy
+}</pre></div>
+    <div class="info-box">
+        <pre>"Nguyễn Văn An" → "nguyễn văn an"
+"NGUYỄN" → "nguyễn"</pre>
+    </div>
+
+    <h4>2.4.5. Hiển thị kết quả tìm kiếm</h4>
+    <p>Một cách đơn giản cho học viên mới là:</p>
+    <ul>
+        <li>Lưu dữ liệu ban đầu.</li>
+        <li>Khi tìm kiếm, xóa dữ liệu đang hiển thị.</li>
+        <li>Duyệt dữ liệu ban đầu.</li>
+        <li>Dòng nào phù hợp thì thêm lại vào bảng.</li>
+    </ul>
+    <div class="code-block"><div class="code-header"><span>Hiển thị kết quả</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.setRowCount(0);
+for (Object[] sv : danhSach) {
+    String maSV = sv[0].toString().toLowerCase();
+    String hoTen = sv[1].toString().toLowerCase();
+    if (maSV.contains(keyword) || hoTen.contains(keyword)) {
+        model.addRow(sv);
+    }
+}</pre></div>
+    <p>Cách này phù hợp để minh họa nguyên lý tìm kiếm. Khi học nâng cao, có thể sử dụng TableRowSorter để lọc trực tiếp trên JTable.</p>
+
+    <h3>2.5. Làm mới dữ liệu</h3>
+    <p>Nút Làm mới thường dùng để đưa Form và bảng về trạng thái ban đầu.</p>
+    <p><strong>Quy trình:</strong></p>
+    <div class="info-box">
+        <pre>Nhấn Làm mới
+      ↓
+Xóa dữ liệu trên Form
+      ↓
+Xóa từ khóa tìm kiếm
+      ↓
+Hiển thị lại toàn bộ dữ liệu
+      ↓
+Bảng trở về trạng thái ban đầu</pre>
+    </div>
+
+    <h4>2.5.1. Xóa dữ liệu trên Form</h4>
+    <div class="code-block"><div class="code-header"><span>Xóa Form</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>txtMaSV.setText("");
+txtHoTen.setText("");
+txtTuoi.setText("");
+txtTimKiem.setText("");</pre></div>
+
+    <h4>2.5.2. Hiển thị lại toàn bộ dữ liệu</h4>
+    <p>Nếu bảng đang hiển thị kết quả tìm kiếm, cần khôi phục danh sách ban đầu.</p>
+    <div class="code-block"><div class="code-header"><span>Khôi phục</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.setRowCount(0);
+for (Object[] sv : danhSach) {
+    model.addRow(sv);
+}</pre></div>
+
+    <h4>2.5.3. Đưa JTable về trạng thái ban đầu</h4>
+    <div class="code-block"><div class="code-header"><span>Làm mới hoàn chỉnh</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>txtMaSV.setText("");
+txtHoTen.setText("");
+txtTuoi.setText("");
+txtTimKiem.setText("");
+table.clearSelection();
+model.setRowCount(0);
+for (Object[] sv : danhSach) {
+    model.addRow(sv);
+}</pre></div>
+
+    <h3>2.6. Kiểm tra dữ liệu</h3>
+    <p>Kiểm tra dữ liệu là phần rất quan trọng trong chương trình quản lý.</p>
+    <p>Không nên để người dùng nhập:</p>
+    <div class="info-box">
+        <pre>Mã SV:       [              ]
+Họ tên:      [              ]
+Tuổi:        [abc           ]</pre>
+    </div>
+    <p>hoặc:</p>
+    <div class="info-box">
+        <pre>Mã SV:       SV001
+Mã SV:       SV001   (bị trùng)</pre>
+    </div>
+
+    <h4>2.6.1. Kiểm tra dữ liệu rỗng</h4>
+    <p>Cách cơ bản:</p>
+    <div class="code-block"><div class="code-header"><span>Kiểm tra rỗng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>if (value.trim().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Dữ liệu không được để trống!");
+    return;
+}</pre></div>
+    <p>Có thể kiểm tra nhiều trường:</p>
+    <div class="code-block"><div class="code-header"><span>Nhiều trường</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>if (maSV.isEmpty() || hoTen.isEmpty() || tuoiText.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
+    return;
+}</pre></div>
+
+    <h4>2.6.2. Kiểm tra mã không trùng</h4>
+    <p>Trước khi thêm <strong>SV001</strong> cần kiểm tra xem <strong>SV001</strong> đã tồn tại chưa.</p>
+    <p>Cách duyệt bảng:</p>
+    <div class="code-block"><div class="code-header"><span>Kiểm tra trùng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>for (int i = 0; i < model.getRowCount(); i++) {
+    String ma = model.getValueAt(i, 0).toString();
+    if (ma.equalsIgnoreCase(maSV)) {
+        JOptionPane.showMessageDialog(this, "Mã sinh viên đã tồn tại!");
+        return;
+    }
+}</pre></div>
+    <p><code>equalsIgnoreCase()</code> cho phép so sánh không phân biệt chữ hoa/chữ thường. Ví dụ: <strong>SV001</strong>, <strong>sv001</strong>, <strong>Sv001</strong> đều được xem là cùng một mã.</p>
+
+    <h4>2.6.3. Kiểm tra định dạng dữ liệu</h4>
+    <p>Có thể yêu cầu: Mã SV có dạng <strong>SV001</strong>, <strong>SV002</strong>, <strong>SV003</strong>...</p>
+    <p>Ví dụ sử dụng biểu thức chính quy:</p>
+    <div class="code-block"><div class="code-header"><span>Định dạng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>if (!maSV.matches("SV\\d{3}")) {
+    JOptionPane.showMessageDialog(this, "Mã SV phải có dạng SV001!");
+    return;
+}</pre></div>
+    <ul>
+        <li><strong>SV</strong> là hai ký tự cố định.</li>
+        <li><strong>\\d</strong> đại diện cho một chữ số.</li>
+        <li><strong>{3}</strong> yêu cầu 3 chữ số.</li>
+    </ul>
+    <p>Do đó: <strong>SV001</strong> → hợp lệ, <strong>SV123</strong> → hợp lệ, <strong>SV1</strong> → không hợp lệ, <strong>ABC01</strong> → không hợp lệ.</p>
+
+    <h4>2.6.4. Kiểm tra dữ liệu số</h4>
+    <p>Ví dụ tuổi phải là số:</p>
+    <div class="code-block"><div class="code-header"><span>Kiểm tra số</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int tuoi;
+try {
+    tuoi = Integer.parseInt(tuoiText);
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "Tuổi phải là số nguyên!");
+    return;
+}</pre></div>
+    <p>Có thể kiểm tra thêm phạm vi:</p>
+    <div class="code-block"><div class="code-header"><span>Phạm vi</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>if (tuoi < 16 || tuoi > 100) {
+    JOptionPane.showMessageDialog(this, "Tuổi không hợp lệ!");
+    return;
+}</pre></div>
+    <ul>
+        <li><strong>20</strong> → hợp lệ</li>
+        <li><strong>21</strong> → hợp lệ</li>
+        <li><strong>abc</strong> → không hợp lệ</li>
+        <li><strong>-5</strong> → không hợp lệ</li>
+        <li><strong>150</strong> → không hợp lệ</li>
+    </ul>
+
+    <h4>2.6.5. Thông báo lỗi bằng JOptionPane</h4>
+    <p>Các lỗi nhập dữ liệu nên được thông báo rõ ràng.</p>
+    <div class="code-block"><div class="code-header"><span>Thông báo</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JOptionPane.showMessageDialog(this, "Mã sinh viên không được để trống!");</pre></div>
+    <p>Một số thông báo nên sử dụng:</p>
+    <ul>
+        <li>"Mã sinh viên không được để trống!"</li>
+        <li>"Họ tên không được để trống!"</li>
+        <li>"Tuổi phải là số!"</li>
+        <li>"Tuổi không hợp lệ!"</li>
+        <li>"Mã sinh viên đã tồn tại!"</li>
+        <li>"Vui lòng chọn một dòng!"</li>
+        <li>"Dữ liệu đã được thêm thành công!"</li>
+    </ul>
+    <p>Thông báo tốt cần cho người dùng biết: Lỗi ở đâu và cần sửa như thế nào.</p>
+
+    <h4>2.6.6. Xây dựng hàm kiểm tra dữ liệu</h4>
+    <p>Thay vì viết lại nhiều lần, có thể tạo một phương thức riêng:</p>
+    <div class="code-block"><div class="code-header"><span>Hàm kiểm tra</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>private boolean kiemTraDuLieu() {
+    String maSV = txtMaSV.getText().trim();
+    String hoTen = txtHoTen.getText().trim();
+    String tuoiText = txtTuoi.getText().trim();
+
+    if (maSV.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mã SV không được để trống!");
+        txtMaSV.requestFocus();
+        return false;
+    }
+
+    if (hoTen.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Họ tên không được để trống!");
+        txtHoTen.requestFocus();
+        return false;
+    }
+
+    if (tuoiText.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Tuổi không được để trống!");
+        txtTuoi.requestFocus();
+        return false;
+    }
+
+    try {
+        int tuoi = Integer.parseInt(tuoiText);
+        if (tuoi < 16 || tuoi > 100) {
+            JOptionPane.showMessageDialog(this, "Tuổi không hợp lệ!");
+            return false;
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Tuổi phải là số!");
+        return false;
+    }
+
+    return true;
+}</pre></div>
+    <p>Sau đó khi thêm:</p>
+    <div class="code-block"><div class="code-header"><span>Sử dụng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>if (!kiemTraDuLieu()) {
+    return;
+}</pre></div>
+    <p>Khi sửa cũng có thể sử dụng: <code>if (!kiemTraDuLieu()) { return; }</code></p>
+    <div class="info-box">
+        <pre>kiemTraDuLieu() → true / false
+       ↓
+ ┌─────┴─────┐
+ ↓           ↓
+true        false
+ ↓           ↓
+Tiếp tục    Dừng</pre>
+    </div>
+    <p>Cách này giúp chương trình gọn hơn và dễ bảo trì hơn.</p>
+
+    <h3>2.7. Tổng hợp quy trình Thêm – Sửa – Xóa</h3>
+    <div class="info-box">
+        <p><strong>Thêm</strong></p>
+        <pre>JTextField
+    ↓
+getText()
+    ↓
+Kiểm tra dữ liệu
+    ↓
+Kiểm tra mã trùng
+    ↓
+addRow()
+    ↓
+Xóa Form</pre>
+
+        <p><strong>Sửa</strong></p>
+        <pre>JTable
+    ↓
+getSelectedRow()
+    ↓
+getValueAt()
+    ↓
+Đưa lên Form
+    ↓
+Người dùng sửa
+    ↓
+Kiểm tra dữ liệu
+    ↓
+setValueAt()</pre>
+
+        <p><strong>Xóa</strong></p>
+        <pre>JTable
+    ↓
+getSelectedRow()
+    ↓
+Kiểm tra dòng
+    ↓
+JOptionPane xác nhận
+    ↓
+removeRow()</pre>
+
+        <p><strong>Tìm kiếm</strong></p>
+        <pre>JTextField
+    ↓
+getText()
+    ↓
+Lấy từ khóa
+    ↓
+Duyệt dữ liệu
+    ↓
+So sánh mã / tên
+    ↓
+Hiển thị kết quả</pre>
+
+        <p><strong>Làm mới</strong></p>
+        <pre>Xóa Form
+    ↓
+Xóa từ khóa
+    ↓
+Xóa kết quả tìm kiếm
+    ↓
+Nạp lại toàn bộ dữ liệu
+    ↓
+clearSelection()</pre>
+    </div>
+
+    <h3>2.8. Bài tập tổng hợp</h3>
+    <div class="success-box">
+        <h5>Xây dựng chương trình quản lý sinh viên</h5>
+        <p><strong>Thiết kế giao diện:</strong></p>
+        <div class="info-box">
+            <pre>┌──────────────────────────────────────────────────────────┐
+│                  QUẢN LÝ SINH VIÊN                       │
+├──────────────────────────────────────────────────────────┤
+│ Mã SV:     [____________________]                        │
+│ Họ tên:    [____________________]                        │
+│ Tuổi:      [____________________]                        │
+│ Ngành:     [____________________]                        │
+│                                                          │
+│ [Thêm] [Sửa] [Xóa] [Làm mới]                            │
+│                                                          │
+│ Tìm kiếm:  [____________________] [Tìm kiếm]             │
+├──────────────────────────────────────────────────────────┤
+│ Mã SV │ Họ tên              │ Tuổi │ Ngành               │
+├───────┼─────────────────────┼──────┼─────────────────────┤
+│ SV001 │ Nguyễn Văn An       │ 20   │ CNTT                │
+│ SV002 │ Trần Thị Bình       │ 21   │ Kế toán             │
+│ SV003 │ Lê Văn Cường        │ 20   │ Điện tử             │
+└──────────────────────────────────────────────────────────┘</pre>
+        </div>
+        <p><strong>Yêu cầu 1 – Thêm</strong></p>
+        <ul>
+            <li>Nhập đầy đủ dữ liệu.</li>
+            <li>Không cho phép bỏ trống.</li>
+            <li>Kiểm tra mã không trùng.</li>
+            <li>Kiểm tra tuổi là số.</li>
+            <li>Thêm dữ liệu bằng <code>addRow()</code>.</li>
+            <li>Xóa Form sau khi thêm.</li>
+        </ul>
+        <p><strong>Yêu cầu 2 – Sửa</strong></p>
+        <ul>
+            <li>Click chọn một dòng.</li>
+            <li>Đưa dữ liệu lên Form.</li>
+            <li>Cho phép chỉnh sửa.</li>
+            <li>Kiểm tra dữ liệu.</li>
+            <li>Cập nhật bằng <code>setValueAt()</code>.</li>
+        </ul>
+        <p><strong>Yêu cầu 3 – Xóa</strong></p>
+        <ul>
+            <li>Chọn dòng.</li>
+            <li>Nếu chưa chọn dòng thì thông báo.</li>
+            <li>Hiển thị hộp thoại xác nhận.</li>
+            <li>Xóa bằng <code>removeRow()</code>.</li>
+        </ul>
+        <p><strong>Yêu cầu 4 – Tìm kiếm</strong></p>
+        <ul>
+            <li>Cho phép tìm theo: Mã sinh viên hoặc Họ tên.</li>
+            <li>Không phân biệt chữ hoa/chữ thường.</li>
+        </ul>
+        <p>Ví dụ nhập <strong>nguyễn</strong> có thể tìm được <strong>Nguyễn Văn An</strong>, <strong>NGUYỄN Văn Bình</strong>.</p>
+        <p><strong>Yêu cầu 5 – Làm mới</strong></p>
+        <ul>
+            <li>Xóa dữ liệu trên Form.</li>
+            <li>Xóa từ khóa.</li>
+            <li>Bỏ chọn dòng.</li>
+            <li>Hiển thị lại toàn bộ sinh viên.</li>
+        </ul>
+    </div>
+
+    <h3>Kiến thức và cú pháp cần nhớ</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Chức năng</th><th>Cú pháp chính</th></tr></thead>
+            <tbody>
+                <tr><td>Lấy dữ liệu TextField</td><td>getText()</td></tr>
+                <tr><td>Gán dữ liệu TextField</td><td>setText()</td></tr>
+                <tr><td>Thêm dòng</td><td>model.addRow()</td></tr>
+                <tr><td>Lấy dòng chọn</td><td>table.getSelectedRow()</td></tr>
+                <tr><td>Lấy dữ liệu ô</td><td>table.getValueAt(row, column)</td></tr>
+                <tr><td>Cập nhật ô</td><td>model.setValueAt(value, row, column)</td></tr>
+                <tr><td>Xóa dòng</td><td>model.removeRow(row)</td></tr>
+                <tr><td>Xóa toàn bộ dòng</td><td>model.setRowCount(0)</td></tr>
+                <tr><td>Bỏ chọn</td><td>table.clearSelection()</td></tr>
+                <tr><td>Chuyển String → int</td><td>Integer.parseInt()</td></tr>
+                <tr><td>So sánh không phân biệt hoa thường</td><td>equalsIgnoreCase()</td></tr>
+                <tr><td>Tìm chuỗi con</td><td>contains()</td></tr>
+                <tr><td>Chuyển chữ thường</td><td>toLowerCase()</td></tr>
+                <tr><td>Kiểm tra chuỗi rỗng</td><td>trim().isEmpty()</td></tr>
+                <tr><td>Thông báo</td><td>JOptionPane.showMessageDialog()</td></tr>
+                <tr><td>Xác nhận</td><td>JOptionPane.showConfirmDialog()</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Cần đặc biệt ghi nhớ</strong></p>
+        <ul>
+            <li><strong>THÊM</strong> → <code>addRow()</code></li>
+            <li><strong>SỬA</strong> → <code>setValueAt()</code></li>
+            <li><strong>XÓA</strong> → <code>removeRow()</code></li>
+            <li><strong>CHỌN DÒNG</strong> → <code>getSelectedRow()</code></li>
+            <li><strong>LẤY DỮ LIỆU</strong> → <code>getValueAt()</code></li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Ghi nhớ trọng tâm:</strong> Chức năng Thêm, Sửa, Xóa, Tìm kiếm, Làm mới là những thao tác cốt lõi của một ứng dụng quản lý dữ liệu. Việc nắm vững các phương thức <code>addRow()</code>, <code>setValueAt()</code>, <code>removeRow()</code>, <code>getSelectedRow()</code>, <code>getValueAt()</code> cùng với kiểm tra dữ liệu nhập là nền tảng để xây dựng các ứng dụng Swing hoàn chỉnh. Hãy thực hành tổng hợp để thành thạo các thao tác này.</p>
+    </div>
+</section>
+
+<section id="giao-dien" class="section">
+    <h2><i class="fas fa-layer-group"></i> 3. Giao diện nâng cao</h2>
+    <p>Sau khi đã làm quen với JFrame, JPanel, các component cơ bản và xử lý sự kiện, có thể xây dựng giao diện gần với một ứng dụng quản lý thực tế hơn.</p>
+    <p><strong>Phần này tập trung vào:</strong></p>
+    <ul>
+        <li>Xây dựng thanh menu bằng JMenuBar.</li>
+        <li>Tạo các menu chức năng bằng JMenu.</li>
+        <li>Tạo các mục lệnh bằng JMenuItem.</li>
+        <li>Xây dựng cửa sổ nhập liệu riêng bằng JDialog.</li>
+        <li>Làm việc với nhiều cửa sổ JFrame.</li>
+        <li>Tổ chức giao diện thành Menu chính + Form quản lý + Form nhập dữ liệu.</li>
+    </ul>
+
+    <h3>3.1. JMenuBar</h3>
+
+    <h4>3.1.1. Khái niệm JMenuBar</h4>
+    <p>JMenuBar là component dùng để tạo thanh menu cho cửa sổ JFrame.</p>
+    <p><strong>Ví dụ một ứng dụng quản lý có thể có:</strong></p>
+    <div class="info-box">
+        <pre>┌─────────────────────────────────────────────────────────┐
+│ Hệ thống    Quản lý sinh viên    Trợ giúp               │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│              NỘI DUNG CHƯƠNG TRÌNH                     │
+│                                                         │
+└─────────────────────────────────────────────────────────┘</pre>
+    </div>
+    <p>Trong đó:</p>
+    <div class="info-box">
+        <pre>JFrame
+  │
+  └── JMenuBar
+       ├── JMenu
+       ├── JMenu
+       └── JMenu</pre>
+    </div>
+    <p>JMenuBar không phải là một menu cụ thể. Nó là thanh chứa các menu.</p>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="info-box">
+        <pre>JMenuBar
+    │
+    ├── Hệ thống
+    ├── Quản lý
+    └── Trợ giúp</pre>
+    </div>
+
+    <h4>3.1.2. Cấu trúc của hệ thống Menu</h4>
+    <p>Một hệ thống menu thường có cấu trúc:</p>
+    <div class="info-box">
+        <pre>JFrame
+   │
+   └── JMenuBar
+         │
+         ├── JMenu
+         │     ├── JMenuItem
+         │     ├── JMenuItem
+         │     └── JMenuItem
+         │
+         ├── JMenu
+         │     ├── JMenuItem
+         │     └── JMenuItem
+         │
+         └── JMenu
+               └── JMenuItem</pre>
+    </div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="info-box">
+        <pre>Hệ thống
+ ├── Đăng nhập
+ ├── Đăng xuất
+ └── Thoát
+
+Quản lý
+ ├── Sinh viên
+ ├── Môn học
+ └── Lớp học
+
+Trợ giúp
+ └── Giới thiệu</pre>
+    </div>
+
+    <h4>3.1.3. Tạo JMenuBar</h4>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenuBar menuBar = new JMenuBar();</pre></div>
+    <p>Sau khi tạo, ta có một thanh menu rỗng.</p>
+    <div class="info-box">
+        <pre>┌──────────────────────────────────────────┐
+│                                          │
+└──────────────────────────────────────────┘</pre>
+    </div>
+
+    <h4>3.1.4. Thêm JMenu vào JMenuBar</h4>
+    <p>Trước hết tạo JMenu:</p>
+    <div class="code-block"><div class="code-header"><span>Tạo JMenu</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenu menuHeThong = new JMenu("Hệ thống");</pre></div>
+    <p>Sau đó thêm vào JMenuBar:</p>
+    <div class="code-block"><div class="code-header"><span>Thêm vào JMenuBar</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>menuBar.add(menuHeThong);</pre></div>
+    <p>Có thể thêm nhiều menu:</p>
+    <div class="code-block"><div class="code-header"><span>Nhiều menu</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenu menuHeThong = new JMenu("Hệ thống");
+JMenu menuQuanLy = new JMenu("Quản lý");
+JMenu menuTroGiup = new JMenu("Trợ giúp");
+
+menuBar.add(menuHeThong);
+menuBar.add(menuQuanLy);
+menuBar.add(menuTroGiup);</pre></div>
+    <div class="info-box">
+        <pre>┌─────────────────────────────────────────────────┐
+│ Hệ thống    Quản lý    Trợ giúp                 │
+└─────────────────────────────────────────────────┘</pre>
+    </div>
+
+    <h4>3.1.5. Gắn JMenuBar vào JFrame</h4>
+    <p>Sau khi tạo JMenuBar, cần gắn nó vào JFrame.</p>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>frame.setJMenuBar(menuBar);</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JFrame frame = new JFrame("Quản lý sinh viên");
+
+JMenuBar menuBar = new JMenuBar();
+
+JMenu menuHeThong = new JMenu("Hệ thống");
+JMenu menuQuanLy = new JMenu("Quản lý");
+
+menuBar.add(menuHeThong);
+menuBar.add(menuQuanLy);
+
+frame.setJMenuBar(menuBar);</pre></div>
+    <div class="info-box">
+        <pre>┌──────────────────────────────────────────────┐
+│ Quản lý sinh viên                            │
+├──────────────────────────────────────────────┤
+│ Hệ thống     Quản lý                         │
+├──────────────────────────────────────────────┤
+│                                              │
+│              Nội dung Form                   │
+│                                              │
+└──────────────────────────────────────────────┘</pre>
+    </div>
+    <div class="info-box">
+        <p><strong>Phương thức cần nhớ:</strong> <code>setJMenuBar()</code> – Dùng để đặt thanh menu cho JFrame.</p>
+    </div>
+
+    <h3>3.2. JMenu</h3>
+
+    <h4>3.2.1. Khái niệm JMenu</h4>
+    <p>JMenu đại diện cho một menu trên thanh menu.</p>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="info-box">
+        <pre>Hệ thống
+Quản lý
+Trợ giúp</pre>
+    </div>
+    <p>Mỗi mục trên là một JMenu.</p>
+    <div class="code-block"><div class="code-header"><span>Tạo JMenu</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenu menuQuanLy = new JMenu("Quản lý");</pre></div>
+
+    <h4>3.2.2. Tạo JMenu</h4>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenu menu = new JMenu("Tên menu");</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenu menuHeThong = new JMenu("Hệ thống");
+JMenu menuQuanLy = new JMenu("Quản lý");
+JMenu menuTroGiup = new JMenu("Trợ giúp");</pre></div>
+
+    <h4>3.2.3. Tạo menu chức năng</h4>
+    <p>Một menu thường chứa các chức năng.</p>
+    <p><strong>Ví dụ menu Hệ thống:</strong></p>
+    <div class="info-box">
+        <pre>Hệ thống
+ ├── Đăng nhập
+ ├── Đăng xuất
+ └── Thoát</pre>
+    </div>
+    <p><strong>Menu Quản lý:</strong></p>
+    <div class="info-box">
+        <pre>Quản lý
+ ├── Sinh viên
+ ├── Lớp học
+ └── Môn học</pre>
+    </div>
+    <p>Ở đây: <strong>JMenu → Chứa các JMenuItem</strong></p>
+
+    <h4>3.2.4. Menu cha và menu con</h4>
+    <p>JMenu cũng có thể chứa một JMenu khác.</p>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="info-box">
+        <pre>Quản lý
+ ├── Sinh viên
+ │    ├── Thêm sinh viên
+ │    ├── Sửa sinh viên
+ │    └── Xóa sinh viên
+ │
+ └── Môn học
+      ├── Thêm môn học
+      └── Xóa môn học</pre>
+    </div>
+    <p><strong>Ví dụ tạo menu con:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Menu con</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenu menuQuanLy = new JMenu("Quản lý");
+JMenu menuSinhVien = new JMenu("Sinh viên");
+
+menuQuanLy.add(menuSinhVien);</pre></div>
+    <p>Sau đó:</p>
+    <div class="code-block"><div class="code-header"><span>Thêm item</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenuItem itemThem = new JMenuItem("Thêm sinh viên");
+menuSinhVien.add(itemThem);</pre></div>
+    <div class="info-box">
+        <pre>Quản lý
+   └── Sinh viên
+          └── Thêm sinh viên</pre>
+    </div>
+
+    <h3>3.3. JMenuItem</h3>
+
+    <h4>3.3.1. Khái niệm JMenuItem</h4>
+    <p>JMenuItem đại diện cho một lệnh/chức năng cụ thể trong menu.</p>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="info-box">
+        <pre>Hệ thống
+ ├── Đăng nhập      ← JMenuItem
+ ├── Đăng xuất      ← JMenuItem
+ └── Thoát          ← JMenuItem</pre>
+    </div>
+    <p>JMenuItem thường là nơi người dùng click để thực hiện một chức năng.</p>
+
+    <h4>3.3.2. Tạo JMenuItem</h4>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenuItem item = new JMenuItem("Tên chức năng");</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenuItem itemThem = new JMenuItem("Thêm");
+JMenuItem itemSua = new JMenuItem("Sửa");
+JMenuItem itemXoa = new JMenuItem("Xóa");
+JMenuItem itemThoat = new JMenuItem("Thoát");</pre></div>
+
+    <h4>3.3.3. Thêm JMenuItem vào JMenu</h4>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>menu.add(item);</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenu menuQuanLy = new JMenu("Quản lý");
+
+JMenuItem itemThem = new JMenuItem("Thêm");
+JMenuItem itemSua = new JMenuItem("Sửa");
+JMenuItem itemXoa = new JMenuItem("Xóa");
+
+menuQuanLy.add(itemThem);
+menuQuanLy.add(itemSua);
+menuQuanLy.add(itemXoa);</pre></div>
+    <div class="info-box">
+        <pre>Quản lý
+ ├── Thêm
+ ├── Sửa
+ └── Xóa</pre>
+    </div>
+
+    <h4>3.3.4. Tổ chức menu hoàn chỉnh</h4>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Menu hoàn chỉnh</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JMenuBar menuBar = new JMenuBar();
+
+JMenu menuHeThong = new JMenu("Hệ thống");
+JMenu menuQuanLy = new JMenu("Quản lý");
+
+JMenuItem itemDangNhap = new JMenuItem("Đăng nhập");
+JMenuItem itemThoat = new JMenuItem("Thoát");
+
+JMenuItem itemThem = new JMenuItem("Thêm sinh viên");
+JMenuItem itemSua = new JMenuItem("Sửa sinh viên");
+JMenuItem itemXoa = new JMenuItem("Xóa sinh viên");
+
+menuHeThong.add(itemDangNhap);
+menuHeThong.addSeparator();
+menuHeThong.add(itemThoat);
+
+menuQuanLy.add(itemThem);
+menuQuanLy.add(itemSua);
+menuQuanLy.add(itemXoa);
+
+menuBar.add(menuHeThong);
+menuBar.add(menuQuanLy);
+
+frame.setJMenuBar(menuBar);</pre></div>
+    <p><code>addSeparator()</code> tạo đường phân cách:</p>
+    <div class="info-box">
+        <pre>Hệ thống
+ ├── Đăng nhập
+ ├──────────────
+ └── Thoát</pre>
+    </div>
+
+    <h4>3.3.5. Xử lý sự kiện JMenuItem</h4>
+    <p>JMenuItem có thể xử lý sự kiện bằng ActionListener.</p>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>item.addActionListener(e -> {
+    // xử lý
+});</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>itemThoat.addActionListener(e -> {
+    System.exit(0);
+});</pre></div>
+    <p>Khi người dùng chọn: <strong>Hệ thống → Thoát</strong> chương trình kết thúc.</p>
+
+    <h4>3.3.6. Mở chức năng từ Menu</h4>
+    <p>Menu có thể gọi đến các chức năng đang có trong chương trình.</p>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="info-box">
+        <pre>Quản lý
+ ├── Thêm sinh viên
+ ├── Sửa sinh viên
+ └── Xóa sinh viên</pre>
+    </div>
+    <p>Khi click <strong>Thêm sinh viên</strong>, có thể mở Form nhập:</p>
+    <div class="code-block"><div class="code-header"><span>Mở Form</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>itemThem.addActionListener(e -> {
+    // Mở Form thêm sinh viên
+});</pre></div>
+    <p>Ví dụ nếu Form nhập là JDialog:</p>
+    <div class="code-block"><div class="code-header"><span>JDialog</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>itemThem.addActionListener(e -> {
+    DialogSinhVien dialog = new DialogSinhVien(frame);
+    dialog.setVisible(true);
+});</pre></div>
+
+    <div class="info-box">
+        <p><strong>Menu Thêm, Sửa, Xóa, Thoát</strong></p>
+        <p>Một ứng dụng quản lý có thể thiết kế:</p>
+        <pre>Hệ thống
+ └── Thoát
+
+Quản lý
+ ├── Thêm
+ ├── Sửa
+ └── Xóa</pre>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Menu</th><th>Chức năng</th></tr></thead>
+                <tbody>
+                    <tr><td>Thêm</td><td>Mở Form thêm dữ liệu</td></tr>
+                    <tr><td>Sửa</td><td>Chỉnh sửa dữ liệu</td></tr>
+                    <tr><td>Xóa</td><td>Xóa dữ liệu</td></tr>
+                    <tr><td>Thoát</td><td>Đóng chương trình</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Điểm quan trọng là menu không trực tiếp quản lý dữ liệu. Menu chủ yếu đóng vai trò <strong>gọi chức năng</strong>.</p>
+    </div>
+
+    <h3>3.4. JDialog</h3>
+
+    <h4>3.4.1. Khái niệm JDialog</h4>
+    <p>JDialog là một cửa sổ hộp thoại thường được sử dụng để:</p>
+    <ul>
+        <li>Nhập dữ liệu.</li>
+        <li>Sửa dữ liệu.</li>
+        <li>Hiển thị thông tin.</li>
+        <li>Xác nhận thao tác.</li>
+        <li>Thực hiện một chức năng riêng.</li>
+    </ul>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="info-box">
+        <pre>JFrame chính
+┌─────────────────────────────────────────────┐
+│ Quản lý sinh viên                           │
+│                                             │
+│ [Danh sách sinh viên]                       │
+│                                             │
+│              ┌─────────────────────┐        │
+│              │ Thêm sinh viên      │        │
+│              │                     │        │
+│              │ Mã SV: [________]   │        │
+│              │ Tên:   [________]   │        │
+│              │ Tuổi:  [________]   │        │
+│              │                     │        │
+│              │ [Lưu]      [Hủy]    │        │
+│              └─────────────────────┘        │
+└─────────────────────────────────────────────┘</pre>
+    </div>
+    <p>Ở đây: <strong>JFrame</strong> là cửa sổ chính. <strong>JDialog</strong> là cửa sổ nhập dữ liệu.</p>
+
+    <h4>3.4.2. Tạo JDialog</h4>
+    <p><strong>Cú pháp cơ bản:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JDialog dialog = new JDialog();</pre></div>
+    <p>Có thể thiết lập tiêu đề:</p>
+    <div class="code-block"><div class="code-header"><span>Tiêu đề</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JDialog dialog = new JDialog();
+dialog.setTitle("Thêm sinh viên");</pre></div>
+    <p>Thiết lập kích thước:</p>
+    <div class="code-block"><div class="code-header"><span>Kích thước</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>dialog.setSize(400, 300);</pre></div>
+    <p>Thiết lập vị trí:</p>
+    <div class="code-block"><div class="code-header"><span>Vị trí</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>dialog.setLocationRelativeTo(null);</pre></div>
+    <p>Hiển thị:</p>
+    <div class="code-block"><div class="code-header"><span>Hiển thị</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>dialog.setVisible(true);</pre></div>
+
+    <h4>3.4.3. JDialog gắn với JFrame cha</h4>
+    <p>Thông thường JDialog được tạo từ một JFrame cha.</p>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JDialog dialog = new JDialog(parent, "Tiêu đề", true);</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JDialog dialog = new JDialog(frame, "Thêm sinh viên", true);</pre></div>
+    <div class="info-box">
+        <pre>frame → cửa sổ cha
+dialog → cửa sổ con</pre>
+    </div>
+
+    <h4>3.4.4. Modal và Non-modal</h4>
+    <p>Đây là khái niệm quan trọng khi làm việc với JDialog.</p>
+
+    <div class="success-box">
+        <h5>Modal Dialog</h5>
+        <p>Modal nghĩa là khi Dialog đang mở, người dùng phải xử lý Dialog trước, không thể thao tác với cửa sổ cha.</p>
+        <div class="info-box">
+            <pre>┌─────────────────────────────┐
+│ JFrame chính                │
+│                             │
+│      ┌─────────────────┐    │
+│      │ Thêm sinh viên  │    │
+│      │                 │    │
+│      │ [Lưu] [Hủy]     │    │
+│      └─────────────────┘    │
+│                             │
+│  ← Không thao tác được      │
+└─────────────────────────────┘</pre>
+        </div>
+        <p><strong>Tạo Modal:</strong></p>
+        <div class="code-block" style="background:#f5f5f5;color:#333;"><pre>JDialog dialog = new JDialog(frame, "Thêm sinh viên", true);</pre></div>
+        <p>Tham số: <strong>true → Modal</strong></p>
+    </div>
+
+    <div class="info-box">
+        <h5>Non-modal Dialog</h5>
+        <p>Non-modal cho phép người dùng vẫn thao tác với cửa sổ chính khi Dialog đang mở.</p>
+        <div class="info-box">
+            <pre>┌──────────────────────────────┐
+│ JFrame chính                 │
+│                              │
+│      ┌────────────────┐      │
+│      │ Thông tin      │      │
+│      └────────────────┘      │
+│                              │
+│ ← Vẫn có thể thao tác        │
+└──────────────────────────────┘</pre>
+        </div>
+        <p><strong>Tạo Non-modal:</strong></p>
+        <div class="code-block" style="background:#f5f5f5;color:#333;"><pre>JDialog dialog = new JDialog(frame, "Thông tin", false);</pre></div>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>true</th><th>Modal</th></tr></thead>
+            <tbody>
+                <tr><td>false</td><td>Non-modal</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Khi nào sử dụng?</strong></p>
+        <p><strong>Modal</strong> phù hợp với:</p>
+        <ul>
+            <li>Form thêm.</li>
+            <li>Form sửa.</li>
+            <li>Form nhập thông tin.</li>
+            <li>Hộp thoại yêu cầu người dùng hoàn thành trước khi quay lại.</li>
+        </ul>
+        <p><strong>Non-modal</strong> phù hợp với:</p>
+        <ul>
+            <li>Cửa sổ thông tin.</li>
+            <li>Cửa sổ phụ có thể mở đồng thời.</li>
+            <li>Các cửa sổ không bắt buộc phải xử lý ngay.</li>
+        </ul>
+    </div>
+
+    <h4>3.4.5. Truyền dữ liệu giữa JFrame và JDialog</h4>
+    <p>Đây là một nội dung quan trọng khi xây dựng ứng dụng quản lý.</p>
+    <p><strong>Ví dụ JFrame có bảng:</strong></p>
+    <div class="info-box">
+        <pre>JFrame
+┌─────────────────────────────────────────────┐
+│ Mã SV │ Họ tên            │ Tuổi            │
+│ SV001 │ Nguyễn Văn An     │ 20              │
+│ SV002 │ Trần Thị Bình     │ 21              │
+└─────────────────────────────────────────────┘</pre>
+    </div>
+    <p>Người dùng chọn <strong>SV002</strong> sau đó mở JDialog:</p>
+    <div class="info-box">
+        <pre>┌──────────────────────────────┐
+│ Sửa sinh viên                │
+│                              │
+│ Mã SV:  [SV002            ]  │
+│ Họ tên: [Trần Thị Bình    ]  │
+│ Tuổi:   [21               ]  │
+│                              │
+│ [Lưu]       [Hủy]            │
+└──────────────────────────────┘</pre>
+    </div>
+    <p>Dữ liệu cần truyền:</p>
+    <div class="info-box">
+        <pre>JFrame → mã SV, họ tên, tuổi → JDialog</pre>
+    </div>
+    <p>Có thể truyền thông qua constructor.</p>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Constructor</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public DialogSinhVien(JFrame parent, String maSV, String hoTen, int tuoi) {
+    super(parent, "Sửa sinh viên", true);
+    txtMaSV.setText(maSV);
+    txtHoTen.setText(hoTen);
+    txtTuoi.setText(String.valueOf(tuoi));
+}</pre></div>
+    <p>Khi mở:</p>
+    <div class="code-block"><div class="code-header"><span>Mở</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>DialogSinhVien dialog = new DialogSinhVien(frame, maSV, hoTen, tuoi);
+dialog.setVisible(true);</pre></div>
+    <div class="info-box">
+        <pre>JFrame → truyền dữ liệu → JDialog → người dùng sửa → JDialog → trả kết quả → JFrame</pre>
+    </div>
+
+    <h4>3.4.6. Sử dụng JDialog làm Form nhập liệu</h4>
+    <p>Đây là cách tổ chức rất thường gặp trong ứng dụng quản lý.</p>
+    <p>Thay vì đưa tất cả component vào JFrame:</p>
+    <div class="info-box">
+        <pre>JFrame
+ ├── JTextField
+ ├── JTextField
+ ├── JTextField
+ ├── JButton
+ ├── JButton
+ └── JTable</pre>
+    </div>
+    <p>có thể tách thành:</p>
+    <div class="info-box">
+        <pre>JFrame chính
+ ├── JMenuBar
+ ├── JTable
+ └── Các chức năng quản lý
+
+JDialog
+ ├── JTextField
+ ├── JTextField
+ ├── JTextField
+ ├── JButton Lưu
+ └── JButton Hủy</pre>
+    </div>
+    <p>Giao diện sẽ dễ tổ chức hơn.</p>
+
+    <h4>3.4.7. Ví dụ Form nhập bằng JDialog</h4>
+    <div class="code-block"><div class="code-header"><span>DialogSinhVien.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public class DialogSinhVien extends JDialog {
+    private JTextField txtMaSV;
+    private JTextField txtHoTen;
+    private JTextField txtTuoi;
+    private JButton btnLuu;
+    private JButton btnHuy;
+
+    public DialogSinhVien(JFrame parent) {
+        super(parent, "Thêm sinh viên", true);
+        txtMaSV = new JTextField();
+        txtHoTen = new JTextField();
+        txtTuoi = new JTextField();
+        btnLuu = new JButton("Lưu");
+        btnHuy = new JButton("Hủy");
+        // Thiết kế giao diện...
+        setSize(400, 300);
+        setLocationRelativeTo(parent);
+    }
+}</pre></div>
+    <p><strong>Mở từ JFrame:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Mở</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>DialogSinhVien dialog = new DialogSinhVien(this);
+dialog.setVisible(true);</pre></div>
+    <div class="info-box">
+        <pre>JFrame → Click "Thêm" → JDialog → Nhập mã → Nhập tên → Nhập tuổi → Lưu / Hủy</pre>
+    </div>
+
+    <h3>3.5. Nhiều JFrame</h3>
+
+    <h4>3.5.1. Khái niệm</h4>
+    <p>Trong một ứng dụng có thể có nhiều JFrame.</p>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="info-box">
+        <pre>JFrame chính
+    │
+    ├── JFrame Quản lý sinh viên
+    │
+    ├── JFrame Quản lý môn học
+    │
+    └── JFrame Thống kê</pre>
+    </div>
+    <div class="warning-box">
+        <p><strong>Lưu ý:</strong> Không nên lạm dụng nhiều JFrame. Trong các ứng dụng quản lý thông thường: <strong>JFrame → cửa sổ chính</strong>, <strong>JDialog → các cửa sổ chức năng phụ</strong> thường dễ quản lý hơn.</p>
+    </div>
+
+    <h4>3.5.2. Tạo nhiều cửa sổ</h4>
+    <p><strong>Ví dụ tạo JFrame thứ hai:</strong></p>
+    <div class="code-block"><div class="code-header"><span>JFrame thứ hai</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>JFrame frame2 = new JFrame("Quản lý môn học");
+frame2.setSize(600, 400);
+frame2.setLocationRelativeTo(null);
+frame2.setVisible(true);</pre></div>
+    <div class="info-box">
+        <pre>┌──────────────────────┐
+│ JFrame 1             │
+│ Cửa sổ chính         │
+└──────────────────────┘
+
+        +
+
+┌──────────────────────┐
+│ JFrame 2             │
+│ Quản lý môn học      │
+└──────────────────────┘</pre>
+    </div>
+
+    <h4>3.5.3. Mở JFrame từ JFrame khác</h4>
+    <p><strong>Ví dụ JFrame chính có menu:</strong></p>
+    <div class="info-box">
+        <pre>Quản lý
+ └── Quản lý môn học</pre>
+    </div>
+    <p>Khi click:</p>
+    <div class="code-block"><div class="code-header"><span>Mở</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>itemMonHoc.addActionListener(e -> {
+    JFrame frameMonHoc = new JFrame("Quản lý môn học");
+    frameMonHoc.setSize(600, 400);
+    frameMonHoc.setLocationRelativeTo(null);
+    frameMonHoc.setVisible(true);
+});</pre></div>
+    <div class="info-box">
+        <pre>JFrame chính → Click "Quản lý môn học" → Tạo JFrame môn học → setVisible(true)</pre>
+    </div>
+
+    <h4>3.5.4. Đóng cửa sổ</h4>
+    <p>Có thể đóng cửa sổ bằng: <strong>dispose();</strong></p>
+    <div class="code-block"><div class="code-header"><span>dispose()</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>btnDong.addActionListener(e -> {
+    dispose();
+});</pre></div>
+    <p>dispose() đóng và giải phóng cửa sổ hiện tại.</p>
+
+    <div class="info-box">
+        <p><strong>Phân biệt dispose() và System.exit(0)</strong></p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>dispose()</th><th>System.exit(0)</th></tr></thead>
+                <tbody>
+                    <tr><td>Đóng một cửa sổ</td><td>Kết thúc toàn bộ chương trình</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <ul>
+            <li><strong>dispose()</strong> phù hợp với: Đóng JDialog, Đóng JFrame phụ.</li>
+            <li><strong>System.exit(0)</strong> thường dùng cho chức năng: <strong>Hệ thống → Thoát</strong></li>
+        </ul>
+    </div>
+
+    <h4>3.5.5. Quản lý cửa sổ trong ứng dụng</h4>
+    <p>Khi ứng dụng có nhiều cửa sổ, cần xác định rõ:</p>
+    <ul>
+        <li>Cửa sổ nào là chính?</li>
+        <li>Cửa sổ nào là phụ?</li>
+        <li>Cửa sổ nào được phép mở nhiều lần?</li>
+        <li>Cửa sổ nào chỉ được mở một lần?</li>
+        <li>Khi đóng cửa sổ phụ thì cửa sổ chính có tiếp tục hoạt động không?</li>
+    </ul>
+    <p><strong>Ví dụ thiết kế hợp lý:</strong></p>
+    <div class="info-box">
+        <pre>                    JFrame chính
+                         │
+              ┌──────────┼──────────┐
+              ↓          ↓          ↓
+          JTable       Menu      Thanh công cụ
+                         │
+                         ↓
+                    JDialog
+                         │
+                  ┌──────┴──────┐
+                  ↓             ↓
+                Thêm           Sửa</pre>
+    </div>
+    <p>Đây là mô hình phù hợp với nhiều chương trình quản lý nhỏ.</p>
+
+    <h3>3.6. Kết hợp Menu + JFrame + JDialog</h3>
+    <p>Một ứng dụng hoàn chỉnh có thể tổ chức như sau:</p>
+    <div class="info-box">
+        <pre>┌──────────────────────────────────────────────────────────┐
+│ Hệ thống       Quản lý                         Trợ giúp  │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│              QUẢN LÝ SINH VIÊN                           │
+│                                                          │
+│ Tìm kiếm: [________________] [Tìm]                       │
+│                                                          │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ Mã SV │ Họ tên             │ Tuổi │ Ngành            │ │
+│ ├───────┼────────────────────┼──────┼──────────────────┤ │
+│ │ SV001 │ Nguyễn Văn An      │ 20   │ CNTT             │ │
+│ │ SV002 │ Trần Thị Bình      │ 21   │ Kế toán          │ │
+│ └──────────────────────────────────────────────────────┘ │
+│                                                          │
+└──────────────────────────────────────────────────────────┘</pre>
+    </div>
+    <p>Khi chọn: <strong>Quản lý → Thêm</strong> mở:</p>
+    <div class="info-box">
+        <pre>┌─────────────────────────────┐
+│      THÊM SINH VIÊN         │
+├─────────────────────────────┤
+│ Mã SV:  [______________]    │
+│ Họ tên: [______________]    │
+│ Tuổi:   [______________]    │
+│                             │
+│       [Lưu]   [Hủy]         │
+└─────────────────────────────┘</pre>
+    </div>
+    <p>Đây chính là mô hình:</p>
+    <div class="info-box">
+        <pre>JFrame chính
+    │
+    ├── JMenuBar
+    │     ├── JMenu
+    │     │    └── JMenuItem
+    │     │
+    │     └── JMenu
+    │          └── JMenuItem
+    │
+    ├── JTable
+    │
+    └── JDialog
+          ├── JTextField
+          ├── JButton
+          └── xử lý dữ liệu</pre>
+    </div>
+
+    <h3>3.7. Bài tập tổng hợp</h3>
+    <div class="success-box">
+        <h5>Thiết kế ứng dụng quản lý sinh viên</h5>
+        <p><strong>Xây dựng chương trình gồm 3 thành phần chính:</strong></p>
+
+        <p><strong>1. Menu chính</strong></p>
+        <div class="info-box">
+            <pre>Hệ thống
+ ├── Đăng nhập
+ └── Thoát
+
+Quản lý
+ ├── Thêm sinh viên
+ ├── Sửa sinh viên
+ └── Xóa sinh viên
+
+Trợ giúp
+ └── Giới thiệu</pre>
+        </div>
+
+        <p><strong>2. Form quản lý</strong></p>
+        <p>JFrame chính hiển thị: JMenuBar, JTable, Ô tìm kiếm, Các nút chức năng nếu cần.</p>
+
+        <p><strong>3. Form nhập dữ liệu</strong></p>
+        <p>Sử dụng JDialog gồm: Mã sinh viên, Họ tên, Tuổi, Ngành, Nút Lưu, Nút Hủy.</p>
+
+        <p><strong>Yêu cầu chức năng</strong></p>
+        <p><strong>Chức năng Thêm</strong></p>
+        <pre>Menu → Quản lý → Thêm sinh viên → JDialog → Nhập dữ liệu → Kiểm tra dữ liệu → Lưu → Cập nhật JTable</pre>
+
+        <p><strong>Chức năng Sửa</strong></p>
+        <pre>Chọn dòng trên JTable → Menu → Sửa → JDialog hiển thị dữ liệu → Chỉnh sửa → Lưu → Cập nhật JTable</pre>
+
+        <p><strong>Chức năng Xóa</strong></p>
+        <pre>Chọn dòng → Menu → Xóa → Xác nhận → Xóa dữ liệu</pre>
+
+        <p><strong>Chức năng Thoát</strong></p>
+        <pre>Hệ thống → Thoát → System.exit(0)</pre>
+    </div>
+
+    <h3>3.8. Kiến thức và cú pháp cần nhớ</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Thành phần</th><th>Cú pháp chính</th><th>Công dụng</th></tr></thead>
+            <tbody>
+                <tr><td>JMenuBar</td><td>new JMenuBar()</td><td>Tạo thanh menu</td></tr>
+                <tr><td>Thêm menu</td><td>menuBar.add(menu)</td><td>Đưa JMenu vào thanh menu</td></tr>
+                <tr><td>Gắn menu</td><td>frame.setJMenuBar(menuBar)</td><td>Gắn thanh menu vào JFrame</td></tr>
+                <tr><td>JMenu</td><td>new JMenu("...")</td><td>Tạo menu</td></tr>
+                <tr><td>JMenuItem</td><td>new JMenuItem("...")</td><td>Tạo mục chức năng</td></tr>
+                <tr><td>Thêm item</td><td>menu.add(item)</td><td>Đưa item vào menu</td></tr>
+                <tr><td>Phân cách</td><td>menu.addSeparator()</td><td>Tạo đường phân cách</td></tr>
+                <tr><td>Sự kiện</td><td>item.addActionListener(...)</td><td>Xử lý click menu</td></tr>
+                <tr><td>JDialog</td><td>new JDialog(...)</td><td>Tạo cửa sổ Dialog</td></tr>
+                <tr><td>Hiển thị</td><td>dialog.setVisible(true)</td><td>Hiển thị Dialog</td></tr>
+                <tr><td>Modal</td><td>new JDialog(parent, title, true)</td><td>Dialog dạng Modal</td></tr>
+                <tr><td>Non-modal</td><td>new JDialog(parent, title, false)</td><td>Dialog dạng Non-modal</td></tr>
+                <tr><td>Đóng cửa sổ</td><td>dispose()</td><td>Đóng cửa sổ hiện tại</td></tr>
+                <tr><td>Thoát chương trình</td><td>System.exit(0)</td><td>Kết thúc ứng dụng</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Mối quan hệ cần nhớ</h3>
+    <div class="info-box">
+        <pre>JMenuBar
+   │
+   └── JMenu
+         │
+         ├── JMenuItem
+         ├── JMenuItem
+         └── JMenu
+               │
+               └── JMenuItem</pre>
+    </div>
+    <p>Và khi xây dựng ứng dụng quản lý:</p>
+    <div class="info-box">
+        <pre>                 JFrame chính
+                      │
+              ┌───────┴────────┐
+              ↓                ↓
+          JMenuBar           JTable
+              │
+          JMenuItem
+              │
+              ↓
+           JDialog
+              │
+       ┌──────┼──────┐
+       ↓      ↓      ↓
+     Nhập   Kiểm tra  Lưu
+       │               │
+       └───────┬───────┘
+               ↓
+             JTable</pre>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Ghi nhớ trọng tâm:</strong> Giao diện nâng cao trong Swing bao gồm JMenuBar, JMenu, JMenuItem để tổ chức các chức năng, và JDialog để tạo các cửa sổ nhập liệu riêng biệt. Mô hình <strong>JFrame chính + JTable + JDialog</strong> là nền tảng cho các ứng dụng quản lý. Phân biệt Modal và Non-modal, cách truyền dữ liệu giữa các cửa sổ, và sử dụng <code>dispose()</code> để đóng cửa sổ phụ là những kỹ năng quan trọng.</p>
+    </div>
+</section>
+
+<section id="quan-ly" class="section">
+    <h2><i class="fas fa-database"></i> 4. Quản lý dữ liệu trong chương trình</h2>
+    <p>Trong các phần trước, dữ liệu được nhập từ JTextField và hiển thị trực tiếp lên JTable. Cách này phù hợp với chương trình đơn giản, nhưng khi cần thêm, sửa, xóa, tìm kiếm và quản lý nhiều đối tượng, cần có một nơi lưu trữ dữ liệu riêng.</p>
+    <p>Trong phần này, dữ liệu sẽ được tổ chức theo mô hình:</p>
+    <div class="info-box">
+        <pre>Form nhập liệu
+      ↓
+   Đối tượng
+      ↓
+   ArrayList
+      ↓
+DefaultTableModel
+      ↓
+    JTable</pre>
+    </div>
+    <ul>
+        <li><strong>Object</strong>: đại diện cho một đối tượng dữ liệu, ví dụ một sinh viên.</li>
+        <li><strong>ArrayList</strong>: lưu danh sách các đối tượng.</li>
+        <li><strong>DefaultTableModel</strong>: quản lý dữ liệu được hiển thị trên bảng.</li>
+        <li><strong>JTable</strong>: hiển thị dữ liệu cho người dùng.</li>
+    </ul>
+    <div class="warning-box">
+        <p><strong>Nguyên tắc quan trọng:</strong> JTable chủ yếu dùng để hiển thị, còn ArrayList là nơi quản lý dữ liệu trong chương trình.</p>
+    </div>
+
+    <h3>4.1. ArrayList</h3>
+
+    <h4>4.1.1. Khái niệm ArrayList</h4>
+    <p>ArrayList là một lớp trong Java dùng để lưu trữ danh sách các phần tử.</p>
+    <p>Khác với mảng thông thường, ArrayList có thể tăng hoặc giảm kích thước trong quá trình chạy chương trình.</p>
+    <div class="info-box">
+        <pre>ArrayList
+┌────────┬────────┬────────┬────────┐
+│ SV001  │ SV002  │ SV003  │ SV004  │
+└────────┴────────┴────────┴────────┘</pre>
+    </div>
+    <p>Có thể thêm: <strong>SV001 → SV002 → SV003 → SV004 → SV005</strong></p>
+    <p>Hoặc xóa: <strong>SV001 → SV002 → SV004 → SV005</strong></p>
+    <p>Trong chương trình quản lý sinh viên, ta có thể sử dụng: <strong>ArrayList&lt;SinhVien&gt;</strong> để lưu danh sách sinh viên.</p>
+
+    <h4>4.1.2. Khởi tạo ArrayList</h4>
+    <p>Trước khi sử dụng ArrayList, cần import:</p>
+    <div class="code-block"><div class="code-header"><span>Import</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>import java.util.ArrayList;</pre></div>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>ArrayList&lt;KieuDuLieu&gt; tenDanhSach = new ArrayList&lt;&gt;();</pre></div>
+    <p><strong>Ví dụ lưu chuỗi:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>ArrayList&lt;String&gt; danhSachTen = new ArrayList&lt;&gt;();</pre></div>
+    <p><strong>Ví dụ lưu đối tượng SinhVien:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>ArrayList&lt;SinhVien&gt; danhSachSinhVien = new ArrayList&lt;&gt;();</pre></div>
+    <ul>
+        <li><strong>SinhVien</strong> → Kiểu dữ liệu của phần tử</li>
+        <li><strong>danhSachSinhVien</strong> → Tên ArrayList</li>
+    </ul>
+
+    <h4>4.1.3. Thêm phần tử bằng add()</h4>
+    <p>add() dùng để thêm một phần tử vào ArrayList.</p>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>tenArrayList.add(phanTu);</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>ArrayList&lt;String&gt; danhSachTen = new ArrayList&lt;&gt;();
+
+danhSachTen.add("Nguyễn Văn An");
+danhSachTen.add("Trần Thị Bình");
+danhSachTen.add("Lê Văn Cường");</pre></div>
+    <div class="info-box">
+        <pre>Vị trí        Giá trị
+  0       Nguyễn Văn An
+  1       Trần Thị Bình
+  2       Lê Văn Cường</pre>
+    </div>
+    <div class="warning-box">
+        <p><strong>Lưu ý:</strong> ArrayList sử dụng chỉ số bắt đầu từ 0.</p>
+        <ul>
+            <li>Phần tử thứ 1 → index 0</li>
+            <li>Phần tử thứ 2 → index 1</li>
+            <li>Phần tử thứ 3 → index 2</li>
+        </ul>
+    </div>
+
+    <h4>4.1.4. Lấy phần tử bằng get()</h4>
+    <p>get() dùng để lấy phần tử tại một vị trí.</p>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>tenArrayList.get(index);</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String ten = danhSachTen.get(0); // ten = "Nguyễn Văn An"
+System.out.println(danhSachTen.get(1)); // Trần Thị Bình</pre></div>
+    <p>Cần nhớ: <strong>get(0)</strong> lấy phần tử đầu tiên. <strong>get(1)</strong> lấy phần tử thứ hai.</p>
+
+    <h4>4.1.5. Cập nhật phần tử bằng set()</h4>
+    <p>set() dùng để thay thế phần tử tại một vị trí.</p>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>tenArrayList.set(index, giaTriMoi);</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>danhSachTen.set(1, "Trần Văn Bình");</pre></div>
+    <p>Trước khi cập nhật: <strong>0 → Nguyễn Văn An, 1 → Trần Thị Bình, 2 → Lê Văn Cường</strong></p>
+    <p>Sau khi cập nhật: <strong>0 → Nguyễn Văn An, 1 → Trần Văn Bình, 2 → Lê Văn Cường</strong></p>
+    <div class="info-box">
+        <p><strong>Phân biệt get() và set()</strong></p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Phương thức</th><th>Công dụng</th></tr></thead>
+                <tbody>
+                    <tr><td>get()</td><td>Lấy dữ liệu</td></tr>
+                    <tr><td>set()</td><td>Thay đổi dữ liệu</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h4>4.1.6. Xóa phần tử bằng remove()</h4>
+    <p>remove() dùng để xóa một phần tử.</p>
+    <p><strong>Xóa theo vị trí:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Xóa theo vị trí</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>tenArrayList.remove(index);</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>danhSachTen.remove(1);</pre></div>
+    <p>Trước: <strong>0 → Nguyễn Văn An, 1 → Trần Văn Bình, 2 → Lê Văn Cường</strong></p>
+    <p>Sau: <strong>0 → Nguyễn Văn An, 1 → Lê Văn Cường</strong></p>
+    <div class="warning-box">
+        <p><strong>Lưu ý:</strong> Sau khi xóa, các phần tử phía sau sẽ dịch vị trí.</p>
+    </div>
+
+    <h4>4.1.7. Xóa theo đối tượng</h4>
+    <p>Ngoài xóa theo index, remove() còn có thể xóa theo đối tượng.</p>
+    <div class="code-block"><div class="code-header"><span>Xóa theo đối tượng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>danhSachTen.remove("Nguyễn Văn An");</pre></div>
+    <p>Khi làm việc với ArrayList&lt;SinhVien&gt;, thường có thể xóa đối tượng dựa trên vị trí:</p>
+    <div class="code-block"><div class="code-header"><span>Xóa đối tượng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>danhSachSinhVien.remove(index);</pre></div>
+    <p>Trong chương trình quản lý, cách này rất thuận tiện khi đã xác định được vị trí của sinh viên cần xóa.</p>
+
+    <h4>4.1.8. Lấy số lượng phần tử bằng size()</h4>
+    <p>size() trả về số lượng phần tử hiện có.</p>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>tenArrayList.size();</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int soLuong = danhSachTen.size();</pre></div>
+    <p>Nếu danh sách có 3 phần tử: <strong>size() = 3</strong></p>
+    <div class="info-box">
+        <p><strong>Phân biệt size() và index cuối</strong></p>
+        <p>Nếu <strong>size() = 3</strong> thì các index hợp lệ là: <strong>0, 1, 2</strong></p>
+        <p>Index cuối: <strong>size() - 1</strong></p>
+    </div>
+
+    <h4>4.1.9. Duyệt ArrayList</h4>
+    <p>Duyệt danh sách nghĩa là lần lượt lấy từng phần tử để xử lý.</p>
+    <p><strong>Cách 1: Dùng vòng lặp for</strong></p>
+    <div class="code-block"><div class="code-header"><span>for</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>for (int i = 0; i < danhSachTen.size(); i++) {
+    System.out.println(danhSachTen.get(i));
+}</pre></div>
+    <p>Kết quả: <strong>Nguyễn Văn An, Trần Thị Bình, Lê Văn Cường</strong></p>
+    <p><strong>Cách 2: Dùng for-each</strong></p>
+    <div class="code-block"><div class="code-header"><span>for-each</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>for (String ten : danhSachTen) {
+    System.out.println(ten);
+}</pre></div>
+    <p>Với danh sách sinh viên:</p>
+    <div class="code-block"><div class="code-header"><span>Với sinh viên</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>for (SinhVien sv : danhSachSinhVien) {
+    System.out.println(sv.getHoTen());
+}</pre></div>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Cách</th><th>Khi phù hợp</th></tr></thead>
+            <tbody>
+                <tr><td>for</td><td>Cần biết index</td></tr>
+                <tr><td>for-each</td><td>Chỉ cần duyệt từng đối tượng</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Khi cần sửa/xóa theo vị trí, vòng for thường thuận tiện hơn.</p>
+
+    <h3>4.2. Đối tượng Java làm dữ liệu</h3>
+
+    <h4>4.2.1. Vì sao cần tạo đối tượng?</h4>
+    <p>Giả sử một sinh viên có: Mã SV, Họ tên, Giới tính, Năm sinh, Lớp</p>
+    <p>Nếu lưu riêng từng dữ liệu:</p>
+    <div class="info-box">
+        <pre>ArrayList&lt;String&gt; maSinhVien
+ArrayList&lt;String&gt; hoTen
+ArrayList&lt;String&gt; gioiTinh
+ArrayList&lt;Integer&gt; namSinh
+ArrayList&lt;String&gt; lop</pre>
+    </div>
+    <p>Cách này khó quản lý vì dữ liệu của một sinh viên bị phân tán.</p>
+    <p>Thay vào đó, tạo một đối tượng:</p>
+    <div class="info-box">
+        <pre>SinhVien
+ ├── maSinhVien
+ ├── hoTen
+ ├── gioiTinh
+ ├── namSinh
+ └── lop</pre>
+    </div>
+    <p>Một đối tượng SinhVien chứa toàn bộ thông tin của một sinh viên.</p>
+
+    <h4>4.2.2. Tạo class đối tượng</h4>
+    <p><strong>Ví dụ tạo class:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Class SinhVien</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public class SinhVien {
+    private String maSinhVien;
+    private String hoTen;
+    private String gioiTinh;
+    private int namSinh;
+    private String lop;
+}</pre></div>
+    <div class="info-box">
+        <pre>SinhVien
+┌────────────────────────────┐
+│ maSinhVien                 │
+│ hoTen                      │
+│ gioiTinh                   │
+│ namSinh                    │
+│ lop                        │
+└────────────────────────────┘</pre>
+    </div>
+    <p>Mỗi lần tạo một SinhVien, ta có một đối tượng dữ liệu.</p>
+
+    <h4>4.2.3. Thuộc tính</h4>
+    <p>Thuộc tính là các dữ liệu mô tả đối tượng.</p>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Thuộc tính</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>private String maSinhVien;
+private String hoTen;
+private String gioiTinh;
+private int namSinh;
+private String lop;</pre></div>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Thuộc tính</th><th>Kiểu</th><th>Ý nghĩa</th></tr></thead>
+            <tbody>
+                <tr><td>maSinhVien</td><td>String</td><td>Mã sinh viên</td></tr>
+                <tr><td>hoTen</td><td>String</td><td>Họ tên</td></tr>
+                <tr><td>gioiTinh</td><td>String</td><td>Giới tính</td></tr>
+                <tr><td>namSinh</td><td>int</td><td>Năm sinh</td></tr>
+                <tr><td>lop</td><td>String</td><td>Lớp</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>4.2.4. Constructor</h4>
+    <p>Constructor dùng để khởi tạo đối tượng.</p>
+    <p><strong>Cú pháp:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Cú pháp</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public TenClass(thamSo...) {
+    // khởi tạo
+}</pre></div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public SinhVien(String maSinhVien, String hoTen, String gioiTinh, int namSinh, String lop) {
+    this.maSinhVien = maSinhVien;
+    this.hoTen = hoTen;
+    this.gioiTinh = gioiTinh;
+    this.namSinh = namSinh;
+    this.lop = lop;
+}</pre></div>
+    <p>Khi tạo đối tượng:</p>
+    <div class="code-block"><div class="code-header"><span>Tạo đối tượng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>SinhVien sv = new SinhVien("SV001", "Nguyễn Văn An", "Nam", 2005, "CNTT1");</pre></div>
+    <div class="info-box">
+        <pre>sv
+┌─────────────────────────┐
+│ SV001                   │
+│ Nguyễn Văn An           │
+│ Nam                     │
+│ 2005                    │
+│ CNTT1                   │
+└─────────────────────────┘</pre>
+    </div>
+
+    <h4>4.2.5. Getter và Setter</h4>
+    <p>Do thuộc tính thường khai báo private, cần sử dụng Getter/Setter để đọc và thay đổi dữ liệu.</p>
+    <p><strong>Getter</strong> – Dùng để lấy dữ liệu.</p>
+    <div class="code-block"><div class="code-header"><span>Getter</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public String getHoTen() {
+    return hoTen;
+}</pre></div>
+    <p>Sử dụng: <code>String ten = sv.getHoTen();</code></p>
+    <p><strong>Setter</strong> – Dùng để thay đổi dữ liệu.</p>
+    <div class="code-block"><div class="code-header"><span>Setter</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public void setHoTen(String hoTen) {
+    this.hoTen = hoTen;
+}</pre></div>
+    <p>Sử dụng: <code>sv.setHoTen("Trần Văn Bình");</code></p>
+    <div class="info-box">
+        <p><strong>Getter</strong> → lấy dữ liệu</p>
+        <p><strong>Setter</strong> → thay đổi dữ liệu</p>
+    </div>
+
+    <h4>4.2.6. Tạo đối tượng</h4>
+    <p>Sau khi có class SinhVien, có thể tạo nhiều đối tượng:</p>
+    <div class="code-block"><div class="code-header"><span>Tạo nhiều đối tượng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>SinhVien sv1 = new SinhVien("SV001", "Nguyễn Văn An", "Nam", 2005, "CNTT1");
+SinhVien sv2 = new SinhVien("SV002", "Trần Thị Bình", "Nữ", 2004, "CNTT2");</pre></div>
+    <div class="info-box">
+        <pre>sv1                         sv2
+┌───────────────┐           ┌───────────────┐
+│ SV001         │           │ SV002         │
+│ Nguyễn Văn An│           │ Trần Thị Bình │
+│ Nam           │           │ Nữ            │
+│ 2005          │           │ 2004          │
+│ CNTT1         │           │ CNTT2         │
+└───────────────┘           └───────────────┘</pre>
+    </div>
+
+    <h4>4.2.7. Lưu đối tượng vào ArrayList</h4>
+    <p><strong>Khai báo:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Khai báo</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>ArrayList&lt;SinhVien&gt; danhSach = new ArrayList&lt;&gt;();</pre></div>
+    <p><strong>Thêm đối tượng:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Thêm</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>danhSach.add(sv1);
+danhSach.add(sv2);</pre></div>
+    <div class="info-box">
+        <pre>ArrayList&lt;SinhVien&gt;
+┌───────┬──────────────────────┐
+│ Index │ Đối tượng             │
+├───────┼──────────────────────┤
+│   0   │ sv1                   │
+│   1   │ sv2                   │
+└───────┴──────────────────────┘</pre>
+    </div>
+    <p>Đây chính là bước chuyển từ: <strong>Dữ liệu rời rạc → Đối tượng → ArrayList</strong></p>
+
+    <h3>4.3. Kết hợp ArrayList với JTable</h3>
+
+    <h4>4.3.1. Vai trò của ArrayList và JTable</h4>
+    <p>Khi kết hợp hai thành phần:</p>
+    <div class="info-box">
+        <pre>ArrayList → Lưu dữ liệu
+JTable → Hiển thị dữ liệu</pre>
+    </div>
+    <p>Ví dụ: <code>ArrayList&lt;SinhVien&gt; sv1, sv2, sv3, sv4</code> được đưa lên JTable:</p>
+    <div class="info-box">
+        <pre>┌────────┬──────────────────┬─────────┬────────┐
+│ Mã SV  │ Họ tên           │ Giới tính│ Lớp   │
+├────────┼──────────────────┼─────────┼────────┤
+│ SV001  │ Nguyễn Văn An    │ Nam     │ CNTT1 │
+│ SV002  │ Trần Thị Bình    │ Nữ      │ CNTT2 │
+│ SV003  │ Lê Văn Cường     │ Nam     │ CNTT1 │
+└────────┴──────────────────┴─────────┴────────┘</pre>
+    </div>
+
+    <h4>4.3.2. Đưa dữ liệu từ ArrayList lên JTable</h4>
+    <p>Giả sử có: <code>ArrayList&lt;SinhVien&gt; danhSach;</code> và <code>DefaultTableModel model;</code></p>
+    <p>Có thể duyệt danh sách:</p>
+    <div class="code-block"><div class="code-header"><span>Đưa lên JTable</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>for (SinhVien sv : danhSach) {
+    model.addRow(new Object[]{
+        sv.getMaSinhVien(),
+        sv.getHoTen(),
+        sv.getGioiTinh(),
+        sv.getNamSinh(),
+        sv.getLop()
+    });
+}</pre></div>
+    <div class="info-box">
+        <pre>ArrayList → Duyệt từng SinhVien → Lấy thuộc tính → Tạo một dòng → DefaultTableModel → JTable</pre>
+    </div>
+
+    <h4>4.3.3. Tạo phương thức hiển thị dữ liệu</h4>
+    <p>Trong chương trình thực tế, nên tách việc hiển thị thành một phương thức riêng.</p>
+    <div class="code-block"><div class="code-header"><span>Phương thức hiển thị</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>private void hienThiDanhSach() {
+    model.setRowCount(0);
+
+    for (SinhVien sv : danhSach) {
+        model.addRow(new Object[]{
+            sv.getMaSinhVien(),
+            sv.getHoTen(),
+            sv.getGioiTinh(),
+            sv.getNamSinh(),
+            sv.getLop()
+        });
+    }
+}</pre></div>
+    <ul>
+        <li><strong>model.setRowCount(0);</strong> → Xóa các dòng cũ trên bảng.</li>
+        <li>Sau đó: <strong>ArrayList → Đọc lại dữ liệu → Đổ vào JTable</strong></li>
+    </ul>
+    <p>Cách này giúp tránh tình trạng dữ liệu bị trùng dòng khi hiển thị lại.</p>
+
+    <h4>4.3.4. Thêm đối tượng vào ArrayList</h4>
+    <p>Khi người dùng nhập:</p>
+    <div class="info-box">
+        <pre>Mã SV:     SV004
+Họ tên:    Phạm Văn D
+Giới tính: Nam
+Năm sinh:  2005
+Lớp:       CNTT2</pre>
+    </div>
+    <p>Chương trình tạo:</p>
+    <div class="code-block"><div class="code-header"><span>Tạo đối tượng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>SinhVien sv = new SinhVien("SV004", "Phạm Văn D", "Nam", 2005, "CNTT2");
+danhSach.add(sv);
+hienThiDanhSach();</pre></div>
+    <p><strong>Luồng:</strong></p>
+    <div class="info-box">
+        <pre>JTextField / Form → Tạo SinhVien → ArrayList.add() → hienThiDanhSach() → JTable</pre>
+    </div>
+
+    <h4>4.3.5. Sửa đối tượng trong ArrayList</h4>
+    <p>Giả sử người dùng chọn sinh viên ở vị trí 2. Ta lấy đối tượng:</p>
+    <div class="code-block"><div class="code-header"><span>Lấy đối tượng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>SinhVien sv = danhSach.get(2);</pre></div>
+    <p>Sau khi người dùng chỉnh sửa dữ liệu:</p>
+    <div class="code-block"><div class="code-header"><span>Cập nhật</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>sv.setHoTen("Tên mới");
+sv.setLop("CNTT3");</pre></div>
+    <p>Dữ liệu trong ArrayList đã được cập nhật. Sau đó hiển thị lại: <code>hienThiDanhSach();</code></p>
+    <div class="info-box">
+        <pre>JTable → index = 2 → ArrayList.get(2) → SinhVien → setHoTen(), setLop() → ArrayList đã thay đổi → Hiển thị lại JTable</pre>
+    </div>
+
+    <h4>4.3.6. Xóa đối tượng khỏi ArrayList</h4>
+    <p>Giả sử người dùng chọn dòng thứ 2:</p>
+    <div class="code-block"><div class="code-header"><span>Xóa</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int index = table.getSelectedRow();
+danhSach.remove(index);
+hienThiDanhSach();</pre></div>
+    <div class="info-box">
+        <pre>JTable → Lấy index → ArrayList.remove(index) → Dữ liệu bị xóa → Hiển thị lại JTable</pre>
+    </div>
+
+    <h3>4.4. Đồng bộ Form – ArrayList – JTable</h3>
+    <p>Đây là nội dung quan trọng nhất của phần 4.</p>
+
+    <h4>4.4.1. Ba thành phần chính</h4>
+    <p>Chương trình có ba lớp/thành phần dữ liệu:</p>
+    <div class="info-box">
+        <pre>FORM → Nhập / sửa dữ liệu
+ARRAYLIST → Lưu dữ liệu
+JTABLE → Hiển thị dữ liệu</pre>
+    </div>
+    <ul>
+        <li><strong>Form</strong>: Dùng để người dùng nhập dữ liệu, sửa dữ liệu, thực hiện thao tác.</li>
+        <li><strong>ArrayList</strong>: Dùng để lưu danh sách đối tượng, thêm đối tượng, sửa đối tượng, xóa đối tượng, tìm kiếm đối tượng.</li>
+        <li><strong>JTable</strong>: Dùng để hiển thị danh sách, cho người dùng chọn dòng, hiển thị kết quả.</li>
+    </ul>
+
+    <h4>4.4.2. Luồng thêm dữ liệu</h4>
+    <p>Khi thêm một sinh viên:</p>
+    <div class="info-box">
+        <pre>┌─────────────┐
+│    Form     │
+│ Nhập dữ liệu│
+└──────┬──────┘
+       ↓
+┌─────────────┐
+│  SinhVien   │
+│   Object    │
+└──────┬──────┘
+       ↓
+┌─────────────┐
+│  ArrayList  │
+│    add()    │
+└──────┬──────┘
+       ↓
+┌──────────────────┐
+│ DefaultTableModel│
+└────────┬─────────┘
+         ↓
+┌─────────────┐
+│    JTable   │
+└─────────────┘</pre>
+    </div>
+    <p><strong>Ví dụ:</strong></p>
+    <p>Người dùng nhập: <code>Mã: SV001, Tên: Nguyễn Văn An, Lớp: CNTT1</code></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>SinhVien sv = new SinhVien("SV001", "Nguyễn Văn An", "Nam", 2005, "CNTT1");
+danhSach.add(sv);
+hienThiDanhSach();</pre></div>
+
+    <h4>4.4.3. Luồng sửa dữ liệu</h4>
+    <div class="info-box">
+        <pre>JTable
+  ↓
+Chọn dòng
+  ↓
+Xác định index
+  ↓
+ArrayList.get(index)
+  ↓
+Lấy đối tượng
+  ↓
+Đưa dữ liệu lên Form
+  ↓
+Người dùng sửa
+  ↓
+Cập nhật Object
+  ↓
+ArrayList
+  ↓
+Hiển thị lại JTable</pre>
+    </div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="info-box">
+        <pre>JTable: SV002 | Trần Thị Bình | CNTT2
+              ↓
+          Chọn dòng
+              ↓
+         ArrayList.get()
+              ↓
+          SinhVien
+              ↓
+         JDialog / Form
+              ↓
+       "Trần Thị Bình" → "Trần Thị Bích"
+              ↓
+       setHoTen(...)
+              ↓
+          JTable</pre>
+    </div>
+
+    <h4>4.4.4. Luồng xóa dữ liệu</h4>
+    <div class="info-box">
+        <pre>JTable
+  ↓
+Chọn dòng
+  ↓
+Lấy index
+  ↓
+ArrayList.remove(index)
+  ↓
+Dữ liệu bị xóa
+  ↓
+Đọc lại ArrayList
+  ↓
+Cập nhật JTable</pre>
+    </div>
+    <p><strong>Ví dụ:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int index = table.getSelectedRow();
+
+if (index >= 0) {
+    danhSach.remove(index);
+    hienThiDanhSach();
+}</pre></div>
+
+    <div class="warning-box">
+        <h5>4.4.5. Tại sao không nên xem JTable là nơi lưu dữ liệu chính?</h5>
+        <p>Một cách làm đơn giản là: <strong>JTextField → JTable</strong> (nhập trực tiếp vào bảng).</p>
+        <p>Cách này gây khó khăn khi chương trình cần:</p>
+        <ul>
+            <li>Tìm kiếm.</li>
+            <li>Sửa dữ liệu.</li>
+            <li>Xóa dữ liệu.</li>
+            <li>Kiểm tra mã trùng.</li>
+            <li>Truyền dữ liệu sang Form khác.</li>
+            <li>Lưu dữ liệu.</li>
+            <li>Làm việc với nhiều chức năng.</li>
+        </ul>
+        <p><strong>Cách tốt hơn:</strong></p>
+        <div class="info-box">
+            <pre>               ArrayList
+              /         \
+             ↓           ↓
+          Quản lý       JTable
+          dữ liệu      Hiển thị</pre>
+        </div>
+        <p>ArrayList trở thành nguồn dữ liệu chính, còn JTable là nơi hiển thị.</p>
+    </div>
+
+    <h4>4.4.6. Mô hình hoàn chỉnh</h4>
+    <p>Có thể hình dung chương trình quản lý sinh viên:</p>
+    <div class="info-box">
+        <pre>                    NGƯỜI DÙNG
+                         │
+                         ↓
+                ┌─────────────────┐
+                │      FORM       │
+                │ JTextField      │
+                │ JComboBox       │
+                │ JRadioButton    │
+                │ JButton         │
+                └────────┬────────┘
+                         ↓
+                ┌─────────────────┐
+                │    SinhVien     │
+                │     Object      │
+                └────────┬────────┘
+                         ↓
+                ┌─────────────────┐
+                │    ArrayList    │
+                │ <SinhVien>      │
+                └────────┬────────┘
+                         ↓
+                ┌─────────────────┐
+                │DefaultTableModel│
+                └────────┬────────┘
+                         ↓
+                ┌─────────────────┐
+                │     JTable      │
+                └─────────────────┘</pre>
+    </div>
+
+    <h4>4.4.7. Ví dụ tổng hợp</h4>
+    <p><strong>Khai báo danh sách:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Khai báo</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>ArrayList&lt;SinhVien&gt; danhSach = new ArrayList&lt;&gt;();</pre></div>
+    <p><strong>Thêm sinh viên:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Thêm</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>SinhVien sv = new SinhVien("SV001", "Nguyễn Văn An", "Nam", 2005, "CNTT1");
+danhSach.add(sv);</pre></div>
+    <p><strong>Hiển thị danh sách:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Hiển thị</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>private void hienThiDanhSach() {
+    model.setRowCount(0);
+
+    for (SinhVien sv : danhSach) {
+        model.addRow(new Object[]{
+            sv.getMaSinhVien(),
+            sv.getHoTen(),
+            sv.getGioiTinh(),
+            sv.getNamSinh(),
+            sv.getLop()
+        });
+    }
+}</pre></div>
+    <p><strong>Xóa:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Xóa</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int index = table.getSelectedRow();
+
+if (index >= 0) {
+    danhSach.remove(index);
+    hienThiDanhSach();
+}</pre></div>
+    <p><strong>Lấy đối tượng đang chọn:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Lấy đối tượng</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>int index = table.getSelectedRow();
+
+if (index >= 0) {
+    SinhVien sv = danhSach.get(index);
+    txtMaSV.setText(sv.getMaSinhVien());
+    txtHoTen.setText(sv.getHoTen());
+}</pre></div>
+
+    <h3>4.5. Quy trình xây dựng chương trình</h3>
+    <p>Khi xây dựng chương trình quản lý sinh viên bằng ArrayList + Object + JTable, nên thực hiện theo thứ tự:</p>
+    <div class="info-box">
+        <p><strong>Bước 1.</strong> Xác định dữ liệu</p>
+        <pre>SinhVien
+├── maSinhVien
+├── hoTen
+├── gioiTinh
+├── namSinh
+└── lop</pre>
+
+        <p><strong>Bước 2.</strong> Tạo class SinhVien</p>
+        <ul>
+            <li>Thuộc tính.</li>
+            <li>Constructor.</li>
+            <li>Getter.</li>
+            <li>Setter.</li>
+        </ul>
+
+        <p><strong>Bước 3.</strong> Tạo ArrayList</p>
+        <pre>ArrayList&lt;SinhVien&gt; danhSach;</pre>
+
+        <p><strong>Bước 4.</strong> Tạo JTable</p>
+        <p>Kết hợp: <strong>DefaultTableModel → JTable</strong></p>
+
+        <p><strong>Bước 5.</strong> Xây dựng Form</p>
+        <ul>
+            <li>JTextField</li>
+            <li>JRadioButton</li>
+            <li>JComboBox</li>
+            <li>JButton</li>
+        </ul>
+
+        <p><strong>Bước 6.</strong> Xử lý thêm</p>
+        <pre>Form → Object → ArrayList.add() → JTable</pre>
+
+        <p><strong>Bước 7.</strong> Xử lý sửa</p>
+        <pre>JTable → index → ArrayList.get() → Object → set() → JTable</pre>
+
+        <p><strong>Bước 8.</strong> Xử lý xóa</p>
+        <pre>JTable → index → ArrayList.remove() → JTable</pre>
+    </div>
+
+    <h3>4.6. Các phương thức cần nhớ</h3>
+
+    <div class="success-box">
+        <h5>ArrayList</h5>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Phương thức</th><th>Cú pháp</th><th>Công dụng</th></tr></thead>
+                <tbody>
+                    <tr><td>add()</td><td>list.add(obj)</td><td>Thêm phần tử</td></tr>
+                    <tr><td>get()</td><td>list.get(index)</td><td>Lấy phần tử</td></tr>
+                    <tr><td>set()</td><td>list.set(index, obj)</td><td>Thay thế phần tử</td></tr>
+                    <tr><td>remove()</td><td>list.remove(index)</td><td>Xóa phần tử</td></tr>
+                    <tr><td>size()</td><td>list.size()</td><td>Lấy số lượng</td></tr>
+                    <tr><td>clear()</td><td>list.clear()</td><td>Xóa toàn bộ</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="success-box">
+        <h5>Object</h5>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Thành phần</th><th>Công dụng</th></tr></thead>
+                <tbody>
+                    <tr><td>Class</td><td>Mô tả đối tượng</td></tr>
+                    <tr><td>Thuộc tính</td><td>Lưu dữ liệu</td></tr>
+                    <tr><td>Constructor</td><td>Khởi tạo đối tượng</td></tr>
+                    <tr><td>Getter</td><td>Lấy dữ liệu</td></tr>
+                    <tr><td>Setter</td><td>Thay đổi dữ liệu</td></tr>
+                    <tr><td>Object</td><td>Một phần tử dữ liệu cụ thể</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="success-box">
+        <h5>JTable</h5>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>Thành phần</th><th>Công dụng</th></tr></thead>
+                <tbody>
+                    <tr><td>getSelectedRow()</td><td>Lấy dòng đang chọn</td></tr>
+                    <tr><td>DefaultTableModel</td><td>Quản lý dữ liệu hiển thị</td></tr>
+                    <tr><td>setRowCount(0)</td><td>Xóa dữ liệu hiển thị cũ</td></tr>
+                    <tr><td>addRow()</td><td>Thêm dòng vào bảng</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h3>4.7. Những lỗi học viên thường gặp</h3>
+    <div class="warning-box">
+        <h5>Lỗi 1: Chỉ thêm dữ liệu vào JTable</h5>
+        <p><code>Form → JTable</code> mà không lưu vào ArrayList.</p>
+        <p><strong>Hậu quả:</strong> dữ liệu chỉ tồn tại trên bảng và khó quản lý.</p>
+    </div>
+
+    <div class="warning-box">
+        <h5>Lỗi 2: Xóa JTable nhưng quên xóa ArrayList</h5>
+        <p><code>JTable → removeRow()</code> nhưng <strong>ArrayList</strong> vẫn còn dữ liệu cũ.</p>
+        <p>Khi gọi lại hàm hiển thị, dữ liệu có thể xuất hiện trở lại.</p>
+        <p><strong>Nguyên tắc:</strong> Xóa dữ liệu ở ArrayList trước, sau đó cập nhật lại JTable.</p>
+    </div>
+
+    <div class="warning-box">
+        <h5>Lỗi 3: Sửa JTable nhưng không sửa Object</h5>
+        <p>Học viên thay đổi trực tiếp dữ liệu trên bảng nhưng đối tượng trong ArrayList vẫn giữ dữ liệu cũ.</p>
+        <p><strong>Nguyên tắc:</strong> Sửa Object trong ArrayList → Hiển thị lại JTable</p>
+    </div>
+
+    <div class="warning-box">
+        <h5>Lỗi 4: Không kiểm tra getSelectedRow()</h5>
+        <p>Nếu chưa chọn dòng: <code>table.getSelectedRow()</code> có thể trả về <strong>-1</strong>.</p>
+        <p>Do đó cần kiểm tra:</p>
+        <div class="code-block" style="background:#f5f5f5;color:#333;"><pre>if (index >= 0) {
+    // xử lý
+}</pre></div>
+    </div>
+
+    <h3>4.8. Bài tập tổng hợp</h3>
+    <div class="success-box">
+        <h5>Xây dựng chương trình quản lý sinh viên</h5>
+        <p><strong>Chuyển chương trình quản lý sinh viên từ cách:</strong></p>
+        <div class="info-box">
+            <pre>JTextField → JTable</pre>
+        </div>
+        <p><strong>sang mô hình:</strong></p>
+        <div class="info-box">
+            <pre>JTextField → SinhVien Object → ArrayList&lt;SinhVien&gt; → DefaultTableModel → JTable</pre>
+        </div>
+
+        <p><strong>Yêu cầu dữ liệu</strong></p>
+        <p>SinhVien gồm:</p>
+        <ul>
+            <li>Mã sinh viên</li>
+            <li>Họ tên</li>
+            <li>Giới tính</li>
+            <li>Năm sinh</li>
+            <li>Lớp</li>
+        </ul>
+
+        <p><strong>Yêu cầu chức năng</strong></p>
+        <ul>
+            <li>Hiển thị danh sách sinh viên mẫu.</li>
+            <li>Thêm sinh viên.</li>
+            <li>Sửa sinh viên.</li>
+            <li>Xóa sinh viên.</li>
+            <li>Hiển thị dữ liệu từ ArrayList lên JTable.</li>
+            <li>Chọn dòng trên JTable và đưa dữ liệu lên Form.</li>
+            <li>Kiểm tra dữ liệu trước khi thêm/sửa.</li>
+            <li>Không cho phép mã sinh viên trùng.</li>
+            <li>Xác nhận trước khi xóa.</li>
+            <li>Làm mới bảng sau mỗi thao tác.</li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Kết quả cần đạt</strong></p>
+        <p>Sau bài này, học viên phải hiểu rõ:</p>
+        <pre>                SinhVien
+                    │
+                    ↓
+             ArrayList&lt;SinhVien&gt;
+                    │
+          ┌─────────┼─────────┐
+          ↓         ↓         ↓
+        Thêm       Sửa       Xóa
+          │         │         │
+          └─────────┼─────────┘
+                    ↓
+             Hiển thị lại
+                    ↓
+              DefaultTableModel
+                    ↓
+                  JTable</pre>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Ghi nhớ trọng tâm:</strong> Quản lý dữ liệu trong chương trình Swing cần tách biệt dữ liệu và hiển thị. <strong>ArrayList</strong> là nơi lưu trữ dữ liệu chính, <strong>JTable</strong> chỉ hiển thị. Sử dụng <strong>Object</strong> để đóng gói dữ liệu, giúp quản lý dễ dàng hơn. Các thao tác thêm, sửa, xóa đều phải thực hiện trên ArrayList trước, sau đó cập nhật JTable. Mô hình <strong>Form → Object → ArrayList → DefaultTableModel → JTable</strong> là nền tảng cho các ứng dụng quản lý dữ liệu trong Swing.</p>
+    </div>
+</section>
+
+
+<section id="to-chuc" class="section">
+    <h2><i class="fas fa-sitemap"></i> 5. Tổ chức chương trình</h2>
+    <p>Khi chương trình còn nhỏ, học viên có thể viết giao diện, dữ liệu và xử lý sự kiện trong cùng một class. Tuy nhiên, khi chương trình có nhiều chức năng như Thêm – Sửa – Xóa – Tìm kiếm – Hiển thị dữ liệu, việc viết tất cả trong một class sẽ khiến chương trình khó đọc, khó sửa và khó mở rộng.</p>
+    <p>Ví dụ một chương trình quản lý sinh viên có thể chứa:</p>
+    <ul>
+        <li>Class sinh viên.</li>
+        <li>Danh sách sinh viên.</li>
+        <li>Giao diện nhập liệu.</li>
+        <li>Giao diện bảng.</li>
+        <li>Nút Thêm, Sửa, Xóa, Tìm kiếm.</li>
+        <li>Xử lý sự kiện.</li>
+        <li>Kiểm tra dữ liệu.</li>
+    </ul>
+    <p>Nếu tất cả được đặt trong một class:</p>
+    <div class="info-box">
+        <pre>MainFrame.java
+├── Thuộc tính dữ liệu
+├── ArrayList
+├── JTextField
+├── JButton
+├── JTable
+├── Xử lý thêm
+├── Xử lý sửa
+├── Xử lý xóa
+├── Xử lý tìm kiếm
+├── Kiểm tra dữ liệu
+└── Hiển thị bảng</pre>
+    </div>
+    <p>class sẽ rất dài và khó quản lý.</p>
+    <p>Vì vậy, cần tổ chức chương trình thành các thành phần riêng:</p>
+    <div class="info-box">
+        <pre>Model → Dữ liệu + xử lý dữ liệu
+View → Giao diện
+Controller → Xử lý sự kiện + điều phối</pre>
+    </div>
+    <p>Đây là cơ sở để học viên làm quen với mô hình MVC.</p>
+
+    <h3>5.1. Tách class</h3>
+
+    <h4>5.1.1. Khi nào cần tạo class?</h4>
+    <p>Trong Java, nên tạo class riêng khi một nhóm dữ liệu hoặc chức năng có vai trò tương đối độc lập.</p>
+    <p>Ví dụ chương trình quản lý sinh viên có thể có:</p>
+    <ul>
+        <li><strong>SinhVien</strong></li>
+        <li><strong>SinhVienFrame</strong></li>
+        <li><strong>SinhVienController</strong></li>
+    </ul>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Class</th><th>Vai trò</th></tr></thead>
+            <tbody>
+                <tr><td>SinhVien</td><td>Đại diện cho dữ liệu sinh viên</td></tr>
+                <tr><td>SinhVienFrame</td><td>Thiết kế giao diện</td></tr>
+                <tr><td>SinhVienController</td><td>Xử lý sự kiện và điều phối</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="warning-box">
+        <p><strong>Không nên hiểu rằng</strong> mỗi thành phần giao diện bắt buộc phải tạo một class. Ví dụ không cần tạo: JButtonClass, JTextFieldClass, JTableClass. Mà thường gom các component liên quan vào một class giao diện.</p>
+    </div>
+
+    <h4>5.1.2. Tách class dữ liệu</h4>
+    <p>Class dữ liệu đại diện cho một đối tượng trong chương trình.</p>
+    <div class="code-block"><div class="code-header"><span>SinhVien.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public class SinhVien {
+    private String maSinhVien;
+    private String hoTen;
+    private String gioiTinh;
+    private int namSinh;
+    private String lop;
+}</pre></div>
+    <p>Class này tập trung mô tả:</p>
+    <div class="info-box">
+        <pre>SinhVien
+├── maSinhVien
+├── hoTen
+├── gioiTinh
+├── namSinh
+└── lop</pre>
+    </div>
+    <p>Sau đó có thể tạo: <strong>SinhVien sv1; SinhVien sv2; SinhVien sv3;</strong></p>
+    <div class="warning-box">
+        <p><strong>Vai trò:</strong> SinhVien không chịu trách nhiệm thiết kế giao diện. Không nên đưa vào class này: JFrame, JButton, JTextField, JTable, JOptionPane. Bởi vì SinhVien chỉ nên tập trung vào dữ liệu của một sinh viên.</p>
+    </div>
+
+    <h4>5.1.3. Tách class giao diện</h4>
+    <p>Class giao diện chịu trách nhiệm xây dựng và quản lý giao diện.</p>
+    <div class="code-block"><div class="code-header"><span>SinhVienFrame.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public class SinhVienFrame extends JFrame {
+    private JTextField txtMaSV;
+    private JTextField txtHoTen;
+    private JButton btnThem;
+    private JButton btnSua;
+    private JButton btnXoa;
+    private JTable table;
+}</pre></div>
+    <p>Class này có thể chứa: JFrame, JPanel, JTextField, JButton, JTable, JComboBox, JRadioButton, JLabel.</p>
+    <div class="info-box">
+        <pre>SinhVienFrame → Thiết kế giao diện → Hiển thị dữ liệu → Nhận thao tác từ người dùng</pre>
+    </div>
+
+    <h4>5.1.4. Tách class xử lý</h4>
+    <p>Class xử lý chịu trách nhiệm xử lý các thao tác của chương trình.</p>
+    <div class="info-box">
+        <pre>SinhVienController
+├── thêm sinh viên
+├── sửa sinh viên
+├── xóa sinh viên
+├── tìm kiếm
+└── kiểm tra dữ liệu</pre>
+    </div>
+    <p><strong>Ví dụ phương thức:</strong></p>
+    <div class="code-block"><div class="code-header"><span>Ví dụ</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public void themSinhVien() {
+    // xử lý thêm
+}
+
+public void xoaSinhVien() {
+    // xử lý xóa
+}</pre></div>
+    <p>Mục đích là tránh đưa toàn bộ xử lý vào class giao diện.</p>
+
+    <h4>5.1.5. Tránh viết toàn bộ chương trình trong một class</h4>
+    <div class="warning-box">
+        <h5>Cách tổ chức không tốt</h5>
+        <pre>Main.java
+│
+├── SinhVien
+├── ArrayList
+├── JFrame
+├── JTextField
+├── JTable
+├── Thêm
+├── Sửa
+├── Xóa
+├── Tìm kiếm
+├── Kiểm tra
+└── Hiển thị</pre>
+        <p>Class có thể lên tới hàng trăm hoặc hàng nghìn dòng.</p>
+    </div>
+    <div class="success-box">
+        <h5>Cách tổ chức tốt hơn</h5>
+        <pre>model
+└── SinhVien.java
+
+view
+└── SinhVienFrame.java
+
+controller
+└── SinhVienController.java</pre>
+        <p>Mỗi class có một vai trò rõ ràng.</p>
+    </div>
+
+    <h3>5.2. Model</h3>
+
+    <h4>5.2.1. Khái niệm Model</h4>
+    <p>Model là thành phần chịu trách nhiệm về dữ liệu và các thao tác liên quan đến dữ liệu.</p>
+    <p>Trong chương trình quản lý sinh viên, Model có thể bao gồm:</p>
+    <div class="info-box">
+        <pre>Model
+├── SinhVien
+├── ArrayList&lt;SinhVien&gt;
+├── thêm
+├── sửa
+├── xóa
+└── tìm kiếm</pre>
+    </div>
+    <p>Có thể hiểu đơn giản: <strong>Model biết dữ liệu là gì và dữ liệu được xử lý như thế nào.</strong></p>
+
+    <h4>5.2.2. Class dữ liệu trong Model</h4>
+    <div class="code-block"><div class="code-header"><span>SinhVien.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public class SinhVien {
+    private String maSinhVien;
+    private String hoTen;
+    private String gioiTinh;
+    private int namSinh;
+    private String lop;
+
+    // Constructor
+    // Getter
+    // Setter
+}</pre></div>
+    <div class="info-box">
+        <pre>sv1
+┌───────────────────┐
+│ SV001             │
+│ Nguyễn Văn An     │
+│ Nam               │
+│ 2005              │
+│ CNTT1             │
+└───────────────────┘</pre>
+    </div>
+
+    <h4>5.2.3. Quản lý danh sách đối tượng</h4>
+    <p>Có thể tạo một class quản lý riêng, ví dụ:</p>
+    <div class="code-block"><div class="code-header"><span>SinhVienModel.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public class SinhVienModel {
+    private ArrayList&lt;SinhVien&gt; danhSach;
+}</pre></div>
+    <p>Trong đó:</p>
+    <ul>
+        <li><strong>SinhVien</strong> → Một đối tượng</li>
+        <li><strong>ArrayList&lt;SinhVien&gt;</strong> → Danh sách nhiều đối tượng</li>
+    </ul>
+    <div class="info-box">
+        <pre>ArrayList&lt;SinhVien&gt;
+
+┌───────┬──────────────────────┐
+│  0    │ Nguyễn Văn An        │
+│  1    │ Trần Thị Bình        │
+│  2    │ Lê Văn Cường         │
+│  3    │ Phạm Văn D           │
+└───────┴──────────────────────┘</pre>
+    </div>
+
+    <h4>5.2.4. Phương thức thêm dữ liệu</h4>
+    <p>Model có thể cung cấp phương thức:</p>
+    <div class="code-block"><div class="code-header"><span>Thêm</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public void them(SinhVien sv) {
+    danhSach.add(sv);
+}</pre></div>
+    <p>Controller không cần trực tiếp thao tác với ArrayList. Thay vì: <code>danhSach.add(sv);</code> Controller có thể gọi: <code>model.them(sv);</code></p>
+    <div class="info-box">
+        <pre>Controller → model.them() → ArrayList</pre>
+    </div>
+
+    <h4>5.2.5. Phương thức xóa dữ liệu</h4>
+    <div class="code-block"><div class="code-header"><span>Xóa</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public void xoa(int index) {
+    danhSach.remove(index);
+}</pre></div>
+    <p>Khi người dùng chọn dòng: <strong>JTable → index = 2 → Controller → model.xoa(2) → ArrayList</strong></p>
+
+    <h4>5.2.6. Phương thức sửa dữ liệu</h4>
+    <p>Có thể thiết kế:</p>
+    <div class="code-block"><div class="code-header"><span>Sửa</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public void sua(int index, SinhVien sv) {
+    danhSach.set(index, sv);
+}</pre></div>
+    <div class="info-box">
+        <pre>index → Xác định sinh viên cần sửa → SinhVien mới → Thay thế dữ liệu cũ</pre>
+    </div>
+
+    <h4>5.2.7. Phương thức tìm kiếm</h4>
+    <p>Ví dụ tìm sinh viên theo mã:</p>
+    <div class="code-block"><div class="code-header"><span>Tìm kiếm</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public SinhVien timTheoMa(String ma) {
+    for (SinhVien sv : danhSach) {
+        if (sv.getMaSinhVien().equals(ma)) {
+            return sv;
+        }
+    }
+    return null;
+}</pre></div>
+    <div class="info-box">
+        <pre>Mã cần tìm → Duyệt ArrayList → So sánh mã → Tìm thấy → trả về SinhVien / Không thấy → null</pre>
+    </div>
+
+    <div class="warning-box">
+        <h5>5.2.8. Model không nên biết giao diện</h5>
+        <p>Đây là nguyên tắc quan trọng.</p>
+        <p><strong>Model:</strong> SinhVien, ArrayList, Thêm, Sửa, Xóa, Tìm kiếm</p>
+        <p>Không nên phụ thuộc trực tiếp vào: JFrame, JButton, JTextField, JTable</p>
+        <p>Ví dụ không nên đưa: <code>JOptionPane.showMessageDialog(...);</code> vào class dữ liệu nếu có thể xử lý thông báo ở tầng giao diện/controller.</p>
+    </div>
+
+    <h3>5.3. View</h3>
+
+    <h4>5.3.1. Khái niệm View</h4>
+    <p>View là thành phần chịu trách nhiệm về giao diện người dùng.</p>
+    <p>Có thể hiểu: <strong>View là phần mà người dùng nhìn thấy và tương tác.</strong></p>
+    <div class="info-box">
+        <pre>View
+├── JFrame
+├── JPanel
+├── JLabel
+├── JTextField
+├── JButton
+├── JComboBox
+└── JTable</pre>
+    </div>
+
+    <h4>5.3.2. Thiết kế giao diện</h4>
+    <p>Ví dụ giao diện quản lý sinh viên:</p>
+    <div class="info-box">
+        <pre>┌──────────────────────────────────────────┐
+│          QUẢN LÝ SINH VIÊN              │
+├──────────────────────────────────────────┤
+│ Mã SV:    [______________]               │
+│ Họ tên:   [______________]               │
+│ Giới tính: ( ) Nam  ( ) Nữ               │
+│ Năm sinh: [______________]               │
+│ Lớp:      [______________]               │
+│                                          │
+│ [Thêm] [Sửa] [Xóa] [Làm mới]             │
+├──────────────────────────────────────────┤
+│ Mã SV │ Họ tên │ Giới tính │ Năm sinh    │
+│───────┼────────┼───────────┼─────────────│
+│ SV001 │ ...    │ Nam       │ 2005        │
+│ SV002 │ ...    │ Nữ        │ 2004        │
+└──────────────────────────────────────────┘</pre>
+    </div>
+    <p>View chịu trách nhiệm xây dựng giao diện này.</p>
+
+    <h4>5.3.3. JFrame và JPanel</h4>
+    <p>Thông thường View có thể kế thừa JFrame:</p>
+    <div class="code-block"><div class="code-header"><span>SinhVienFrame.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public class SinhVienFrame extends JFrame {
+}</pre></div>
+    <p>Bên trong sử dụng các JPanel để chia khu vực:</p>
+    <div class="info-box">
+        <pre>SinhVienFrame
+│
+├── JPanel Form
+│
+├── JPanel Button
+│
+└── JPanel Table</pre>
+    </div>
+    <div class="info-box">
+        <pre>JFrame
+┌──────────────────────────────┐
+│ JPanel - Form                │
+├──────────────────────────────┤
+│ JPanel - Button              │
+├──────────────────────────────┤
+│ JPanel - Table               │
+└──────────────────────────────┘</pre>
+    </div>
+
+    <h4>5.3.4. JTextField, JButton và JTable</h4>
+    <p>View có thể khai báo:</p>
+    <div class="code-block"><div class="code-header"><span>Khai báo</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>private JTextField txtMaSV;
+private JTextField txtHoTen;
+private JButton btnThem;
+private JButton btnSua;
+private JButton btnXoa;
+private JTable table;</pre></div>
+    <div class="info-box">
+        <pre>JTextField → Nhập dữ liệu
+JButton → Thực hiện thao tác
+JTable → Hiển thị dữ liệu</pre>
+    </div>
+
+    <h4>5.3.5. View lấy dữ liệu từ giao diện</h4>
+    <p>Ví dụ người dùng nhập họ tên: <code>String hoTen = txtHoTen.getText();</code></p>
+    <p>View có thể cung cấp phương thức:</p>
+    <div class="code-block"><div class="code-header"><span>Getter</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public String getHoTen() {
+    return txtHoTen.getText();
+}</pre></div>
+    <p>Controller gọi: <code>String hoTen = view.getHoTen();</code></p>
+    <p>Như vậy Controller không cần biết trực tiếp JTextField nằm ở đâu.</p>
+
+    <h4>5.3.6. View hiển thị dữ liệu</h4>
+    <p>View có thể có phương thức:</p>
+    <div class="code-block"><div class="code-header"><span>Hiển thị</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public void hienThiSinhVien(SinhVien sv) {
+    txtMaSV.setText(sv.getMaSinhVien());
+    txtHoTen.setText(sv.getHoTen());
+}</pre></div>
+    <p>Controller chỉ cần yêu cầu: <strong>View → hiển thị sinh viên</strong> thay vì tự điều khiển từng JTextField.</p>
+
+    <h3>5.4. Controller</h3>
+
+    <h4>5.4.1. Khái niệm Controller</h4>
+    <p>Controller là thành phần đứng giữa View và Model.</p>
+    <p><strong>Nhiệm vụ chính:</strong></p>
+    <ul>
+        <li>Nhận thao tác từ người dùng.</li>
+        <li>Xử lý sự kiện.</li>
+        <li>Lấy dữ liệu từ View.</li>
+        <li>Gọi Model xử lý.</li>
+        <li>Yêu cầu View cập nhật giao diện.</li>
+    </ul>
+    <div class="info-box">
+        <pre>Người dùng → View → Controller → Model
+Sau khi Model xử lý: Model → Controller → View → Hiển thị kết quả</pre>
+    </div>
+
+    <h4>5.4.2. Controller xử lý sự kiện</h4>
+    <p>Ví dụ người dùng nhấn nút <strong>[ THÊM ]</strong>. Sự kiện được chuyển tới Controller:</p>
+    <div class="info-box">
+        <pre>JButton → ActionListener → Controller</pre>
+    </div>
+    <p>Controller xử lý:</p>
+    <div class="code-block"><div class="code-header"><span>xử lý Thêm</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public void xuLyThem() {
+    // lấy dữ liệu
+    // tạo đối tượng
+    // gọi Model
+    // cập nhật View
+}</pre></div>
+
+    <h4>5.4.3. Controller nhận dữ liệu từ View</h4>
+    <p>Giả sử View cung cấp:</p>
+    <div class="code-block"><div class="code-header"><span>Getter</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>public String getMaSV() {
+    return txtMaSV.getText();
+}
+
+public String getHoTen() {
+    return txtHoTen.getText();
+}</pre></div>
+    <p>Controller:</p>
+    <div class="code-block"><div class="code-header"><span>Controller</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>String ma = view.getMaSV();
+String ten = view.getHoTen();
+SinhVien sv = new SinhVien(ma, ten, ...);</pre></div>
+
+    <h4>5.4.4. Controller gọi Model</h4>
+    <p>Sau khi có đối tượng: <code>model.them(sv);</code></p>
+    <div class="info-box">
+        <pre>Người dùng nhấn "Thêm" → View → Controller → Lấy dữ liệu → Tạo SinhVien Object → Model → ArrayList.add()</pre>
+    </div>
+
+    <h4>5.4.5. Controller cập nhật View</h4>
+    <p>Sau khi thêm thành công, Controller yêu cầu View hiển thị lại dữ liệu:</p>
+    <div class="info-box">
+        <pre>Model → Dữ liệu mới → Controller → View → JTable</pre>
+    </div>
+    <div class="code-block"><div class="code-header"><span>Cập nhật</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre>model.them(sv);
+view.hienThiDanhSach(model.getDanhSach());</pre></div>
+    <div class="info-box">
+        <pre>ArrayList → DefaultTableModel → JTable → Xuất hiện sinh viên mới</pre>
+    </div>
+
+    <h3>5.5. Giới thiệu mô hình MVC</h3>
+
+    <h4>5.5.1. MVC là gì?</h4>
+    <p>MVC là viết tắt của: <strong>M = Model, V = View, C = Controller</strong></p>
+    <p>Đây là cách tổ chức chương trình thành ba thành phần có trách nhiệm khác nhau.</p>
+    <div class="info-box">
+        <pre>             Controller
+             ↙         ↘
+           View  ←──→  Model</pre>
+    </div>
+    <div class="info-box">
+        <pre>Model → Dữ liệu
+View → Giao diện
+Controller → Điều phối</pre>
+    </div>
+
+    <h4>5.5.2. Model</h4>
+    <p>Model phụ trách: Dữ liệu, Đối tượng, Danh sách, Thêm, Sửa, Xóa, Tìm kiếm.</p>
+    <p><strong>Ví dụ:</strong> SinhVien, SinhVienModel, ArrayList&lt;SinhVien&gt;</p>
+
+    <h4>5.5.3. View</h4>
+    <p>View phụ trách: Giao diện, Nhập dữ liệu, Hiển thị dữ liệu, Các component Swing.</p>
+    <p><strong>Ví dụ:</strong> SinhVienFrame, JTextField, JButton, JComboBox, JTable</p>
+
+    <h4>5.5.4. Controller</h4>
+    <p>Controller phụ trách: Xử lý sự kiện, Nhận yêu cầu, Lấy dữ liệu từ View, Gọi Model, Cập nhật View.</p>
+    <div class="info-box">
+        <pre>Nhấn JButton "Thêm" → Controller → Lấy dữ liệu View → Tạo SinhVien → Model.them() → Cập nhật View</pre>
+    </div>
+
+    <h4>5.5.5. Ví dụ quy trình thêm sinh viên theo MVC</h4>
+    <p>Giả sử người dùng nhập: <strong>Mã SV: SV001, Họ tên: Nguyễn Văn An, Lớp: CNTT1</strong> và nhấn <strong>[THÊM]</strong></p>
+    <div class="info-box">
+        <p><strong>Bước 1 – View:</strong> Người dùng thao tác trên giao diện. JTextField, JButton</p>
+        <p><strong>Bước 2 – Controller:</strong> Controller nhận sự kiện. ActionListener → Controller</p>
+        <p><strong>Bước 3 – Controller lấy dữ liệu:</strong> View → getMaSV(), getHoTen(), getLop()</p>
+        <p><strong>Bước 4 – Controller tạo Object:</strong> SinhVien sv</p>
+        <p><strong>Bước 5 – Model lưu dữ liệu:</strong> model.them(sv) → ArrayList.add(sv)</p>
+        <p><strong>Bước 6 – View cập nhật:</strong> ArrayList → JTable</p>
+    </div>
+    <div class="info-box">
+        <pre>┌────────┬──────────────────┬────────┐
+│ Mã SV  │ Họ tên           │ Lớp    │
+├────────┼──────────────────┼────────┤
+│ SV001  │ Nguyễn Văn An    │ CNTT1  │
+└────────┴──────────────────┴────────┘</pre>
+    </div>
+
+    <h4>5.5.6. Ví dụ quy trình xóa theo MVC</h4>
+    <p>Người dùng chọn dòng SV002 và nhấn Xóa.</p>
+    <div class="info-box">
+        <pre>Người dùng → View → Controller → Lấy dòng được chọn → index = 1 → Model → ArrayList.remove(1) → Controller → View → JTable</pre>
+    </div>
+    <div class="info-box">
+        <p><strong>Điểm quan trọng:</strong> Controller là thành phần điều phối, chứ không phải nơi lưu dữ liệu.</p>
+    </div>
+
+    <h4>5.5.7. Lợi ích của MVC</h4>
+    <div class="success-box">
+        <h5>1. Dễ đọc</h5>
+        <p>Mỗi class có nhiệm vụ rõ ràng.</p>
+
+        <h5>2. Dễ sửa</h5>
+        <p>Ví dụ muốn thay đổi giao diện: <strong>View</strong> không nhất thiết phải sửa toàn bộ Model.</p>
+
+        <h5>3. Dễ mở rộng</h5>
+        <p>Có thể thêm: Tìm kiếm, Sắp xếp, Thống kê, Xuất dữ liệu mà không làm chương trình trở nên quá rối.</p>
+
+        <h5>4. Dễ bảo trì</h5>
+        <p>Khi có lỗi, có thể xác định lỗi thuộc: Model, View, Controller.</p>
+
+        <h5>5. Tái sử dụng</h5>
+        <p>Một Model có thể được sử dụng bởi nhiều giao diện khác nhau.</p>
+    </div>
+
+    <h3>5.6. Phân chia Package</h3>
+    <p>Khi số lượng class tăng lên, không nên để tất cả class trong cùng một package.</p>
+    <p>Có thể chia:</p>
+    <div class="info-box">
+        <pre>src
+├── model
+│   ├── SinhVien.java
+│   └── SinhVienModel.java
+│
+├── view
+│   ├── MainFrame.java
+│   └── SinhVienFrame.java
+│
+└── controller
+    └── SinhVienController.java</pre>
+    </div>
+
+    <h4>5.6.1. Package model</h4>
+    <p>Chứa các class liên quan đến dữ liệu.</p>
+    <div class="info-box">
+        <pre>model
+├── SinhVien.java
+└── SinhVienModel.java</pre>
+    </div>
+    <ul>
+        <li><strong>SinhVien.java</strong> – Đại diện cho một sinh viên.</li>
+        <li><strong>SinhVienModel.java</strong> – Quản lý: ArrayList&lt;SinhVien&gt; và các thao tác: Thêm, Sửa, Xóa, Tìm kiếm.</li>
+    </ul>
+
+    <h4>5.6.2. Package view</h4>
+    <p>Chứa các class giao diện.</p>
+    <div class="info-box">
+        <pre>view
+├── MainFrame.java
+└── SinhVienFrame.java</pre>
+    </div>
+    <ul>
+        <li><strong>MainFrame</strong> – Giao diện chính: Menu, Các chức năng.</li>
+        <li><strong>SinhVienFrame</strong> – Form quản lý: Nhập sinh viên, JTable, Thêm, Sửa, Xóa.</li>
+    </ul>
+
+    <h4>5.6.3. Package controller</h4>
+    <p>Chứa các class xử lý.</p>
+    <div class="info-box">
+        <pre>controller
+└── SinhVienController.java</pre>
+    </div>
+    <p>Class này liên kết: <strong>View ↔ Controller ↔ Model</strong></p>
+
+    <h4>5.6.4. Cấu trúc hoàn chỉnh</h4>
+    <p>Có thể tổ chức chương trình:</p>
+    <div class="info-box">
+        <pre>src
+│
+├── model
+│   │
+│   ├── SinhVien.java
+│   └── SinhVienModel.java
+│
+├── view
+│   │
+│   ├── MainFrame.java
+│   └── SinhVienFrame.java
+│
+├── controller
+│   │
+│   └── SinhVienController.java
+│
+└── Main.java</pre>
+    </div>
+    <div class="info-box">
+        <pre>Main.java → Khởi động chương trình
+model → Quản lý dữ liệu
+view → Giao diện
+controller → Xử lý và điều phối</pre>
+    </div>
+
+    <h3>5.7. Mối quan hệ giữa Model – View – Controller</h3>
+    <p>Có thể ghi nhớ bằng sơ đồ:</p>
+    <div class="info-box">
+        <pre>                  NGƯỜI DÙNG
+                       │
+                       ↓
+                  ┌─────────┐
+                  │  View   │
+                  │ Giao diện│
+                  └────┬────┘
+                       │
+                 Sự kiện / Dữ liệu
+                       ↓
+                  ┌─────────┐
+                  │Controller│
+                  │ Xử lý    │
+                  └────┬────┘
+                       │
+                  Gọi Model
+                       ↓
+                  ┌─────────┐
+                  │  Model  │
+                  │ Dữ liệu │
+                  └────┬────┘
+                       │
+                 Kết quả xử lý
+                       ↓
+                  Controller
+                       ↓
+                     View
+                       ↓
+                  Người dùng</pre>
+    </div>
+
+    <h3>5.8. Nguyên tắc phân chia trách nhiệm</h3>
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Thành phần</th><th>Nhiệm vụ chính</th><th>Không nên làm</th></tr></thead>
+            <tbody>
+                <tr><td>Model</td><td>Dữ liệu, thêm, sửa, xóa, tìm kiếm</td><td>Thiết kế giao diện</td></tr>
+                <tr><td>View</td><td>Giao diện, nhập và hiển thị</td><td>Xử lý nghiệp vụ phức tạp</td></tr>
+                <tr><td>Controller</td><td>Sự kiện, điều phối Model và View</td><td>Lưu dữ liệu chính</td></tr>
+                <tr><td>Main</td><td>Khởi động chương trình</td><td>Chứa toàn bộ nghiệp vụ</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="info-box">
+        <p><strong>Một cách ghi nhớ đơn giản:</strong></p>
+        <pre>MODEL      → DỮ LIỆU
+VIEW       → GIAO DIỆN
+CONTROLLER → ĐIỀU PHỐI</pre>
+    </div>
+
+    <h3>5.9. Ví dụ cấu trúc chương trình quản lý sinh viên</h3>
+    <div class="info-box">
+        <pre>Quản lý sinh viên
+│
+├── MODEL
+│   ├── SinhVien
+│   │   ├── mã
+│   │   ├── họ tên
+│   │   ├── giới tính
+│   │   ├── năm sinh
+│   │   └── lớp
+│   │
+│   └── SinhVienModel
+│       ├── danhSach
+│       ├── them()
+│       ├── sua()
+│       ├── xoa()
+│       └── timKiem()
+│
+├── VIEW
+│   ├── MainFrame
+│   └── SinhVienFrame
+│       ├── Form
+│       ├── Button
+│       └── JTable
+│
+└── CONTROLLER
+    └── SinhVienController
+        ├── xử lý thêm
+        ├── xử lý sửa
+        ├── xử lý xóa
+        └── xử lý tìm kiếm</pre>
+    </div>
+
+    <h3>5.10. Bài tập tổng hợp</h3>
+    <div class="success-box">
+        <h5>Bài tập: Tách chương trình quản lý sinh viên theo MVC</h5>
+        <p>Sử dụng chương trình quản lý sinh viên đã xây dựng ở phần trước và tổ chức lại thành: <strong>model, view, controller</strong></p>
+
+        <p><strong>Yêu cầu 1 – Model</strong></p>
+        <p>Tạo: <strong>SinhVien.java</strong> và <strong>SinhVienModel.java</strong></p>
+        <p>SinhVien gồm: Mã sinh viên, Họ tên, Giới tính, Năm sinh, Lớp.</p>
+        <p>SinhVienModel quản lý: ArrayList&lt;SinhVien&gt;, Thêm, Sửa, Xóa, Tìm kiếm.</p>
+
+        <p><strong>Yêu cầu 2 – View</strong></p>
+        <p>Tạo: <strong>MainFrame.java</strong> và <strong>SinhVienFrame.java</strong></p>
+        <p>Giao diện gồm: JTextField, JRadioButton, JComboBox, JButton, JTable, JScrollPane.</p>
+
+        <p><strong>Yêu cầu 3 – Controller</strong></p>
+        <p>Tạo: <strong>SinhVienController.java</strong></p>
+        <p>Xử lý: Sự kiện nút Thêm, Sự kiện nút Sửa, Sự kiện nút Xóa, Sự kiện Tìm kiếm, Chọn dòng trên JTable, Kiểm tra dữ liệu.</p>
+
+        <p><strong>Yêu cầu 4 – Hoàn thiện luồng MVC</strong></p>
+        <p><strong>Chức năng Thêm:</strong></p>
+        <pre>Form → Controller → SinhVien Object → Model → ArrayList → Controller → View → JTable</pre>
+        <p><strong>Chức năng Sửa:</strong></p>
+        <pre>JTable → Controller → Model → SinhVien → Cập nhật → JTable</pre>
+        <p><strong>Chức năng Xóa:</strong></p>
+        <pre>JTable → Controller → Model.remove() → ArrayList → JTable</pre>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Kết quả cần đạt</strong></p>
+        <p>Sau phần này, học viên cần phân biệt được rõ:</p>
+        <pre>SinhVien.java → "Dữ liệu của một sinh viên là gì?"
+SinhVienModel.java → "Danh sách sinh viên được quản lý như thế nào?"
+SinhVienFrame.java → "Giao diện hiển thị như thế nào?"
+SinhVienController.java → "Khi người dùng thao tác thì chương trình làm gì?"</pre>
+        <p>Và hiểu được kiến trúc tổng thể:</p>
+        <pre>                 ┌─────────────┐
+                 │    VIEW     │
+                 │ Giao diện   │
+                 └──────┬──────┘
+                        │
+                        ↓
+                 ┌─────────────┐
+                 │ CONTROLLER  │
+                 │ Điều phối   │
+                 └──────┬──────┘
+                        │
+                        ↓
+                 ┌─────────────┐
+                 │    MODEL    │
+                 │ Dữ liệu     │
+                 │ Xử lý       │
+                 └─────────────┘</pre>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Ghi nhớ trọng tâm:</strong> Tổ chức chương trình theo mô hình MVC giúp tách biệt dữ liệu (Model), giao diện (View) và xử lý (Controller). Điều này làm cho chương trình dễ đọc, dễ bảo trì và dễ mở rộng. <strong>Model</strong> quản lý dữ liệu, <strong>View</strong> hiển thị giao diện, <strong>Controller</strong> điều phối giữa Model và View. Khi chương trình phát triển, việc tổ chức code theo MVC là một kỹ năng quan trọng giúp duy trì chất lượng và khả năng mở rộng của phần mềm.</p>
+    </div>
+</section>
+```
+        </main>
+    </div>
+    <footer>
+        <p>GV: Nguyễn Đình Mạnh</p>
+    </footer>
+</div>
+
+<script>
+    function copyCode(btn) {
+        const codeBlock = btn.parentElement.parentElement;
+        const text = codeBlock.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            const original = btn.textContent;
+            btn.textContent = 'Đã copy!';
+            setTimeout(() => btn.textContent = original, 2000);
+        });
+    }
+
+    const navLinks = document.querySelectorAll('.sidebar a');
+    const sections = document.querySelectorAll('.section');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            navLinks.forEach(l => l.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+            this.classList.add('active');
+            const targetId = this.getAttribute('href').substring(1);
+            document.getElementById(targetId).classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>

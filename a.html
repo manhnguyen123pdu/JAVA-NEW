@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Nhập thông tin</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        /* Cửa sổ */
+        .window {
+            width: 100%;
+            min-height: 800px;
+
+            background: #f8f8f8;
+
+            border: 1px solid #aaa;
+            border-radius: 25px;
+
+            overflow: hidden;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Thanh tiêu đề */
+        .title-bar {
+            height: 105px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 35px;
+
+            background: #f5f7f9;
+
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .java-icon {
+            width: 55px;
+            height: 55px;
+
+            margin-right: 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 35px;
+        }
+
+        .title {
+            font-size: 40px;
+            color: #111;
+        }
+
+        /* Nút cửa sổ */
+        .window-buttons {
+            margin-left: auto;
+
+            display: flex;
+            align-items: center;
+            gap: 45px;
+        }
+
+        .window-btn {
+            font-size: 40px;
+            font-weight: 300;
+
+            border: none;
+            background: transparent;
+
+            cursor: pointer;
+
+            line-height: 1;
+        }
+
+        /* Nội dung */
+        .content {
+            padding: 120px 50px;
+        }
+
+        /* Khung form */
+        .form-panel {
+            width: 100%;
+            min-height: 285px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 70px 110px;
+
+            border: 2px solid #9aa4af;
+            border-radius: 18px;
+
+            background: #fafafa;
+        }
+
+        /* Label */
+        .label {
+            width: 245px;
+
+            font-size: 42px;
+            font-weight: bold;
+
+            color: #111;
+        }
+
+        /* Input */
+        .input {
+            flex: 1;
+
+            height: 95px;
+
+            padding: 0 12px;
+
+            font-size: 38px;
+
+            background: #ffffff;
+
+            border: 2px solid #84909c;
+
+            outline: none;
+        }
+
+        .input:focus {
+            border-color: #526b80;
+        }
+
+        /* Nút Lưu */
+        .save-btn {
+            width: 290px;
+            height: 95px;
+
+            margin-left: 70px;
+
+            font-size: 40px;
+            font-weight: bold;
+
+            color: #111;
+
+            background: linear-gradient(
+                to bottom,
+                #ffffff,
+                #dce8f2
+            );
+
+            border: 2px solid #71808c;
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            box-shadow:
+                inset 0 1px 0 #ffffff,
+                0 2px 2px rgba(0, 0, 0, 0.15);
+        }
+
+        .save-btn:hover {
+            background: linear-gradient(
+                to bottom,
+                #ffffff,
+                #cddce8
+            );
+        }
+
+        .save-btn:active {
+            transform: translateY(1px);
+            box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="window">
+
+        <!-- Thanh tiêu đề -->
+        <div class="title-bar">
+
+            <div class="java-icon">
+                ☕
+            </div>
+
+            <div class="title">
+                Nhập thông tin
+            </div>
+
+            <div class="window-buttons">
+                <button class="window-btn">−</button>
+                <button class="window-btn">□</button>
+                <button class="window-btn">×</button>
+            </div>
+
+        </div>
+
+
+        <!-- Nội dung -->
+        <div class="content">
+
+            <div class="form-panel">
+
+                <label class="label">
+                    Họ tên:
+                </label>
+
+                <input
+                    type="text"
+                    class="input"
+                    autofocus
+                >
+
+                <button class="save-btn">
+                    Lưu
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
