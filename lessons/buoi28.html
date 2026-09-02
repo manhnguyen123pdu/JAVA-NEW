@@ -6,6 +6,17 @@
     <title> Java Swing</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    <link rel="stylesheet" href="./main.css">
+      <style>
+    pre{
+        font-family: monospace;
+           line-height: 1;
+    font-size: 17px;
+    letter-spacing: 0;
+    }
+    .code-block pre{
+        line-height: 1.5;
+    }
+   </style>
 </head>
 <body>
 <div class="container">
@@ -16,11 +27,11 @@
     <div class="content-wrapper">
         <nav class="sidebar">
             <ul class="sidebar">
-               <!-- <li class="nav-item"><a class="nav-link" href="#jtable"><i class="fas fa-table"></i> 1. JTable – Hiển thị dữ liệu dạng bảng</a></li>
+               <li class="nav-item"><a class="nav-link" href="#jtable"><i class="fas fa-table"></i> 1. JTable – Hiển thị dữ liệu dạng bảng</a></li>
                 <li class="nav-item"><a class="nav-link" href="#xu-ly"><i class="fas fa-edit"></i> 2. Xử lý dữ liệu trên JTable</a></li>
                 <li class="nav-item"><a class="nav-link" href="#giao-dien"><i class="fas fa-window-restore"></i> 3. Giao diện nâng cao</a></li>
                 <li class="nav-item"><a class="nav-link" href="#quan-ly"><i class="fas fa-database"></i> 4. Quản lý dữ liệu trong chương trình</a></li>
-                <li class="nav-item"><a class="nav-link" href="#to-chuc"><i class="fas fa-sitemap"></i> 5. Tổ chức chương trình</a></li> -->
+                <li class="nav-item"><a class="nav-link" href="#to-chuc"><i class="fas fa-sitemap"></i> 5. Tổ chức chương trình</a></li> 
             </ul>
         </nav>
         <main class="main-content ">
@@ -44,7 +55,8 @@
     <p>JTable là component của Java Swing dùng để hiển thị dữ liệu dưới dạng bảng, gồm các hàng (row) và cột (column).</p>
     <p><strong>Cấu trúc cơ bản:</strong></p>
     <div class="info-box">
-        <pre>                 Cột
+        <pre>                
+         Cột      Cột      Cột
           ↓        ↓        ↓
        ┌────────┬────────┬────────┐
        │ Mã SV  │ Họ tên │ Tuổi   │ ← Hàng
@@ -76,20 +88,21 @@
     </ul>
     <p><strong>Ví dụ ứng dụng quản lý sinh viên:</strong></p>
     <div class="info-box">
-        <pre>┌────────────────────────────────────────────────────┐
+        <pre>
+┌────────────────────────────────────────────────────┐
 │                 QUẢN LÝ SINH VIÊN                  │
 ├────────────────────────────────────────────────────┤
 │ Mã SV:  [____________]                             │
 │ Họ tên: [____________]                             │
 │ Tuổi:   [____________]                             │
 │                                                    │
-│ [Thêm] [Sửa] [Xóa]                                │
+│ [Thêm] [Sửa] [Xóa]                                 │
 │                                                    │
 │ ┌──────────────────────────────────────────────┐   │
-│ │ Mã SV │ Họ tên          │ Tuổi │ Ngành      │   │
-│ ├───────┼─────────────────┼──────┼────────────┤   │
-│ │ SV001 │ Nguyễn Văn An   │ 20   │ CNTT       │   │
-│ │ SV002 │ Trần Thị Bình   │ 21   │ Kế toán    │   │
+│ │ Mã SV │ Họ tên          │ Tuổi │ Ngành       │   │
+│ ├───────┼─────────────────┼──────┼─────────────┤   │
+│ │ SV001 │ Nguyễn Văn An   │ 20   │ CNTT        │   │
+│ │ SV002 │ Trần Thị Bình   │ 21   │ Kế toán     │   │
 │ └──────────────────────────────────────────────┘   │
 └────────────────────────────────────────────────────┘</pre>
     </div>
@@ -102,15 +115,17 @@
         <li><strong>Cột – Column</strong>: Mỗi cột biểu diễn một thuộc tính. Ví dụ: Mã SV, Họ tên, Tuổi, Ngành.</li>
     </ul>
     <div class="info-box">
-        <pre>              Column
-        ↓         ↓          ↓
-     Mã SV      Họ tên      Tuổi
+        <pre>
+            Column    Column     Column   
+              ↓         ↓          ↓
+            Mã SV      Họ tên      Tuổi
         │          │           │
-Row 0 ──┼──────────┼───────────┤
-        │ SV001    │ An        │ 20
+Row 0 ──┼──────────┼───────────┼──────────
+        │ SV001    │    An     │    20
         │          │           │
-Row 1 ──┼──────────┼───────────┤
-        │ SV002    │ Bình      │ 21</pre>
+Row 1 ──┼──────────┼───────────┼──────────
+        │ SV002    │   Bình    │    21
+    </pre>
     </div>
     <p><strong>Cell – Ô</strong>: Mỗi ô được xác định bởi <strong>row + column</strong>. Ví dụ: Hàng 0, Cột 1 có thể chứa <strong>Nguyễn Văn An</strong>.</p>
 
@@ -3941,7 +3956,6 @@ SinhVienController.java → "Khi người dùng thao tác thì chương trình l
         <p><strong>Ghi nhớ trọng tâm:</strong> Tổ chức chương trình theo mô hình MVC giúp tách biệt dữ liệu (Model), giao diện (View) và xử lý (Controller). Điều này làm cho chương trình dễ đọc, dễ bảo trì và dễ mở rộng. <strong>Model</strong> quản lý dữ liệu, <strong>View</strong> hiển thị giao diện, <strong>Controller</strong> điều phối giữa Model và View. Khi chương trình phát triển, việc tổ chức code theo MVC là một kỹ năng quan trọng giúp duy trì chất lượng và khả năng mở rộng của phần mềm.</p>
     </div>
 </section>
-```
         </main>
     </div>
     <footer>

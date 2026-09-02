@@ -6,6 +6,17 @@
     <title> Java Swing</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    <link rel="stylesheet" href="./main.css">
+   <style>
+    pre{
+        font-family: monospace;
+           line-height: 1;
+    font-size: 17px;
+    letter-spacing: 0;
+    }
+    .code-block pre{
+        line-height: 1.5;
+    }
+   </style>
 </head>
 <body>
 <div class="container">
@@ -16,19 +27,19 @@
     <div class="content-wrapper">
         <nav class="sidebar">
             <ul class="sidebar">
-               <!-- <li class="nav-item"><a class="nav-link " href="#event"><i class="fas fa-bolt"></i> 1. Khái niệm Event</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#actionlistener"><i class="fas fa-head-side-brain"></i> 2. ActionListener</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#jbutton-event"><i class="fas fa-hand-pointer"></i> 3. Xử lý sự kiện JButton</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#jtextfield-data"><i class="fas fa-edit"></i> 4. Lấy dữ liệu từ JTextField</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#joptionpane"><i class="fas fa-comment-dots"></i> 5. JOptionPane</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#jcheckbox"><i class="fas fa-check-square"></i> 6. JCheckBox</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#jradiobutton"><i class="fas fa-dot-circle"></i> 7. JRadioButton</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#buttongroup"><i class="fas fa-object-group"></i> 8. ButtonGroup</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#jcombobox"><i class="fas fa-caret-down"></i> 9. JComboBox</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#jlist"><i class="fas fa-list"></i> 10. JList</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#jscrollpane"><i class="fas fa-scroll"></i> 11. JScrollPane</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#defaultlistmodel"><i class="fas fa-database"></i> 12. DefaultListModel</a></li> -->
-                <!-- <li class="nav-item"><a class="nav-link" href="#validate"><i class="fas fa-check-circle"></i> 13. Kiểm tra dữ liệu nhập</a></li> -->
+               <li class="nav-item"><a class="nav-link " href="#event"><i class="fas fa-bolt"></i> 1. Khái niệm Event</a></li>
+                <li class="nav-item"><a class="nav-link" href="#actionlistener"><i class="fas fa-head-side-brain"></i> 2. ActionListener</a></li>
+                <li class="nav-item"><a class="nav-link" href="#jbutton-event"><i class="fas fa-hand-pointer"></i> 3. Xử lý sự kiện JButton</a></li>
+                <li class="nav-item"><a class="nav-link" href="#jtextfield-data"><i class="fas fa-edit"></i> 4. Lấy dữ liệu từ JTextField</a></li>
+                <li class="nav-item"><a class="nav-link" href="#joptionpane"><i class="fas fa-comment-dots"></i> 5. JOptionPane</a></li>
+                <li class="nav-item"><a class="nav-link" href="#jcheckbox"><i class="fas fa-check-square"></i> 6. JCheckBox</a></li>
+                <li class="nav-item"><a class="nav-link" href="#jradiobutton"><i class="fas fa-dot-circle"></i> 7. JRadioButton</a></li>
+                <li class="nav-item"><a class="nav-link" href="#buttongroup"><i class="fas fa-object-group"></i> 8. ButtonGroup</a></li>
+                <li class="nav-item"><a class="nav-link" href="#jcombobox"><i class="fas fa-caret-down"></i> 9. JComboBox</a></li>
+                <li class="nav-item"><a class="nav-link" href="#jlist"><i class="fas fa-list"></i> 10. JList</a></li>
+                <li class="nav-item"><a class="nav-link" href="#jscrollpane"><i class="fas fa-scroll"></i> 11. JScrollPane</a></li>
+                <li class="nav-item"><a class="nav-link" href="#defaultlistmodel"><i class="fas fa-database"></i> 12. DefaultListModel</a></li>
+                <li class="nav-item"><a class="nav-link" href="#validate"><i class="fas fa-check-circle"></i> 13. Kiểm tra dữ liệu nhập</a></li>
             </ul>
         </nav>
         <main class="main-content ">
@@ -68,21 +79,24 @@
 
     <h4>2. Sự kiện trong chương trình thực tế</h4>
     <p>Hãy xét một chương trình quản lý sinh viên có giao diện:</p>
-    <div class="info-box">
-        <pre>+------------------------------------------------+
+    <div class=""><pre>
+ _________________________________________________
+|                                                |
 |              QUẢN LÝ SINH VIÊN                 |
 |                                                |
 | Mã SV:    [____________]                       |
 | Họ tên:   [____________]                       |
 | Lớp:      [____________]                       |
 |                                                |
-| [Thêm]  [Sửa]  [Xóa]  [Làm mới]               |
+| [Thêm]  [Sửa]  [Xóa]  [Làm mới]                |
 |                                                |
 | Danh sách sinh viên                            |
-| ---------------------------------------------- |
+|________________________________________________|
+|                                                |
 | 01   Nguyễn Văn A      CNTT                    |
 | 02   Trần Văn B        CNTT                    |
-+------------------------------------------------+</pre>
+|________________________________________________|
+</pre>
     </div>
     <p>Khi người dùng sử dụng giao diện:</p>
     <ul>
@@ -533,7 +547,7 @@ Nhấn Xóa → Xử lý → Chờ tiếp</pre>
              ↓
 ┌─────────────────────────┐
 │ 7. Event Source phát sự │
-│    kiện                  │
+│    kiện                 │
 └────────────┬────────────┘
              ↓
 ┌─────────────────────────┐
@@ -1452,16 +1466,18 @@ public class DemoMultipleButton {
 
     <p><strong>Kết quả ban đầu:</strong></p>
     <div class="info-box">
-        <pre>┌────────────────────────────────────┐
+        <pre>
+┌────────────────────────────────────┐
 │          Nhiều JButton             │
 │                                    │
-│ [ Chào ]   [ Xóa ]   [ Thoát ]    │
+│ [ Chào ]   [ Xóa ]   [ Thoát ]     │
 │                                    │
 └────────────────────────────────────┘</pre>
     </div>
     <p><strong>Nhấn Chào:</strong></p>
     <div class="info-box">
-        <pre>┌───────────────────────┐
+        <pre>
+┌───────────────────────┐
 │       Xin chào!       │
 │                  [OK] │
 └───────────────────────┘</pre>
