@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="stylesheet" href="./main.css">
+   <style>
+    .content-wrapper{
+        display: block;
+    }
+    pre{
+            font-size: 19px;
+    line-height: 1.2;
+            font-family: monospace!important;
+    }
+   </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-arrow-rotate-left"></i>  PROJECT </h1>
+        </header>
+
+        <div class="content-wrapper">
+           
+       <main class="main-content">
+
+<section id="de-do-an-java-swing" class="section active">
+
+    <h2><i class="fas fa-cash-register"></i> ĐỀ DỰ ÁN KẾT THÚC KHÓA HỌC JAVA</h2>
+
+    <div class="info-box">
+        <p><strong>Đề tài:</strong> XÂY DỰNG PHẦN MỀM QUẢN LÝ BÁN HÀNG</p>
+    </div>
+
+    <h3>1. Giới thiệu đề tài</h3>
+
+    <p>Trong thực tế, các cửa hàng cần quản lý số lượng lớn sản phẩm, danh mục, nhà cung cấp, khách hàng, nhân viên và các hoạt động nhập hàng. Việc quản lý bằng sổ sách hoặc các phương pháp thủ công dễ xảy ra sai sót, khó kiểm soát số lượng tồn kho và mất nhiều thời gian khi tìm kiếm thông tin.</p>
+
+    <p>Sinh viên được yêu cầu xây dựng một phần mềm quản lý bán hàng trên Desktop bằng <strong>Java Swing</strong> kết hợp cơ sở dữ liệu <strong>MySQL</strong>.</p>
+
+    <p>Phần mềm cho phép nhân viên thực hiện các nghiệp vụ quản lý cơ bản như quản lý sản phẩm, danh mục, khách hàng, nhà cung cấp, nhân viên, nhập hàng và theo dõi tồn kho. Dữ liệu của hệ thống phải được lưu trữ trong MySQL và chương trình Java Swing thực hiện thao tác với cơ sở dữ liệu thông qua <strong>JDBC</strong>.</p>
+
+    <p>Đồ án nhằm đánh giá khả năng vận dụng kiến thức Java, lập trình hướng đối tượng, Java Swing, JDBC, SQL và kỹ năng xây dựng một ứng dụng quản lý hoàn chỉnh.</p>
+
+    <h3>2. Yêu cầu đồ án</h3>
+
+    <p>Sinh viên xây dựng chương trình <strong>Quản lý bán hàng</strong> đáp ứng các yêu cầu sau:</p>
+
+    <h4>2.1. Yêu cầu về công nghệ</h4>
+    <ul>
+        <li>Sử dụng <strong>Java</strong> để xây dựng chương trình.</li>
+        <li>Sử dụng <strong>Java Swing</strong> để thiết kế giao diện.</li>
+        <li>Sử dụng <strong>JDBC</strong> để kết nối Java với cơ sở dữ liệu.</li>
+        <li>Sử dụng <strong>MySQL</strong> để lưu trữ dữ liệu.</li>
+        <li>Có tổ chức chương trình theo hướng đối tượng.</li>
+        <li>Chương trình phải thực hiện được các thao tác thêm, sửa, xóa, tìm kiếm, hiển thị dữ liệu tùy theo từng chức năng.</li>
+        <li>Dữ liệu phải được lưu trữ và lấy trực tiếp từ MySQL, không được xử lý dữ liệu cố định hoàn toàn trên giao diện.</li>
+    </ul>
+
+    <h3>3. Các chức năng bắt buộc</h3>
+
+    <h4>3.1. Đăng nhập</h4>
+    <p>Hệ thống phải có chức năng đăng nhập.</p>
+    <p>Người dùng nhập tài khoản và mật khẩu để truy cập vào hệ thống.</p>
+
+    <p><strong>Yêu cầu:</strong></p>
+    <ul>
+        <li>Kiểm tra tài khoản và mật khẩu.</li>
+        <li>Thông báo khi đăng nhập sai.</li>
+        <li>Chỉ cho phép truy cập hệ thống khi thông tin đăng nhập hợp lệ.</li>
+        <li>Có chức năng đăng xuất.</li>
+    </ul>
+
+    <h4>3.2. Quản lý danh mục</h4>
+    <p>Cho phép nhân viên quản lý danh mục sản phẩm.</p>
+
+    <p><strong>Yêu cầu:</strong></p>
+    <ul>
+        <li>Xem danh sách danh mục.</li>
+        <li>Thêm danh mục.</li>
+        <li>Cập nhật thông tin danh mục.</li>
+        <li>Xóa danh mục.</li>
+        <li>Tìm kiếm danh mục.</li>
+        <li>Kiểm tra dữ liệu trước khi thêm/sửa/xóa.</li>
+    </ul>
+
+    <h4>3.3. Quản lý sản phẩm</h4>
+    <p>Cho phép quản lý toàn bộ thông tin sản phẩm trong cửa hàng.</p>
+
+    <p><strong>Yêu cầu:</strong></p>
+    <ul>
+        <li>Xem danh sách sản phẩm.</li>
+        <li>Thêm sản phẩm.</li>
+        <li>Cập nhật sản phẩm.</li>
+        <li>Xóa sản phẩm.</li>
+        <li>Tìm kiếm sản phẩm.</li>
+        <li>Lọc sản phẩm theo danh mục.</li>
+        <li>Quản lý giá nhập.</li>
+        <li>Quản lý giá bán.</li>
+        <li>Quản lý giá khuyến mãi.</li>
+        <li>Quản lý số lượng tồn kho.</li>
+        <li>Quản lý số lượng tồn tối thiểu.</li>
+        <li>Quản lý trạng thái sản phẩm.</li>
+    </ul>
+
+    <h4>3.4. Quản lý nhà cung cấp</h4>
+    <p>Cho phép quản lý các đơn vị cung cấp sản phẩm cho cửa hàng.</p>
+
+    <p><strong>Yêu cầu:</strong></p>
+    <ul>
+        <li>Xem danh sách nhà cung cấp.</li>
+        <li>Thêm nhà cung cấp.</li>
+        <li>Sửa thông tin nhà cung cấp.</li>
+        <li>Xóa nhà cung cấp.</li>
+        <li>Tìm kiếm nhà cung cấp.</li>
+        <li>Quản lý thông tin liên hệ.</li>
+        <li>Quản lý trạng thái nhà cung cấp.</li>
+    </ul>
+
+    <h4>3.5. Quản lý nhân viên</h4>
+    <p>Cho phép quản lý thông tin nhân viên sử dụng hệ thống.</p>
+
+    <p><strong>Yêu cầu:</strong></p>
+    <ul>
+        <li>Xem danh sách nhân viên.</li>
+        <li>Thêm nhân viên.</li>
+        <li>Sửa thông tin nhân viên.</li>
+        <li>Xóa nhân viên.</li>
+        <li>Tìm kiếm nhân viên.</li>
+        <li>Quản lý chức vụ.</li>
+        <li>Quản lý trạng thái nhân viên.</li>
+    </ul>
+
+    <h4>3.6. Quản lý khách hàng</h4>
+    <p>Cho phép cửa hàng quản lý thông tin khách hàng.</p>
+
+    <p><strong>Yêu cầu:</strong></p>
+    <ul>
+        <li>Xem danh sách khách hàng.</li>
+        <li>Thêm khách hàng.</li>
+        <li>Sửa thông tin khách hàng.</li>
+        <li>Xóa khách hàng.</li>
+        <li>Tìm kiếm khách hàng.</li>
+        <li>Quản lý số điện thoại, email, địa chỉ.</li>
+        <li>Quản lý hạng khách hàng.</li>
+        <li>Quản lý trạng thái khách hàng.</li>
+    </ul>
+
+    <h4>3.7. Quản lý phiếu nhập hàng</h4>
+    <p>Cho phép nhân viên lập và quản lý các phiếu nhập hàng từ nhà cung cấp.</p>
+
+    <p><strong>Yêu cầu:</strong></p>
+    <ul>
+        <li>Tạo phiếu nhập hàng.</li>
+        <li>Chọn nhà cung cấp.</li>
+        <li>Chọn nhân viên thực hiện nhập hàng.</li>
+        <li>Chọn sản phẩm nhập.</li>
+        <li>Nhập số lượng.</li>
+        <li>Nhập giá nhập.</li>
+        <li>Tự động tính thành tiền.</li>
+        <li>Tự động tính tổng tiền phiếu nhập.</li>
+        <li>Cho phép một phiếu nhập có nhiều sản phẩm.</li>
+        <li>Lưu thông tin phiếu nhập và chi tiết phiếu nhập vào database.</li>
+        <li>Xem danh sách phiếu nhập.</li>
+        <li>Xem chi tiết phiếu nhập.</li>
+        <li>Tìm kiếm phiếu nhập theo mã hoặc thời gian.</li>
+    </ul>
+
+    <div class="success-box">
+        <p>Khi phiếu nhập được lưu thành công, <strong>số lượng tồn kho của sản phẩm phải được cập nhật tương ứng</strong>.</p>
+    </div>
+
+    <h4>3.8. Quản lý kho</h4>
+    <p>Cho phép nhân viên theo dõi tình trạng tồn kho của sản phẩm.</p>
+
+    <p><strong>Yêu cầu:</strong></p>
+    <ul>
+        <li>Xem số lượng tồn kho.</li>
+        <li>Tìm kiếm sản phẩm trong kho.</li>
+        <li>Xem sản phẩm hết hàng.</li>
+        <li>Xem sản phẩm sắp hết hàng.</li>
+        <li>Xác định sản phẩm dựa trên số lượng tồn tối thiểu.</li>
+        <li>Cập nhật số lượng tồn kho khi phát sinh nhập hàng.</li>
+    </ul>
+
+    <p>Hệ thống cần phân biệt tối thiểu các trạng thái:</p>
+    <div class="info-box">
+        <pre>Còn hàng
+Sắp hết
+Hết hàng</pre>
+    </div>
+
+    <h4>3.9. Thống kê</h4>
+    <p>Xây dựng chức năng thống kê nhằm cung cấp thông tin tổng quan về hoạt động của cửa hàng.</p>
+
+    <p><strong>Yêu cầu có thể bao gồm:</strong></p>
+    <ul>
+        <li>Thống kê tổng số sản phẩm.</li>
+        <li>Thống kê tổng số danh mục.</li>
+        <li>Thống kê tổng số khách hàng.</li>
+        <li>Thống kê tổng số nhà cung cấp.</li>
+        <li>Thống kê số lượng sản phẩm tồn kho.</li>
+        <li>Thống kê sản phẩm sắp hết hàng.</li>
+        <li>Thống kê sản phẩm hết hàng.</li>
+        <li>Thống kê số lượng phiếu nhập.</li>
+        <li>Thống kê tổng tiền nhập hàng theo khoảng thời gian.</li>
+    </ul>
+
+    <h2>CSDL</h2>
+                <pre>                   
+                                        ┌──────────────────┐
+                                        │    DANH_MUC      │
+                                        ├──────────────────┤
+                                        │ id               │
+                                        │ ma_danh_muc      │
+                                        │ ten_danh_muc     │
+                                        └────────┬─────────┘
+                                                 │
+                                                 │ 1 - N
+                                                 ▼
+                                        ┌──────────────────┐
+                                        │    SAN_PHAM      │
+                                        ├──────────────────┤
+                                        │ id               │
+                                        │ ma_sp            │
+                                        │ ten_sp           │
+                                        │ danh_muc_id      │
+                                        │ gia_nhap         │
+                                        │ gia_ban          │
+                                        │ ton_kho          │
+                                        └────────┬─────────┘
+                                                 │
+                                                 │ 1 - N
+                                                 ▼
+            ┌──────────────────┐    ┌─────────────────────────┐
+            │  PHIEU_NHAP      │    │ CHI_TIET_PHIEU_NHAP     │
+            ├──────────────────┤    ├─────────────────────────┤
+            │ id               │◄───│ phieu_nhap_id           │
+            │ ma_phieu         │    │ san_pham_id             │
+            │ nha_cung_cap_id  │    │ so_luong                │
+            │ nhan_vien_id     │    │ gia_nhap                │
+            │ ngay_nhap        │    │ thanh_tien              │
+            │ tong_tien        │    └─────────────────────────┘
+            └───────┬──────────┘
+                    │
+                    │
+               ┌────┴──────────────┐
+               ▼                   ▼
+            ┌───────────────┐  ┌────────────────┐
+            │ NHA_CUNG_CAP  │  │   NHAN_VIEN    │
+            ├───────────────┤  ├────────────────┤
+            │ id            │  │ id             │
+            │ ma_ncc        │  │ ma_nv          │
+            │ ten_ncc       │  │ ho_ten         │
+            │ so_dien_thoai │  │ so_dien_thoai  │
+            │ email         │  │ email          │
+            │ dia_chi       │  │ chuc_vu        │
+            └───────────────┘  └────────────────┘</pre>
+     <div class="code-block">
+                        <div class="code-header">
+<pre>
+    -- =========================================================
+-- QUAN LY BAN HANG
+-- JAVA SWING + MYSQL
+-- =========================================================
+
+DROP DATABASE IF EXISTS quan_ly_ban_hang;
+
+CREATE DATABASE quan_ly_ban_hang
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+USE quan_ly_ban_hang;
+
+
+-- =========================================================
+-- 1. BẢNG DANH MỤC
+-- =========================================================
+
+CREATE TABLE danh_muc (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ma_danh_muc VARCHAR(20) NOT NULL UNIQUE,
+    ten_danh_muc VARCHAR(100) NOT NULL,
+    mo_ta VARCHAR(255)
+);
+
+INSERT INTO danh_muc
+(ma_danh_muc, ten_danh_muc, mo_ta)
+VALUES
+('DM01', 'Laptop', 'Máy tính xách tay'),
+('DM02', 'Điện thoại', 'Điện thoại thông minh'),
+('DM03', 'Phụ kiện', 'Phụ kiện điện tử'),
+('DM04', 'Màn hình', 'Màn hình máy tính');
+
+
+-- =========================================================
+-- 2. BẢNG NHÀ CUNG CẤP
+-- =========================================================
+
+CREATE TABLE nha_cung_cap (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ma_ncc VARCHAR(20) NOT NULL UNIQUE,
+    ten_ncc VARCHAR(150) NOT NULL,
+    so_dien_thoai VARCHAR(20),
+    email VARCHAR(100),
+    dia_chi VARCHAR(255),
+    trang_thai VARCHAR(20) DEFAULT 'ACTIVE'
+);
+
+INSERT INTO nha_cung_cap
+(ma_ncc, ten_ncc, so_dien_thoai, email, dia_chi, trang_thai)
+VALUES
+('NCC01', 'Dell Việt Nam', '0901000001',
+ 'dellvn@gmail.com', 'Hà Nội', 'ACTIVE'),
+
+('NCC02', 'Logitech Việt Nam', '0901000002',
+ 'logitechvn@gmail.com', 'TP. Hồ Chí Minh', 'ACTIVE'),
+
+('NCC03', 'Samsung Việt Nam', '0901000003',
+ 'samsungvn@gmail.com', 'Bắc Ninh', 'ACTIVE'),
+
+('NCC04', 'HP Việt Nam', '0901000004',
+ 'hpvn@gmail.com', 'Hà Nội', 'ACTIVE');
+
+
+-- =========================================================
+-- 3. BẢNG NHÂN VIÊN
+-- =========================================================
+
+CREATE TABLE nhan_vien (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ma_nv VARCHAR(20) NOT NULL UNIQUE,
+    ho_ten VARCHAR(100) NOT NULL,
+    so_dien_thoai VARCHAR(20),
+    email VARCHAR(100),
+    chuc_vu VARCHAR(50),
+    trang_thai VARCHAR(20) DEFAULT 'ACTIVE'
+);
+
+INSERT INTO nhan_vien
+(ma_nv, ho_ten, so_dien_thoai, email, chuc_vu, trang_thai)
+VALUES
+('NV01', 'Nguyễn Văn A', '0911111111',
+ 'nguyenvana@gmail.com', 'Nhân viên kho', 'ACTIVE'),
+
+('NV02', 'Trần Văn B', '0922222222',
+ 'tranvanb@gmail.com', 'Nhân viên kho', 'ACTIVE'),
+
+('NV03', 'Lê Thị C', '0933333333',
+ 'lethic@gmail.com', 'Quản lý kho', 'ACTIVE'),
+
+('NV04', 'Phạm Văn D', '0944444444',
+ 'phamvand@gmail.com', 'Nhân viên bán hàng', 'ACTIVE');
+
+
+-- =========================================================
+-- 4. BẢNG KHÁCH HÀNG
+-- =========================================================
+
+CREATE TABLE khach_hang (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ma_kh VARCHAR(20) NOT NULL UNIQUE,
+    ho_ten VARCHAR(100) NOT NULL,
+    so_dien_thoai VARCHAR(20),
+    email VARCHAR(100),
+    dia_chi VARCHAR(255),
+    hang_khach_hang VARCHAR(20) DEFAULT 'SILVER',
+    trang_thai VARCHAR(20) DEFAULT 'ACTIVE'
+);
+
+INSERT INTO khach_hang
+(ma_kh, ho_ten, so_dien_thoai, email, dia_chi,
+ hang_khach_hang, trang_thai)
+VALUES
+('KH01', 'Nguyễn Văn A', '090123456',
+ 'nguyenvana@gmail.com', 'Hà Nội',
+ 'GOLD', 'ACTIVE'),
+
+('KH02', 'Trần Văn B', '091234567',
+ 'tranvanb@gmail.com', 'Hải Phòng',
+ 'SILVER', 'ACTIVE'),
+
+('KH03', 'Lê Thị C', '092345678',
+ 'lethic@gmail.com', 'Hải Dương',
+ 'BRONZE', 'ACTIVE'),
+
+('KH04', 'Phạm Văn D', '093456789',
+ 'phamvand@gmail.com', 'Quảng Ninh',
+ 'SILVER', 'ACTIVE');
+
+
+-- =========================================================
+-- 5. BẢNG SẢN PHẨM
+-- =========================================================
+
+CREATE TABLE san_pham (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ma_sp VARCHAR(20) NOT NULL UNIQUE,
+    ten_sp VARCHAR(150) NOT NULL,
+
+    danh_muc_id INT NOT NULL,
+
+    thuong_hieu VARCHAR(100),
+    don_vi VARCHAR(30),
+
+    gia_nhap DECIMAL(15,2) DEFAULT 0,
+    gia_ban DECIMAL(15,2) DEFAULT 0,
+    gia_khuyen_mai DECIMAL(15,2) DEFAULT 0,
+
+    ton_kho INT DEFAULT 0,
+    ton_toi_thieu INT DEFAULT 0,
+
+    han_su_dung DATE,
+
+    mo_ta VARCHAR(255),
+
+    trang_thai VARCHAR(20) DEFAULT 'ACTIVE',
+
+    FOREIGN KEY (danh_muc_id)
+        REFERENCES danh_muc(id)
+);
+
+INSERT INTO san_pham
+(
+    ma_sp,
+    ten_sp,
+    danh_muc_id,
+    thuong_hieu,
+    don_vi,
+    gia_nhap,
+    gia_ban,
+    gia_khuyen_mai,
+    ton_kho,
+    ton_toi_thieu,
+    han_su_dung,
+    mo_ta,
+    trang_thai
+)
+VALUES
+
+(
+    'SP01',
+    'Laptop Dell',
+    1,
+    'Dell',
+    'Chiếc',
+    15000000,
+    18000000,
+    17000000,
+    10,
+    5,
+    NULL,
+    'Laptop Dell chính hãng',
+    'ACTIVE'
+),
+
+(
+    'SP02',
+    'Mouse Logitech',
+    3,
+    'Logitech',
+    'Chiếc',
+    300000,
+    450000,
+    400000,
+    20,
+    10,
+    NULL,
+    'Chuột Logitech không dây',
+    'ACTIVE'
+),
+
+(
+    'SP03',
+    'Laptop HP',
+    1,
+    'HP',
+    'Chiếc',
+    14000000,
+    17000000,
+    16000000,
+    0,
+    5,
+    NULL,
+    'Laptop HP chính hãng',
+    'ACTIVE'
+),
+
+(
+    'SP04',
+    'Màn hình Samsung 24 inch',
+    4,
+    'Samsung',
+    'Chiếc',
+    3500000,
+    4500000,
+    4200000,
+    0,
+    5,
+    NULL,
+    'Màn hình Samsung 24 inch',
+    'ACTIVE'
+),
+
+(
+    'SP05',
+    'Bàn phím Logitech',
+    3,
+    'Logitech',
+    'Chiếc',
+    500000,
+    750000,
+    700000,
+    0,
+    10,
+    NULL,
+    'Bàn phím Logitech',
+    'ACTIVE'
+),
+
+(
+    'SP06',
+    'iPhone 15',
+    2,
+    'Apple',
+    'Chiếc',
+    18000000,
+    21000000,
+    20500000,
+    0,
+    5,
+    NULL,
+    'Điện thoại Apple iPhone 15',
+    'ACTIVE'
+),
+
+(
+    'SP07',
+    'Samsung Galaxy S24',
+    2,
+    'Samsung',
+    'Chiếc',
+    16000000,
+    19000000,
+    18500000,
+    0,
+    5,
+    NULL,
+    'Điện thoại Samsung Galaxy S24',
+    'ACTIVE'
+);
+
+
+-- =========================================================
+-- 6. BẢNG PHIẾU NHẬP
+-- =========================================================
+
+CREATE TABLE phieu_nhap (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    ma_phieu VARCHAR(20) NOT NULL UNIQUE,
+
+    nha_cung_cap_id INT NOT NULL,
+
+    nhan_vien_id INT NOT NULL,
+
+    ngay_nhap DATE NOT NULL,
+
+    tong_tien DECIMAL(15,2) DEFAULT 0,
+
+    ghi_chu VARCHAR(255),
+
+    FOREIGN KEY (nha_cung_cap_id)
+        REFERENCES nha_cung_cap(id),
+
+    FOREIGN KEY (nhan_vien_id)
+        REFERENCES nhan_vien(id)
+);
+
+
+-- =========================================================
+-- 7. BẢNG CHI TIẾT PHIẾU NHẬP
+-- =========================================================
+
+CREATE TABLE chi_tiet_phieu_nhap (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    phieu_nhap_id INT NOT NULL,
+
+    san_pham_id INT NOT NULL,
+
+    so_luong INT NOT NULL,
+
+    gia_nhap DECIMAL(15,2) NOT NULL,
+
+    thanh_tien DECIMAL(15,2) NOT NULL,
+
+    FOREIGN KEY (phieu_nhap_id)
+        REFERENCES phieu_nhap(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (san_pham_id)
+        REFERENCES san_pham(id)
+);
+
+
+-- =========================================================
+-- 8. DỮ LIỆU PHIẾU NHẬP
+-- =========================================================
+
+INSERT INTO phieu_nhap
+(
+    ma_phieu,
+    nha_cung_cap_id,
+    nhan_vien_id,
+    ngay_nhap,
+    tong_tien,
+    ghi_chu
+)
+VALUES
+
+(
+    'PN000001',
+    1,
+    1,
+    '2026-09-23',
+    156000000,
+    'Nhập Laptop Dell và Mouse Logitech'
+),
+
+(
+    'PN000002',
+    2,
+    2,
+    '2026-09-24',
+    12500000,
+    'Nhập phụ kiện Logitech'
+),
+
+(
+    'PN000003',
+    3,
+    3,
+    '2026-09-25',
+    19500000,
+    'Nhập màn hình Samsung'
+);
+
+
+-- =========================================================
+-- 9. CHI TIẾT PHIẾU NHẬP
+-- =========================================================
+
+-- PN000001
+INSERT INTO chi_tiet_phieu_nhap
+(
+    phieu_nhap_id,
+    san_pham_id,
+    so_luong,
+    gia_nhap,
+    thanh_tien
+)
+VALUES
+(1, 1, 10, 15000000, 150000000),
+(1, 2, 20, 300000, 6000000);
+
+
+-- PN000002
+INSERT INTO chi_tiet_phieu_nhap
+(
+    phieu_nhap_id,
+    san_pham_id,
+    so_luong,
+    gia_nhap,
+    thanh_tien
+)
+VALUES
+(2, 2, 10, 300000, 3000000),
+(2, 5, 19, 500000, 9500000);
+
+
+-- PN000003
+INSERT INTO chi_tiet_phieu_nhap
+(
+    phieu_nhap_id,
+    san_pham_id,
+    so_luong,
+    gia_nhap,
+    thanh_tien
+)
+VALUES
+(3, 4, 5, 3500000, 17500000),
+(3, 5, 4, 500000, 2000000);
+
+
+-- =========================================================
+-- 10. CẬP NHẬT TỒN KHO
+-- =========================================================
+
+UPDATE san_pham
+SET ton_kho = 10
+WHERE id = 1;
+
+UPDATE san_pham
+SET ton_kho = 30
+WHERE id = 2;
+
+UPDATE san_pham
+SET ton_kho = 19
+WHERE id = 5;
+
+UPDATE san_pham
+SET ton_kho = 5
+WHERE id = 4;
+
+
+-- =========================================================
+-- 11. VIEW DANH SÁCH PHIẾU NHẬP
+-- =========================================================
+
+CREATE VIEW v_phieu_nhap AS
+
+SELECT
+    pn.id,
+    pn.ma_phieu,
+    ncc.ma_ncc,
+    ncc.ten_ncc AS nha_cung_cap,
+    nv.ma_nv,
+    nv.ho_ten AS nhan_vien,
+    pn.ngay_nhap,
+    pn.tong_tien,
+    pn.ghi_chu
+
+FROM phieu_nhap pn
+
+JOIN nha_cung_cap ncc
+    ON pn.nha_cung_cap_id = ncc.id
+
+JOIN nhan_vien nv
+    ON pn.nhan_vien_id = nv.id;
+
+
+-- =========================================================
+-- 12. VIEW CHI TIẾT PHIẾU NHẬP
+-- =========================================================
+
+CREATE VIEW v_chi_tiet_phieu_nhap AS
+
+SELECT
+    pn.id AS phieu_nhap_id,
+    pn.ma_phieu,
+
+    pn.ngay_nhap,
+
+    ncc.ma_ncc,
+    ncc.ten_ncc,
+
+    nv.ma_nv,
+    nv.ho_ten AS ten_nhan_vien,
+
+    sp.ma_sp,
+    sp.ten_sp,
+
+    ct.so_luong,
+    ct.gia_nhap,
+    ct.thanh_tien
+
+FROM chi_tiet_phieu_nhap ct
+
+JOIN phieu_nhap pn
+    ON ct.phieu_nhap_id = pn.id
+
+JOIN nha_cung_cap ncc
+    ON pn.nha_cung_cap_id = ncc.id
+
+JOIN nhan_vien nv
+    ON pn.nhan_vien_id = nv.id
+
+JOIN san_pham sp
+    ON ct.san_pham_id = sp.id;
+
+
+-- =========================================================
+-- 13. VIEW TỒN KHO
+-- =========================================================
+
+CREATE VIEW v_ton_kho AS
+
+SELECT
+    sp.id,
+    sp.ma_sp,
+    sp.ten_sp,
+    dm.ten_danh_muc,
+    sp.thuong_hieu,
+    sp.don_vi,
+    sp.gia_nhap,
+    sp.gia_ban,
+    sp.gia_khuyen_mai,
+    sp.ton_kho,
+    sp.ton_toi_thieu,
+
+    CASE
+        WHEN sp.ton_kho = 0
+            THEN 'HẾT HÀNG'
+
+        WHEN sp.ton_kho <= sp.ton_toi_thieu
+            THEN 'SẮP HẾT'
+
+        ELSE 'CÒN HÀNG'
+    END AS trang_thai_ton
+
+FROM san_pham sp
+
+JOIN danh_muc dm
+    ON sp.danh_muc_id = dm.id;
+
+
+-- =========================================================
+-- 14. KIỂM TRA DATABASE
+-- =========================================================
+
+-- Danh mục
+SELECT * FROM danh_muc;
+
+-- Nhà cung cấp
+SELECT * FROM nha_cung_cap;
+
+-- Nhân viên
+SELECT * FROM nhan_vien;
+
+-- Khách hàng
+SELECT * FROM khach_hang;
+
+-- Sản phẩm
+SELECT * FROM san_pham;
+
+-- Phiếu nhập
+SELECT * FROM v_phieu_nhap;
+
+-- Chi tiết phiếu nhập
+SELECT * FROM v_chi_tiet_phieu_nhap;
+
+-- Tồn kho
+SELECT * FROM v_ton_kho;
+
+
+-- =========================================================
+-- 15. TRUY VẤN PHIẾU PN000001
+-- =========================================================
+
+SELECT
+    pn.ma_phieu AS 'Mã phiếu',
+    ncc.ten_ncc AS 'Nhà cung cấp',
+    nv.ho_ten AS 'Nhân viên',
+    pn.ngay_nhap AS 'Ngày nhập',
+    sp.ma_sp AS 'Mã SP',
+    sp.ten_sp AS 'Sản phẩm',
+    ct.so_luong AS 'Số lượng',
+    ct.gia_nhap AS 'Giá nhập',
+    ct.thanh_tien AS 'Thành tiền'
+FROM phieu_nhap pn
+
+JOIN nha_cung_cap ncc
+    ON pn.nha_cung_cap_id = ncc.id
+
+JOIN nhan_vien nv
+    ON pn.nhan_vien_id = nv.id
+
+JOIN chi_tiet_phieu_nhap ct
+    ON pn.id = ct.phieu_nhap_id
+
+JOIN san_pham sp
+    ON ct.san_pham_id = sp.id
+
+WHERE pn.ma_phieu = 'PN000001';
+
+
+-- =========================================================
+-- KẾT THÚC
+-- =========================================================
+</pre>
+                    </div>
+     </div>
+     <h2>GIAO DIỆN</h2>
+
+    <h4>Giao diện mẫu</h4>
+    <div class="info-box">
+        <pre>
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│              PHẦN MỀM QUẢN LÝ SIÊU THỊ               │
+│                                                      │
+│                                                      │
+│   Tài khoản:   ┌──────────────────────────────┐      │
+│                │ admin                        │      │
+│                └──────────────────────────────┘      │
+│                                                      │
+│   Mật khẩu:    ┌──────────────────────────────┐      │
+│                │ ********                     │      │
+│                └──────────────────────────────┘      │
+│                                                      │
+│                 [       ĐĂNG NHẬP       ]            │
+│                                                      │
+└──────────────────────────────────────────────────────┘</pre>
+    </div>
+
+    <h4>Yêu cầu</h4>
+    <ul>
+        <li>Username</li>
+        <li>Password</li>
+        <li>Đăng nhập</li>
+        <li>Hiển thị lỗi</li>
+        <li>Kiểm tra tài khoản bị khóa</li>
+        <li>Phân quyền sau đăng nhập</li>
+    </ul>
+
+    <h3>2. Dashboard</h3>
+    <p>Sau khi đăng nhập:</p>
+    <div class="info-box">
+        <pre>
+┌──────────────────────────────────────────────────────────────────┐
+│ QUẢN LÝ SIÊU THỊ                         Nguyễn Văn A ▼          │
+├───────────────┬──────────────────────────────────────────────────┤
+│               │                                                  │
+│  DASHBOARD    │  ┌────────────┐ ┌────────────┐ ┌────────────┐    │
+│               │  │ DOANH THU  │ │ HÓA ĐƠN    │ │ KHÁCH HÀNG │    │
+│  Bán hàng     │  │125.500.000 │ │     85     │ │    320     │    │
+│               │  └────────────┘ └────────────┘ └────────────┘    │
+│  Sản phẩm     │                                                  │
+│               │  ┌────────────┐ ┌────────────┐ ┌────────────┐    │
+│  Khách hàng   │  │ NHẬP HÀNG  │ │ TỒN KHO    │ │ LỢI NHUẬN  │    │
+│               │  │ 85.000.000 │ │    1.250   │ │ 40.500.000 │    │
+│  Nhà cung cấp │  └────────────┘ └────────────┘ └────────────┘    │
+│               │                                                  │
+│  Kho hàng     │        BIỂU ĐỒ DOANH THU 7 NGÀY                  │
+│               │                                                  │
+│  Nhập hàng    │              █                                   │
+│               │        █     █                                   │
+│  Hóa đơn      │   █    █     █     █                             │
+│               │   █    █     █     █     █                       │
+│  Nhân viên    │────────────────────────────────────              │
+│               │  T2   T3    T4    T5    T6                       │
+│  Báo cáo      │                                                  │
+│               │                                                  │
+└───────────────┴──────────────────────────────────────────────────┘</pre>
+    </div>
+
+    <h3>3. Quản lý nhân viên</h3>
+    <div class="info-box">
+        <pre>
+┌────────────────────────────────────────────────────────────────┐
+│                     QUẢN LÝ NHÂN VIÊN                          │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│ Tìm kiếm: [________________________] [ Tìm kiếm ]              │
+│                                                                │
+│ [ + Thêm nhân viên ]   [ Sửa ]   [ Xóa ]                       │
+│                                                                │
+├──────┬───────────────┬────────────┬──────────┬────────┬────────┤
+│ Mã   │ Họ tên        │ SĐT        │ Chức vụ  │ Role   │ Status │
+├──────┼───────────────┼────────────┼──────────┼────────┼────────┤
+│ NV01 │ Nguyễn Văn A  │ 090123456  │ Quản lý  │ ADMIN  │ ACTIVE │
+│ NV02 │ Trần Văn B    │ 091234567  │ Bán hàng │ STAFF  │ ACTIVE │
+│ NV03 │ Lê Văn C      │ 098765432  │ Kho      │ STAFF  │ ACTIVE │
+└──────┴───────────────┴────────────┴──────────┴────────┴────────┘</pre>
+    </div>
+
+    <h4>Form thêm/sửa</h4>
+    <div class="info-box">
+        <pre>
+┌──────────────────────────────────────┐
+│          THÔNG TIN NHÂN VIÊN         │
+├──────────────────────────────────────┤
+│ Mã NV:       [____________]          │
+│ Họ tên:      [____________]          │
+│ Ngày sinh:   [__/__/____]            │
+│ Giới tính:   [ Nam ▼ ]               │
+│ SĐT:         [____________]          │
+│ Email:       [____________]          │
+│ Địa chỉ:     [____________]          │
+│ Chức vụ:     [ Quản lý ▼ ]           │
+│ Role:        [ STAFF ▼ ]             │
+│ Trạng thái:  [ ACTIVE ▼ ]            │
+│                                      │
+│       [ Lưu ]       [ Hủy ]          │
+└──────────────────────────────────────┘</pre>
+    </div>
+
+    <h3>4. Quản lý sản phẩm</h3>
+    <div class="info-box">
+        <pre>
+┌─────────────────────────────────────────────────────────────────────┐
+│                         QUẢN LÝ SẢN PHẨM                            │
+├─────────────────────────────────────────────────────────────────────┤
+│ Tìm kiếm: [________________________] [Tìm kiếm]                     │
+│                                                                     │
+│ Danh mục: [ Tất cả ▼ ]   Thương hiệu: [ Tất cả ▼ ]                  │
+│                                                                     │
+│ [ + Thêm ] [ Sửa ] [ Xóa ]                                          │
+│                                                                     │
+├──────┬────────────────┬──────────┬──────────┬──────────┬────────────┤
+│ Mã   │ Tên sản phẩm   │ Danh mục │ Giá nhập │ Giá bán  │ Tồn kho    │
+├──────┼────────────────┼──────────┼──────────┼──────────┼────────────┤
+│ SP01 │ Laptop Dell    │ Laptop   │ 15.000K  │18.000K   │ 25         │
+│ SP02 │ Mouse Logitech │ Chuột    │   300K   │   500K   │ 50         │
+│ SP03 │ Keyboard       │ Bàn phím │   500K   │   800K   │ 12         │
+└──────┴────────────────┴──────────┴──────────┴──────────┴────────────┘</pre>
+    </div>
+
+    <h4>Form sản phẩm</h4>
+    <div class="info-box">
+        <pre>
+┌─────────────────────────────────────────────┐
+│              THÔNG TIN SẢN PHẨM             │
+├─────────────────────────────────────────────┤
+│ Mã sản phẩm:      [______________]          │
+│ Tên sản phẩm:     [______________]          │
+│ Danh mục:         [ Laptop ▼ ]              │
+│ Thương hiệu:      [ Dell ▼ ]                │
+│ Nhà cung cấp:     [ Dell VN ▼ ]             │
+│ Đơn vị:           [ Chiếc ]                 │
+│ Giá nhập:         [______________]          │
+│ Giá bán:          [______________]          │
+│ Giá khuyến mãi:   [______________]          │
+│ Tồn tối thiểu:    [______________]          │
+│ Hạn sử dụng:      [__/__/____]              │
+│ Mô tả:            [______________]          │
+│                                             │
+│       [ LƯU ]        [ HỦY ]                │
+└─────────────────────────────────────────────┘</pre>
+    </div>
+
+    <h3>5. Quản lý danh mục</h3>
+    <div class="info-box">
+        <pre>
+┌─────────────────────────────────────────────────────────────┐
+│                    QUẢN LÝ DANH MỤC                         │
+├─────────────────────────────────────────────────────────────┤
+│ Tìm kiếm: [____________________] [Tìm kiếm]                 │
+│                                                             │
+│ [ + Thêm ]   [ Sửa ]   [ Xóa ]                              │
+│                                                             │
+├──────┬──────────────────────┬───────────────────────────────┤
+│ ID   │ Tên danh mục         │ Mô tả                         │
+├──────┼──────────────────────┼───────────────────────────────┤
+│ 01   │ Laptop               │ Máy tính xách tay             │
+│ 02   │ Điện thoại           │ Smartphone                    │
+│ 03   │ Phụ kiện             │ Phụ kiện điện tử              │
+└──────┴──────────────────────┴───────────────────────────────┘</pre>
+    </div>
+  <h4>Form danh mục</h4>
+    <div class="info-box">
+        <pre>
+┌─────────────────────────────────────────────────────┐
+│                  THÊM DANH MỤC                      │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│ Tên danh mục:         [______________]              │
+│ Mô tả :               [______________]              │
+│                                                     │
+│              [ Lưu ]     [ Hủy ]                    │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+        </pre>
+    </div>
+    <h3>6. Quản lý thương hiệu</h3>
+    <div class="info-box">
+        <pre>
+┌─────────────────────────────────────────────────────────────┐
+│                    QUẢN LÝ THƯƠNG HIỆU                      │
+├─────────────────────────────────────────────────────────────┤
+│ Tìm kiếm: [____________________] [Tìm kiếm]                 │
+│                                                             │
+│ [ + Thêm ]   [ Sửa ]   [ Xóa ]                              │
+│                                                             │
+├──────┬──────────────────────┬───────────────────────────────┤
+│ ID   │ Thương hiệu          │ Trạng thái                    │
+├──────┼──────────────────────┼───────────────────────────────┤
+│ 01   │ Dell                 │ ACTIVE                        │
+│ 02   │ Apple                │ ACTIVE                        │
+│ 03   │ Samsung              │ ACTIVE                        │
+└──────┴──────────────────────┴───────────────────────────────┘</pre>
+    </div>
+
+    <h3>7. Quản lý khách hàng</h3>
+    <div class="info-box">
+        <pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                     QUẢN LÝ KHÁCH HÀNG                          │
+├─────────────────────────────────────────────────────────────────┤
+│ Tìm kiếm: [____________________] [Tìm kiếm]                     │
+│ Hạng: [ Tất cả ▼ ]                                              │
+│                                                                 │
+│ [ + Thêm ] [ Sửa ] [ Xóa ]                                      │
+│                                                                 │
+├──────┬─────────────────────┬────────────────┬──────────┬────────┤
+│ Mã   │ Họ tên              │    SĐT         │  Hạng    │ Status │
+├──────┼─────────────────────┼────────────────┼──────────┼────────┤
+│ KH01 │ Nguyễn Văn A        │    090123456   │  GOLD    │ ACTIVE │
+│ KH02 │ Trần Văn B          │    091234567   │  SILVER  │ ACTIVE │
+└──────┴─────────────────────┴────────────────┴──────────┴────────┘</pre>
+    </div>
+<h4>Form kh</h4>
+    <div class="info-box">
+        <pre>
+┌────────────────────────────────────────────┐
+│              THÔNG TIN KHÁCH HÀNG          │
+├────────────────────────────────────────────┤
+│ Mã khách hàng:    [______________]         │
+│ Họ tên:           [______________]         │
+│ Số điện thoại:    [______________]         │
+│ Email:            [______________]         │
+│ Địa chỉ:          [______________]         │
+│ Hạng khách hàng:  [ GOLD ▼ ]               │
+│ Trạng thái:       [ ACTIVE ▼ ]             │
+│ Ngày đăng ký:     [__/__/____]             │
+│ Ghi chú:          [______________]         │
+│                                            │
+│       [ LƯU ]        [ HỦY ]               │
+└────────────────────────────────────────────┘
+        </pre>
+    </div>
+    <h3>8. Quản lý nhà cung cấp</h3>
+    <div class="info-box">
+        <pre>
+┌────────────────────────────────────────────────────────────────┐
+│                     NHÀ CUNG CẤP                               │
+├────────────────────────────────────────────────────────────────┤
+│ Tìm kiếm: [____________________] [Tìm kiếm]                    │
+│                                                                │
+│ [ + Thêm ] [ Sửa ] [ Xóa ] [ Lịch sử nhập hàng ]               │
+│                                                                │
+├──────┬───────────────────┬────────────┬────────────────────────┤
+│ Mã   │ Tên nhà cung cấp  │ SĐT        │ Email                  │
+├──────┼───────────────────┼────────────┼────────────────────────┤
+│ NCC01│ Dell Việt Nam     │ 090123456  │ dell@gmail.com         │
+│ NCC02│ Samsung Việt Nam  │ 091234567  │ samsung@gmail.com      │
+└──────┴───────────────────┴────────────┴────────────────────────┘</pre>
+    </div>
+
+    <h3>9. Quản lý kho</h3>
+    <div class="info-box">
+        <pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                         QUẢN LÝ KHO                             │
+├─────────────────────────────────────────────────────────────────┤
+│ Tìm kiếm: [________________] [Tìm kiếm]                         │
+│ Trạng thái: [ Tất cả ▼ ]                                        │
+│                                                                 │
+│ [ Nhập kho ] [ Xuất kho ] [ Kiểm kê ] [ Điều chỉnh ]            │
+│                                                                 │
+├──────┬──────────────────┬──────────┬───────────┬────────────────┤
+│ Mã   │ Sản phẩm         │ Tồn kho  │ Tối thiểu │ Trạng thái     │
+├──────┼──────────────────┼──────────┼───────────┼────────────────┤
+│ SP01 │ Laptop Dell      │ 25       │ 5         │ Bình thường    │
+│ SP02 │ Mouse Logitech   │ 3        │ 10        │ Sắp hết        │
+│ SP03 │ Keyboard         │ 0        │ 5         │ Hết hàng       │
+└──────┴──────────────────┴──────────┴───────────┴────────────────┘</pre>
+    </div>
+
+    <h3>10. Nhập hàng</h3>
+    <div class="info-box">
+        <pre>
+┌──────────────────────────────────────────────────────────────────┐
+│                        PHIẾU NHẬP HÀNG                           │
+├──────────────────────────────────────────────────────────────────┤
+│ Mã phiếu:       [ PN000001 ]                                     │
+│ Nhà cung cấp:   [ Dell Việt Nam ▼ ]                              │
+│ Nhân viên:      [ Nguyễn Văn A ]                                 │
+│ Ngày nhập:      [ 23/09/2026 ]                                   │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│ THÔNG TIN SẢN PHẨM NHẬP                                          │
+│                                                                  │
+│ Sản phẩm:       [ Laptop Dell ▼ ]                                │
+│ Số lượng:       [ 10________ ]                                   │
+│ Giá nhập:       [ 15.000.000 ]                                   │
+│                                                                  │
+│                    [ + THÊM VÀO PHIẾU ]                          │
+│                                                                  │
+├────────┬──────────────────┬──────────┬────────────┬──────────────┤
+│ Mã SP  │ Sản phẩm         │ Số lượng │ Giá nhập   │ Thành tiền   │
+├────────┼──────────────────┼──────────┼────────────┼──────────────┤
+│ SP01   │ Laptop Dell      │ 10       │ 15.000.000 │ 150.000.000  │
+│ SP02   │ Mouse Logitech   │ 20       │    300.000 │   6.000.000  │
+├────────┴──────────────────┴──────────┴────────────┴──────────────┤
+│                                                                  │
+│                                           Tổng: 156.000.000 VND  │
+│                                                                  │
+│                   [ LƯU PHIẾU NHẬP ]     [ HỦY ]                 │
+└──────────────────────────────────────────────────────────────────┘</pre>
+    </div>
+
+    <h3>11. Bán hàng — POS</h3>
+    <div class="info-box">
+        <pre>
+┌──────────────────────────────────────────────────────────────────────┐
+│                           BÁN HÀNG                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│ Nhân viên: Nguyễn Văn A                                              │
+│ Khách hàng: [ Nguyễn Văn B ▼ ]                                       │
+│                                                                      │
+│ Mã sản phẩm: [______________] [  Tìm ]                               │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ Mã      Sản phẩm             SL       Đơn giá       Thành tiền       │
+│ ──────────────────────────────────────────────────────────────────── │
+│ SP01    Laptop Dell          1        18.000.000    18.000.000       │
+│ SP02    Mouse Logitech       2           500.000     1.000.000       │
+│ SP03    Keyboard             1           800.000       800.000       │
+│                                                                      │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ Tạm tính:                                    19.800.000 VNĐ          │
+│ Mã giảm giá:                                  [ SALE10 ] [ Tìm ]     │
+│ Khuyến mãi:                                   1.000.000 VNĐ          │
+│ VAT:                                          1.880.000 VNĐ          │
+│ ─────────────────────────────────────────────────────────────────────│
+│ TỔNG THANH TOÁN:                             20.680.000 VNĐ          │
+│                                                                      │
+│ Phương thức: [ TIỀN MẶT ▼ ]                                          │
+│ Khách đưa:    [25.000.000]                                           │
+│ Tiền thừa:    4.320.000                                              │
+│                                                                      │
+│       [ THANH TOÁN ]     [ HỦY ]     [ IN HÓA ĐƠN ]                  │
+└──────────────────────────────────────────────────────────────────────┘</pre>
+    </div>
+
+    <h3>12. Quản lý hóa đơn</h3>
+    <div class="info-box">
+        <pre>
+┌─────────────────────────────────────────────────────────────────────┐
+│                         QUẢN LÝ HÓA ĐƠN                             │
+├─────────────────────────────────────────────────────────────────────┤
+│ Từ ngày: [__/__/____]   Đến ngày: [__/__/____]                      │
+│ Khách hàng: [____________]  Nhân viên: [____________]               │
+│                                                                     │
+│ [ Tìm kiếm ] [ Xem chi tiêt ]                                       │
+│                                                                     │
+├─────────┬────────────┬──────────────┬─────────────┬─────────────────┤
+│ Mã HĐ   │ Ngày       │ Khách hàng   │ Nhân viên   │ Tổng tiền       │
+├─────────┼────────────┼──────────────┼─────────────┼─────────────────┤
+│ HD00001 │ 23/09/2026 │ Nguyễn Văn A │ Nguyễn Văn B│ 20.680.000      │
+│ HD00002 │ 23/09/2026 │ Trần Văn C   │ Nguyễn Văn D│  5.500.000      │
+└─────────┴────────────┴──────────────┴─────────────┴─────────────────┘</pre>
+    </div>
+
+    <p>Click một hóa đơn:</p>
+    <div class="info-box">
+        <pre>
+┌────────────────────────────────────────────────────────────┐
+│                  CHI TIẾT HÓA ĐƠN HD00001                  │
+├────────────────────────────────────────────────────────────┤
+│ Khách hàng: Nguyễn Văn A                                   │
+│ Nhân viên:  Nguyễn Văn B                                   │
+│ Ngày bán:   23/09/2026                                     │
+├──────────────┬──────────┬─────────────┬────────────────────┤
+│ Sản phẩm     │ Số lượng │ Đơn giá     │ Thành tiền         │
+├──────────────┼──────────┼─────────────┼────────────────────┤
+│ Laptop Dell  │ 1        │18.000.000   │18.000.000          │
+│ Mouse        │ 2        │   500.000   │ 1.000.000          │
+└──────────────┴──────────┴─────────────┴────────────────────┘
+│ Tổng tiền: 19.000.000                                      │
+│ Giảm giá:  1.000.000                                       │
+│ Thanh toán:18.000.000                                      │
+│                                                            │
+└────────────────────────────────────────────────────────────┘</pre>
+    </div>
+
+    <!-- <h3>13. Đổi / Trả hàng</h3>
+    <div class="info-box">
+        <pre>┌──────────────────────────────────────────────────────────────┐
+│                         ĐỔI / TRẢ HÀNG                       │
+├──────────────────────────────────────────────────────────────┤
+│ Mã hóa đơn: [ HD000001 ] [ Tìm ]                            │
+│ Khách hàng: Nguyễn Văn A                                    │
+│ Ngày mua:   20/09/2026                                      │
+├──────────────────────────────────────────────────────────────┤
+│ Sản phẩm          Đã mua      Đã trả      Trả lần này       │
+│ ──────────────────────────────────────────────────────────── │
+│ Laptop Dell          2           0              1            │
+│ Mouse                5           1              2            │
+├──────────────────────────────────────────────────────────────┤
+│ Lý do: [ Sản phẩm lỗi ▼ ]                                   │
+│                                                              │
+│ Tiền hoàn: 19.000.000 VNĐ                                   │
+│                                                              │
+│                [ XÁC NHẬN TRẢ HÀNG ]                        │
+└──────────────────────────────────────────────────────────────┘</pre>
+    </div> -->
+
+    <h3>13. Khuyến mãi</h3>
+    <div class="info-box">
+        <pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                         KHUYẾN MÃI                              │
+├─────────────────────────────────────────────────────────────────┤
+│ [ + Thêm chương trình ] [ Sửa ] [ Xóa ]                         │
+│                                                                 │
+├──────────┬────────────────┬────────────┬────────────┬───────────┤
+│ Mã       │ Tên chương trình│ Bắt đầu   │ Kết thúc   │ Trạng thái│
+├──────────┼────────────────┼────────────┼────────────┼───────────┤
+│ SALE10   │ Giảm 10%       │ 01/09/26   │ 30/09/26   │ ACTIVE    │
+│ SALE20   │ Giảm 20%       │ 01/10/26   │ 15/10/26   │ ACTIVE    │
+└──────────┴────────────────┴────────────┴────────────┴───────────┘</pre>
+    </div>
+
+    <h3>14. Báo cáo doanh thu</h3>
+    <div class="info-box">
+        <pre>
+┌────────────────────────────────────────────────────────────────┐
+│                       BÁO CÁO DOANH THU                        │
+├────────────────────────────────────────────────────────────────┤
+│ Từ ngày: [01/09/2026]   Đến ngày: [30/09/2026]                 │
+│                                                                │
+│ [ XEM BÁO CÁO ] [ XUẤT EXCEL ] [ XUẤT PDF ]                    │
+│                                                                │
+│ Tổng doanh thu:             3.250.000.000 VNĐ                  │
+│ Tổng số hóa đơn:                         1.250                 │
+│ Giá trị trung bình:             2.600.000 VNĐ                  │
+│                                                                │
+│              BIỂU ĐỒ DOANH THU                                 │
+│                                                                │
+│  █                                                             │
+│  █               █                                             │
+│  █               █       █               █                     │
+│  █      █        █       █       █       █       █             │
+│  ─────────────────────────────────────────────────────         │
+│  01     05      10      15      20       25      30            │
+└────────────────────────────────────────────────────────────────┘</pre>
+    </div>
+
+    <h3>15. Báo cáo tồn kho</h3>
+    <div class="info-box">
+        <pre>
+┌──────────────────────────────────────────────────────────────────┐
+│                         BÁO CÁO TỒN KHO                          │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│ [ Tất cả danh mục ▼ ]                                            │
+│                                                                  │
+├────────┬────────────────┬────────┬────────┬────────┬─────────────┤
+│ Mã SP  │ Sản phẩm       │ Đầu kỳ │ Nhập   │ Bán    │ Cuối kỳ     │
+├────────┼────────────────┼────────┼────────┼────────┼─────────────┤
+│ SP01   │ Laptop Dell    │ 20     │ 30     │ 25     │ 25          │
+│ SP02   │ Mouse Logitech │ 50     │ 50     │ 40     │ 60          │
+│ SP03   │ Keyboard       │ 30     │ 20     │ 32     │ 18          │
+└────────┴────────────────┴────────┴────────┴────────┴─────────────┘</pre>
+    </div>
+
+    <h3>16. Báo cáo nhân viên</h3>
+    <div class="info-box">
+        <pre>
+┌────────────────────────────────────────────────────────────────┐
+│                    DOANH THU THEO NHÂN VIÊN                    │
+├────────────────────────────────────────────────────────────────┤
+│ Từ ngày: [01/09/2026]   Đến ngày: [30/09/2026]              │
+│                                                                │
+├────────┬──────────────────┬────────────┬───────────────────────┤
+│ Mã NV  │ Nhân viên        │ Hóa đơn    │ Doanh thu             │
+├────────┼──────────────────┼────────────┼───────────────────────┤
+│ NV01   │ Nguyễn Văn A     │ 350        │ 850.000.000           │
+│ NV02   │ Trần Văn B       │ 280        │ 620.000.000           │
+│ NV03   │ Lê Văn C         │ 210        │ 450.000.000           │
+└────────┴──────────────────┴────────────┴───────────────────────┘</pre>
+    </div>
+
+    
+    <div class="success-box">
+        <p>Đây sẽ là format khá phù hợp để đưa thẳng vào <strong>đề đồ án cuối môn</strong>, vì sinh viên vừa có <strong>đặc tả chức năng</strong>, vừa có <strong>database/SQL</strong>, vừa có <strong>wireframe giao diện để hình dung đầu ra</strong>.</p>
+    </div>
+</section>
+       </main>
+        </div>
+
+        <footer>
+            <p><i class="fas fa-arrow-rotate-left"></i> BUỔI 39: JDBC ADVANCED & DAO - GV: Nguyễn Đình Mạnh</p>
+        </footer>
+    </div>
+
+    <script>
+        // Xử lý điều hướng với hiệu ứng
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    // Xóa class active từ tất cả các link và section
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    // Thêm class active cho link được click với hiệu ứng
+                    this.classList.add('active');
+                    
+                    // Thêm hiệu ứng rung nhẹ khi click
+                    this.style.animation = 'none';
+                    this.offsetHeight; // Trigger reflow
+                    this.style.animation = 'slideInLeft 3s ease';
+
+                    // Hiển thị section tương ứng
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Cuộn lên đầu section
+                    document.querySelector('.main-content').scrollTop = 0;
+                });
+            });
+        });
+
+        // Hàm copy code với hiệu ứng
+        function copyCode(button) {
+            const codeBlock = button.parentElement.parentElement;
+            const text = codeBlock.innerText;
+            
+            // Hiệu ứng copy
+            button.innerHTML = '<i class="fas fa-check"></i> Đã copy!';
+            button.style.background = '#27ae60';
+            
+            navigator.clipboard.writeText(text).then(() => {
+                setTimeout(() => {
+                    button.innerHTML = '<i class="far fa-copy"></i> Copy';
+                    button.style.background = '#555';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+
+</html>

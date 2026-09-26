@@ -35,7 +35,8 @@ const lessons = [
     { buoi: 31, title: " JDBC Basics", link: "lessons/buoi31.html" },
     { buoi: 32, title: "JDBC Advanced", link: "lessons/buoi32.html" },
     { buoi: 33, title: "Database CRUD with DAO & Service Layer", link: "lessons/buoi33.html" },
-    { buoi: 34, title: "Advanced CRUD with DAO & Service Layer", link: "lessons/buoi34.html" }
+    { buoi: 34, title: "Advanced CRUD with DAO & Service Layer", link: "lessons/buoi34.html" },
+    { buoi: 35, title: "PROJECT", link: "lessons/buoi34.html" }
 ];
 /* ==========================
         DOM
