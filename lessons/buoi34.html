@@ -262,10 +262,10 @@ Hết hàng</pre>
             │ dia_chi       │  │ chuc_vu        │
             └───────────────┘  └────────────────┘</pre>
      <div class="code-block">
-                        <div class="code-header">
-<pre>
-    -- =========================================================
--- QUAN LY BAN HANG
+<div class="code-header">
+    <pre>
+ -- =========================================================
+-- DATABASE: QUAN_LY_BAN_HANG
 -- JAVA SWING + MYSQL
 -- =========================================================
 
@@ -333,31 +333,29 @@ VALUES
 -- =========================================================
 
 CREATE TABLE nhan_vien (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    ma_nv VARCHAR(20) NOT NULL UNIQUE,
-    ho_ten VARCHAR(100) NOT NULL,
-    so_dien_thoai VARCHAR(20),
-    email VARCHAR(100),
-    chuc_vu VARCHAR(50),
-    trang_thai VARCHAR(20) DEFAULT 'ACTIVE'
+    id            INT AUTO_INCREMENT PRIMARY KEY,
+    ma_nv         VARCHAR(10)  NOT NULL UNIQUE,
+    ho_ten        VARCHAR(100) NOT NULL,
+    so_dien_thoai VARCHAR(15),
+    email         VARCHAR(100) UNIQUE,
+    mat_khau      VARCHAR(255) NOT NULL,
+    chuc_vu       VARCHAR(50),
+    trang_thai    VARCHAR(20)  DEFAULT 'ACTIVE'
 );
-
 INSERT INTO nhan_vien
-(ma_nv, ho_ten, so_dien_thoai, email, chuc_vu, trang_thai)
+(ma_nv, ho_ten, so_dien_thoai, email, mat_khau, chuc_vu, trang_thai)
 VALUES
 ('NV01', 'Nguyễn Văn A', '0911111111',
- 'nguyenvana@gmail.com', 'Nhân viên kho', 'ACTIVE'),
+ 'nguyenvana@gmail.com', '1234', 'Nhân viên kho', 'ACTIVE'),
 
 ('NV02', 'Trần Văn B', '0922222222',
- 'tranvanb@gmail.com', 'Nhân viên kho', 'ACTIVE'),
+ 'tranvanb@gmail.com', 'nv02@123', 'Nhân viên kho', 'ACTIVE'),
 
 ('NV03', 'Lê Thị C', '0933333333',
- 'lethic@gmail.com', 'Quản lý kho', 'ACTIVE'),
+ 'lethic@gmail.com', 'nv03@123', 'Quản lý kho', 'ACTIVE'),
 
 ('NV04', 'Phạm Văn D', '0944444444',
- 'phamvand@gmail.com', 'Nhân viên bán hàng', 'ACTIVE');
-
-
+ 'phamvand@gmail.com', 'nv04@123', 'Nhân viên bán hàng', 'ACTIVE');
 -- =========================================================
 -- 4. BẢNG KHÁCH HÀNG
 -- =========================================================
@@ -374,8 +372,15 @@ CREATE TABLE khach_hang (
 );
 
 INSERT INTO khach_hang
-(ma_kh, ho_ten, so_dien_thoai, email, dia_chi,
- hang_khach_hang, trang_thai)
+(
+    ma_kh,
+    ho_ten,
+    so_dien_thoai,
+    email,
+    dia_chi,
+    hang_khach_hang,
+    trang_thai
+)
 VALUES
 ('KH01', 'Nguyễn Văn A', '090123456',
  'nguyenvana@gmail.com', 'Hà Nội',
@@ -391,6 +396,14 @@ VALUES
 
 ('KH04', 'Phạm Văn D', '093456789',
  'phamvand@gmail.com', 'Quảng Ninh',
+ 'SILVER', 'ACTIVE'),
+
+('KH05', 'Hoàng Văn E', '094567890',
+ 'hoangvane@gmail.com', 'Hà Nội',
+ 'GOLD', 'ACTIVE'),
+
+('KH06', 'Đỗ Thị F', '095678901',
+ 'dothif@gmail.com', 'Hải Phòng',
  'SILVER', 'ACTIVE');
 
 
@@ -402,23 +415,16 @@ CREATE TABLE san_pham (
     id INT AUTO_INCREMENT PRIMARY KEY,
     ma_sp VARCHAR(20) NOT NULL UNIQUE,
     ten_sp VARCHAR(150) NOT NULL,
-
     danh_muc_id INT NOT NULL,
-
     thuong_hieu VARCHAR(100),
     don_vi VARCHAR(30),
-
     gia_nhap DECIMAL(15,2) DEFAULT 0,
     gia_ban DECIMAL(15,2) DEFAULT 0,
     gia_khuyen_mai DECIMAL(15,2) DEFAULT 0,
-
     ton_kho INT DEFAULT 0,
     ton_toi_thieu INT DEFAULT 0,
-
     han_su_dung DATE,
-
     mo_ta VARCHAR(255),
-
     trang_thai VARCHAR(20) DEFAULT 'ACTIVE',
 
     FOREIGN KEY (danh_muc_id)
@@ -442,7 +448,6 @@ INSERT INTO san_pham
     trang_thai
 )
 VALUES
-
 (
     'SP01',
     'Laptop Dell',
@@ -452,7 +457,7 @@ VALUES
     15000000,
     18000000,
     17000000,
-    10,
+    6,
     5,
     NULL,
     'Laptop Dell chính hãng',
@@ -468,7 +473,7 @@ VALUES
     300000,
     450000,
     400000,
-    20,
+    25,
     10,
     NULL,
     'Chuột Logitech không dây',
@@ -484,7 +489,7 @@ VALUES
     14000000,
     17000000,
     16000000,
-    0,
+    5,
     5,
     NULL,
     'Laptop HP chính hãng',
@@ -500,7 +505,7 @@ VALUES
     3500000,
     4500000,
     4200000,
-    0,
+    1,
     5,
     NULL,
     'Màn hình Samsung 24 inch',
@@ -516,7 +521,7 @@ VALUES
     500000,
     750000,
     700000,
-    0,
+    17,
     10,
     NULL,
     'Bàn phím Logitech',
@@ -532,7 +537,7 @@ VALUES
     18000000,
     21000000,
     20500000,
-    0,
+    3,
     5,
     NULL,
     'Điện thoại Apple iPhone 15',
@@ -548,7 +553,7 @@ VALUES
     16000000,
     19000000,
     18500000,
-    0,
+    2,
     5,
     NULL,
     'Điện thoại Samsung Galaxy S24',
@@ -562,17 +567,11 @@ VALUES
 
 CREATE TABLE phieu_nhap (
     id INT AUTO_INCREMENT PRIMARY KEY,
-
     ma_phieu VARCHAR(20) NOT NULL UNIQUE,
-
     nha_cung_cap_id INT NOT NULL,
-
     nhan_vien_id INT NOT NULL,
-
     ngay_nhap DATE NOT NULL,
-
     tong_tien DECIMAL(15,2) DEFAULT 0,
-
     ghi_chu VARCHAR(255),
 
     FOREIGN KEY (nha_cung_cap_id)
@@ -581,37 +580,6 @@ CREATE TABLE phieu_nhap (
     FOREIGN KEY (nhan_vien_id)
         REFERENCES nhan_vien(id)
 );
-
-
--- =========================================================
--- 7. BẢNG CHI TIẾT PHIẾU NHẬP
--- =========================================================
-
-CREATE TABLE chi_tiet_phieu_nhap (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-
-    phieu_nhap_id INT NOT NULL,
-
-    san_pham_id INT NOT NULL,
-
-    so_luong INT NOT NULL,
-
-    gia_nhap DECIMAL(15,2) NOT NULL,
-
-    thanh_tien DECIMAL(15,2) NOT NULL,
-
-    FOREIGN KEY (phieu_nhap_id)
-        REFERENCES phieu_nhap(id)
-        ON DELETE CASCADE,
-
-    FOREIGN KEY (san_pham_id)
-        REFERENCES san_pham(id)
-);
-
-
--- =========================================================
--- 8. DỮ LIỆU PHIẾU NHẬP
--- =========================================================
 
 INSERT INTO phieu_nhap
 (
@@ -623,7 +591,6 @@ INSERT INTO phieu_nhap
     ghi_chu
 )
 VALUES
-
 (
     'PN000001',
     1,
@@ -638,7 +605,7 @@ VALUES
     2,
     2,
     '2026-09-24',
-    12500000,
+    11500000,
     'Nhập phụ kiện Logitech'
 ),
 
@@ -649,242 +616,319 @@ VALUES
     '2026-09-25',
     19500000,
     'Nhập màn hình Samsung'
+),
+
+(
+    'PN000004',
+    4,
+    1,
+    '2026-09-26',
+    70000000,
+    'Nhập Laptop HP'
+),
+
+(
+    'PN000005',
+    3,
+    3,
+    '2026-09-27',
+    86000000,
+    'Nhập iPhone 15 và Samsung Galaxy S24'
 );
 
 
 -- =========================================================
--- 9. CHI TIẾT PHIẾU NHẬP
+-- 7. BẢNG CHI TIẾT PHIẾU NHẬP
 -- =========================================================
+
+CREATE TABLE chi_tiet_phieu_nhap (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    phieu_nhap_id INT NOT NULL,
+    san_pham_id INT NOT NULL,
+    so_luong INT NOT NULL,
+    gia_nhap DECIMAL(15,2) NOT NULL,
+    thanh_tien DECIMAL(15,2) NOT NULL,
+
+    FOREIGN KEY (phieu_nhap_id)
+        REFERENCES phieu_nhap(id)
+        ON DELETE CASCADE,
+
+    FOREIGN KEY (san_pham_id)
+        REFERENCES san_pham(id)
+);
+
+
+INSERT INTO chi_tiet_phieu_nhap
+(
+    phieu_nhap_id,
+    san_pham_id,
+    so_luong,
+    gia_nhap,
+    thanh_tien
+)
+VALUES
 
 -- PN000001
-INSERT INTO chi_tiet_phieu_nhap
-(
-    phieu_nhap_id,
-    san_pham_id,
-    so_luong,
-    gia_nhap,
-    thanh_tien
-)
-VALUES
 (1, 1, 10, 15000000, 150000000),
-(1, 2, 20, 300000, 6000000);
-
+(1, 2, 20, 300000, 6000000),
 
 -- PN000002
-INSERT INTO chi_tiet_phieu_nhap
-(
-    phieu_nhap_id,
-    san_pham_id,
-    so_luong,
-    gia_nhap,
-    thanh_tien
-)
-VALUES
 (2, 2, 10, 300000, 3000000),
-(2, 5, 19, 500000, 9500000);
-
+(2, 5, 17, 500000, 8500000),
 
 -- PN000003
-INSERT INTO chi_tiet_phieu_nhap
+(3, 4, 5, 3500000, 17500000),
+(3, 5, 4, 500000, 2000000),
+
+-- PN000004
+(4, 3, 5, 14000000, 70000000),
+
+-- PN000005
+(5, 6, 3, 18000000, 54000000),
+(5, 7, 2, 16000000, 32000000);
+
+
+-- =========================================================
+-- 8. BẢNG HÓA ĐƠN
+-- =========================================================
+
+CREATE TABLE hoa_don (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ma_hoa_don VARCHAR(20) NOT NULL UNIQUE,
+    khach_hang_id INT NOT NULL,
+    nhan_vien_id INT NOT NULL,
+    ngay_ban DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    tong_tien DECIMAL(15,2) DEFAULT 0,
+    giam_gia DECIMAL(15,2) DEFAULT 0,
+    thanh_tien DECIMAL(15,2) DEFAULT 0,
+    phuong_thuc_thanh_toan VARCHAR(30) DEFAULT 'TIEN_MAT',
+    trang_thai VARCHAR(20) DEFAULT 'COMPLETED',
+    ghi_chu VARCHAR(255),
+
+    FOREIGN KEY (khach_hang_id)
+        REFERENCES khach_hang(id),
+
+    FOREIGN KEY (nhan_vien_id)
+        REFERENCES nhan_vien(id)
+);
+
+
+INSERT INTO hoa_don
 (
-    phieu_nhap_id,
-    san_pham_id,
-    so_luong,
-    gia_nhap,
-    thanh_tien
+    ma_hoa_don,
+    khach_hang_id,
+    nhan_vien_id,
+    ngay_ban,
+    tong_tien,
+    giam_gia,
+    thanh_tien,
+    phuong_thuc_thanh_toan,
+    trang_thai,
+    ghi_chu
 )
 VALUES
-(3, 4, 5, 3500000, 17500000),
-(3, 5, 4, 500000, 2000000);
+
+(
+    'HD000001',
+    1,
+    4,
+    '2026-09-20 08:30:00',
+    18000000,
+    0,
+    18000000,
+    'CHUYEN_KHOAN',
+    'COMPLETED',
+    'Bán Laptop Dell'
+),
+
+(
+    'HD000002',
+    2,
+    4,
+    '2026-09-20 10:15:00',
+    900000,
+    0,
+    900000,
+    'TIEN_MAT',
+    'COMPLETED',
+    'Bán Mouse Logitech'
+),
+
+(
+    'HD000003',
+    3,
+    4,
+    '2026-09-21 09:20:00',
+    9000000,
+    0,
+    9000000,
+    'CHUYEN_KHOAN',
+    'COMPLETED',
+    'Bán 2 màn hình Samsung'
+),
+
+(
+    'HD000004',
+    4,
+    4,
+    '2026-09-21 14:00:00',
+    750000,
+    0,
+    750000,
+    'TIEN_MAT',
+    'COMPLETED',
+    'Bán bàn phím Logitech'
+),
+
+(
+    'HD000005',
+    1,
+    4,
+    '2026-09-22 09:10:00',
+    36000000,
+    0,
+    36000000,
+    'CHUYEN_KHOAN',
+    'COMPLETED',
+    'Bán 2 Laptop Dell'
+),
+
+(
+    'HD000006',
+    2,
+    4,
+    '2026-09-23 11:30:00',
+    1200000,
+    0,
+    1200000,
+    'TIEN_MAT',
+    'COMPLETED',
+    'Bán Mouse và bàn phím'
+),
+
+(
+    'HD000007',
+    3,
+    4,
+    '2026-09-24 15:20:00',
+    4500000,
+    0,
+    4500000,
+    'TIEN_MAT',
+    'COMPLETED',
+    'Bán màn hình Samsung'
+),
+
+(
+    'HD000008',
+    4,
+    4,
+    '2026-09-25 09:45:00',
+    18900000,
+    0,
+    18900000,
+    'CHUYEN_KHOAN',
+    'COMPLETED',
+    'Bán Laptop Dell và Mouse'
+),
+
+(
+    'HD000009',
+    5,
+    4,
+    '2026-09-26 13:10:00',
+    1500000,
+    0,
+    1500000,
+    'TIEN_MAT',
+    'COMPLETED',
+    'Bán 2 bàn phím Logitech'
+),
+
+(
+    'HD000010',
+    6,
+    4,
+    '2026-09-27 16:30:00',
+    4500000,
+    0,
+    4500000,
+    'CHUYEN_KHOAN',
+    'COMPLETED',
+    'Bán màn hình Samsung'
+);
 
 
 -- =========================================================
--- 10. CẬP NHẬT TỒN KHO
+-- 9. BẢNG CHI TIẾT HÓA ĐƠN
 -- =========================================================
 
-UPDATE san_pham
-SET ton_kho = 10
-WHERE id = 1;
+CREATE TABLE chi_tiet_hoa_don (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    hoa_don_id INT NOT NULL,
+    san_pham_id INT NOT NULL,
+    so_luong INT NOT NULL,
+    don_gia DECIMAL(15,2) NOT NULL,
+    gia_von DECIMAL(15,2) NOT NULL,
+    thanh_tien DECIMAL(15,2) NOT NULL,
+    loi_nhuan DECIMAL(15,2) NOT NULL,
 
-UPDATE san_pham
-SET ton_kho = 30
-WHERE id = 2;
+    FOREIGN KEY (hoa_don_id)
+        REFERENCES hoa_don(id)
+        ON DELETE CASCADE,
 
-UPDATE san_pham
-SET ton_kho = 19
-WHERE id = 5;
-
-UPDATE san_pham
-SET ton_kho = 5
-WHERE id = 4;
-
-
--- =========================================================
--- 11. VIEW DANH SÁCH PHIẾU NHẬP
--- =========================================================
-
-CREATE VIEW v_phieu_nhap AS
-
-SELECT
-    pn.id,
-    pn.ma_phieu,
-    ncc.ma_ncc,
-    ncc.ten_ncc AS nha_cung_cap,
-    nv.ma_nv,
-    nv.ho_ten AS nhan_vien,
-    pn.ngay_nhap,
-    pn.tong_tien,
-    pn.ghi_chu
-
-FROM phieu_nhap pn
-
-JOIN nha_cung_cap ncc
-    ON pn.nha_cung_cap_id = ncc.id
-
-JOIN nhan_vien nv
-    ON pn.nhan_vien_id = nv.id;
+    FOREIGN KEY (san_pham_id)
+        REFERENCES san_pham(id)
+);
 
 
--- =========================================================
--- 12. VIEW CHI TIẾT PHIẾU NHẬP
--- =========================================================
+INSERT INTO chi_tiet_hoa_don
+(
+    hoa_don_id,
+    san_pham_id,
+    so_luong,
+    don_gia,
+    gia_von,
+    thanh_tien,
+    loi_nhuan
+)
+VALUES
 
-CREATE VIEW v_chi_tiet_phieu_nhap AS
+-- HD000001
+(1, 1, 1, 18000000, 15000000, 18000000, 3000000),
 
-SELECT
-    pn.id AS phieu_nhap_id,
-    pn.ma_phieu,
+-- HD000002
+(2, 2, 2, 450000, 300000, 900000, 300000),
 
-    pn.ngay_nhap,
+-- HD000003
+(3, 4, 2, 4500000, 3500000, 9000000, 2000000),
 
-    ncc.ma_ncc,
-    ncc.ten_ncc,
+-- HD000004
+(4, 5, 1, 750000, 500000, 750000, 250000),
 
-    nv.ma_nv,
-    nv.ho_ten AS ten_nhan_vien,
+-- HD000005
+(5, 1, 2, 18000000, 15000000, 36000000, 6000000),
 
-    sp.ma_sp,
-    sp.ten_sp,
+-- HD000006
+(6, 2, 1, 450000, 300000, 450000, 150000),
 
-    ct.so_luong,
-    ct.gia_nhap,
-    ct.thanh_tien
+(6, 5, 1, 750000, 500000, 750000, 250000),
 
-FROM chi_tiet_phieu_nhap ct
+-- HD000007
+(7, 4, 1, 4500000, 3500000, 4500000, 1000000),
 
-JOIN phieu_nhap pn
-    ON ct.phieu_nhap_id = pn.id
+-- HD000008
+(8, 1, 1, 18000000, 15000000, 18000000, 3000000),
 
-JOIN nha_cung_cap ncc
-    ON pn.nha_cung_cap_id = ncc.id
+(8, 2, 2, 450000, 300000, 900000, 300000),
 
-JOIN nhan_vien nv
-    ON pn.nhan_vien_id = nv.id
+-- HD000009
+(9, 5, 2, 750000, 500000, 1500000, 500000),
 
-JOIN san_pham sp
-    ON ct.san_pham_id = sp.id;
+-- HD000010
+(10, 4, 1, 4500000, 3500000, 4500000, 1000000);
 
-
--- =========================================================
--- 13. VIEW TỒN KHO
--- =========================================================
-
-CREATE VIEW v_ton_kho AS
-
-SELECT
-    sp.id,
-    sp.ma_sp,
-    sp.ten_sp,
-    dm.ten_danh_muc,
-    sp.thuong_hieu,
-    sp.don_vi,
-    sp.gia_nhap,
-    sp.gia_ban,
-    sp.gia_khuyen_mai,
-    sp.ton_kho,
-    sp.ton_toi_thieu,
-
-    CASE
-        WHEN sp.ton_kho = 0
-            THEN 'HẾT HÀNG'
-
-        WHEN sp.ton_kho <= sp.ton_toi_thieu
-            THEN 'SẮP HẾT'
-
-        ELSE 'CÒN HÀNG'
-    END AS trang_thai_ton
-
-FROM san_pham sp
-
-JOIN danh_muc dm
-    ON sp.danh_muc_id = dm.id;
-
-
--- =========================================================
--- 14. KIỂM TRA DATABASE
--- =========================================================
-
--- Danh mục
-SELECT * FROM danh_muc;
-
--- Nhà cung cấp
-SELECT * FROM nha_cung_cap;
-
--- Nhân viên
-SELECT * FROM nhan_vien;
-
--- Khách hàng
-SELECT * FROM khach_hang;
-
--- Sản phẩm
-SELECT * FROM san_pham;
-
--- Phiếu nhập
-SELECT * FROM v_phieu_nhap;
-
--- Chi tiết phiếu nhập
-SELECT * FROM v_chi_tiet_phieu_nhap;
-
--- Tồn kho
-SELECT * FROM v_ton_kho;
-
-
--- =========================================================
--- 15. TRUY VẤN PHIẾU PN000001
--- =========================================================
-
-SELECT
-    pn.ma_phieu AS 'Mã phiếu',
-    ncc.ten_ncc AS 'Nhà cung cấp',
-    nv.ho_ten AS 'Nhân viên',
-    pn.ngay_nhap AS 'Ngày nhập',
-    sp.ma_sp AS 'Mã SP',
-    sp.ten_sp AS 'Sản phẩm',
-    ct.so_luong AS 'Số lượng',
-    ct.gia_nhap AS 'Giá nhập',
-    ct.thanh_tien AS 'Thành tiền'
-FROM phieu_nhap pn
-
-JOIN nha_cung_cap ncc
-    ON pn.nha_cung_cap_id = ncc.id
-
-JOIN nhan_vien nv
-    ON pn.nhan_vien_id = nv.id
-
-JOIN chi_tiet_phieu_nhap ct
-    ON pn.id = ct.phieu_nhap_id
-
-JOIN san_pham sp
-    ON ct.san_pham_id = sp.id
-
-WHERE pn.ma_phieu = 'PN000001';
-
-
--- =========================================================
--- KẾT THÚC
--- =========================================================
-</pre>
-                    </div>
+    </pre>
      </div>
      <h2>GIAO DIỆN</h2>
 
